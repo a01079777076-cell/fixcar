@@ -1,22 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/cars — 차량 목록 조회
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
     const fuel = searchParams.get("fuel");
     const maxPrice = searchParams.get("maxPrice");
-    const beginner = searchParams.get("beginner");
     const sort = searchParams.get("sort") || "createdAt";
 
     const where: Record<string, unknown> = {};
-
     if (status) where.status = status;
     if (fuel) where.fuel = fuel;
     if (maxPrice) where.price = { lte: parseInt(maxPrice) };
-    if (beginner === "true") where.tags = { has: "초보 추천" };
 
     const orderBy: Record<string, string> = {};
     if (sort === "price_asc") orderBy.price = "asc";
@@ -36,11 +32,6 @@ export async function GET(request: NextRequest) {
             verified: true,
           },
         },
-          select: {
-            favorites: true,
-            inquiries: true,
-          },
-        },
       },
     });
 
@@ -54,11 +45,9 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/cars — 차량 등록 (딜러용)
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-
     const {
       dealerId, name, brand, year, mileage, fuel, color,
       region, price, cc, power, efficiency, transmission,
