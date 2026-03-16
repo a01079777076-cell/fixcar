@@ -389,7 +389,7 @@ export default function QuizPage() {
                   >
                     <div style={{ fontSize:"36px", marginBottom:"12px" }}>{opt.icon}</div>
                     <div style={{ fontSize:"17px", fontWeight:800, color: selected?"white":"#1A1A1A", marginBottom:"6px" }}>{opt.label}</div>
-                    <div style={{ fontSize:"13px", color: selected?"rgba(255,255,255,0.8)":"#888", fontWeight:400 }}>{opt.sublabel}</div>
+                    {"sublabel" in opt && <div style={{ fontSize:"13px", color: selected?"rgba(255,255,255,0.8)":"#888", fontWeight:400 }}>{(opt as {sublabel:string}).sublabel}</div>}
                     {selected && (
                       <div style={{ marginTop:"10px", display:"flex", justifyContent:"center" }}>
                         <CheckCircle size={20} color="white" />
