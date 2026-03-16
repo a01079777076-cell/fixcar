@@ -1,3 +1,5 @@
+"use client";
+
 export default function CarsPage() {
   const cars = [
     { id: 1, name: "현대 아반떼 CN7", year: "2021년식", mileage: "32,000km", fuel: "가솔린", color: "흰색", region: "광주 북구", price: "1,450", monthly: "29", tags: ["✓ 무사고", "🔰 초보 추천", "연비 15.2km/L"], badge: "✨ PICK", bg: "#F8F5F0", emoji: "🚙" },
