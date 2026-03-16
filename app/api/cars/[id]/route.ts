@@ -4,11 +4,13 @@ import { prisma } from "@/lib/prisma";
 // GET /api/cars/[id] — 차량 상세
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     const car = await prisma.car.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       include: {
         dealer: {
           select: {
@@ -44,13 +46,14 @@ export async function GET(
 // PATCH /api/cars/[id] — 차량 수정
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
 
     const car = await prisma.car.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       data: body,
     });
 
@@ -67,11 +70,13 @@ export async function PATCH(
 // DELETE /api/cars/[id] — 차량 삭제
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     await prisma.car.delete({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
     });
 
     return NextResponse.json({ success: true, message: "삭제됐어요" });
