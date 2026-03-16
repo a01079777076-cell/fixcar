@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 회원
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  phone     String?
+  role      Role     @default(USER)
+  provider  String   @default("email")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  favorites   Favorite[]
+  inquiries   Inquiry[]
+  purchases   Purchase[]
+}
+
+enum Role {
+  USER
+  DEALER
+  ADMIN
+}
+
+// 딜러
+model Dealer {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  shopName  String
+  rating    Float    @default(0)
+  dealCount Int      @default(0)
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  cars      Car[]
+}
+
+// 차량 매물
+model Car {
+  id           Int       @id @default(autoincrement())
+  dealerId     Int
+  dealer       Dealer    @relation(fields: [dealerId], references: [id])
+  name         String
+  brand        String
+  year         Int
+  mileage      Int
+  fuel         String
+  color        String
+  region       String
+  price        Int
+  cc           Int       @default(0)
+  power        Int       @default(0)
+  efficiency   String    @default("0")
+  transmission String    @default("자동")
+  owners       Int       @default(1)
+  accident     Boolean   @default(false)
+  status       CarStatus @default(AVAILABLE)
+  tags         String[]
+  options      String[]
+  images       String[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  favorites  Favorite[]
+  inquiries  Inquiry[]
+  purchases  Purchase[]
+}
+
+enum CarStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  REVIEWING
+}
+
+// 찜
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  carId     Int
+  user      User     @relation(fields: [userId], references: [id])
+  car       Car      @relation(fields: [carId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, carId])
+}
+
+// 문의
+model Inquiry {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  carId     Int
+  user      User     @relation(fields: [userId], references: [id])
+  car       Car      @relation(fields: [carId], references: [id])
+  message   String
+  reply     String?
+  status    InquiryStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum InquiryStatus {
+  PENDING
+  REPLIED
+}
+
+// 구매
+model Purchase {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  carId       Int
+  user        User          @relation(fields: [userId], references: [id])
+  car         Car           @relation(fields: [carId], references: [id])
+  amount      Int
+  payType     String        @default("installment")
+  status      PurchaseStatus @default(DEPOSIT_PAID)
+  depositDate DateTime      @default(now())
+  createdAt   DateTime      @default(now())
+}
+
+enum PurchaseStatus {
+  DEPOSIT_PAID
+  BALANCE_PENDING
+  COMPLETED
+  CANCELLED
+}
