@@ -20,7 +20,6 @@ export async function GET(
             verified: true,
           },
         },
-        _count: {
           select: { favorites: true, inquiries: true },
         },
       },
