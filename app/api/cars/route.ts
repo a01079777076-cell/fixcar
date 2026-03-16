@@ -36,7 +36,6 @@ export async function GET(request: NextRequest) {
             verified: true,
           },
         },
-        _count: {
           select: {
             favorites: true,
             inquiries: true,
