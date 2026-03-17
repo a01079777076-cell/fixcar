@@ -8,45 +8,41 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const error = searchParams.get("error");
 
-  console.log("Kakao callback - code:", code ? "exists" : "missing");
-  console.log("Kakao callback - error:", error);
-  console.log("Kakao callback - baseUrl:", baseUrl);
-
   if (error || !code) {
-    console.error("Kakao auth error:", error);
     return NextResponse.redirect(`${baseUrl}/login?error=kakao`);
   }
 
   try {
     const redirectUri = `${baseUrl}/api/auth/kakao/callback`;
-    console.log("Token request redirect_uri:", redirectUri);
+
+    // 토큰 요청 파라미터
+    const tokenParams: Record<string, string> = {
+      grant_type: "authorization_code",
+      client_id: process.env.KAKAO_CLIENT_ID!,
+      redirect_uri: redirectUri,
+      code,
+    };
+
+    // client_secret이 있으면 추가
+    if (process.env.KAKAO_CLIENT_SECRET && process.env.KAKAO_CLIENT_SECRET !== "dummy") {
+      tokenParams.client_secret = process.env.KAKAO_CLIENT_SECRET;
+    }
 
     // 1. 카카오 토큰 발급
     const tokenRes = await fetch("https://kauth.kakao.com/oauth/token", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=utf-8" },
-      body: new URLSearchParams({
-        grant_type: "authorization_code",
-        client_id: process.env.KAKAO_CLIENT_ID!,
-        redirect_uri: redirectUri,
-        code,
-      }).toString(),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
+      body: new URLSearchParams(tokenParams).toString(),
     });
 
-    const tokenText = await tokenRes.text();
-    console.log("Token response:", tokenText);
-
-    let tokenData;
-    try {
-      tokenData = JSON.parse(tokenText);
-    } catch {
-      console.error("Token parse error:", tokenText);
-      return NextResponse.redirect(`${baseUrl}/login?error=token_parse`);
-    }
+    const tokenData = await tokenRes.json();
 
     if (!tokenData.access_token) {
-      console.error("No access token:", tokenData);
-      return NextResponse.redirect(`${baseUrl}/login?error=${encodeURIComponent(tokenData.error_description || "no_token")}`);
+      const errMsg = tokenData.error_description || tokenData.error || "no_token";
+      console.error("Token error:", tokenData);
+      return NextResponse.redirect(`${baseUrl}/login?error=${encodeURIComponent(errMsg)}`);
     }
 
     // 2. 카카오 사용자 정보 조회
@@ -58,11 +54,9 @@ export async function GET(request: NextRequest) {
     });
 
     const kakaoUser = await userRes.json();
-    console.log("Kakao user:", JSON.stringify(kakaoUser));
-
     const kakaoId = kakaoUser.id;
+
     if (!kakaoId) {
-      console.error("No kakao user id");
       return NextResponse.redirect(`${baseUrl}/login?error=no_user`);
     }
 
@@ -82,13 +76,8 @@ export async function GET(request: NextRequest) {
       create: { email, name, provider: "kakao" },
     });
 
-    console.log("User saved:", user.id);
-
     // 5. JWT 토큰 생성
-    const secret = new TextEncoder().encode(
-      process.env.NEXTAUTH_SECRET || "fixcar-secret-key-2025"
-    );
-
+    const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET!);
     const token = await new SignJWT({
       id: user.id,
       email: user.email,
@@ -100,16 +89,10 @@ export async function GET(request: NextRequest) {
       .setExpirationTime("7d")
       .sign(secret);
 
-    console.log("JWT created, redirecting to:", isNewUser ? "/auth/additional-info" : "/");
-
-    // 6. 리다이렉트 설정
-    const redirectUrl = isNewUser
-      ? `${baseUrl}/auth/additional-info`
-      : `${baseUrl}/`;
-
+    // 6. 리다이렉트
+    const redirectUrl = isNewUser ? `${baseUrl}/auth/additional-info` : `${baseUrl}/`;
     const response = NextResponse.redirect(redirectUrl);
 
-    // 쿠키 설정 - 두 가지 방법으로 동시에 설정
     response.cookies.set({
       name: "fixcar-token",
       value: token,
