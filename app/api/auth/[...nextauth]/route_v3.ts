@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions, type Session } from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
 import { prisma } from "@/lib/prisma";
 
-const authOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
@@ -11,7 +11,7 @@ const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user }: { user: { email?: string | null; name?: string | null } }) {
+    async signIn({ user }) {
       try {
         if (user.email) {
           await prisma.user.upsert({
@@ -30,14 +30,14 @@ const authOptions = {
         return false;
       }
     },
-    async session({ session }: { session: { user?: { email?: string | null; id?: number; role?: string } } }) {
+    async session({ session }: { session: Session }) {
       if (session.user?.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: session.user.email },
         });
         if (dbUser) {
-          session.user.id = dbUser.id;
-          session.user.role = dbUser.role;
+          (session.user as Session["user"] & { id: number; role: string }).id = dbUser.id;
+          (session.user as Session["user"] & { id: number; role: string }).role = dbUser.role;
         }
       }
       return session;
@@ -52,7 +52,6 @@ const authOptions = {
 
 const handler = NextAuth(authOptions);
 
-// Next.js 15/16 호환 래퍼
 function toRequest(req: NextRequest) {
   return new Request(req.url, {
     method: req.method,
