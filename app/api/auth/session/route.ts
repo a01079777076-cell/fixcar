@@ -5,14 +5,19 @@ export async function GET(request: NextRequest) {
   try {
     const token = request.cookies.get("fixcar-token")?.value;
 
+    console.log("Session check - token exists:", !!token);
+
     if (!token) {
       return NextResponse.json({ user: null });
     }
 
     const secret = new TextEncoder().encode(
-      process.env.NEXTAUTH_SECRET || "fixcar-secret"
+      process.env.NEXTAUTH_SECRET || "fixcar-secret-key-2025"
     );
+
     const { payload } = await jwtVerify(token, secret);
+
+    console.log("Session valid - user:", payload.id);
 
     return NextResponse.json({
       user: {
@@ -22,7 +27,8 @@ export async function GET(request: NextRequest) {
         role: payload.role,
       },
     });
-  } catch {
+  } catch (err) {
+    console.error("Session error:", err);
     return NextResponse.json({ user: null });
   }
 }
