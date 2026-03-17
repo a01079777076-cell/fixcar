@@ -3,7 +3,8 @@
 import { useState, useRef } from "react";
 import {
   Car, Camera, CheckCircle, ChevronRight, ArrowLeft,
-  Upload, X, Plus, Lock, Shield, DollarSign
+  Upload, X, Plus, Lock, Shield, DollarSign, Search,
+  AlertCircle, Loader
 } from "lucide-react";
 
 const BRANDS = ["현대","기아","제네시스","쉐보레","르노","KG모빌리티","BMW","벤츠","아우디","폭스바겐","토요타","혼다"];
@@ -13,12 +14,18 @@ const REGIONS = ["광주 동구","광주 서구","광주 남구","광주 북구"
 const OPTIONS_LIST = ["후방카메라","전방카메라","열선시트","통풍시트","스마트크루즈","애플카플레이","안드로이드오토","파노라마 선루프","HDA","BSD","원격 주차보조","LED 헤드램프","전동 트렁크","열선 핸들","HUD"];
 const TAGS_LIST = ["무사고","초보 추천","1인 오너","가성비","가족용","주차 쉬움","연비 좋음","넓은 트렁크","스포티","전기차"];
 
+const MAX_IMAGES = 30;
+
 export default function DealerNewCarPage() {
   const [step, setStep] = useState(1);
   const [images, setImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [carNumber, setCarNumber] = useState("");
+  const [lookingUp, setLookingUp] = useState(false);
+  const [lookupError, setLookupError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
@@ -37,27 +44,90 @@ export default function DealerNewCarPage() {
     }));
   };
 
+  // 차량번호로 차량 정보 조회
+  const lookupCarByNumber = async () => {
+    if (!carNumber.trim()) return;
+    setLookingUp(true);
+    setLookupError("");
+
+    try {
+      const res = await fetch(`/api/cars/lookup?carNumber=${encodeURIComponent(carNumber.trim())}`);
+      const data = await res.json();
+
+      if (data.success && data.data) {
+        const info = data.data;
+        setForm(prev => ({
+          ...prev,
+          name: info.model || prev.name,
+          brand: info.brand || prev.brand,
+          year: info.year ? String(info.year) : prev.year,
+          fuel: info.fuel || prev.fuel,
+          color: info.color || prev.color,
+          cc: info.cc ? String(info.cc) : prev.cc,
+          transmission: info.transmission || prev.transmission,
+          accident: info.accident ?? prev.accident,
+        }));
+      } else {
+        setLookupError(data.error || "차량 정보를 찾을 수 없어요. 직접 입력해주세요.");
+      }
+    } catch {
+      setLookupError("조회 중 오류가 발생했어요. 직접 입력해주세요.");
+    } finally {
+      setLookingUp(false);
+    }
+  };
+
+  // 이미지 업로드 - 수정된 버전
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files) return;
+    if (!files || files.length === 0) return;
+
+    const remaining = MAX_IMAGES - images.length;
+    if (remaining <= 0) {
+      alert(`최대 ${MAX_IMAGES}장까지 업로드 가능해요.`);
+      return;
+    }
+
+    const filesToUpload = Array.from(files).slice(0, remaining);
     setUploading(true);
-    try {
-      for (const file of Array.from(files)) {
+    setUploadProgress(0);
+
+    const uploaded: string[] = [];
+
+    for (let i = 0; i < filesToUpload.length; i++) {
+      const file = filesToUpload[i];
+      try {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("folder", "fixcar/cars");
-        const res = await fetch("/api/upload", { method:"POST", body:formData });
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
         const data = await res.json();
-        if (data.success) {
-          setImages(prev => [...prev, data.data.url]);
+        if (data.success && data.data?.url) {
+          uploaded.push(data.data.url);
+        } else {
+          console.error("Upload failed:", data.error);
         }
+      } catch (err) {
+        console.error("Upload error:", err);
       }
-    } catch (error) {
-      console.error("Upload error:", error);
-      alert("이미지 업로드에 실패했어요");
-    } finally {
-      setUploading(false);
+      setUploadProgress(Math.round(((i + 1) / filesToUpload.length) * 100));
     }
+
+    if (uploaded.length > 0) {
+      setImages(prev => [...prev, ...uploaded]);
+    } else {
+      alert("업로드에 실패했어요. Cloudinary 설정을 확인해주세요.");
+    }
+
+    setUploading(false);
+    setUploadProgress(0);
+    // 파일 input 초기화 (같은 파일 재선택 가능하게)
+    if (fileRef.current) fileRef.current.value = "";
   };
 
   const handleSubmit = async () => {
@@ -67,7 +137,7 @@ export default function DealerNewCarPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          dealerId: 1, // 실제 딜러 ID로 교체 필요
+          dealerId: 1,
           name: `${form.brand} ${form.name}`,
           brand: form.brand,
           year: parseInt(form.year),
@@ -90,8 +160,7 @@ export default function DealerNewCarPage() {
       const data = await res.json();
       if (data.success) setDone(true);
       else alert(data.error || "등록에 실패했어요");
-    } catch (error) {
-      console.error("Submit error:", error);
+    } catch {
       alert("등록 중 오류가 발생했어요");
     } finally {
       setSubmitting(false);
@@ -127,8 +196,8 @@ export default function DealerNewCarPage() {
   );
 
   const STEPS = ["기본 정보", "상세 정보", "사진 등록", "태그·옵션"];
-  const inputStyle = { width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"12px 14px", fontSize:"14px", outline:"none", background:"#FAFAF8", fontFamily:"'NanumSquareRound',sans-serif" };
-  const labelStyle = { fontSize:"14px", fontWeight:800 as const, display:"block" as const, marginBottom:"7px" };
+  const inputStyle: React.CSSProperties = { width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"12px 14px", fontSize:"14px", outline:"none", background:"#FAFAF8", fontFamily:"'NanumSquareRound',sans-serif" };
+  const labelStyle: React.CSSProperties = { fontSize:"14px", fontWeight:800, display:"block", marginBottom:"7px" };
 
   return (
     <>
@@ -141,13 +210,18 @@ export default function DealerNewCarPage() {
         button { font-family:'NanumSquareRound',sans-serif; cursor:pointer; }
         input, select { font-family:'NanumSquareRound',sans-serif; }
         input:focus, select:focus { border-color:#FF3B1E !important; background:white !important; }
-        .tag-btn { transition:all 0.15s; cursor:pointer; border:1.5px solid; border-radius:100px; padding:7px 16px; font-size:13px; font-weight:700; }
+        .tag-btn { transition:all 0.15s; cursor:pointer; border:1.5px solid; border-radius:100px; padding:7px 16px; font-size:13px; font-weight:700; background:transparent; }
         .tag-btn:hover { transform:translateY(-1px); }
         .btn-red { background:#FF3B1E; color:white; border:none; border-radius:14px; font-size:15px; font-weight:800; padding:16px; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; width:100%; }
         .btn-red:hover { background:#D42E14; }
         .btn-red:disabled { background:#E0DDD7; color:#AAA; cursor:default; }
-        .img-slot { width:100%; aspect-ratio:4/3; border-radius:12px; overflow:hidden; position:relative; }
-        @media(max-width:768px) { .page-wrap { padding:16px !important; } .form-grid { grid-template-columns:1fr !important; } }
+        .upload-zone { transition:all 0.2s; border:2px dashed #E0DDD7; border-radius:16px; cursor:pointer; background:#F8F6F2; }
+        .upload-zone:hover { border-color:#1847FF; background:#EEF2FF; }
+        .img-card { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; }
+        .img-card img { width:100%; height:100%; object-fit:cover; display:block; }
+        .img-card .delete-btn { position:absolute; top:6px; right:6px; width:26px; height:26px; background:rgba(0,0,0,0.6); border:none; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; }
+        .img-card:hover .delete-btn { opacity:1; }
+        @media(max-width:768px) { .page-wrap { padding:16px !important; } .form-grid { grid-template-columns:1fr !important; } .img-grid { grid-template-columns:repeat(3,1fr) !important; } }
       `}</style>
 
       <div style={{ minHeight:"100vh", background:"#F0EEE9" }}>
@@ -182,72 +256,110 @@ export default function DealerNewCarPage() {
 
           {/* STEP 1 — 기본 정보 */}
           {step===1 && (
-            <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
-              <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"24px", display:"flex", alignItems:"center", gap:"10px" }}>
-                <Car size={20} color="#1847FF"/> 차량 기본 정보
+            <div style={{ display:"flex", flexDirection:"column", gap:"16px" }}>
+
+              {/* 차량번호 자동조회 */}
+              <div style={{ background:"white", borderRadius:"20px", padding:"24px 28px" }}>
+                <div style={{ fontSize:"16px", fontWeight:800, marginBottom:"6px", display:"flex", alignItems:"center", gap:"8px" }}>
+                  <Search size={18} color="#1847FF"/> 차량번호로 자동 입력
+                </div>
+                <div style={{ fontSize:"13px", color:"#888", marginBottom:"16px", fontWeight:400 }}>
+                  차량번호를 입력하면 차종·연식·사고이력을 자동으로 가져와요
+                </div>
+                <div style={{ display:"flex", gap:"10px" }}>
+                  <input
+                    style={{ ...inputStyle, flex:1, fontSize:"16px", fontWeight:700, letterSpacing:"2px" }}
+                    type="text"
+                    placeholder="예: 12가 3456"
+                    value={carNumber}
+                    onChange={e=>setCarNumber(e.target.value)}
+                    onKeyDown={e=>{ if(e.key==="Enter") lookupCarByNumber(); }}
+                  />
+                  <button
+                    onClick={lookupCarByNumber}
+                    disabled={!carNumber.trim() || lookingUp}
+                    style={{ background:"#1847FF", color:"white", border:"none", borderRadius:"10px", padding:"12px 20px", fontSize:"14px", fontWeight:800, cursor:carNumber.trim()&&!lookingUp?"pointer":"default", display:"flex", alignItems:"center", gap:"7px", whiteSpace:"nowrap", opacity:carNumber.trim()&&!lookingUp?1:0.5 }}
+                  >
+                    {lookingUp ? <><Loader size={14} style={{ animation:"spin 1s linear infinite" }}/> 조회중</> : <><Search size={14}/> 조회</>}
+                  </button>
+                </div>
+                {lookupError && (
+                  <div style={{ marginTop:"10px", display:"flex", alignItems:"center", gap:"6px", fontSize:"13px", color:"#E8A020", fontWeight:400 }}>
+                    <AlertCircle size={14} color="#E8A020"/> {lookupError}
+                  </div>
+                )}
+                <div style={{ marginTop:"10px", fontSize:"12px", color:"#AAA", fontWeight:400 }}>
+                  ※ 국토교통부 자동차 정보 API를 통해 조회해요. API 키 설정이 필요해요.
+                </div>
               </div>
-              <div className="form-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
-                <div>
-                  <label style={labelStyle}>브랜드 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                  <select style={inputStyle} value={form.brand} onChange={e=>update("brand",e.target.value)}>
-                    <option value="">선택해주세요</option>
-                    {BRANDS.map(b=><option key={b}>{b}</option>)}
-                  </select>
+
+              <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
+                <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"24px", display:"flex", alignItems:"center", gap:"10px" }}>
+                  <Car size={20} color="#1847FF"/> 차량 기본 정보
                 </div>
-                <div>
-                  <label style={labelStyle}>모델명 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                  <input style={inputStyle} type="text" placeholder="예: 아반떼 CN7 1.6 스마트" value={form.name} onChange={e=>update("name",e.target.value)} />
-                </div>
-                <div>
-                  <label style={labelStyle}>연식 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                  <select style={inputStyle} value={form.year} onChange={e=>update("year",e.target.value)}>
-                    <option value="">선택</option>
-                    {Array.from({length:15},(_,i)=>2024-i).map(y=><option key={y}>{y}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label style={labelStyle}>주행거리 (km) <span style={{ color:"#FF3B1E" }}>*</span></label>
-                  <input style={inputStyle} type="number" placeholder="예: 45000" value={form.mileage} onChange={e=>update("mileage",e.target.value)} />
-                </div>
-                <div>
-                  <label style={labelStyle}>연료 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                  <select style={inputStyle} value={form.fuel} onChange={e=>update("fuel",e.target.value)}>
-                    {FUELS.map(f=><option key={f}>{f}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label style={labelStyle}>색상</label>
-                  <input style={inputStyle} type="text" placeholder="예: 흰색" value={form.color} onChange={e=>update("color",e.target.value)} />
-                </div>
-                <div>
-                  <label style={labelStyle}>위치 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                  <select style={inputStyle} value={form.region} onChange={e=>update("region",e.target.value)}>
-                    <option value="">선택</option>
-                    {REGIONS.map(r=><option key={r}>{r}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label style={labelStyle}>FIX 가격 (만원) <span style={{ color:"#FF3B1E" }}>*</span></label>
-                  <input style={inputStyle} type="number" placeholder="예: 1450" value={form.price} onChange={e=>update("price",e.target.value)} />
-                </div>
-                <div>
-                  <label style={labelStyle}>소유자 수</label>
-                  <select style={inputStyle} value={form.owners} onChange={e=>update("owners",e.target.value)}>
-                    {["1","2","3","4+"].map(n=><option key={n}>{n}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label style={labelStyle}>사고이력</label>
-                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"8px" }}>
-                    {[["무사고",false],["사고있음",true]].map(([l,v])=>(
-                      <div key={String(l)} onClick={()=>update("accident",v as boolean)} style={{ padding:"11px", borderRadius:"10px", border:`2px solid ${form.accident===v?"#FF3B1E":"#E0DDD7"}`, background:form.accident===v?"#FFF0ED":"#F8F6F2", cursor:"pointer", textAlign:"center", fontSize:"14px", fontWeight:form.accident===v?800:600, color:form.accident===v?"#FF3B1E":"#555", transition:"all 0.15s" }}>{l as string}</div>
-                    ))}
+                <div className="form-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
+                  <div>
+                    <label style={labelStyle}>브랜드 <span style={{ color:"#FF3B1E" }}>*</span></label>
+                    <select style={inputStyle} value={form.brand} onChange={e=>update("brand",e.target.value)}>
+                      <option value="">선택해주세요</option>
+                      {BRANDS.map(b=><option key={b}>{b}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>모델명 <span style={{ color:"#FF3B1E" }}>*</span></label>
+                    <input style={inputStyle} type="text" placeholder="예: 아반떼 CN7 1.6 스마트" value={form.name} onChange={e=>update("name",e.target.value)} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>연식 <span style={{ color:"#FF3B1E" }}>*</span></label>
+                    <select style={inputStyle} value={form.year} onChange={e=>update("year",e.target.value)}>
+                      <option value="">선택</option>
+                      {Array.from({length:15},(_,i)=>2024-i).map(y=><option key={y}>{y}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>주행거리 (km) <span style={{ color:"#FF3B1E" }}>*</span></label>
+                    <input style={inputStyle} type="number" placeholder="예: 45000" value={form.mileage} onChange={e=>update("mileage",e.target.value)} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>연료</label>
+                    <select style={inputStyle} value={form.fuel} onChange={e=>update("fuel",e.target.value)}>
+                      {FUELS.map(f=><option key={f}>{f}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>색상</label>
+                    <input style={inputStyle} type="text" placeholder="예: 흰색" value={form.color} onChange={e=>update("color",e.target.value)} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>위치 <span style={{ color:"#FF3B1E" }}>*</span></label>
+                    <select style={inputStyle} value={form.region} onChange={e=>update("region",e.target.value)}>
+                      <option value="">선택</option>
+                      {REGIONS.map(r=><option key={r}>{r}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>FIX 가격 (만원) <span style={{ color:"#FF3B1E" }}>*</span></label>
+                    <input style={inputStyle} type="number" placeholder="예: 1450" value={form.price} onChange={e=>update("price",e.target.value)} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>소유자 수</label>
+                    <select style={inputStyle} value={form.owners} onChange={e=>update("owners",e.target.value)}>
+                      {["1","2","3","4+"].map(n=><option key={n}>{n}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>사고이력</label>
+                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"8px" }}>
+                      {[["무사고",false],["사고있음",true]].map(([l,v])=>(
+                        <div key={String(l)} onClick={()=>update("accident",v as boolean)} style={{ padding:"11px", borderRadius:"10px", border:`2px solid ${form.accident===v?"#FF3B1E":"#E0DDD7"}`, background:form.accident===v?"#FFF0ED":"#F8F6F2", cursor:"pointer", textAlign:"center", fontSize:"14px", fontWeight:form.accident===v?800:600, color:form.accident===v?"#FF3B1E":"#555", transition:"all 0.15s" }}>{l as string}</div>
+                      ))}
+                    </div>
                   </div>
                 </div>
+                <button className="btn-red" style={{ marginTop:"24px" }} disabled={!form.brand||!form.name||!form.year||!form.mileage||!form.region||!form.price} onClick={()=>setStep(2)}>
+                  다음 — 상세 정보 <ChevronRight size={16}/>
+                </button>
               </div>
-              <button className="btn-red" style={{ marginTop:"24px" }} disabled={!form.brand||!form.name||!form.year||!form.mileage||!form.region||!form.price} onClick={()=>setStep(2)}>
-                다음 — 상세 정보 <ChevronRight size={16}/>
-              </button>
             </div>
           )}
 
@@ -267,7 +379,7 @@ export default function DealerNewCarPage() {
                   <input style={inputStyle} type="number" placeholder="예: 123" value={form.power} onChange={e=>update("power",e.target.value)} />
                 </div>
                 <div>
-                  <label style={labelStyle}>연비 (km/L 또는 km/kWh)</label>
+                  <label style={labelStyle}>연비</label>
                   <input style={inputStyle} type="text" placeholder="예: 15.2" value={form.efficiency} onChange={e=>update("efficiency",e.target.value)} />
                 </div>
                 <div>
@@ -297,39 +409,76 @@ export default function DealerNewCarPage() {
           {/* STEP 3 — 사진 등록 */}
           {step===3 && (
             <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
-              <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"8px", display:"flex", alignItems:"center", gap:"10px" }}>
+              <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"4px", display:"flex", alignItems:"center", gap:"10px" }}>
                 <Camera size={20} color="#1847FF"/> 차량 사진 등록
               </div>
-              <div style={{ fontSize:"14px", color:"#888", marginBottom:"24px", fontWeight:400 }}>
+              <div style={{ fontSize:"14px", color:"#888", marginBottom:"6px", fontWeight:400 }}>
                 외관·실내·엔진룸 사진을 올려주세요. 사진이 많을수록 문의가 늘어요!
               </div>
-
-              {/* 업로드 영역 */}
-              <div onClick={()=>fileRef.current?.click()} style={{ border:"2px dashed #E0DDD7", borderRadius:"16px", padding:"40px", textAlign:"center", cursor:"pointer", background:"#F8F6F2", marginBottom:"20px", transition:"all 0.15s" }}>
-                <Upload size={36} color="#AAA" style={{ margin:"0 auto 12px" }} />
-                <div style={{ fontSize:"16px", fontWeight:800, color:"#555", marginBottom:"6px" }}>
-                  {uploading ? "업로드 중..." : "클릭해서 사진 추가"}
-                </div>
-                <div style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>JPG, PNG · 최대 10MB · 여러 장 선택 가능</div>
-                <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleImageUpload} style={{ display:"none" }} />
+              <div style={{ fontSize:"13px", color:"#AAA", marginBottom:"20px", fontWeight:400 }}>
+                {images.length}/{MAX_IMAGES}장 업로드됨
               </div>
 
-              {/* 업로드된 이미지 */}
+              {/* 업로드 버튼 */}
+              {images.length < MAX_IMAGES && (
+                <div
+                  className="upload-zone"
+                  style={{ padding:"36px", textAlign:"center", marginBottom:"20px" }}
+                  onClick={() => fileRef.current?.click()}
+                >
+                  {uploading ? (
+                    <div>
+                      <Loader size={36} color="#1847FF" style={{ margin:"0 auto 12px", animation:"spin 1s linear infinite" }} />
+                      <div style={{ fontSize:"15px", fontWeight:800, color:"#1847FF", marginBottom:"6px" }}>업로드 중... {uploadProgress}%</div>
+                      <div style={{ height:"6px", background:"#E0DDD7", borderRadius:"3px", overflow:"hidden", maxWidth:"200px", margin:"0 auto" }}>
+                        <div style={{ height:"6px", background:"#1847FF", borderRadius:"3px", width:`${uploadProgress}%`, transition:"width 0.3s" }} />
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <Upload size={36} color="#AAA" style={{ margin:"0 auto 12px" }} />
+                      <div style={{ fontSize:"16px", fontWeight:800, color:"#555", marginBottom:"6px" }}>클릭해서 사진 추가</div>
+                      <div style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>JPG, PNG · 최대 10MB · 여러 장 선택 가능 · 최대 {MAX_IMAGES}장</div>
+                    </>
+                  )}
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    onChange={handleImageUpload}
+                    style={{ display:"none" }}
+                    disabled={uploading}
+                  />
+                </div>
+              )}
+
+              {/* 업로드된 이미지 그리드 */}
               {images.length > 0 && (
-                <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"10px", marginBottom:"20px" }}>
+                <div className="img-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:"10px", marginBottom:"20px" }}>
                   {images.map((url, i) => (
-                    <div key={i} className="img-slot">
-                      <img src={url} alt={`차량 ${i+1}`} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                      {i===0 && <div style={{ position:"absolute", top:8, left:8, background:"#1847FF", color:"white", padding:"3px 10px", borderRadius:"100px", fontSize:"11px", fontWeight:800 }}>대표사진</div>}
-                      <button onClick={()=>setImages(prev=>prev.filter((_,idx)=>idx!==i))} style={{ position:"absolute", top:8, right:8, width:"28px", height:"28px", background:"rgba(0,0,0,0.6)", border:"none", borderRadius:"50%", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
-                        <X size={14} color="white"/>
+                    <div key={i} className="img-card">
+                      <img src={url} alt={`차량 ${i+1}`} />
+                      {i===0 && (
+                        <div style={{ position:"absolute", top:6, left:6, background:"#1847FF", color:"white", padding:"2px 8px", borderRadius:"100px", fontSize:"10px", fontWeight:800 }}>대표</div>
+                      )}
+                      <button
+                        className="delete-btn"
+                        onClick={() => setImages(prev => prev.filter((_,idx) => idx !== i))}
+                      >
+                        <X size={12} color="white" />
                       </button>
                     </div>
                   ))}
-                  <div onClick={()=>fileRef.current?.click()} style={{ aspectRatio:"4/3", borderRadius:"12px", border:"2px dashed #E0DDD7", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", cursor:"pointer", background:"#F8F6F2", padding:"20px" }}>
-                    <Plus size={24} color="#AAA"/>
-                    <div style={{ fontSize:"12px", color:"#AAA", marginTop:"6px", fontWeight:400 }}>추가</div>
-                  </div>
+                  {images.length < MAX_IMAGES && (
+                    <div
+                      onClick={() => fileRef.current?.click()}
+                      style={{ aspectRatio:"4/3", borderRadius:"12px", border:"2px dashed #E0DDD7", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", cursor:"pointer", background:"#F8F6F2", transition:"all 0.15s" }}
+                    >
+                      <Plus size={24} color="#AAA" />
+                      <div style={{ fontSize:"11px", color:"#AAA", marginTop:"6px", fontWeight:400 }}>추가</div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -352,7 +501,7 @@ export default function DealerNewCarPage() {
                 <div style={{ fontSize:"14px", color:"#888", marginBottom:"18px", fontWeight:400 }}>매물 목록에서 강조 표시돼요</div>
                 <div style={{ display:"flex", gap:"8px", flexWrap:"wrap" }}>
                   {TAGS_LIST.map(tag => (
-                    <button key={tag} className="tag-btn" onClick={()=>toggleItem("tags",tag)} style={{ borderColor:form.tags.includes(tag)?"#FF3B1E":"#E0DDD7", background:form.tags.includes(tag)?"#FFF0ED":"#F8F6F2", color:form.tags.includes(tag)?"#FF3B1E":"#555" }}>
+                    <button key={tag} className="tag-btn" onClick={()=>toggleItem("tags",tag)} style={{ borderColor:form.tags.includes(tag)?"#FF3B1E":"#E0DDD7", color:form.tags.includes(tag)?"#FF3B1E":"#555", background:form.tags.includes(tag)?"#FFF0ED":"#F8F6F2" }}>
                       {form.tags.includes(tag)?"✓ ":""}{tag}
                     </button>
                   ))}
@@ -364,7 +513,7 @@ export default function DealerNewCarPage() {
                 <div style={{ fontSize:"14px", color:"#888", marginBottom:"18px", fontWeight:400 }}>탑재된 옵션을 선택해주세요</div>
                 <div style={{ display:"flex", gap:"8px", flexWrap:"wrap" }}>
                   {OPTIONS_LIST.map(opt => (
-                    <button key={opt} className="tag-btn" onClick={()=>toggleItem("options",opt)} style={{ borderColor:form.options.includes(opt)?"#1847FF":"#E0DDD7", background:form.options.includes(opt)?"#EEF2FF":"#F8F6F2", color:form.options.includes(opt)?"#1847FF":"#555" }}>
+                    <button key={opt} className="tag-btn" onClick={()=>toggleItem("options",opt)} style={{ borderColor:form.options.includes(opt)?"#1847FF":"#E0DDD7", color:form.options.includes(opt)?"#1847FF":"#555", background:form.options.includes(opt)?"#EEF2FF":"#F8F6F2" }}>
                       {form.options.includes(opt)?"✓ ":""}{opt}
                     </button>
                   ))}
