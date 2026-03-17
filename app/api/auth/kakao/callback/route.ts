@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("Kakao callback error:", error);
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login?error=server`);
+    console.error("Kakao callback error:", JSON.stringify(error));
+    const errMsg = error instanceof Error ? error.message : String(error);
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login?error=${encodeURIComponent(errMsg)}`);
   }
-}
