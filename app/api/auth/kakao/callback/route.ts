@@ -73,8 +73,8 @@ export async function GET(request: NextRequest) {
 
     const response = NextResponse.redirect(redirectUrl);
     response.cookies.set("fixcar-token", token, {
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: false,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
