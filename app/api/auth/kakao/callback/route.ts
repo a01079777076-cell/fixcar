@@ -87,3 +87,4 @@ export async function GET(request: NextRequest) {
     const errMsg = error instanceof Error ? error.message : String(error);
     return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login?error=${encodeURIComponent(errMsg)}`);
   }
+  }
