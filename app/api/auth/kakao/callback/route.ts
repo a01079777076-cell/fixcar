@@ -35,32 +35,51 @@ export async function GET(request: NextRequest) {
     });
 
     const kakaoUser = await userRes.json();
-    const email = kakaoUser.kakao_account?.email || `kakao_${kakaoUser.id}@fixcar.kr`;
-    const name = kakaoUser.kakao_account?.profile?.nickname || "카카오 사용자";
+    const kakaoId = kakaoUser.id;
+    const email = `kakao_${kakaoId}@fixcar.kr`;
+    const name = kakaoUser.properties?.nickname || "카카오 사용자";
 
-    // 3. DB에 사용자 저장
+    // 3. 기존 유저 확인
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const isNewUser = !existingUser || !existingUser.phone;
+
+    // 4. DB 저장
     const user = await prisma.user.upsert({
       where: { email },
       update: { name },
       create: { email, name, provider: "kakao" },
     });
 
-    // 4. JWT 세션 토큰 생성
-    const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET || "fixcar-secret");
-    const token = await new SignJWT({ id: user.id, email: user.email, name: user.name, role: user.role })
+    // 5. JWT 토큰 생성
+    const secret = new TextEncoder().encode(
+      process.env.NEXTAUTH_SECRET || "fixcar-secret"
+    );
+    const token = await new SignJWT({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    })
       .setProtectedHeader({ alg: "HS256" })
       .setExpirationTime("7d")
       .sign(secret);
 
-    // 5. 쿠키에 토큰 저장 후 홈으로 리다이렉트
-    const response = NextResponse.redirect(`${process.env.NEXTAUTH_URL}/`);
+    // 6. 쿠키 저장
+    // 신규 유저 → 추가 정보 입력 페이지
+    // 기존 유저 → 홈
+    const redirectUrl = isNewUser
+      ? `${process.env.NEXTAUTH_URL}/auth/additional-info`
+      : `${process.env.NEXTAUTH_URL}/`;
+
+    const response = NextResponse.redirect(redirectUrl);
     response.cookies.set("fixcar-token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 7일
+      maxAge: 60 * 60 * 24 * 7,
       path: "/",
-    });
+      domain: ".fixcar.kr",
+      });
 
     return response;
   } catch (error) {
