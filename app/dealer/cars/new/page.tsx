@@ -326,7 +326,7 @@ export default function DealerNewCarPage() {
                       </button>
                     </div>
                   ))}
-                  <div onClick={()=>fileRef.current?.click()} style={{ aspect:"ratio:4/3", borderRadius:"12px", border:"2px dashed #E0DDD7", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", cursor:"pointer", background:"#F8F6F2", padding:"20px" }}>
+                  <div onClick={()=>fileRef.current?.click()} style={{ aspectRatio:"4/3", borderRadius:"12px", border:"2px dashed #E0DDD7", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", cursor:"pointer", background:"#F8F6F2", padding:"20px" }}>
                     <Plus size={24} color="#AAA"/>
                     <div style={{ fontSize:"12px", color:"#AAA", marginTop:"6px", fontWeight:400 }}>추가</div>
                   </div>
