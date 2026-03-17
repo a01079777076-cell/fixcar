@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { Eye, EyeOff, ChevronLeft, Lock, Mail, User, Phone, CheckCircle, Car, Shield, Heart, Zap } from "lucide-react";
 
 export default function LoginPage() {
@@ -135,7 +136,7 @@ export default function LoginPage() {
             {/* 소셜 로그인 */}
             <div style={{ display:"flex", flexDirection:"column", gap:"10px", marginBottom:"24px" }}>
               {/* 카카오 */}
-              <button className="social-btn" style={{ width:"100%", background:"#FEE500", border:"none", borderRadius:"14px", padding:"16px", fontSize:"15px", fontWeight:800, color:"#391B1B", display:"flex", alignItems:"center", justifyContent:"center", gap:"12px", position:"relative" }}>
+<button onClick={() => signIn("kakao", { callbackUrl: "/" })} className="social-btn" style={{ width:"100%", background:"#FEE500"
                 <span style={{ fontSize:"20px" }}>💛</span>
                 카카오로 {mode==="login"?"로그인":"가입"}하기
                 <span style={{ position:"absolute", right:"16px", background:"rgba(0,0,0,0.1)", padding:"3px 10px", borderRadius:"100px", fontSize:"11px", fontWeight:800 }}>추천</span>
