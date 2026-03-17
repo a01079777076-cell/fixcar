@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { Eye, EyeOff, ChevronLeft, Lock, Mail, User, Phone, CheckCircle, Heart, Zap, Shield } from "lucide-react";
 
 export default function LoginPage() {
@@ -115,7 +114,7 @@ export default function LoginPage() {
               {/* 카카오 */}
               <button
                 className="social-btn"
-                onClick={() => signIn("kakao", { callbackUrl: "/" })}
+                onClick={() => window.location.href = "/api/auth/kakao"}
                 style={{ width:"100%", background:"#FEE500", border:"none", borderRadius:"14px", padding:"16px", fontSize:"15px", fontWeight:800, color:"#391B1B", display:"flex", alignItems:"center", justifyContent:"center", gap:"12px", position:"relative" }}
               >
                 <span style={{ fontSize:"20px" }}>💛</span>
