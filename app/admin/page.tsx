@@ -11,7 +11,7 @@ async function getStats() {
       prisma.car.count({ where: { status:"AVAILABLE" } }),
       prisma.user.count({ where: { role:"DEALER" } }),
       prisma.inquiry.count({ where: { status:"PENDING" } }),
-      prisma.car.count({ where: { status:"PENDING" } }),
+      prisma.car.count({ where: { status:"REVIEWING" } }),
       prisma.dealerApplication?.count({ where: { status:"PENDING" } }).catch(()=>0) || 0,
     ]);
     return { userCount, carCount, dealerCount, inquiryCount, pendingCars, pendingDealers };
