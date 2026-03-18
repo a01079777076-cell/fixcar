@@ -45,19 +45,19 @@
   --text-lg:      18px;
 
   /* 본문 기본 */
-  --text-base:    16px;
+  --text-base:    17px;
 
   /* 본문 중간 */
-  --text-md:      15px;
+  --text-md:      16px;
 
   /* 본문 작은 */
-  --text-sm:      14px;
+  --text-sm:      15px;
 
   /* 보조 텍스트 */
-  --text-xs:      13px;
+  --text-xs:      14px;
 
   /* 라벨, 캡션 */
-  --text-xxs:     12px;
+  --text-xxs:     13px;
 
   /* ── 4. 글자 굵기 시스템 ── */
   --weight-black:     900;
