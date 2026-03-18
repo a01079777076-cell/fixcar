@@ -15,12 +15,16 @@ model User {
   phone     String?
   role      Role     @default(USER)
   provider  String   @default("email")
+  password  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  favorites   Favorite[]
-  inquiries   Inquiry[]
-  purchases   Purchase[]
+  favorites         Favorite[]
+  inquiries         Inquiry[]
+  purchases         Purchase[]
+  blogPosts         BlogPost[]        @relation("BlogPosts")
+  communityPosts    CommunityPost[]   @relation("CommunityPosts")
+  communityComments CommunityComment[] @relation("CommunityComments")
 }
 
 enum Role {
@@ -94,16 +98,16 @@ model Favorite {
 
 // 문의
 model Inquiry {
-  id        Int      @id @default(autoincrement())
+  id        Int           @id @default(autoincrement())
   userId    Int
   carId     Int
-  user      User     @relation(fields: [userId], references: [id])
-  car       Car      @relation(fields: [carId], references: [id])
+  user      User          @relation(fields: [userId], references: [id])
+  car       Car           @relation(fields: [carId], references: [id])
   message   String
   reply     String?
   status    InquiryStatus @default(PENDING)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 enum InquiryStatus {
@@ -113,16 +117,16 @@ enum InquiryStatus {
 
 // 구매
 model Purchase {
-  id          Int           @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   userId      Int
   carId       Int
-  user        User          @relation(fields: [userId], references: [id])
-  car         Car           @relation(fields: [carId], references: [id])
+  user        User           @relation(fields: [userId], references: [id])
+  car         Car            @relation(fields: [carId], references: [id])
   amount      Int
-  payType     String        @default("installment")
+  payType     String         @default("installment")
   status      PurchaseStatus @default(DEPOSIT_PAID)
-  depositDate DateTime      @default(now())
-  createdAt   DateTime      @default(now())
+  depositDate DateTime       @default(now())
+  createdAt   DateTime       @default(now())
 }
 
 enum PurchaseStatus {
@@ -130,4 +134,45 @@ enum PurchaseStatus {
   BALANCE_PENDING
   COMPLETED
   CANCELLED
+}
+
+// 블로그
+model BlogPost {
+  id        Int      @id @default(autoincrement())
+  title     String
+  summary   String   @default("")
+  category  String   @default("구매 가이드")
+  content   String   @db.Text
+  products  Json     @default("[]")
+  tags      Json     @default("[]")
+  published Boolean  @default(true)
+  authorId  Int
+  author    User     @relation("BlogPosts", fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 커뮤니티
+model CommunityPost {
+  id        Int                @id @default(autoincrement())
+  title     String
+  content   String             @db.Text
+  category  String             @default("자유게시판")
+  views     Int                @default(0)
+  authorId  Int
+  author    User               @relation("CommunityPosts", fields: [authorId], references: [id])
+  comments  CommunityComment[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+// 커뮤니티 댓글
+model CommunityComment {
+  id        Int           @id @default(autoincrement())
+  content   String        @db.Text
+  postId    Int
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  Int
+  author    User          @relation("CommunityComments", fields: [authorId], references: [id])
+  createdAt DateTime      @default(now())
 }
