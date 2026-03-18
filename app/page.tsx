@@ -292,17 +292,50 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section style={{ background:"#FF3B1E", padding:"100px 52px", textAlign:"center", position:"relative", overflow:"hidden" }}>
-          <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", pointerEvents:"none" }}>
-            <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"clamp(100px,18vw,220px)", color:"rgba(0,0,0,0.07)", whiteSpace:"nowrap", letterSpacing:"8px" }}>PICK YOUR CAR</div>
-          </div>
-          <div style={{ position:"relative", zIndex:1, maxWidth:"700px", margin:"0 auto" }}>
-            <h2 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(44px,7vw,80px)", fontWeight:900, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"20px" }}>나, 이 차로<br />픽했어</h2>
-            <p style={{ fontSize:"18px", color:"rgba(255,255,255,0.82)", lineHeight:1.8, marginBottom:"44px", fontWeight:400 }}>3분 퀴즈로 내 차를 픽(PICK)하고<br />픽스(FIX) 정찰가로 스트레스 없이 구매하세요.</p>
-            <div style={{ display:"flex", gap:"14px", justifyContent:"center", flexWrap:"wrap" }}>
-              <a href="/quiz"><button style={{ background:"#fff", color:"#FF3B1E", border:"none", padding:"19px 48px", borderRadius:"14px", fontSize:"17px", fontWeight:800, cursor:"pointer", display:"flex", alignItems:"center", gap:"10px" }}>내 차 PICK하러 가기 <ArrowRight size={18}/></button></a>
-              <a href="/cars"><button style={{ background:"transparent", color:"#fff", border:"2.5px solid rgba(255,255,255,0.55)", padding:"17px 40px", borderRadius:"14px", fontSize:"16px", fontWeight:700, cursor:"pointer", display:"flex", alignItems:"center", gap:"8px" }}><Lock size={16}/> FIX 가격 매물 보기</button></a>
+        {/* CTA - 역동적 리디자인 */}
+        <section style={{ background:"#FF3B1E", minHeight:"520px", position:"relative", overflow:"hidden", display:"flex", alignItems:"center" }}>
+          {/* 대각선 분할 배경 */}
+          <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.08)", clipPath:"polygon(0 0, 58% 0, 42% 100%, 0 100%)", pointerEvents:"none" }}/>
+
+          {/* PICK - 좌상단 크게 */}
+          <div style={{ position:"absolute", top:"-20px", left:"-10px", fontFamily:"'Bebas Neue',serif", fontSize:"clamp(140px,22vw,280px)", color:"rgba(255,255,255,0.08)", lineHeight:1, letterSpacing:"-5px", pointerEvents:"none", userSelect:"none" }}>PICK</div>
+
+          {/* FIX - 우하단 크게 */}
+          <div style={{ position:"absolute", bottom:"-30px", right:"-10px", fontFamily:"'Bebas Neue',serif", fontSize:"clamp(140px,22vw,280px)", color:"rgba(0,0,0,0.1)", lineHeight:1, letterSpacing:"-5px", pointerEvents:"none", userSelect:"none" }}>FIX</div>
+
+          {/* 중앙 콘텐츠 */}
+          <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:"1200px", margin:"0 auto", padding:"80px 52px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:"60px", alignItems:"center" }}>
+            {/* 왼쪽 */}
+            <div>
+              <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(0,0,0,0.15)", borderRadius:"100px", padding:"8px 18px", marginBottom:"24px" }}>
+                <div style={{ width:"8px", height:"8px", background:"white", borderRadius:"50%", opacity:0.8 }}/>
+                <span style={{ fontSize:"13px", fontWeight:800, color:"rgba(255,255,255,0.9)", letterSpacing:"2px" }}>FIXCAR 광주</span>
+              </div>
+              <h2 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(40px,6vw,76px)", fontWeight:900, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"20px" }}>
+                나, 이 차로<br />픽했어
+              </h2>
+              <p style={{ fontSize:"17px", color:"rgba(255,255,255,0.8)", lineHeight:1.85, fontWeight:400 }}>
+                3분 퀴즈로 내 차를 픽(PICK)하고<br />픽스(FIX) 정찰가로 스트레스 없이 구매하세요.
+              </p>
+            </div>
+
+            {/* 오른쪽 */}
+            <div style={{ display:"flex", flexDirection:"column", gap:"14px" }}>
+              {/* PICK 카드 */}
+              <div style={{ background:"rgba(255,255,255,0.12)", border:"1px solid rgba(255,255,255,0.2)", borderRadius:"20px", padding:"24px 28px" }}>
+                <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:"white", letterSpacing:"3px", marginBottom:"6px" }}>PICK</div>
+                <div style={{ fontSize:"15px", fontWeight:800, color:"white", marginBottom:"6px" }}>나에게 딱 맞는 차 찾기</div>
+                <div style={{ fontSize:"13px", color:"rgba(255,255,255,0.7)", marginBottom:"16px", fontWeight:400 }}>AI 추천 · 3분 퀴즈 · 조건 맞춤 검색</div>
+                <a href="/quiz"><button style={{ background:"white", color:"#FF3B1E", border:"none", padding:"13px 28px", borderRadius:"10px", fontSize:"15px", fontWeight:800, cursor:"pointer", display:"flex", alignItems:"center", gap:"8px", width:"100%", justifyContent:"center" }}>내 차 PICK하러 가기 <ArrowRight size={16}/></button></a>
+              </div>
+
+              {/* FIX 카드 */}
+              <div style={{ background:"rgba(0,0,0,0.15)", border:"1px solid rgba(0,0,0,0.1)", borderRadius:"20px", padding:"24px 28px" }}>
+                <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:"white", letterSpacing:"3px", marginBottom:"6px" }}>FIX</div>
+                <div style={{ fontSize:"15px", fontWeight:800, color:"white", marginBottom:"6px" }}>정찰가 매물 바로 보기</div>
+                <div style={{ fontSize:"13px", color:"rgba(255,255,255,0.7)", marginBottom:"16px", fontWeight:400 }}>흥정 없음 · 가격 투명 · 100항목 검수</div>
+                <a href="/cars"><button style={{ background:"transparent", color:"white", border:"2px solid rgba(255,255,255,0.5)", padding:"13px 28px", borderRadius:"10px", fontSize:"15px", fontWeight:700, cursor:"pointer", display:"flex", alignItems:"center", gap:"8px", width:"100%", justifyContent:"center" }}><Lock size={16}/> FIX 가격 매물 보기</button></a>
+              </div>
             </div>
           </div>
         </section>

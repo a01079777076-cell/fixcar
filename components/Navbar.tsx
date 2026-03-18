@@ -114,8 +114,8 @@ export default function Navbar() {
 
       {/* 공지 바 */}
       <div style={{ background:"#1A1A1A", color:"#fff", textAlign:"center", padding:"10px 20px", fontSize:"13px", fontWeight:700 }}>
-        <span style={{ color:"#FF7A63" }}>NEW AI</span> 나에게 알맞는 완벽한 중고차 &nbsp;·&nbsp;
-        <span style={{ color:"#7A9BFF" }}>FIX</span> 정찰제 — 가격 흥정 없음
+        <span style={{ color:"#FF7A63" }}>PICK</span> 나에게 알맞는 완벽한 중고차 &nbsp;·&nbsp;
+        <span style={{ color:"#7A9BFF" }}>FIX</span> 광주 1등 AI 매물분석 추천  픽스카
       </div>
 
       {/* 메인 네비 */}
