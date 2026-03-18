@@ -66,6 +66,11 @@ export default function LoginPage() {
         <div style={{ background:"#F0EEE9", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"40px 32px" }}>
           <div style={{ maxWidth:"400px", width:"100%" }}>
 
+            {/* 뒤로가기 버튼 */}
+            <a href="/" style={{ display:"inline-flex", alignItems:"center", gap:"8px", marginBottom:"28px", padding:"12px 20px", background:"white", border:"2px solid #E0DDD7", borderRadius:"100px", fontSize:"15px", fontWeight:800, color:"#1A1A1A", textDecoration:"none", transition:"all 0.2s" }}>
+              ← 홈으로 돌아가기
+            </a>
+
             {/* 모바일용 로고 */}
             <a href="/" style={{ display:"none", alignItems:"center", gap:"8px", marginBottom:"32px" }}>
               <img src="/favicon.svg" alt="픽스카" width={28} height={28} style={{ borderRadius:"7px" }} />

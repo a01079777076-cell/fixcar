@@ -83,6 +83,8 @@ export default function Home() {
         .car-card:hover img { transform:scale(1.04); }
         .promise-card { border-radius:20px; padding:28px 24px; }
         .review-card { background:#fff; border-radius:18px; padding:26px; }
+        .content-banner-card { transition:all 0.2s; }
+        .content-banner-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.07); }
         .footer-link { display:block; font-size:14px; color:rgba(255,255,255,0.35); margin-bottom:10px; font-weight:400; transition:color 0.15s; }
         .footer-link:hover { color:rgba(255,255,255,0.7); }
         @media(max-width:1024px) {
@@ -265,8 +267,6 @@ export default function Home() {
             ].map(item => (
               <a key={item.title} href={item.href}>
                 <div style={{ background:"white", borderRadius:"18px", padding:"22px", transition:"all 0.2s", cursor:"pointer" }}
-                  onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-3px)")}
-                  onMouseLeave={e => (e.currentTarget.style.transform = "none")}>
                   <div style={{ fontSize:"28px", marginBottom:"10px" }}>{item.emoji}</div>
                   <div style={{ fontSize:"15px", fontWeight:800, marginBottom:"5px", color:item.color }}>{item.title}</div>
                   <div style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>{item.desc}</div>

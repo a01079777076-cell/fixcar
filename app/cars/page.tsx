@@ -161,7 +161,7 @@ export default function CarsPage() {
               {filtered.map(car => (
                 <a key={car.id} href={`/cars/${car.id}`} className="car-card">
                   <div style={{ height:"192px", overflow:"hidden", position:"relative" }}>
-                    <img src={getCarImage(car)} alt={car.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} onError={(e)=>{(e.target as HTMLImageElement).style.display="none";}} />
+                    <img src={getCarImage(car)} alt={car.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} onError={(e)=>{ const t=e.target as HTMLImageElement; t.style.display="none"; const p=t.parentElement; if(p&&!p.querySelector(".img-placeholder")){ p.style.background="#F0EEE9"; p.style.display="flex"; p.style.alignItems="center"; p.style.justifyContent="center"; const d=document.createElement("div"); d.className="img-placeholder"; d.style.cssText="text-align:center;padding:20px"; d.innerHTML="<div style=\"font-size:32px;margin-bottom:8px\">📸</div><div style=\"font-size:11px;color:#AAA;font-weight:700\">앗! 사진이 업데이트 전이에요!</div>"; p.appendChild(d); } }} />
                     <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.25))" }} />
                     <span style={{ position:"absolute", top:12, left:12, background:"#FF3B1E", color:"#fff", padding:"5px 12px", borderRadius:"100px", fontSize:"11px", fontWeight:800 }}>
                       {car.tags[0] || "PICK"}
@@ -198,7 +198,7 @@ export default function CarsPage() {
               {filtered.map(car => (
                 <a key={car.id} href={`/cars/${car.id}`} style={{ background:"white", borderRadius:"16px", overflow:"hidden", display:"flex", transition:"all 0.2s" }}>
                   <div style={{ width:"220px", height:"160px", overflow:"hidden", flexShrink:0 }}>
-                    <img src={getCarImage(car)} alt={car.name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} onError={(e)=>{(e.target as HTMLImageElement).style.display="none";}} />
+                    <img src={getCarImage(car)} alt={car.name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} onError={(e)=>{ const t=e.target as HTMLImageElement; t.style.display="none"; const p=t.parentElement; if(p&&!p.querySelector(".img-placeholder")){ p.style.background="#F0EEE9"; p.style.display="flex"; p.style.alignItems="center"; p.style.justifyContent="center"; const d=document.createElement("div"); d.className="img-placeholder"; d.style.cssText="text-align:center;padding:20px"; d.innerHTML="<div style=\"font-size:32px;margin-bottom:8px\">📸</div><div style=\"font-size:11px;color:#AAA;font-weight:700\">앗! 사진이 업데이트 전이에요!</div>"; p.appendChild(d); } }} />
                   </div>
                   <div style={{ flex:1, padding:"18px 24px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                     <div>
