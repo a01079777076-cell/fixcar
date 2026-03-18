@@ -1,26 +1,234 @@
-@import "tailwindcss";
+/* =============================================
+   픽스카 FIXCAR — 글로벌 타이포그래피 시스템
+   여기서 수정하면 전체 사이트에 적용돼요!
+   ============================================= */
+
+/* ── 1. 폰트 불러오기 ── */
+@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Pretendard:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+/* ── 2. 폰트 선택 (여기서 변경!) ──
+   원하는 줄만 주석 해제하세요
+   --------------------------------
+   'NanumSquareRound'  → 귀엽고 둥근 느낌 (현재)
+   'Pretendard'        → 모던하고 깔끔한 느낌 (추천)
+   'Noto Sans KR'      → 안정적이고 무난한 느낌
+   -------------------------------- */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 메인 폰트 — 원하는 것으로 변경하세요 */
+  --font-main: 'NanumSquareRound', 'Pretendard', 'Noto Sans KR', sans-serif;
+
+  /* 영문 숫자 전용 폰트 (가격, 큰 숫자에 사용) */
+  --font-display: 'Bebas Neue', serif;
+
+  /* ── 3. 글자 크기 시스템 ──
+     숫자를 바꾸면 전체 사이트에 적용돼요
+     ------------------------------------ */
+
+  /* 초대형 (히어로 제목) */
+  --text-hero:    clamp(48px, 8vw, 96px);
+
+  /* 대형 (섹션 제목) */
+  --text-h1:      clamp(32px, 5vw, 60px);
+
+  /* 중대형 (카드 제목, 서브 헤딩) */
+  --text-h2:      clamp(24px, 3.5vw, 42px);
+
+  /* 중형 (소제목) */
+  --text-h3:      clamp(18px, 2.5vw, 28px);
+
+  /* 소제목 */
+  --text-h4:      20px;
+
+  /* 본문 큰 글씨 */
+  --text-lg:      18px;
+
+  /* 본문 기본 */
+  --text-base:    16px;
+
+  /* 본문 중간 */
+  --text-md:      15px;
+
+  /* 본문 작은 */
+  --text-sm:      14px;
+
+  /* 보조 텍스트 */
+  --text-xs:      13px;
+
+  /* 라벨, 캡션 */
+  --text-xxs:     12px;
+
+  /* ── 4. 글자 굵기 시스템 ── */
+  --weight-black:     900;
+  --weight-extrabold: 800;  /* 제목, 강조 */
+  --weight-bold:      700;  /* 소제목 */
+  --weight-semibold:  600;  /* 중요 텍스트 */
+  --weight-medium:    500;
+  --weight-regular:   400;  /* 본문 */
+
+  /* ── 5. 줄간격 ── */
+  --leading-tight:  1.1;   /* 큰 제목 */
+  --leading-snug:   1.3;   /* 소제목 */
+  --leading-normal: 1.6;   /* 본문 */
+  --leading-loose:  1.8;   /* 설명 텍스트 */
+
+  /* ── 6. 자간 ── */
+  --tracking-tight:  -2px;   /* 큰 제목 */
+  --tracking-normal:  0px;   /* 본문 */
+  --tracking-wide:    1px;   /* 라벨, 배지 */
+  --tracking-wider:   2px;   /* 영문 대문자 */
+  --tracking-widest:  3px;   /* 로고, 브랜드 */
+
+  /* ── 7. 브랜드 컬러 ── */
+  --color-pick:    #FF3B1E;   /* PICK 레드오렌지 */
+  --color-fix:     #1847FF;   /* FIX 블루 */
+  --color-success: #2D8A52;   /* 성공, 무사고 */
+  --color-warning: #E8A020;   /* 경고 */
+  --color-danger:  #E84A4A;   /* 위험, 사고 */
+  --color-bg:      #F0EEE9;   /* 배경 크림 */
+  --color-dark:    #1A1A1A;   /* 다크 텍스트 */
+  --color-gray:    #888888;   /* 보조 텍스트 */
+  --color-light:   #E0DDD7;   /* 테두리 */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── 8. 기본 리셋 ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-main);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-dark);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ── 9. 제목 태그 기본값 ── */
+h1 {
+  font-size: var(--text-h1);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2 {
+  font-size: var(--text-h2);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h3 {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+}
+
+h4 {
+  font-size: var(--text-h4);
+  font-weight: var(--weight-bold);
+}
+
+p {
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-loose);
+  color: var(--color-gray);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-main);
+  cursor: pointer;
+}
+
+input, select, textarea {
+  font-family: var(--font-main);
+}
+
+/* ── 10. 유틸리티 클래스 ── */
+
+/* 폰트 크기 */
+.text-hero   { font-size: var(--text-hero); }
+.text-h1     { font-size: var(--text-h1); }
+.text-h2     { font-size: var(--text-h2); }
+.text-h3     { font-size: var(--text-h3); }
+.text-lg     { font-size: var(--text-lg); }
+.text-base   { font-size: var(--text-base); }
+.text-md     { font-size: var(--text-md); }
+.text-sm     { font-size: var(--text-sm); }
+.text-xs     { font-size: var(--text-xs); }
+.text-xxs    { font-size: var(--text-xxs); }
+
+/* 굵기 */
+.font-black     { font-weight: var(--weight-black); }
+.font-extrabold { font-weight: var(--weight-extrabold); }
+.font-bold      { font-weight: var(--weight-bold); }
+.font-semibold  { font-weight: var(--weight-semibold); }
+.font-medium    { font-weight: var(--weight-medium); }
+.font-regular   { font-weight: var(--weight-regular); }
+
+/* 줄간격 */
+.leading-tight  { line-height: var(--leading-tight); }
+.leading-snug   { line-height: var(--leading-snug); }
+.leading-normal { line-height: var(--leading-normal); }
+.leading-loose  { line-height: var(--leading-loose); }
+
+/* 자간 */
+.tracking-tight   { letter-spacing: var(--tracking-tight); }
+.tracking-normal  { letter-spacing: var(--tracking-normal); }
+.tracking-wide    { letter-spacing: var(--tracking-wide); }
+.tracking-wider   { letter-spacing: var(--tracking-wider); }
+.tracking-widest  { letter-spacing: var(--tracking-widest); }
+
+/* 디스플레이 폰트 (Bebas Neue) */
+.font-display { font-family: var(--font-display); }
+
+/* 컬러 */
+.text-pick    { color: var(--color-pick); }
+.text-fix     { color: var(--color-fix); }
+.text-success { color: var(--color-success); }
+.text-gray    { color: var(--color-gray); }
+.text-dark    { color: var(--color-dark); }
+
+/* ── 11. 애니메이션 ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.3); }
+}
+
+.animate-fadeUp  { animation: fadeUp 0.5s ease forwards; }
+.animate-scaleIn { animation: scaleIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-spin    { animation: spin 1s linear infinite; }
+.animate-pulse   { animation: pulse 2s infinite; }
