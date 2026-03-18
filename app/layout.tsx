@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차.",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.svg",
   },
   metadataBase: new URL("https://www.fixcar.kr"),
 };
