@@ -66,6 +66,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           "sameAs": ["https://www.fixcar.kr"],
         })}} />
       </head>
+      import BottomTabBar from "@/components/BottomTabBar";
+// ...
+<BottomTabBar />
       <body>{children}</body>
     </html>
   );

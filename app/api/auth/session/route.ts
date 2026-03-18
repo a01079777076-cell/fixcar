@@ -1,34 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { verifyToken } from "@/lib/auth";
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const token = request.cookies.get("fixcar-token")?.value;
-
-    console.log("Session check - token exists:", !!token);
-
-    if (!token) {
-      return NextResponse.json({ user: null });
-    }
-
-    const secret = new TextEncoder().encode(
-      process.env.NEXTAUTH_SECRET || "fixcar-secret-key-2025"
-    );
-
-    const { payload } = await jwtVerify(token, secret);
-
-    console.log("Session valid - user:", payload.id);
-
+    const token = req.cookies.get("fixcar-token")?.value;
+    if (!token) return NextResponse.json({ user: null });
+    const payload = await verifyToken(token);
+    if (!payload) return NextResponse.json({ user: null });
     return NextResponse.json({
       user: {
         id: payload.id,
-        email: payload.email,
         name: payload.name,
+        email: payload.email,
         role: payload.role,
       },
     });
-  } catch (err) {
-    console.error("Session error:", err);
+  } catch {
     return NextResponse.json({ user: null });
   }
 }

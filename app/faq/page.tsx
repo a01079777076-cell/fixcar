@@ -1,76 +1,67 @@
 "use client";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import { ChevronDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 const FAQS = [
-  { cat: "구매", q: "FIX 정찰가란 무엇인가요?", a: "픽스카의 모든 매물은 가격이 고정(FIX)돼 있어요. 표시된 가격이 최종 가격이에요. 추가 비용이나 가격 흥정이 없어요." },
-  { cat: "구매", q: "3일 환불 보장이 실제로 되나요?", a: "네, 계약 후 3일 이내 이유 불문 100% 환불이에요. 단, 차량을 운행한 경우 주행거리에 따라 일부 비용이 발생할 수 있어요." },
-  { cat: "구매", q: "할부 구매가 가능한가요?", a: "네! 캐피탈 금융사를 통해 할부 구매 가능해요. 차량 상세 페이지의 할부 계산기를 이용해 월 납입금을 확인할 수 있어요." },
-  { cat: "구매", q: "전국 배송이 되나요?", a: "네, 계약 완료 후 전국 어디든 탁송 서비스를 제공해요. 탁송 비용은 지역에 따라 다르며 담당 딜러가 안내해드려요." },
-  { cat: "검수", q: "100항목 검수는 어떻게 하나요?", a: "전문 정비사가 엔진, 변속기, 제동장치, 외관, 전기장치 등 100개 항목을 직접 점검해요. 점검 보고서는 차량 상세 페이지에서 확인할 수 있어요." },
-  { cat: "검수", q: "무사고 차량이 확실한가요?", a: "보험개발원 카히스토리를 통해 사고 이력을 확인해요. 단, 자비 수리나 비보험 처리된 경우는 기록에 없을 수 있어요." },
-  { cat: "딜러", q: "딜러 신청은 어떻게 하나요?", a: "상단 메뉴 또는 딜러 신청 페이지(/dealer/apply)에서 사업자 정보를 입력해 신청하면 돼요. 운영팀 검토 후 3 영업일 내 결과를 알려드려요." },
-  { cat: "딜러", q: "딜러 수수료는 얼마인가요?", a: "매물 등록 기본 29,000원, 프리미엄 홍보 59,000원이에요. 거래 성사 수수료는 별도로 없어요." },
-  { cat: "결제", q: "어떤 결제 수단을 지원하나요?", a: "카카오페이, 토스페이, 신용·체크카드를 지원해요. 포트원(PortOne) PG사를 통해 안전하게 결제해요." },
-  { cat: "결제", q: "개인정보는 안전한가요?", a: "카드 정보는 저장되지 않으며, 모든 결제는 암호화된 경로로 처리돼요." },
+  {cat:"구매",q:"FIX 정찰가란 무엇인가요?",a:"표시된 가격이 그대로 최종 가격이에요. 흥정, 바가지, 숨겨진 수수료 없이 투명하게 거래해요. '이 가격에 살게요' 하면 바로 계약 가능해요."},
+  {cat:"구매",q:"계약금은 얼마인가요?",a:"차량 가격의 10%를 계약금으로 납부해요. 카카오페이, 토스, 신용카드 모두 가능해요."},
+  {cat:"구매",q:"구매 후 마음이 바뀌면 환불되나요?",a:"계약 후 3일 이내에는 이유 불문 100% 환불 보장해요. 단, 차량 인도 후에는 차량 하자가 있을 경우에만 환불 가능해요."},
+  {cat:"구매",q:"차량 검수는 어떻게 하나요?",a:"100개 항목 점검표를 기반으로 전문 정비사가 직접 점검해요. 엔진·미션·하체·전기·외관·내관 전 영역을 확인해요."},
+  {cat:"구매",q:"탁송(배달)도 되나요?",a:"광주·전남 지역 내 탁송 서비스를 제공해요. 탁송비는 거리에 따라 별도 협의해요."},
+  {cat:"매물",q:"매물 사진이 실제와 다를 수 있나요?",a:"모든 사진은 실제 차량을 직접 촬영한 것이에요. 사진과 다른 경우 전액 환불 처리해요."},
+  {cat:"매물",q:"사고 이력은 어떻게 확인하나요?",a:"보험개발원 사고이력 조회 결과를 매물 상세 페이지에 공개해요. 딜러가 직접 고지하는 것이 원칙이에요."},
+  {cat:"매물",q:"차량 번호로 조회할 수 있나요?",a:"차량번호 입력 시 국토교통부 데이터를 통해 기본 정보를 확인할 수 있어요. (서비스 예정)"},
+  {cat:"딜러",q:"딜러로 가입하려면 어떻게 하나요?",a:"딜러 신청 페이지에서 상호명, 사원증 번호, 연락처를 입력해 신청해요. 관리자 검토 후 24시간 내 승인 여부를 알려드려요."},
+  {cat:"딜러",q:"딜러 매물 등록은 무료인가요?",a:"현재 베타 서비스 기간 중에는 무료로 운영해요. 추후 프리미엄 플랜 도입 예정이에요."},
+  {cat:"계정",q:"카카오 로그인과 픽스카 아이디를 같이 쓸 수 있나요?",a:"네! 동일 이메일로 가입한 경우 자동으로 통합계정으로 묶여요. 카카오 로그인을 연동하면 매물 알림을 카카오톡으로 받을 수 있어요."},
+  {cat:"계정",q:"회원 탈퇴는 어떻게 하나요?",a:"마이페이지 → 설정 → 회원 탈퇴에서 진행할 수 있어요. 탈퇴 후 30일간 데이터가 보관되며 이후 삭제돼요."},
 ];
 
-const CATS = ["전체", "구매", "검수", "딜러", "결제"];
-
-export default function FaqPage() {
-  const [activeCat, setActiveCat] = useState("전체");
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
-  const filtered = FAQS.filter(f => activeCat === "전체" || f.cat === activeCat);
-
+export default function FAQPage() {
+  const [open, setOpen] = useState<number|null>(null);
+  const [cat, setCat] = useState("전체");
+  const cats = ["전체",...Array.from(new Set(FAQS.map(f=>f.cat)))];
+  const filtered = cat==="전체" ? FAQS : FAQS.filter(f=>f.cat===cat);
   return (
     <>
-      <style>{`
-        @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'NanumSquareRound',sans-serif; background:#F0EEE9; }
-        a { text-decoration:none; color:inherit; }
-        button { font-family:'NanumSquareRound',sans-serif; cursor:pointer; }
-        .faq-item { cursor:pointer; transition:background 0.15s; border-radius:14px; }
-        .faq-item:hover { background:#FAFAF8; }
-      `}</style>
-      <div style={{ minHeight: "100vh", background: "#F0EEE9" }}>
-        <Navbar />
-        <div style={{ background: "#1A1A1A", padding: "56px 52px 48px" }}>
-          <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-            <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "3px", color: "#FF7A63", marginBottom: "12px" }}>FAQ</div>
-            <h1 style={{ fontSize: "clamp(28px,4vw,52px)", fontWeight: 800, color: "white", letterSpacing: "-1.5px" }}>자주 묻는 질문</h1>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;} button{font-family:'NanumSquareRound',sans-serif;cursor:pointer;} .row{background:white;border-radius:14px;overflow:hidden;transition:box-shadow 0.15s;} .row:hover{box-shadow:0 4px 14px rgba(0,0,0,0.07);}`}</style>
+      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
+        <Navbar/>
+        <div style={{background:"#1A1A1A",padding:"44px 52px 36px"}}>
+          <div style={{maxWidth:"800px",margin:"0 auto"}}>
+            <div style={{fontSize:"12px",fontWeight:800,letterSpacing:"3px",color:"#FF7A63",marginBottom:"10px"}}>FAQ</div>
+            <h1 style={{fontSize:"clamp(24px,4vw,40px)",fontWeight:800,color:"white",letterSpacing:"-1px"}}>자주 묻는 질문</h1>
           </div>
         </div>
-
-        <div style={{ maxWidth: "760px", margin: "0 auto", padding: "36px 52px 80px" }}>
-          <div style={{ display: "flex", gap: "8px", marginBottom: "28px", flexWrap: "wrap" }}>
-            {CATS.map(cat => (
-              <button key={cat} onClick={() => setActiveCat(cat)} style={{ padding: "8px 20px", borderRadius: "100px", border: `2px solid ${activeCat === cat ? "#1A1A1A" : "#E0DDD7"}`, background: activeCat === cat ? "#1A1A1A" : "white", color: activeCat === cat ? "white" : "#555", fontSize: "14px", fontWeight: 700 }}>{cat}</button>
+        <div style={{maxWidth:"800px",margin:"0 auto",padding:"24px 32px 80px"}}>
+          <div style={{display:"flex",gap:"8px",marginBottom:"20px",flexWrap:"wrap"}}>
+            {cats.map(c=>(
+              <button key={c} onClick={()=>setCat(c)} style={{padding:"7px 16px",borderRadius:"100px",border:`1.5px solid ${cat===c?"#1A1A1A":"#E0DDD7"}`,background:cat===c?"#1A1A1A":"white",color:cat===c?"white":"#555",fontSize:"13px",fontWeight:700,cursor:"pointer"}}>{c}</button>
             ))}
           </div>
-
-          <div style={{ background: "white", borderRadius: "20px", overflow: "hidden" }}>
-            {filtered.map((faq, i) => (
-              <div key={i} className="faq-item" onClick={() => setOpenIdx(openIdx === i ? null : i)} style={{ padding: "20px 24px", borderBottom: i < filtered.length - 1 ? "1px solid #F0EEE9" : "none" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <span style={{ background: "#EEF2FF", color: "#1847FF", padding: "2px 8px", borderRadius: "100px", fontSize: "11px", fontWeight: 800 }}>{faq.cat}</span>
-                    <span style={{ fontSize: "15px", fontWeight: 700 }}>{faq.q}</span>
+          <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
+            {filtered.map((f,i)=>(
+              <div key={i} className="row">
+                <button onClick={()=>setOpen(open===i?null:i)} style={{width:"100%",background:"none",border:"none",padding:"16px 18px",display:"flex",alignItems:"center",gap:"12px",cursor:"pointer",textAlign:"left"}}>
+                  <span style={{background:"#EEF2FF",color:"#1847FF",padding:"2px 8px",borderRadius:"6px",fontSize:"11px",fontWeight:800,flexShrink:0}}>{f.cat}</span>
+                  <span style={{flex:1,fontSize:"15px",fontWeight:700,color:"#1A1A1A"}}>{f.q}</span>
+                  <ChevronRight size={16} color="#CCC" style={{flexShrink:0,transform:open===i?"rotate(90deg)":"none",transition:"transform 0.2s"}}/>
+                </button>
+                {open===i && (
+                  <div style={{padding:"0 18px 16px",borderTop:"1px solid #F0EEE9"}}>
+                    <p style={{fontSize:"14px",color:"#555",lineHeight:1.8,fontWeight:400,marginTop:"12px"}}>{f.a}</p>
                   </div>
-                  <ChevronDown size={18} color="#AAA" style={{ flexShrink: 0, transform: openIdx === i ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
-                </div>
-                {openIdx === i && (
-                  <div style={{ marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #F0EEE9", fontSize: "14px", color: "#555", lineHeight: 1.8, fontWeight: 400 }}>{faq.a}</div>
                 )}
               </div>
             ))}
           </div>
-
-          <div style={{ background: "#FF3B1E", borderRadius: "20px", padding: "32px", textAlign: "center", marginTop: "24px" }}>
-            <div style={{ fontSize: "18px", fontWeight: 800, color: "white", marginBottom: "8px" }}>더 궁금한 게 있으신가요?</div>
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", marginBottom: "18px", fontWeight: 400 }}>고객센터에 문의해주세요</p>
-            <a href="/contact"><button style={{ background: "white", color: "#FF3B1E", border: "none", padding: "12px 32px", borderRadius: "100px", fontSize: "14px", fontWeight: 800, cursor: "pointer" }}>문의하기</button></a>
+          <div style={{background:"white",borderRadius:"16px",padding:"20px 24px",marginTop:"20px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"12px"}}>
+            <div>
+              <div style={{fontSize:"15px",fontWeight:800,marginBottom:"4px"}}>궁금한 게 더 있나요?</div>
+              <div style={{fontSize:"13px",color:"#888",fontWeight:400}}>직접 문의주시면 빠르게 답변해드릴게요</div>
+            </div>
+            <a href="/contact"><button style={{background:"#FF3B1E",color:"white",border:"none",padding:"12px 24px",borderRadius:"10px",fontSize:"14px",fontWeight:800,cursor:"pointer"}}>1:1 문의하기</button></a>
           </div>
         </div>
       </div>
