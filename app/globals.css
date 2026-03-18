@@ -5,7 +5,7 @@
 
 /* ── 1. 폰트 불러오기 ── */
 @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Pretendard:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Han+Sans&family=Pretendard:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
 /* ── 2. 폰트 선택 (여기서 변경!) ──
    원하는 줄만 주석 해제하세요
@@ -17,7 +17,7 @@
 
 :root {
   /* 메인 폰트 — 원하는 것으로 변경하세요 */
-  --font-main: 'NanumSquareRound', 'Pretendard', 'Noto Sans KR', sans-serif;
+  --font-main: 'Black Han Sans', 'NanumSquareRound', 'Noto Sans KR', sans-serif;
 
   /* 영문 숫자 전용 폰트 (가격, 큰 숫자에 사용) */
   --font-display: 'Bebas Neue', serif;
