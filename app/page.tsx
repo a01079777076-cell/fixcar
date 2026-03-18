@@ -205,7 +205,6 @@ export default async function Home() {
                 <div style={{ height:"200px", overflow:"hidden", position:"relative", background:"#F0EEE9" }}>
                   <img src={`https://source.unsplash.com/600x400/?${car.query}`} alt={car.name}
                     style={{ width:"100%", height:"100%", objectFit:"cover" }}
-                    onError={(e)=>{ const t=e.target as HTMLImageElement; t.style.display="none"; const p=t.parentElement; if(p&&!p.querySelector(".img-placeholder")){ const d=document.createElement("div"); d.className="img-placeholder"; d.innerHTML="<div style='font-size:32px;margin-bottom:8px'>📸</div><div style='font-size:11px;color:#AAA;font-weight:700'>앗! 사진이 업데이트 전이에요!</div>"; p.appendChild(d); } }} />
                   <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3))" }} />
                   <span style={{ position:"absolute", top:14, left:14, background:"#FF3B1E", color:"#fff", padding:"5px 12px", borderRadius:"100px", fontSize:"11px", fontWeight:800 }}>{car.badge}</span>
                 </div>
