@@ -5,13 +5,7 @@ import { Lock, CheckCircle, CreditCard, Smartphone, ArrowRight, Shield, Star, Za
 
 declare global {
   interface Window {
-    PortOne: {
-      requestPayment: (params: Record<string, unknown>) => Promise<{
-        paymentId?: string;
-        code?: string;
-        message?: string;
-      }>;
-    };
+    PortOne: any;
   }
 }
 
