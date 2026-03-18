@@ -176,3 +176,5 @@ model CommunityComment {
   author    User          @relation("CommunityComments", fields: [authorId], references: [id])
   createdAt DateTime      @default(now())
 }
+npx prisma migrate dev --name add-alerts-catalog
+npx prisma generate
