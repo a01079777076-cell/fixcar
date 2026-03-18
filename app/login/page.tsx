@@ -1,24 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { Eye, EyeOff, ChevronLeft, Lock, Mail, User, Phone, CheckCircle, Heart, Zap, Shield } from "lucide-react";
+import { useEffect } from "react";
+import { Lock, Shield, CheckCircle } from "lucide-react";
 
 export default function LoginPage() {
-  const [mode, setMode] = useState<"login"|"register">("login");
-  const [showPw, setShowPw] = useState(false);
-  const [email, setEmail] = useState("");
-  const [pw, setPw] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [keepLogin, setKeepLogin] = useState(false);
-  const [agree, setAgree] = useState(false);
+  const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID || "6cf753da0f172df40eda14bd143c8bec";
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || "https://www.fixcar.kr/api/auth/kakao/callback";
 
-  const features = [
-    { icon:<Heart size={20} color="white"/>, title:"찜 목록 관리", desc:"마음에 드는 차를 저장하고 가격 변동 알림 받기" },
-    { icon:<Zap size={20} color="white"/>, title:"맞춤 차 추천", desc:"내 조건에 맞는 차를 AI가 골라드려요" },
-    { icon:<Lock size={20} color="white"/>, title:"FIX 가격 구매", desc:"흥정 없는 정찰가로 안심 구매" },
-    { icon:<Shield size={20} color="white"/>, title:"구매 이력 관리", desc:"내 차 관리 캘린더와 정비 알림" },
-  ];
+  const handleKakaoLogin = () => {
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
+    window.location.href = kakaoAuthUrl;
+  };
 
   return (
     <>
@@ -29,188 +21,110 @@ export default function LoginPage() {
         body { font-family:'NanumSquareRound',sans-serif; -webkit-font-smoothing:antialiased; }
         a { text-decoration:none; color:inherit; }
         button { font-family:'NanumSquareRound',sans-serif; cursor:pointer; }
-        input { font-family:'NanumSquareRound',sans-serif; }
-        .social-btn { transition:all 0.2s; }
-        .social-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.15); }
-        .form-input { width:100%; border:1.5px solid #E0DDD7; border-radius:12px; padding:14px 16px 14px 46px; font-size:15px; outline:none; transition:border-color 0.2s; background:#FAFAF8; }
-        .form-input:focus { border-color:#FF3B1E; background:#fff; }
-        .mode-tab { transition:all 0.2s; cursor:pointer; border:none; }
-        .link-hover { transition:color 0.15s; cursor:pointer; }
-        .link-hover:hover { color:#FF3B1E !important; }
-        @media(max-width:900px) {
-          .left-panel { display:none !important; }
-          .right-panel { border-radius:0 !important; min-height:100vh !important; }
-        }
+        .kakao-btn { background:#FEE500; color:#391B1B; border:none; padding:16px 24px; border-radius:14px; font-size:16px; font-weight:800; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s; }
+        .kakao-btn:hover { background:#F5D800; transform:translateY(-2px); box-shadow:0 8px 24px rgba(254,229,0,0.4); }
+        .feature-item { display:flex; align-items:flex-start; gap:12px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.08); }
+        @media(max-width:768px) { .login-grid { grid-template-columns:1fr !important; } .left-panel { display:none !important; } }
       `}</style>
 
-      <div style={{ minHeight:"100vh", display:"flex", fontFamily:"'NanumSquareRound',sans-serif" }}>
+      <div style={{ minHeight:"100vh", display:"grid" }} className="login-grid">
+        {/* 왼쪽 — 픽스카 메인 컬러 */}
+        <div className="left-panel" style={{ background:"linear-gradient(135deg, #FF3B1E 0%, #D42E14 100%)", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"60px 52px", position:"relative", overflow:"hidden" }}>
+          <div style={{ position:"absolute", right:"-60px", bottom:"-60px", fontFamily:"'Bebas Neue',serif", fontSize:"200px", color:"rgba(255,255,255,0.05)", lineHeight:1, pointerEvents:"none" }}>FIXCAR</div>
 
-        {/* 왼쪽 패널 */}
-        <div className="left-panel" style={{ width:"52%", flexShrink:0, background:"#1A1A1A", display:"flex", flexDirection:"column", justifyContent:"space-between", padding:"48px 56px", position:"relative", overflow:"hidden" }}>
-          <div style={{ position:"absolute", inset:0, overflow:"hidden" }}>
-            <img src="https://source.unsplash.com/1200x900/?car+road+night+city" alt="" style={{ width:"100%", height:"100%", objectFit:"cover", opacity:0.25 }} />
-            <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg, rgba(26,26,26,0.92) 0%, rgba(26,26,26,0.75) 100%)" }} />
-          </div>
-          <div style={{ position:"relative", zIndex:1 }}>
-            <a href="/" style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", letterSpacing:"3px", display:"block", marginBottom:"64px" }}>
-              <span style={{ color:"#FF3B1E" }}>FIX</span><span style={{ color:"white" }}>CAR</span>
+          <div style={{ maxWidth:"440px", width:"100%", position:"relative", zIndex:1 }}>
+            <a href="/" style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"48px" }}>
+              <img src="/favicon.svg" alt="픽스카" width={36} height={36} style={{ borderRadius:"10px" }} />
+              <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", letterSpacing:"3px", color:"white" }}>FIXCAR</div>
             </a>
-            <h2 style={{ fontSize:"clamp(36px,4.5vw,56px)", fontWeight:800, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"18px" }}>
-              나, 이 차로<br /><span style={{ color:"#FF3B1E" }}>픽</span>했어.
-            </h2>
-            <p style={{ fontSize:"16px", color:"rgba(255,255,255,0.5)", lineHeight:1.8, marginBottom:"48px", fontWeight:400 }}>
-              로그인하면 <strong style={{ color:"rgba(255,255,255,0.85)", fontWeight:800 }}>맞춤 추천, 찜 목록, 구매 이력</strong>까지<br />한번에 관리할 수 있어요.
+
+            <h1 style={{ fontSize:"clamp(32px,4vw,52px)", fontWeight:800, color:"white", letterSpacing:"-1.5px", lineHeight:1.1, marginBottom:"16px" }}>
+              나, 이 차로<br />픽했어
+            </h1>
+            <p style={{ fontSize:"17px", color:"rgba(255,255,255,0.75)", lineHeight:1.8, marginBottom:"48px", fontWeight:400 }}>
+              광주 중고차 FIX 정찰제 플랫폼.<br />
+              흥정 없이, 믿고 사는 중고차.
             </p>
-            <div style={{ display:"flex", flexDirection:"column", gap:"16px" }}>
-              {features.map(f=>(
-                <div key={f.title} style={{ display:"flex", alignItems:"center", gap:"16px", padding:"16px 20px", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:"14px" }}>
-                  <div style={{ width:"40px", height:"40px", background:"rgba(255,59,30,0.2)", borderRadius:"12px", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{f.icon}</div>
-                  <div>
-                    <div style={{ fontSize:"15px", fontWeight:800, color:"white", marginBottom:"2px" }}>{f.title}</div>
-                    <div style={{ fontSize:"13px", color:"rgba(255,255,255,0.45)", fontWeight:400 }}>{f.desc}</div>
-                  </div>
+
+            {[
+              { icon:<CheckCircle size={18} color="#FF7A63"/>, title:"FIX 정찰가", desc:"표시 가격 = 최종 가격. 추가 비용 없음" },
+              { icon:<Shield size={18} color="#FF7A63"/>, title:"100항목 검수", desc:"전문 정비사가 직접 점검한 차만 등록" },
+              { icon:<Lock size={18} color="#FF7A63"/>, title:"3일 환불 보장", desc:"구매 후 3일 이내 이유 불문 100% 환불" },
+            ].map(item => (
+              <div key={item.title} className="feature-item">
+                <div style={{ flexShrink:0, marginTop:"2px" }}>{item.icon}</div>
+                <div>
+                  <div style={{ fontSize:"15px", fontWeight:800, color:"white", marginBottom:"3px" }}>{item.title}</div>
+                  <div style={{ fontSize:"13px", color:"rgba(255,255,255,0.6)", fontWeight:400 }}>{item.desc}</div>
                 </div>
-              ))}
-            </div>
-          </div>
-          <div style={{ position:"relative", zIndex:1, display:"flex", gap:"36px" }}>
-            {[["2,418+","현재 매물"],["98%","구매 만족도"],["4.9★","앱 평점"]].map(([num,label])=>(
-              <div key={label}>
-                <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"30px", color:"#FF3B1E", letterSpacing:"1px" }}>{num}</div>
-                <div style={{ fontSize:"12px", color:"rgba(255,255,255,0.3)", marginTop:"2px", fontWeight:400 }}>{label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* 오른쪽 패널 */}
-        <div className="right-panel" style={{ flex:1, background:"#F0EEE9", display:"flex", flexDirection:"column", justifyContent:"center", padding:"48px 56px", position:"relative" }}>
-          <a href="/" style={{ position:"absolute", top:"24px", left:"24px", display:"flex", alignItems:"center", gap:"6px", fontSize:"14px", fontWeight:700, color:"#888" }} className="link-hover">
-            <ChevronLeft size={18}/> 홈으로
-          </a>
+        {/* 오른쪽 — 로그인 폼 */}
+        <div style={{ background:"#F0EEE9", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"40px 32px" }}>
+          <div style={{ maxWidth:"400px", width:"100%" }}>
 
-          <div style={{ maxWidth:"420px", margin:"0 auto", width:"100%" }}>
+            {/* 모바일용 로고 */}
+            <a href="/" style={{ display:"none", alignItems:"center", gap:"8px", marginBottom:"32px" }}>
+              <img src="/favicon.svg" alt="픽스카" width={28} height={28} style={{ borderRadius:"7px" }} />
+              <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"24px", letterSpacing:"3px" }}><span style={{ color:"#FF3B1E" }}>FIX</span>CAR</div>
+            </a>
 
-            {/* 모드 탭 */}
-            <div style={{ background:"#E8E6E0", borderRadius:"14px", padding:"5px", display:"flex", marginBottom:"36px" }}>
-              {[["login","로그인"],["register","회원가입"]].map(([m,l])=>(
-                <button key={m} className="mode-tab" onClick={()=>setMode(m as "login"|"register")} style={{ flex:1, padding:"12px", borderRadius:"10px", fontSize:"15px", fontWeight:mode===m?800:600, background:mode===m?"#fff":"transparent", color:mode===m?"#1A1A1A":"#888", boxShadow:mode===m?"0 2px 8px rgba(0,0,0,0.08)":"none" }}>{l}</button>
-              ))}
-            </div>
-
-            {/* 타이틀 */}
             <div style={{ marginBottom:"32px" }}>
-              <div style={{ fontSize:"11px", fontWeight:800, letterSpacing:"3px", color:"#FF3B1E", marginBottom:"10px" }}>WELCOME TO FIXCAR</div>
-              <h1 style={{ fontSize:"clamp(26px,3.5vw,36px)", fontWeight:800, letterSpacing:"-1px", lineHeight:1.15, marginBottom:"8px" }}>
-                {mode==="login" ? "다시 만났어요 👋" : "픽스카 가입하기 🎉"}
-              </h1>
-              <p style={{ fontSize:"15px", color:"#888", fontWeight:400, lineHeight:1.6 }}>
-                {mode==="login" ? "소셜 계정으로 바로 로그인하거나 이메일로 로그인할 수 있어요." : "가입하면 맞춤 추천부터 구매 이력까지 모든 기능을 사용할 수 있어요."}
-              </p>
+              <h2 style={{ fontSize:"26px", fontWeight:800, letterSpacing:"-1px", marginBottom:"6px" }}>로그인 / 회원가입</h2>
+              <p style={{ fontSize:"14px", color:"#888", fontWeight:400 }}>카카오톡 계정으로 3초 만에 시작하세요</p>
             </div>
 
-            {/* 소셜 로그인 */}
-            <div style={{ display:"flex", flexDirection:"column", gap:"10px", marginBottom:"24px" }}>
-              {/* 카카오 */}
-              <button
-                className="social-btn"
-                onClick={() => window.location.href = "/api/auth/kakao"}
-                style={{ width:"100%", background:"#FEE500", border:"none", borderRadius:"14px", padding:"16px", fontSize:"15px", fontWeight:800, color:"#391B1B", display:"flex", alignItems:"center", justifyContent:"center", gap:"12px", position:"relative" }}
-              >
-                <span style={{ fontSize:"20px" }}>💛</span>
-                카카오로 {mode==="login"?"로그인":"가입"}하기
-                <span style={{ position:"absolute", right:"16px", background:"rgba(0,0,0,0.1)", padding:"3px 10px", borderRadius:"100px", fontSize:"11px", fontWeight:800 }}>추천</span>
+            {/* 카카오 로그인 버튼 */}
+            <div style={{ marginBottom:"16px" }}>
+              <button className="kakao-btn" onClick={handleKakaoLogin}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#391B1B">
+                  <path d="M12 3C6.477 3 2 6.477 2 10.909c0 2.868 1.671 5.388 4.199 6.894l-1.07 3.966a.5.5 0 0 0 .731.546l4.469-2.97A11.6 11.6 0 0 0 12 19.818c5.523 0 10-3.477 10-7.909S17.523 3 12 3z"/>
+                </svg>
+                카카오톡으로 로그인
               </button>
+            </div>
 
-              {/* 네이버 */}
-              <button
-                className="social-btn"
-                style={{ width:"100%", background:"#03C75A", border:"none", borderRadius:"14px", padding:"16px", fontSize:"15px", fontWeight:800, color:"white", display:"flex", alignItems:"center", justifyContent:"center", gap:"12px" }}
-              >
-                <span style={{ width:"24px", height:"24px", background:"#03C75A", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"14px", fontWeight:900, color:"white", border:"2px solid rgba(255,255,255,0.4)" }}>N</span>
-                네이버로 {mode==="login"?"로그인":"가입"}하기
-              </button>
-
-              {/* 애플 */}
-              <button
-                className="social-btn"
-                style={{ width:"100%", background:"#1A1A1A", border:"none", borderRadius:"14px", padding:"16px", fontSize:"15px", fontWeight:800, color:"white", display:"flex", alignItems:"center", justifyContent:"center", gap:"12px" }}
-              >
-                <span style={{ fontSize:"18px" }}>🍎</span>
-                Apple로 {mode==="login"?"로그인":"가입"}하기
-              </button>
+            {/* 안내 문구 */}
+            <div style={{ background:"#FFF8EC", border:"1px solid #FFD89A", borderRadius:"12px", padding:"14px 16px", marginBottom:"28px" }}>
+              <div style={{ fontSize:"13px", color:"#7A5500", lineHeight:1.65, fontWeight:400 }}>
+                <strong style={{ fontWeight:800 }}>처음 오셨나요?</strong><br />
+                카카오 로그인 후 이름·이메일·연락처 입력하면 자동으로 회원가입이 돼요. 별도 가입 절차가 없어요!
+              </div>
             </div>
 
             {/* 구분선 */}
-            <div style={{ display:"flex", alignItems:"center", gap:"14px", marginBottom:"24px" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:"12px", marginBottom:"20px" }}>
               <div style={{ flex:1, height:"1px", background:"#E0DDD7" }} />
-              <span style={{ fontSize:"13px", color:"#BBB", fontWeight:600, whiteSpace:"nowrap" }}>또는 이메일로 {mode==="login"?"로그인":"가입"}</span>
+              <span style={{ fontSize:"12px", color:"#AAA", fontWeight:400 }}>이미 가입하셨나요?</span>
               <div style={{ flex:1, height:"1px", background:"#E0DDD7" }} />
             </div>
 
-            {/* 이메일 폼 */}
-            <div style={{ display:"flex", flexDirection:"column", gap:"12px", marginBottom:"16px" }}>
-              {mode==="register" && (
-                <div style={{ position:"relative" }}>
-                  <User size={18} color="#BBB" style={{ position:"absolute", left:"15px", top:"50%", transform:"translateY(-50%)" }} />
-                  <input className="form-input" type="text" placeholder="이름" value={name} onChange={e=>setName(e.target.value)} />
-                </div>
-              )}
-              <div style={{ position:"relative" }}>
-                <Mail size={18} color="#BBB" style={{ position:"absolute", left:"15px", top:"50%", transform:"translateY(-50%)" }} />
-                <input className="form-input" type="email" placeholder="이메일" value={email} onChange={e=>setEmail(e.target.value)} />
+            <div style={{ background:"white", borderRadius:"16px", padding:"18px 20px", marginBottom:"24px" }}>
+              <div style={{ fontSize:"13px", color:"#555", lineHeight:1.8, fontWeight:400 }}>
+                카카오 계정이 없으신 경우 카카오 회원가입 후 이용 가능해요.
+                <br />
+                <a href="https://accounts.kakao.com/weblogin/create_account" target="_blank" rel="noopener noreferrer"
+                  style={{ color:"#1847FF", fontWeight:700 }}>카카오 계정 만들기 →</a>
               </div>
-              <div style={{ position:"relative" }}>
-                <Lock size={18} color="#BBB" style={{ position:"absolute", left:"15px", top:"50%", transform:"translateY(-50%)" }} />
-                <input className="form-input" type={showPw?"text":"password"} placeholder={mode==="register"?"비밀번호 (8자 이상)":"비밀번호"} value={pw} onChange={e=>setPw(e.target.value)} style={{ paddingRight:"48px" }} />
-                <button onClick={()=>setShowPw(!showPw)} style={{ position:"absolute", right:"14px", top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:"#BBB", padding:"4px" }}>
-                  {showPw ? <EyeOff size={18}/> : <Eye size={18}/>}
-                </button>
-              </div>
-              {mode==="register" && (
-                <div style={{ position:"relative" }}>
-                  <Phone size={18} color="#BBB" style={{ position:"absolute", left:"15px", top:"50%", transform:"translateY(-50%)" }} />
-                  <input className="form-input" type="tel" placeholder="휴대폰 번호 (선택)" value={phone} onChange={e=>setPhone(e.target.value)} />
-                </div>
-              )}
             </div>
 
-            {mode==="login" && (
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"20px" }}>
-                <label style={{ display:"flex", alignItems:"center", gap:"8px", fontSize:"13px", color:"#888", cursor:"pointer", fontWeight:400 }}>
-                  <input type="checkbox" checked={keepLogin} onChange={e=>setKeepLogin(e.target.checked)} style={{ width:"15px", height:"15px", accentColor:"#FF3B1E", cursor:"pointer" }} />
-                  로그인 상태 유지
-                </label>
-                <span className="link-hover" style={{ fontSize:"13px", color:"#888", fontWeight:600 }}>비밀번호 찾기</span>
-              </div>
-            )}
+            {/* 약관 */}
+            <p style={{ fontSize:"12px", color:"#AAA", textAlign:"center", lineHeight:1.8, fontWeight:400 }}>
+              로그인 시 픽스카의{" "}
+              <a href="/terms" style={{ color:"#555", fontWeight:700, textDecoration:"underline" }}>이용약관</a>
+              {" "}및{" "}
+              <a href="/privacy" style={{ color:"#555", fontWeight:700, textDecoration:"underline" }}>개인정보처리방침</a>
+              에 동의하게 돼요.
+            </p>
 
-            {mode==="register" && (
-              <label style={{ display:"flex", alignItems:"flex-start", gap:"10px", fontSize:"13px", color:"#888", cursor:"pointer", marginBottom:"20px", fontWeight:400, lineHeight:1.6 }}>
-                <input type="checkbox" checked={agree} onChange={e=>setAgree(e.target.checked)} style={{ width:"16px", height:"16px", accentColor:"#FF3B1E", cursor:"pointer", marginTop:"1px", flexShrink:0 }} />
-                <span>
-                  <span className="link-hover" style={{ color:"#555", fontWeight:700, textDecoration:"underline" }}>이용약관</span> 및{" "}
-                  <span className="link-hover" style={{ color:"#555", fontWeight:700, textDecoration:"underline" }}>개인정보처리방침</span>에 동의합니다 (필수)
-                </span>
-              </label>
-            )}
-
-            <button
-              onClick={()=>{ if(mode==="login"&&email&&pw) { window.location.href="/"; } else if(mode==="register"&&name&&email&&pw&&agree) { window.location.href="/"; } }}
-              style={{ width:"100%", background:(mode==="login"&&email&&pw)||(mode==="register"&&name&&email&&pw&&agree)?"#FF3B1E":"#E0DDD7", color:(mode==="login"&&email&&pw)||(mode==="register"&&name&&email&&pw&&agree)?"white":"#AAA", border:"none", borderRadius:"14px", padding:"17px", fontSize:"16px", fontWeight:800, cursor:(mode==="login"&&email&&pw)||(mode==="register"&&name&&email&&pw&&agree)?"pointer":"default", transition:"all 0.2s", marginBottom:"20px" }}
-            >
-              {mode==="login" ? "로그인" : "픽스카 시작하기"} →
-            </button>
-
-            <div style={{ textAlign:"center", fontSize:"14px", color:"#888", fontWeight:400 }}>
-              {mode==="login"
-                ? <span>아직 계정이 없으신가요? <span className="link-hover" style={{ color:"#FF3B1E", fontWeight:800, cursor:"pointer" }} onClick={()=>setMode("register")}>3초 회원가입</span></span>
-                : <span>이미 계정이 있으신가요? <span className="link-hover" style={{ color:"#FF3B1E", fontWeight:800, cursor:"pointer" }} onClick={()=>setMode("login")}>로그인</span></span>
-              }
-            </div>
-
-            <div style={{ marginTop:"24px", padding:"16px", background:"#E8E6E0", borderRadius:"12px", fontSize:"12px", color:"#AAA", textAlign:"center", lineHeight:1.7, fontWeight:400 }}>
-              로그인 시 픽스카 <span style={{ color:"#888", fontWeight:700 }}>이용약관</span>과 <span style={{ color:"#888", fontWeight:700 }}>개인정보처리방침</span>에 동의하게 됩니다.
+            {/* 고객센터 링크 */}
+            <div style={{ marginTop:"20px", textAlign:"center" }}>
+              <a href="/contact" style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>
+                로그인에 문제가 있나요? <span style={{ color:"#1847FF", fontWeight:700 }}>고객센터 문의</span>
+              </a>
             </div>
           </div>
         </div>
