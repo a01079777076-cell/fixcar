@@ -202,7 +202,8 @@ model CatalogReport {
   correctInfo String   @db.Text
   status      String   @default("PENDING")
   createdAt   DateTime @default(now())
-}
+  wishAlerts        WishAlert[]       @relation("WishAlerts")
+  catalogReports    CatalogReport[]   @relation("CatalogReports")}
 
 // User 모델에 추가할 relation:
 // wishAlerts     WishAlert[]     @relation("WishAlerts")
