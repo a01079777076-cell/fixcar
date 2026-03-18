@@ -211,7 +211,7 @@ export default function CatalogPage() {
     });
     setReportSent(true);
     setShowReport(false);
-    setReportForm({ wrongInfo: "", correctInfo: "" });
+    setReportForm({ wrongInfo: "", correctInfo: "", phone: "" });
     setTimeout(() => setReportSent(false), 5000);
   };
 
