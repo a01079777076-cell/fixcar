@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   verification: {
     google: "구글 서치콘솔에서 발급받은 코드 입력",
     other: {
-      "naver-site-verification": "<meta name="naver-site-verification" content="ef154da2a6ec7ab1f255ab654ae513a16c055191" />",
+      "naver-site-verification": "ef154da2a6ec7ab1f255ab654ae513a16c0",
     },
   },
   alternates: {
@@ -73,12 +73,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        {/* 네이버 지역 검색 최적화 */}
         <meta name="geo.region" content="KR-29" />
         <meta name="geo.placename" content="광주광역시" />
         <meta name="geo.position" content="35.1595;126.8526" />
         <meta name="ICBM" content="35.1595, 126.8526" />
-        {/* 구조화 데이터 (JSON-LD) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
