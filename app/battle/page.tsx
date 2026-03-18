@@ -52,7 +52,7 @@ const LUXURY: Car[] = [
   {name:"아스톤마틴 DBX707",brand:"아스톤마틴",price:"3억 5,000만",monthly:"280만",fuel:"가솔린",power:"707마력",desc:"영국 슈퍼 SUV. 가장 빠른 아스톤.",emoji:"🫧"},
   {name:"람보르기니 레부엘토",brand:"람보르기니",price:"5억 8,000만",monthly:"480만",fuel:"PHEV",power:"1,015마력",desc:"V12+전기. 아벤타도르의 후계자.",emoji:"🐂"},
   {name:"페라리 퓨로상에",brand:"페라리",price:"4억 5,000만",monthly:"380만",fuel:"가솔린",power:"725마력",desc:"페라리의 첫 실용적인 SUV.",emoji:"🐎"},
-  {name:"제네시스 G90 롱휠베이스",brand:"제네시스",price:"1억 8,800만",monthly:"110만",fuel:"가솔린",power:"380마력",desc:"국산 최고 럭셔리. VIP 의전차량.",emoji:"🇰🇷"},
+  {name:"제네시스 G90 롱휠베이스",brand:"제네시스",price:"1억 8,800만",monthly:"110만",fuel:"가솔린",price2:"국산 플래그십",monthly2:"",fuel2:"",power2:"",desc2:"",power:"380마력",desc:"국산 최고 럭셔리. VIP 의전차량.",emoji:"🇰🇷"},
   {name:"렉서스 LC 500",brand:"렉서스",price:"1억 4,000만",monthly:"100만",fuel:"가솔린",power:"477마력",desc:"일본 럭셔리 쿠페. 토요타 기술의 집약.",emoji:"🎻"},
   {name:"링컨 네비게이터 블랙 레이블",brand:"링컨",price:"1억 9,000만",monthly:"145만",fuel:"가솔린",power:"440마력",desc:"미국 대통령 차. 최고급 미국 SUV.",emoji:"🎩"},
   {name:"캐딜락 에스컬레이드 ESV",brand:"캐딜락",price:"1억 8,000만",monthly:"140만",fuel:"가솔린",power:"420마력",desc:"힙합 뮤직비디오의 그 차. 풀사이즈 SUV.",emoji:"🎶"},

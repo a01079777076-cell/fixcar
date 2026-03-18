@@ -19,11 +19,11 @@ export default function DealerCarsPage() {
       ]);setLoading(false);});
   },[]);
 
-  const STATUS:Record<string,{l:string;c:string;bg:string}>={
-    AVAILABLE:{l:"판매중",c:"#2D8A52",bg:"#EAF6EF"},
-    RESERVED:{l:"예약중",c:"#E8A020",bg:"#FFF8EC"},
-    SOLD:{l:"판매완료",c:"#888",bg:"#F0EEE9"},
-    REVIEWING:{l:"검수중",c:"#1847FF",bg:"#EEF2FF"},
+  const STATUS:Record<string,{l:string;color:string;bg:string}>={
+AVAILABLE:{l:"판매중",color:"#2D8A52",bg:"#EAF6EF"},
+RESERVED:{l:"예약중",color:"#E8A020",bg:"#FFF8EC"},
+SOLD:{l:"판매완료",color:"#888",bg:"#F0EEE9"},
+REVIEWING:{l:"검수중",color:"#1847FF",bg:"#EEF2FF"},
   };
 
   const filtered=filter==="ALL"?cars:cars.filter(c=>c.status===filter);
