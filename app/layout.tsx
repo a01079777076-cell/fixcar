@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import BottomTabBar from "@/components/BottomTabBar";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX";
 const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || "";
@@ -66,9 +67,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           "sameAs": ["https://www.fixcar.kr"],
         })}} />
       </head>
-      import BottomTabBar from "@/components/BottomTabBar";
-// ...
-<BottomTabBar />
+      <BottomTabBar />
       <body>{children}</body>
     </html>
   );
