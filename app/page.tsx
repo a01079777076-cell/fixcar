@@ -24,6 +24,45 @@ export default function Home() {
     { initial:"이", name:"이수연 (31세)", desc:"가족 선물 · 투싼 픽", text:"차 하나도 모르는 제가 봐도 설명이 너무 친절해요. 초보 추천 필터가 진짜 도움됐어요!", tag:"PICK", color:"#FF3B1E" },
   ];
 
+  const FOOTER_COLS = [
+    {
+      title: "차량 찾기",
+      links: [
+        ["전체 매물", "/cars"],
+        ["추천 퀴즈", "/quiz"],
+        ["차량 비교", "/compare"],
+        ["차량 카탈로그", "/catalog"],
+        ["자동차 랭킹", "/ranking"],
+      ],
+    },
+    {
+      title: "정보·커뮤니티",
+      links: [
+        ["초보 가이드", "/guide"],
+        ["픽스카 블로그", "/blog"],
+        ["커뮤니티", "/community"],
+        ["자주 묻는 질문", "/faq"],
+      ],
+    },
+    {
+      title: "거래하기",
+      links: [
+        ["내 차 팔기", "/sell"],
+        ["서비스 결제", "/payment"],
+        ["딜러 신청", "/dealer/apply"],
+      ],
+    },
+    {
+      title: "픽스카",
+      links: [
+        ["회사 소개", "/about"],
+        ["고객센터", "/contact"],
+        ["개인정보처리방침", "/privacy"],
+        ["이용약관", "/terms"],
+      ],
+    },
+  ];
+
   return (
     <>
       <style>{`
@@ -42,25 +81,23 @@ export default function Home() {
         .car-card:hover { transform:translateY(-5px); box-shadow:0 20px 50px rgba(0,0,0,0.1); }
         .car-card img { transition:transform 0.4s; display:block; }
         .car-card:hover img { transform:scale(1.04); }
-        .step-card { background:#fff; border-radius:20px; padding:32px 28px; transition:all 0.2s; }
-        .step-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.07); }
         .promise-card { border-radius:20px; padding:28px 24px; }
         .review-card { background:#fff; border-radius:18px; padding:26px; }
+        .footer-link { display:block; font-size:14px; color:rgba(255,255,255,0.35); margin-bottom:10px; font-weight:400; transition:color 0.15s; }
+        .footer-link:hover { color:rgba(255,255,255,0.7); }
         @media(max-width:1024px) {
           .hero-grid { grid-template-columns:1fr !important; }
           .hero-img-col { display:none !important; }
           .cars-3 { grid-template-columns:1fr 1fr !important; }
-          .steps-4 { grid-template-columns:1fr 1fr !important; }
           .promises-4 { grid-template-columns:1fr 1fr !important; }
           .reviews-3 { grid-template-columns:1fr !important; }
-          .footer-4 { grid-template-columns:1fr 1fr !important; }
+          .footer-cols { grid-template-columns:1fr 1fr !important; }
           .section-pad { padding-left:24px !important; padding-right:24px !important; }
           .hero-section { padding:60px 24px 48px !important; }
         }
         @media(max-width:600px) {
           .cars-3 { grid-template-columns:1fr !important; }
-          .steps-4 { grid-template-columns:1fr !important; }
-          .promises-4 { grid-template-columns:1fr !important; }
+          .footer-cols { grid-template-columns:1fr 1fr !important; }
         }
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
       `}</style>
@@ -76,7 +113,7 @@ export default function Home() {
                 <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
                 <span style={{ fontSize:"14px", fontWeight:700, color:"#555" }}>광주 1위 중고차 정찰제 플랫폼</span>
               </div>
-              <h1 style={{ fontFamily:"'NanumSquareRound',sans-serif", fontSize:"clamp(52px,7vw,88px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-3px", marginBottom:"24px" }}>
+              <h1 style={{ fontSize:"clamp(52px,7vw,88px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-3px", marginBottom:"24px" }}>
                 나, 이 차로<br /><span style={{ color:"#FF3B1E" }}>픽</span>했어
               </h1>
               <p style={{ fontSize:"18px", color:"#666", lineHeight:1.85, marginBottom:"40px", fontWeight:400 }}>
@@ -88,10 +125,20 @@ export default function Home() {
                 <a href="/quiz"><button className="btn-red">내 차 픽하기 <ArrowRight size={18}/></button></a>
                 <a href="/cars"><button className="btn-blue-outline"><Lock size={16}/> 정찰가 매물 보기</button></a>
               </div>
+
+              {/* 빠른 링크 */}
+              <div style={{ display:"flex", gap:"10px", flexWrap:"wrap", marginBottom:"32px" }}>
+                {[["📊 랭킹표","/ranking"],["📚 카탈로그","/catalog"],["✍️ 블로그","/blog"],["💬 커뮤니티","/community"]].map(([l,h])=>(
+                  <a key={l} href={h as string}>
+                    <button style={{ background:"white", border:"1.5px solid #E0DDD7", borderRadius:"100px", padding:"8px 16px", fontSize:"13px", fontWeight:700, cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif" }}>{l as string}</button>
+                  </a>
+                ))}
+              </div>
+
               <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"0", paddingTop:"32px", borderTop:"1px solid #E0DDD7" }}>
                 {[["2,418+","현재 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
-                  <div key={label}>
-                    <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color, letterSpacing:"-1px" }}>{num}</div>
+                  <div key={label as string}>
+                    <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:color as string, letterSpacing:"-1px" }}>{num}</div>
                     <div style={{ fontSize:"14px", color:"#AAA", marginTop:"3px", fontWeight:400 }}>{label}</div>
                   </div>
                 ))}
@@ -147,6 +194,9 @@ export default function Home() {
                 차에 대해 아무것도 몰라도 괜찮아요.<br />
                 <strong style={{ color:"#fff", fontWeight:800 }}>3분 퀴즈 하나로</strong> 나에게 딱 맞는 차를 픽해드려요.
               </p>
+              <a href="/quiz" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"20px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>
+                퀴즈 시작 <ArrowRight size={14}/>
+              </a>
             </div>
             <div style={{ background:"#1847FF", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
               <div style={{ position:"absolute", right:"-16px", bottom:"-20px", fontFamily:"'Bebas Neue',serif", fontSize:"140px", color:"rgba(255,255,255,0.07)", lineHeight:1 }}>FIX</div>
@@ -159,6 +209,9 @@ export default function Home() {
                 모든 매물의 가격을 고정(FIX)해요.<br />
                 <strong style={{ color:"#fff", fontWeight:800 }}>표시 가격 = 최종 가격.</strong> 추가 비용 없음.
               </p>
+              <a href="/cars" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"20px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>
+                매물 보기 <ArrowRight size={14}/>
+              </a>
             </div>
           </div>
         </section>
@@ -195,6 +248,28 @@ export default function Home() {
                     </div>
                     <div style={{ background:"#1A1A1A", color:"#fff", padding:"10px 18px", borderRadius:"10px", fontSize:"13px", fontWeight:800, display:"flex", alignItems:"center", gap:"6px" }}>픽하기 <ArrowRight size={14}/></div>
                   </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* 콘텐츠 배너 */}
+        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:"14px" }}>
+            {[
+              { emoji:"📊", title:"자동차 랭킹", desc:"최고가·깡통·초보 추천 랭킹", href:"/ranking", color:"#FF3B1E" },
+              { emoji:"📚", title:"차량 카탈로그", desc:"출고가·기본·추가 옵션 전체", href:"/catalog", color:"#1847FF" },
+              { emoji:"✍️", title:"픽스카 블로그", desc:"차량 설명·추천 용품 정보", href:"/blog", color:"#2D8A52" },
+              { emoji:"💬", title:"커뮤니티", desc:"자유게시판·리뷰·Q&A", href:"/community", color:"#E8A020" },
+            ].map(item => (
+              <a key={item.title} href={item.href}>
+                <div style={{ background:"white", borderRadius:"18px", padding:"22px", transition:"all 0.2s", cursor:"pointer" }}
+                  onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-3px)")}
+                  onMouseLeave={e => (e.currentTarget.style.transform = "none")}>
+                  <div style={{ fontSize:"28px", marginBottom:"10px" }}>{item.emoji}</div>
+                  <div style={{ fontSize:"15px", fontWeight:800, marginBottom:"5px", color:item.color }}>{item.title}</div>
+                  <div style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>{item.desc}</div>
                 </div>
               </a>
             ))}
@@ -277,29 +352,36 @@ export default function Home() {
         {/* 푸터 */}
         <footer style={{ background:"#1A1A1A", padding:"64px 52px 44px" }}>
           <div style={{ maxWidth:"1360px", margin:"0 auto" }}>
-            <div className="footer-4" style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:"48px", paddingBottom:"48px", borderBottom:"1px solid rgba(255,255,255,0.07)", marginBottom:"36px" }}>
+            <div className="footer-cols" style={{ display:"grid", gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr", gap:"40px", paddingBottom:"48px", borderBottom:"1px solid rgba(255,255,255,0.07)", marginBottom:"36px" }}>
+              {/* 브랜드 */}
               <div>
                 <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", letterSpacing:"3px", marginBottom:"14px" }}>
                   <span style={{ color:"#FF3B1E" }}>FIX</span><span style={{ color:"#fff" }}>CAR</span>
                 </div>
-                <p style={{ fontSize:"14px", color:"rgba(255,255,255,0.35)", lineHeight:1.9, fontWeight:400 }}>나, 이 차로 픽했어.<br />가격은 픽스.<br />광주 중고차 정찰제 플랫폼.</p>
+                <p style={{ fontSize:"14px", color:"rgba(255,255,255,0.35)", lineHeight:1.9, fontWeight:400, marginBottom:"16px" }}>나, 이 차로 픽했어.<br />가격은 픽스.<br />광주 중고차 정찰제 플랫폼.</p>
+                <div style={{ display:"flex", gap:"8px" }}>
+                  <a href="/dealer/apply"><button style={{ background:"#1847FF", color:"white", border:"none", padding:"8px 16px", borderRadius:"100px", fontSize:"12px", fontWeight:800, cursor:"pointer" }}>딜러 신청</button></a>
+                  <a href="/contact"><button style={{ background:"rgba(255,255,255,0.1)", color:"white", border:"none", padding:"8px 16px", borderRadius:"100px", fontSize:"12px", fontWeight:700, cursor:"pointer" }}>고객센터</button></a>
+                </div>
               </div>
-              {[
-                { title:"픽하기", links:["차 추천 퀴즈","전체 매물","FIX 가격 매물","초보 추천"] },
-                { title:"픽스 가이드", links:["중고차 구매 A~Z","FIX 정찰가란?","할부 계산기","보험 가이드"] },
-                { title:"픽스카", links:["회사 소개","내 차 팔기","고객센터","채용"] },
-              ].map(col=>(
+
+              {/* 링크 컬럼들 */}
+              {FOOTER_COLS.map(col=>(
                 <div key={col.title}>
-                  <div style={{ fontSize:"11px", fontWeight:800, letterSpacing:"2px", textTransform:"uppercase", color:"rgba(255,255,255,0.35)", marginBottom:"18px" }}>{col.title}</div>
-                  {col.links.map(link=>(
-                    <a key={link} href="#" style={{ display:"block", fontSize:"14px", color:"rgba(255,255,255,0.32)", marginBottom:"12px", fontWeight:400 }}>{link}</a>
+                  <div style={{ fontSize:"11px", fontWeight:800, letterSpacing:"2px", color:"rgba(255,255,255,0.35)", marginBottom:"16px" }}>{col.title.toUpperCase()}</div>
+                  {col.links.map(([label, href])=>(
+                    <a key={label} href={href as string} className="footer-link">{label}</a>
                   ))}
                 </div>
               ))}
             </div>
+
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"12px" }}>
               <div style={{ fontSize:"13px", color:"rgba(255,255,255,0.2)", fontWeight:400 }}>© 2025 픽스카 FIXCAR · 광주광역시 중고차 정찰제 플랫폼</div>
-              <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"14px", letterSpacing:"2px", color:"rgba(255,255,255,0.12)" }}>PICK YOUR CAR. FIX YOUR PRICE.</div>
+              <div style={{ display:"flex", gap:"16px" }}>
+                <a href="/privacy" style={{ fontSize:"12px", color:"rgba(255,255,255,0.25)", fontWeight:400 }}>개인정보처리방침</a>
+                <a href="/terms" style={{ fontSize:"12px", color:"rgba(255,255,255,0.25)", fontWeight:400 }}>이용약관</a>
+              </div>
             </div>
           </div>
         </footer>
