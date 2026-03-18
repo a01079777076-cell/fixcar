@@ -21,7 +21,7 @@ async function getStats() {
 }
 
 export default async function AdminDashboard() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("fixcar-token")?.value;
   if (!token) redirect("/login");
   const payload = await verifyToken(token);
