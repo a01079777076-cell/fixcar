@@ -123,8 +123,8 @@ export default function Navbar() {
 
         {/* 로고 + 아이콘 */}
         <div style={{ display:"flex", alignItems:"center", gap:"10px", flexShrink:0 }}>
-          <a href="/" style={{ fontFamily:"'Bebas Neue',serif", fontSize:"36px", letterSpacing:"3px", textDecoration:"none", color:"inherit", display:"flex", alignItems:"center", gap:"10px" }}>
-            <img src="/favicon.svg" alt="픽스카" width={40} height={40} style={{ borderRadius:"10px" }} />
+          <a href="/" style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", letterSpacing:"3px", textDecoration:"none", color:"inherit", display:"flex", alignItems:"center", gap:"10px" }}>
+            <img src="/favicon.svg" alt="픽스카" width={36} height={36} style={{ borderRadius:"9px" }} />
             <span style={{ color:"#FF3B1E" }}>FIX</span><span>CAR</span>
           </a>
         </div>

@@ -110,8 +110,8 @@ export default async function Home() {
               </h1>
               <p style={{ fontSize:"18px", color:"#666", lineHeight:1.85, marginBottom:"40px", fontWeight:400 }}>
                 너무 많은 매물.. <br />
-                <strong style={{ color:"#1A1A1A", fontWeight:800 }}>AI가 고객 입맛에 맞춰 최적화된 매물을</strong><br />
-                <strong style={{ color:"#FEE500", fontWeight:800, background:"#391B1B", padding:"2px 8px", borderRadius:"6px" }}>💛 카톡 알람</strong>까지!
+                <strong style={{ color:"#1A1A1A", fontWeight:800 }}>AI가 고객맞춤으로 추천부터,</strong><br />
+                대기하면 <strong style={{ color:"#391B1B", fontWeight:800, background:"#FEE500", padding:"3px 10px", borderRadius:"6px", display:"inline-block" }}>💛 카톡 알람</strong>으로 안내까지!
               </p>
               <div style={{ display:"flex", gap:"14px", flexWrap:"wrap", marginBottom:"32px" }}>
                 <a href="/quiz"><button className="btn-red">내 차 픽하기 <ArrowRight size={18}/></button></a>
