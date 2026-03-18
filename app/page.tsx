@@ -117,13 +117,6 @@ export default async function Home() {
                 <a href="/quiz"><button className="btn-red">내 차 픽하기 <ArrowRight size={18}/></button></a>
                 <a href="/cars"><button className="btn-blue-outline"><Lock size={16}/> 정찰가 매물 보기</button></a>
               </div>
-              <div style={{ display:"flex", gap:"10px", flexWrap:"wrap", marginBottom:"32px" }}>
-                {[["📊 랭킹표","/ranking"],["📚 카탈로그","/catalog"],["✍️ 블로그","/blog"],["💬 커뮤니티","/community"]].map(([l,h])=>(
-                  <a key={String(l)} href={String(h)}>
-                    <button style={{ background:"white", border:"1.5px solid #E0DDD7", borderRadius:"100px", padding:"8px 16px", fontSize:"13px", fontWeight:700, cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif" }}>{String(l)}</button>
-                  </a>
-                ))}
-              </div>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", paddingTop:"32px", borderTop:"1px solid #E0DDD7" }}>
                 {[["2,418+","현재 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
                   <div key={String(label)}>
@@ -190,6 +183,27 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* 콘텐츠 배너 2줄 큰 카드 */}
+        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
+            {[
+              { emoji:"📊", title:"자동차 랭킹", subtitle:"궁금하지 않아? 세상 모든 차량 순위가", desc:"최고가·최저가·깡통·풀옵·저주행·초보추천 랭킹표 전체", href:"/ranking", color:"#FF3B1E", bg:"#FFF0ED" },
+              { emoji:"📚", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
+              { emoji:"✍️", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"모아놓는 중! 딜러 추천 꿀템부터 관리 노하우까지", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
+              { emoji:"💬", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#E8A020", bg:"#FFF8EC" },
+            ].map(item=>(
+              <a key={item.title} href={item.href}>
+                <div className="content-banner-card" style={{ background:"white", borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%" }}>
+                  <div style={{ fontSize:"38px", marginBottom:"14px" }}>{item.emoji}</div>
+                  <div style={{ display:"inline-block", background:item.bg, color:item.color, padding:"4px 14px", borderRadius:"100px", fontSize:"12px", fontWeight:800, marginBottom:"10px" }}>{item.subtitle}</div>
+                  <div style={{ fontSize:"20px", fontWeight:800, marginBottom:"8px", letterSpacing:"-0.5px" }}>{item.title}</div>
+                  <div style={{ fontSize:"14px", color:"#888", fontWeight:400, lineHeight:1.65 }}>{item.desc}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
         {/* 추천 매물 */}
         <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:"36px" }}>
@@ -223,27 +237,6 @@ export default async function Home() {
                     </div>
                     <div style={{ background:"#1A1A1A", color:"#fff", padding:"10px 18px", borderRadius:"10px", fontSize:"13px", fontWeight:800, display:"flex", alignItems:"center", gap:"6px" }}>픽하기 <ArrowRight size={14}/></div>
                   </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        {/* 콘텐츠 배너 2줄 큰 카드 */}
-        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
-            {[
-              { emoji:"📊", title:"자동차 랭킹", subtitle:"궁금하지 않아? 세상 모든 차량 순위가", desc:"최고가·최저가·깡통·풀옵·저주행·초보추천 랭킹표 전체", href:"/ranking", color:"#FF3B1E", bg:"#FFF0ED" },
-              { emoji:"📚", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
-              { emoji:"✍️", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"모아놓는 중! 딜러 추천 꿀템부터 관리 노하우까지", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
-              { emoji:"💬", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#E8A020", bg:"#FFF8EC" },
-            ].map(item=>(
-              <a key={item.title} href={item.href}>
-                <div className="content-banner-card" style={{ background:"white", borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%" }}>
-                  <div style={{ fontSize:"38px", marginBottom:"14px" }}>{item.emoji}</div>
-                  <div style={{ display:"inline-block", background:item.bg, color:item.color, padding:"4px 14px", borderRadius:"100px", fontSize:"12px", fontWeight:800, marginBottom:"10px" }}>{item.subtitle}</div>
-                  <div style={{ fontSize:"20px", fontWeight:800, marginBottom:"8px", letterSpacing:"-0.5px" }}>{item.title}</div>
-                  <div style={{ fontSize:"14px", color:"#888", fontWeight:400, lineHeight:1.65 }}>{item.desc}</div>
                 </div>
               </a>
             ))}

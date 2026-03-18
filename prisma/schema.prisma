@@ -27,6 +27,7 @@ model User {
   communityComments CommunityComment[] @relation("CommunityComments")
   wishAlerts        WishAlert[]        @relation("WishAlerts")
   catalogReports    CatalogReport[]    @relation("CatalogReports")
+  carScores         CarScore[]         @relation("CarScores")
 }
 
 enum Role {
@@ -77,6 +78,7 @@ model Car {
   favorites  Favorite[]
   inquiries  Inquiry[]
   purchases  Purchase[]
+  scores     CarScore[]
 }
 
 enum CarStatus {
@@ -206,4 +208,29 @@ model CatalogReport {
   correctInfo String   @db.Text
   status      String   @default("PENDING")
   createdAt   DateTime @default(now())
+}
+
+// 방문자 로그
+model VisitorLog {
+  id        Int      @id @default(autoincrement())
+  ip        String
+  userAgent String   @default("")
+  referer   String   @default("")
+  date      String
+  createdAt DateTime @default(now())
+}
+
+// 차량 선호도 점수
+model CarScore {
+  id        Int      @id @default(autoincrement())
+  carId     Int
+  car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation("CarScores", fields: [userId], references: [id], onDelete: Cascade)
+  category  String
+  score     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([carId, userId, category])
 }
