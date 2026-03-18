@@ -1,48 +1,47 @@
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { MessageCircle, Plus, ChevronRight, Eye } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, MessageCircle, Send } from "lucide-react";
 
-const CATEGORIES = ["전체","자유게시판","구매후기","질문/답변","정비정보","사진자랑"];
+interface Post { id:number; title:string; content:string; category:string; views:number; createdAt:string; author:{name:string}; _count:{comments:number}; }
+interface Comment { id:number; content:string; createdAt:string; author:{name:string}; }
 
-interface Post { id:number; title:string; category:string; author:{name:string}; _count:{comments:number}; views:number; createdAt:string; }
-
-export default function CommunityPage() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [category, setCategory] = useState("전체");
-  const [loading, setLoading] = useState(true);
-  const [showWrite, setShowWrite] = useState(false);
+export default function CommunityDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const id = params?.id;
+  const [post, setPost] = useState<Post|null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [user, setUser] = useState<{name:string}|null>(null);
-  const [form, setForm] = useState({ title:"", content:"", category:"자유게시판" });
+  const [newComment, setNewComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/auth/session").then(r=>r.json()).then(d=>setUser(d.user));
-  }, []);
+    if (id) {
+      fetch(`/api/community/${id}`).then(r=>r.json()).then(d=>{ if(d.success){setPost(d.data);} setLoading(false); })
+        .catch(()=>setLoading(false));
+      fetch(`/api/community/comments?postId=${id}`).then(r=>r.json()).then(d=>{ if(d.success) setComments(d.data); });
+    }
+  }, [id]);
 
-  useEffect(() => { loadPosts(); }, [category]);
-
-  const loadPosts = () => {
-    setLoading(true);
-    fetch(`/api/community?category=${encodeURIComponent(category)}`)
-      .then(r=>r.json()).then(d=>{ if(d.success) setPosts(d.data); setLoading(false); })
-      .catch(()=>{ setPosts([
-        {id:1,title:"아반떼 CN7 2년 탄 후기 진짜 솔직하게 써봄",category:"구매후기",author:{name:"김○○"},_count:{comments:12},views:234,createdAt:"2025-03-18"},
-        {id:2,title:"초보운전자 중고차 고를 때 꼭 봐야 할 것들",category:"질문/답변",author:{name:"이○○"},_count:{comments:8},views:187,createdAt:"2025-03-17"},
-        {id:3,title:"픽스카에서 K3 샀는데 딜러분 너무 친절하네요",category:"자유게시판",author:{name:"박○○"},_count:{comments:5},views:145,createdAt:"2025-03-16"},
-      ]); setLoading(false); });
-  };
-
-  const handleSubmit = async () => {
+  const handleComment = async () => {
     if (!user) { alert("로그인이 필요해요!"); return; }
-    if (!form.title||!form.content) { alert("제목과 내용을 입력해주세요"); return; }
+    if (!newComment.trim()) return;
     setSubmitting(true);
-    const res = await fetch("/api/community",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(form) });
+    const res = await fetch("/api/community/comments", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ postId:Number(id), content:newComment }) });
     const data = await res.json();
-    if (data.success) { setShowWrite(false); setForm({title:"",content:"",category:"자유게시판"}); loadPosts(); }
+    if (data.success) { setComments(p=>[...p, data.data]); setNewComment(""); }
     else alert(data.error||"오류가 발생했어요");
     setSubmitting(false);
   };
+
+  if (loading) return <div style={{minHeight:"100vh",background:"#F0EEE9",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"sans-serif"}}>로딩 중...</div>;
+
+  const samplePost = { id:1, title:"아반떼 CN7 2년 탄 후기 진짜 솔직하게 써봄", content:"처음 구매할 때 픽스카에서 샀는데 진짜 가격 협상 없이 바로 살 수 있어서 좋았어요.\n\n2년 동안 타면서 별 문제 없었고 연비도 나쁘지 않았어요. 고속도로에서 약 16km/L 정도 나왔고요.\n\n다음에도 중고차 살 때 픽스카 이용할 것 같아요!", category:"구매후기", views:234, createdAt:"2025-03-18", author:{name:"김○○"}, _count:{comments:2} };
+  const displayPost = post || samplePost;
 
   return (
     <>
@@ -53,74 +52,60 @@ export default function CommunityPage() {
         body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;-webkit-font-smoothing:antialiased;}
         a{text-decoration:none;color:inherit;}
         button{font-family:'NanumSquareRound',sans-serif;cursor:pointer;}
-        input,select,textarea{font-family:'NanumSquareRound',sans-serif;}
-        input:focus,select:focus,textarea:focus{outline:none;border-color:#FF3B1E!important;background:white!important;}
-        .post-row{background:white;border-radius:14px;padding:16px 20px;transition:all 0.2s;cursor:pointer;}
-        .post-row:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.06);}
+        textarea{font-family:'NanumSquareRound',sans-serif;}
+        textarea:focus{outline:none;border-color:#FF3B1E!important;background:white!important;}
       `}</style>
       <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
         <Navbar />
-        <div style={{background:"#1A1A1A",padding:"44px 52px 36px"}}>
-          <div style={{maxWidth:"900px",margin:"0 auto"}}>
-            <div style={{fontSize:"12px",fontWeight:800,letterSpacing:"3px",color:"#FF7A63",marginBottom:"10px"}}>COMMUNITY</div>
-            <h1 style={{fontSize:"clamp(24px,4vw,44px)",fontWeight:800,color:"white",letterSpacing:"-1px"}}>커뮤니티</h1>
-            <p style={{fontSize:"14px",color:"rgba(255,255,255,0.4)",marginTop:"8px",fontWeight:400}}>구매후기 · 질문답변 · 정비정보 · 사진자랑</p>
-          </div>
-        </div>
-        <div style={{maxWidth:"900px",margin:"0 auto",padding:"28px 52px 80px"}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"16px",flexWrap:"wrap",gap:"10px"}}>
-            <div style={{display:"flex",gap:"8px",flexWrap:"wrap"}}>
-              {CATEGORIES.map(cat=>(
-                <button key={cat} onClick={()=>setCategory(cat)} style={{padding:"7px 16px",borderRadius:"100px",border:`2px solid ${category===cat?"#1A1A1A":"#E0DDD7"}`,background:category===cat?"#1A1A1A":"white",color:category===cat?"white":"#555",fontSize:"13px",fontWeight:700}}>{cat}</button>
-              ))}
-            </div>
-            <button onClick={()=>{ if(!user){alert("로그인이 필요해요!"); return;} setShowWrite(true); }}
-              style={{background:"#FF3B1E",color:"white",border:"none",padding:"10px 20px",borderRadius:"100px",fontSize:"13px",fontWeight:800,display:"flex",alignItems:"center",gap:"6px"}}>
-              <Plus size={14}/> 글쓰기
-            </button>
-          </div>
+        <div style={{maxWidth:"800px",margin:"0 auto",padding:"28px 32px 80px"}}>
+          <button onClick={()=>router.back()} style={{display:"flex",alignItems:"center",gap:"8px",background:"white",border:"2px solid #E0DDD7",borderRadius:"100px",padding:"10px 18px",fontSize:"14px",fontWeight:700,marginBottom:"20px",cursor:"pointer"}}>
+            <ArrowLeft size={15}/> 목록으로
+          </button>
 
-          {showWrite && (
-            <div style={{background:"white",borderRadius:"18px",padding:"24px",marginBottom:"16px"}}>
-              <div style={{fontSize:"16px",fontWeight:800,marginBottom:"16px"}}>새 글 작성</div>
-              <select value={form.category} onChange={e=>setForm(p=>({...p,category:e.target.value}))}
-                style={{width:"100%",border:"1.5px solid #E0DDD7",borderRadius:"10px",padding:"11px 14px",fontSize:"14px",marginBottom:"10px",background:"#FAFAF8"}}>
-                {CATEGORIES.filter(c=>c!=="전체").map(c=><option key={c}>{c}</option>)}
-              </select>
-              <input type="text" placeholder="제목" value={form.title} onChange={e=>setForm(p=>({...p,title:e.target.value}))}
-                style={{width:"100%",border:"1.5px solid #E0DDD7",borderRadius:"10px",padding:"11px 14px",fontSize:"15px",fontWeight:700,marginBottom:"10px",background:"#FAFAF8"}} />
-              <textarea rows={6} placeholder="내용을 입력해주세요..." value={form.content} onChange={e=>setForm(p=>({...p,content:e.target.value}))}
-                style={{width:"100%",border:"1.5px solid #E0DDD7",borderRadius:"10px",padding:"11px 14px",fontSize:"14px",marginBottom:"12px",resize:"none",background:"#FAFAF8"}} />
-              <div style={{display:"flex",gap:"10px"}}>
-                <button onClick={handleSubmit} disabled={submitting} style={{background:"#FF3B1E",color:"white",border:"none",padding:"12px 24px",borderRadius:"10px",fontSize:"14px",fontWeight:800,flex:1,opacity:submitting?0.7:1}}>
-                  {submitting?"등록 중...":"게시하기"}
-                </button>
-                <button onClick={()=>setShowWrite(false)} style={{background:"#F0EEE9",color:"#555",border:"none",padding:"12px 20px",borderRadius:"10px",fontSize:"14px",fontWeight:700}}>취소</button>
+          <div style={{background:"white",borderRadius:"20px",overflow:"hidden",marginBottom:"16px"}}>
+            <div style={{padding:"28px 32px",borderBottom:"1px solid #F0EEE9"}}>
+              <span style={{background:"#EEF2FF",color:"#1847FF",padding:"4px 12px",borderRadius:"100px",fontSize:"12px",fontWeight:800,display:"inline-block",marginBottom:"14px"}}>{displayPost.category}</span>
+              <h1 style={{fontSize:"22px",fontWeight:800,lineHeight:1.3,marginBottom:"12px"}}>{displayPost.title}</h1>
+              <div style={{display:"flex",gap:"16px",fontSize:"13px",color:"#AAA",fontWeight:400}}>
+                <span>{displayPost.author?.name}</span>
+                <span style={{display:"flex",alignItems:"center",gap:"4px"}}><MessageCircle size={13}/> {comments.length}</span>
+                <span>{String(displayPost.createdAt).slice(0,10)}</span>
               </div>
             </div>
-          )}
-
-          {loading ? <div style={{textAlign:"center",padding:"40px",color:"#AAA"}}>로딩 중...</div> : (
-            <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-              {posts.map(post=>(
-                <a key={post.id} href={`/community/${post.id}`} className="post-row">
-                  <div style={{display:"flex",alignItems:"flex-start",gap:"12px"}}>
-                    <span style={{background:"#EEF2FF",color:"#1847FF",padding:"3px 10px",borderRadius:"100px",fontSize:"11px",fontWeight:800,flexShrink:0,marginTop:"2px"}}>{post.category}</span>
-                    <div style={{flex:1}}>
-                      <div style={{fontSize:"15px",fontWeight:800,marginBottom:"5px"}}>{post.title}</div>
-                      <div style={{display:"flex",gap:"14px",fontSize:"12px",color:"#AAA",fontWeight:400}}>
-                        <span>{post.author?.name||"익명"}</span>
-                        <span style={{display:"flex",alignItems:"center",gap:"3px"}}><MessageCircle size={11}/> {post._count?.comments||0}</span>
-                        <span style={{display:"flex",alignItems:"center",gap:"3px"}}><Eye size={11}/> {post.views||0}</span>
-                        <span>{post.createdAt?.slice(0,10)}</span>
-                      </div>
-                    </div>
-                    <ChevronRight size={16} color="#DDD" style={{flexShrink:0,marginTop:"2px"}} />
-                  </div>
-                </a>
-              ))}
+            <div style={{padding:"28px 32px"}}>
+              <div style={{fontSize:"15px",color:"#333",lineHeight:1.9,fontWeight:400,whiteSpace:"pre-line"}}>{displayPost.content}</div>
             </div>
-          )}
+          </div>
+
+          {/* 댓글 */}
+          <div style={{background:"white",borderRadius:"20px",padding:"24px 28px"}}>
+            <div style={{fontSize:"16px",fontWeight:800,marginBottom:"18px",display:"flex",alignItems:"center",gap:"8px"}}><MessageCircle size={18} color="#FF3B1E"/> 댓글 {comments.length}개</div>
+
+            {comments.length === 0 ? (
+              <div style={{textAlign:"center",padding:"24px",color:"#AAA",fontSize:"14px",fontWeight:400}}>첫 댓글을 남겨보세요!</div>
+            ) : (
+              <div style={{display:"flex",flexDirection:"column",gap:"14px",marginBottom:"20px"}}>
+                {comments.map(comment=>(
+                  <div key={comment.id} style={{padding:"14px 16px",background:"#F8F6F2",borderRadius:"12px"}}>
+                    <div style={{display:"flex",justifyContent:"space-between",marginBottom:"6px"}}>
+                      <span style={{fontSize:"13px",fontWeight:800}}>{comment.author?.name}</span>
+                      <span style={{fontSize:"12px",color:"#AAA",fontWeight:400}}>{String(comment.createdAt).slice(0,10)}</span>
+                    </div>
+                    <div style={{fontSize:"14px",color:"#444",lineHeight:1.7,fontWeight:400}}>{comment.content}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div style={{display:"flex",gap:"10px"}}>
+              <textarea rows={3} placeholder={user?"댓글을 입력해주세요...":"로그인 후 댓글을 남길 수 있어요"} value={newComment} onChange={e=>setNewComment(e.target.value)} disabled={!user}
+                style={{flex:1,border:"1.5px solid #E0DDD7",borderRadius:"10px",padding:"12px 14px",fontSize:"14px",resize:"none",background:user?"#FAFAF8":"#F0EEE9"}} />
+              <button onClick={handleComment} disabled={!newComment.trim()||submitting||!user}
+                style={{background:newComment.trim()&&!submitting&&user?"#FF3B1E":"#E0DDD7",color:newComment.trim()&&!submitting&&user?"white":"#AAA",border:"none",padding:"0 18px",borderRadius:"10px",fontSize:"14px",fontWeight:800,display:"flex",alignItems:"center",gap:"6px",cursor:newComment.trim()&&!submitting&&user?"pointer":"default"}}>
+                <Send size={15}/> {submitting?"전송 중...":"등록"}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>
