@@ -266,9 +266,8 @@ export default function Home() {
               { emoji:"💬", title:"커뮤니티", desc:"자유게시판·리뷰·Q&A", href:"/community", color:"#E8A020" },
             ].map(item => (
               <a key={item.title} href={item.href}>
-                <div className="content-banner-card" style={{ background:"white", borderRadius:"18px", padding:"22px", cursor:"pointer" }}>
-                  onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-3px)")}
-                  onMouseLeave={e => (e.currentTarget.style.transform = "none")}>
+                <div className="content-banner-card" style={{ background:"white", borderRadius:"18px", padding:"22px", cursor:"pointer" }}
+                >
                   <div style={{ fontSize:"28px", marginBottom:"10px" }}>{item.emoji}</div>
                   <div style={{ fontSize:"15px", fontWeight:800, marginBottom:"5px", color:item.color }}>{item.title}</div>
                   <div style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>{item.desc}</div>
