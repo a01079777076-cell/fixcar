@@ -136,7 +136,7 @@ export default async function Home() {
             <div className="hero-img-col" style={{ position:"relative" }}>
               <div style={{ background:"#1A1A1A", borderRadius:"24px", overflow:"hidden", boxShadow:"0 32px 80px rgba(0,0,0,0.2)" }}>
                 <div style={{ height:"240px", overflow:"hidden", position:"relative" }}>
-                  <img src={`https://source.unsplash.com/800x500/?${cars[0].query}`} alt={cars[0].name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} onError={(e)=>{ const t=e.target as HTMLImageElement; t.style.display="none"; }} />
+                  <img src={`https://source.unsplash.com/800x500/?${cars[0].query}`} alt={cars[0].name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
                   <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.5))" }} />
                   <div style={{ position:"absolute", top:16, left:16, display:"flex", gap:"8px" }}>
                     <span style={{ background:"#FF3B1E", color:"#fff", padding:"6px 14px", borderRadius:"100px", fontSize:"12px", fontWeight:800 }}>✨ PICK 추천</span>
