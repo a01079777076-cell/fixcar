@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   verification: {
     google: "구글 서치콘솔에서 발급받은 코드 입력",
     other: {
-      "naver-site-verification": "ef154da2a6ec7ab1f255ab654ae513a16c0",
+      "naver-site-verification": "ef154da2a6ec7ab1f255ab654ae513a16c055191",
     },
   },
   alternates: {
