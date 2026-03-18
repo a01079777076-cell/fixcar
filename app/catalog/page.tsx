@@ -4,12 +4,36 @@ import Navbar from "@/components/Navbar";
 import { Search, ChevronDown, AlertCircle, CheckCircle, X } from "lucide-react";
 
 const DOMESTIC_BRANDS: Record<string, string[]> = {
-  "현대": ["아반떼","쏘나타","그랜저","투싼","싼타페","팰리세이드","아이오닉5","아이오닉6","넥쏘","코나","베뉴","스타리아","포터"],
-  "기아": ["K3","K5","K8","K9","스포티지","쏘렌토","모하비","카니발","EV6","EV9","니로","레이","봉고"],
-  "제네시스": ["G70","G80","G90","GV70","GV80","GV90"],
-  "KG모빌리티": ["티볼리","코란도","렉스턴","무쏘","토레스","토레스EVX"],
-  "르노코리아": ["QM6","QM5","SM6","XM3","조에"],
-  "쉐보레": ["트레일블레이저","트랙스","이쿼녹스","말리부","스파크","볼트EV","타호"],
+  "현대": [
+    "아반떼 CN7","쏘나타 DN8","그랜저 GN7","투싼 NX4","싼타페 MX5","팰리세이드",
+    "아이오닉5","아이오닉5 N","아이오닉6","아이오닉9","넥쏘","코나 2세대","베뉴","스타리아",
+    "캐스퍼",
+    "(단종) 아반떼 AD","(단종) 아반떼 MD","(단종) 아반떼 HD","(단종) 쏘나타 LF",
+    "(단종) 그랜저 IG","(단종) 싼타페 TM","(단종) 투싼 TL","(단종) 벨로스터",
+    "(단종) 엑센트","(단종) 아슬란","(단종) i30",
+  ],
+  "기아": [
+    "K5 3세대","K8","K9 2세대","스포티지 5세대","쏘렌토 MQ4","모하비","카니발 4세대",
+    "셀토스","EV6","EV9","EV3","니로 2세대","레이","모닝 3세대",
+    "(단종) K3 2세대","(단종) K5 2세대","(단종) K7","(단종) 스팅어",
+    "(단종) 스포티지 QL","(단종) 쏘렌토 UM","(단종) 소울","(단종) 스토닉",
+  ],
+  "제네시스": [
+    "G70","G80 2세대","G90 2세대","GV70","GV80","GV60",
+    "(단종) G80 1세대","(단종) GV80 1세대","(단종) EQ900",
+  ],
+  "KG모빌리티": [
+    "토레스","코란도 4세대","G4 렉스턴","무쏘 픽업",
+    "(단종) 티볼리","(단종) 코란도 C","(단종) 렉스턴 W","(단종) 체어맨",
+  ],
+  "르노코리아": [
+    "그랑 콜레오스",
+    "(단종) QM6","(단종) SM6","(단종) XM3","(단종) SM7","(단종) SM5",
+  ],
+  "쉐보레": [
+    "트레일블레이저","트랙스 2세대","이쿼녹스 3세대","트래버스","타호","콜로라도",
+    "(단종) 말리부 9세대","(단종) 캡티바","(단종) 스파크 2세대","(단종) 크루즈",
+  ],
 };
 
 const IMPORT_BRANDS: Record<string, string[]> = {
@@ -107,6 +131,126 @@ const CAR_SPECS: Record<string, {
     tax:{annualTax:229800,insuranceType:"중형 승용(수입)",surcharge:false},
     info:{bodyType:"세단",seats:5,segment:"수입차"},
   },
+  "아이오닉6": {
+    grades:[{name:"스탠다드 2WD",price:4985,engine:"전기 53kWh",power:151,torque:25.0,efficiency:"6.3km/kWh"},{name:"롱레인지 2WD",price:5436,engine:"전기 77.4kWh",power:229,torque:35.0,efficiency:"6.4km/kWh"},{name:"롱레인지 AWD",price:5880,engine:"전기 77.4kWh",power:325,torque:60.5,efficiency:"5.5km/kWh"}],
+    specs:{displacement:0,fuelType:"전기",transmission:"단속기",drive:"RWD/AWD",zero100:"5.1초",topSpeed:185,curbWeight:2010,length:4855,width:1880,height:1495,wheelbase:2950},
+    tax:{annualTax:130000,insuranceType:"중형 승용(전기)",surcharge:false},
+    info:{bodyType:"세단",seats:5,segment:"전기차"},
+  },
+  "그랜저 GN7": {
+    grades:[{name:"2.5 프리미엄",price:3964,engine:"2.5 GDi",power:198,torque:25.3,efficiency:"11.4"},{name:"3.5 캘리그래피",price:4855,engine:"3.5 GDi",power:300,torque:36.2,efficiency:"9.8"},{name:"1.6T HEV",price:4250,engine:"1.6 T-HEV",power:230,torque:35.0,efficiency:"17.8"}],
+    specs:{displacement:2497,fuelType:"가솔린/하이브리드",transmission:"8단AT",drive:"FF/AWD",zero100:"7.0초",topSpeed:230,curbWeight:1680,length:5035,width:1880,height:1470,wheelbase:2895},
+    tax:{annualTax:286500,insuranceType:"대형 승용",surcharge:false},
+    info:{bodyType:"세단",seats:5,segment:"대형"},
+  },
+  "싼타페 MX5": {
+    grades:[{name:"2.5T 프리미엄",price:3524,engine:"2.5 T-GDi",power:277,torque:43.0,efficiency:"11.0"},{name:"1.6T HEV 시그니처",price:4385,engine:"1.6 T-HEV",power:230,torque:35.0,efficiency:"16.3"},{name:"디젤 프리미엄",price:3498,engine:"2.2 CRDi",power:202,torque:45.0,efficiency:"14.5"}],
+    specs:{displacement:2497,fuelType:"가솔린/하이브리드/디젤",transmission:"8단AT",drive:"FF/AWD",zero100:"7.5초",topSpeed:220,curbWeight:1835,length:4830,width:1900,height:1780,wheelbase:2815},
+    tax:{annualTax:286500,insuranceType:"중형 RV",surcharge:false},
+    info:{bodyType:"SUV",seats:7,segment:"SUV/RV"},
+  },
+  "GV70": {
+    grades:[{name:"2.5T 프리미엄",price:5910,engine:"2.5 T-GDi",power:304,torque:43.0,efficiency:"9.8"},{name:"3.5T 시그니처",price:7130,engine:"3.5 T-GDi",power:380,torque:54.0,efficiency:"8.2"},{name:"Electrified",price:7690,engine:"전기 77.4kWh",power:360,torque:60.5,efficiency:"4.7km/kWh"}],
+    specs:{displacement:2497,fuelType:"가솔린/전기",transmission:"8단AT/단속기",drive:"AWD",zero100:"4.5초",topSpeed:235,curbWeight:2005,length:4715,width:1910,height:1630,wheelbase:2875},
+    tax:{annualTax:286500,insuranceType:"대형 SUV",surcharge:false},
+    info:{bodyType:"SUV",seats:5,segment:"SUV/RV"},
+  },
+  "GV60": {
+    grades:[{name:"스탠다드 2WD",price:5990,engine:"전기 77.4kWh",power:229,torque:35.0,efficiency:"5.6km/kWh"},{name:"퍼포먼스 AWD",price:7290,engine:"전기 77.4kWh",power:429,torque:70.0,efficiency:"4.9km/kWh"},{name:"Magma",price:9800,engine:"전기 77.4kWh",power:584,torque:75.0,efficiency:"4.5km/kWh"}],
+    specs:{displacement:0,fuelType:"전기",transmission:"단속기",drive:"RWD/AWD",zero100:"4.0초",topSpeed:235,curbWeight:2205,length:4515,width:1890,height:1580,wheelbase:2900},
+    tax:{annualTax:130000,insuranceType:"중형 SUV(전기)",surcharge:false},
+    info:{bodyType:"SUV",seats:5,segment:"전기차"},
+  },
+  "K8": {
+    grades:[{name:"2.5 프레스티지",price:3556,engine:"2.5 GDi",power:198,torque:25.3,efficiency:"11.2"},{name:"3.5 시그니처",price:4290,engine:"3.5 GDi",power:300,torque:36.2,efficiency:"9.5"},{name:"1.6T HEV",price:3820,engine:"1.6 T-HEV",power:230,torque:35.0,efficiency:"17.0"}],
+    specs:{displacement:2497,fuelType:"가솔린/하이브리드",transmission:"8단AT",drive:"FF",zero100:"7.5초",topSpeed:225,curbWeight:1640,length:5015,width:1875,height:1455,wheelbase:2895},
+    tax:{annualTax:286500,insuranceType:"대형 승용",surcharge:false},
+    info:{bodyType:"세단",seats:5,segment:"대형"},
+  },
+  "K9 2세대": {
+    grades:[{name:"3.3T 프레스티지",price:6820,engine:"3.3 T-GDi",power:370,torque:52.0,efficiency:"9.2"},{name:"3.8 시그니처",price:6330,engine:"3.8 GDi",power:315,torque:40.0,efficiency:"9.6"}],
+    specs:{displacement:3342,fuelType:"가솔린",transmission:"8단AT",drive:"RWD/AWD",zero100:"5.9초",topSpeed:250,curbWeight:2070,length:5165,width:1925,height:1490,wheelbase:3045},
+    tax:{annualTax:383300,insuranceType:"대형 승용",surcharge:false},
+    info:{bodyType:"세단",seats:5,segment:"대형"},
+  },
+  "토레스": {
+    grades:[{name:"트렌디",price:2695,engine:"1.5T 가솔린",power:170,torque:28.6,efficiency:"11.0"},{name:"프리미엄",price:2995,engine:"1.5T 가솔린",power:170,torque:28.6,efficiency:"11.0"},{name:"EVX",price:4490,engine:"전기 73.4kWh",power:152,torque:33.6,efficiency:"5.3km/kWh"}],
+    specs:{displacement:1497,fuelType:"가솔린/전기",transmission:"8단AT/단속기",drive:"FF/AWD",zero100:"9.0초",topSpeed:185,curbWeight:1670,length:4700,width:1890,height:1720,wheelbase:2680},
+    tax:{annualTax:171600,insuranceType:"중형 RV",surcharge:false},
+    info:{bodyType:"SUV",seats:5,segment:"SUV/RV"},
+  },
+  "트레일블레이저": {
+    grades:[{name:"LS",price:2290,engine:"1.3T 가솔린",power:155,torque:24.0,efficiency:"12.5"},{name:"RS",price:2890,engine:"1.3T 가솔린",power:155,torque:24.0,efficiency:"12.5"},{name:"ACTIV",price:2690,engine:"1.3T 가솔린",power:155,torque:24.0,efficiency:"11.8"}],
+    specs:{displacement:1294,fuelType:"가솔린",transmission:"9단AT",drive:"FF/AWD",zero100:"9.5초",topSpeed:195,curbWeight:1440,length:4411,width:1811,height:1643,wheelbase:2640},
+    tax:{annualTax:148500,insuranceType:"소형 RV",surcharge:false},
+    info:{bodyType:"SUV",seats:5,segment:"SUV/RV"},
+  },
+  "모하비": {
+    grades:[{name:"프레스티지",price:4908,engine:"3.0 디젤 V6",power:262,torque:56.0,efficiency:"10.1"},{name:"마스터즈",price:5340,engine:"3.0 디젤 V6",power:262,torque:56.0,efficiency:"10.1"}],
+    specs:{displacement:2999,fuelType:"디젤",transmission:"8단AT",drive:"4WD",zero100:"9.0초",topSpeed:200,curbWeight:2265,length:4930,width:1920,height:1825,wheelbase:2895},
+    tax:{annualTax:344700,insuranceType:"대형 RV",surcharge:false},
+    info:{bodyType:"SUV",seats:7,segment:"SUV/RV"},
+  },
+  "셀토스": {
+    grades:[{name:"트렌디",price:2219,engine:"1.6 MPI",power:123,torque:15.3,efficiency:"13.5"},{name:"프레스티지",price:2580,engine:"1.6 T-GDi",power:177,torque:27.0,efficiency:"13.2"},{name:"시그니처",price:2890,engine:"1.6 T-GDi",power:177,torque:27.0,efficiency:"13.2"}],
+    specs:{displacement:1591,fuelType:"가솔린",transmission:"IVT/7DCT",drive:"FF/AWD",zero100:"8.9초",topSpeed:200,curbWeight:1395,length:4370,width:1800,height:1620,wheelbase:2630},
+    tax:{annualTax:182400,insuranceType:"소형 RV",surcharge:false},
+    info:{bodyType:"SUV",seats:5,segment:"SUV/RV"},
+  },
+  "EV9": {
+    grades:[{name:"스탠다드 RWD",price:7390,engine:"전기 76.1kWh",power:150,torque:35.0,efficiency:"4.5km/kWh"},{name:"롱레인지 AWD",price:8390,engine:"전기 99.8kWh",power:385,torque:60.0,efficiency:"4.7km/kWh"},{name:"GT-Line AWD",price:8990,engine:"전기 99.8kWh",power:385,torque:60.0,efficiency:"4.5km/kWh"}],
+    specs:{displacement:0,fuelType:"전기",transmission:"단속기",drive:"RWD/AWD",zero100:"5.3초",topSpeed:200,curbWeight:2630,length:5010,width:1980,height:1755,wheelbase:3100},
+    tax:{annualTax:130000,insuranceType:"대형 SUV(전기)",surcharge:false},
+    info:{bodyType:"SUV",seats:7,segment:"전기차"},
+  },
+  "레이": {
+    grades:[{name:"LX",price:1543,engine:"1.0 MPI",power:63,torque:9.3,efficiency:"13.0"},{name:"RV",price:1680,engine:"1.0 MPI",power:63,torque:9.3,efficiency:"13.0"},{name:"EV",price:2990,engine:"전기 35.2kWh",power:90,torque:18.0,efficiency:"5.0km/kWh"}],
+    specs:{displacement:998,fuelType:"가솔린/전기",transmission:"5단AT/단속기",drive:"FF",zero100:"14.5초",topSpeed:155,curbWeight:940,length:3595,width:1595,height:1700,wheelbase:2520},
+    tax:{annualTax:114800,insuranceType:"경차",surcharge:false},
+    info:{bodyType:"박스카",seats:4,segment:"경차"},
+  },
+  "모닝 3세대": {
+    grades:[{name:"트렌디",price:1266,engine:"1.0 MPI",power:75,torque:9.6,efficiency:"14.5"},{name:"프레스티지",price:1440,engine:"1.0 MPI",power:75,torque:9.6,efficiency:"14.5"}],
+    specs:{displacement:998,fuelType:"가솔린",transmission:"5단AT",drive:"FF",zero100:"13.5초",topSpeed:155,curbWeight:960,length:3595,width:1595,height:1480,wheelbase:2385},
+    tax:{annualTax:114800,insuranceType:"경차",surcharge:false},
+    info:{bodyType:"해치백",seats:5,segment:"경차"},
+  },
+  "캐스퍼": {
+    grades:[{name:"스마트",price:1615,engine:"1.0 T-GDi",power:100,torque:17.0,efficiency:"14.0"},{name:"인스퍼레이션",price:1987,engine:"1.0 T-GDi",power:100,torque:17.0,efficiency:"14.0"}],
+    specs:{displacement:998,fuelType:"가솔린",transmission:"IVT",drive:"FF",zero100:"13.0초",topSpeed:165,curbWeight:1000,length:3595,width:1595,height:1575,wheelbase:2400},
+    tax:{annualTax:114800,insuranceType:"경형 SUV",surcharge:false},
+    info:{bodyType:"경형 SUV",seats:4,segment:"경차"},
+  },
+  "카니발 4세대": {
+    grades:[{name:"프레스티지",price:3607,engine:"2.2 디젤",power:202,torque:45.0,efficiency:"11.5"},{name:"시그니처",price:4480,engine:"3.5 가솔린",power:290,torque:35.5,efficiency:"9.2"},{name:"하이리무진",price:5250,engine:"3.5 가솔린",power:290,torque:35.5,efficiency:"9.2"}],
+    specs:{displacement:2151,fuelType:"가솔린/디젤",transmission:"8단AT",drive:"FF",zero100:"9.5초",topSpeed:200,curbWeight:2055,length:5155,width:1995,height:1775,wheelbase:3090},
+    tax:{annualTax:247100,insuranceType:"대형 MPV",surcharge:false},
+    info:{bodyType:"MPV",seats:11,segment:"SUV/RV"},
+  },
+  "G70": {
+    grades:[{name:"2.0T 프리미엄",price:4410,engine:"2.0 T-GDi",power:252,torque:36.0,efficiency:"11.2"},{name:"3.3T 스포츠",price:5880,engine:"3.3 T-GDi",power:370,torque:52.0,efficiency:"9.0"},{name:"슈팅브레이크",price:5100,engine:"2.0 T-GDi",power:252,torque:36.0,efficiency:"11.0"}],
+    specs:{displacement:1998,fuelType:"가솔린",transmission:"8단AT",drive:"RWD/AWD",zero100:"5.1초",topSpeed:250,curbWeight:1650,length:4685,width:1850,height:1400,wheelbase:2835},
+    tax:{annualTax:229800,insuranceType:"중형 승용",surcharge:false},
+    info:{bodyType:"세단/왜건",seats:5,segment:"중형"},
+  },
+  "G90 2세대": {
+    grades:[{name:"3.5T AWD",price:16420,engine:"3.5 T-GDi",power:380,torque:54.0,efficiency:"8.8"},{name:"롱휠베이스 3.5T",price:18800,engine:"3.5 T-GDi",power:380,torque:54.0,efficiency:"8.5"}],
+    specs:{displacement:3470,fuelType:"가솔린",transmission:"8단AT",drive:"AWD",zero100:"5.5초",topSpeed:250,curbWeight:2310,length:5455,width:1975,height:1490,wheelbase:3275},
+    tax:{annualTax:398400,insuranceType:"대형 승용",surcharge:false},
+    info:{bodyType:"세단",seats:5,segment:"대형"},
+  },
+  "스포티지 5세대": {
+    grades:[{name:"트렌디",price:2680,engine:"2.0 MPI",power:156,torque:19.6,efficiency:"12.0"},{name:"프레스티지",price:2990,engine:"1.6 T-GDi",power:180,torque:27.0,efficiency:"13.0"},{name:"하이브리드",price:3190,engine:"1.6 T-HEV",power:230,torque:35.0,efficiency:"16.8"}],
+    specs:{displacement:1591,fuelType:"가솔린/하이브리드",transmission:"7DCT/6단AT",drive:"FF/AWD",zero100:"8.5초",topSpeed:210,curbWeight:1580,length:4515,width:1865,height:1660,wheelbase:2680},
+    tax:{annualTax:182400,insuranceType:"중형 RV",surcharge:false},
+    info:{bodyType:"SUV",seats:5,segment:"SUV/RV"},
+  },
+  "니로 2세대": {
+    grades:[{name:"HEV 트렌디",price:2720,engine:"1.6 HEV",power:141,torque:17.0,efficiency:"20.8"},{name:"PHEV 프레스티지",price:3420,engine:"1.6 PHEV",power:183,torque:17.0,efficiency:"76.5km/ℓ"},{name:"EV 시그니처",price:4790,engine:"전기 64.8kWh",power:204,torque:25.5,efficiency:"5.9km/kWh"}],
+    specs:{displacement:1580,fuelType:"하이브리드/PHEV/전기",transmission:"6DCT/단속기",drive:"FF",zero100:"7.8초",topSpeed:167,curbWeight:1430,length:4420,width:1825,height:1570,wheelbase:2720},
+    tax:{annualTax:181200,insuranceType:"소형 RV",surcharge:false},
+    info:{bodyType:"크로스오버",seats:5,segment:"전기차"},
+  },
   "C클래스": {
     grades:[{name:"C 200",price:6100,engine:"1.5 터보+마일드HEV",power:204,torque:30.0,efficiency:"13.2"},{name:"C 300",price:7200,engine:"2.0 터보",power:258,torque:40.0,efficiency:"11.8"},{name:"AMG C 43",price:9800,engine:"2.0 터보+전기모터",power:408,torque:50.0,efficiency:"10.5"}],
     specs:{displacement:1497,fuelType:"가솔린/마일드HEV",transmission:"9단AT",drive:"RWD/AWD",zero100:"6.1초",topSpeed:250,curbWeight:1640,length:4751,width:1820,height:1438,wheelbase:2865},
@@ -122,6 +266,75 @@ const CAR_SPECS: Record<string, {
 };
 
 const ALL_MODELS = Object.values({...DOMESTIC_BRANDS,...IMPORT_BRANDS}).flat();
+
+
+const GENERATION_HISTORY: Record<string, {gen:string;period:string;code:string;note:string}[]> = {
+  "아반떼 CN7": [
+    {gen:"7세대 (현재)",period:"2020~현재",code:"CN7",note:"N Line / 아반떼 N 포함"},
+    {gen:"6세대",period:"2015~2020",code:"AD",note:"단종"},
+    {gen:"5세대",period:"2010~2015",code:"MD",note:"쿠페 파생, 단종"},
+    {gen:"4세대",period:"2006~2013",code:"HD",note:"단종"},
+    {gen:"3세대",period:"2000~2006",code:"XD",note:"단종"},
+  ],
+  "쏘나타 DN8": [
+    {gen:"8세대 (현재)",period:"2019~현재",code:"DN8",note:"하이브리드 포함"},
+    {gen:"7세대",period:"2014~2019",code:"LF",note:"단종"},
+    {gen:"6세대",period:"2009~2014",code:"YF",note:"단종"},
+    {gen:"5세대",period:"2004~2009",code:"NF",note:"트랜스폼 포함, 단종"},
+    {gen:"4세대",period:"1998~2004",code:"EF",note:"단종"},
+  ],
+  "그랜저 GN7": [
+    {gen:"7세대 (현재)",period:"2022~현재",code:"GN7",note:"하이브리드 포함"},
+    {gen:"6세대",period:"2016~2022",code:"IG",note:"단종"},
+    {gen:"5세대",period:"2011~2016",code:"HG",note:"단종"},
+    {gen:"4세대",period:"2005~2011",code:"TG",note:"아제라(수출명), 단종"},
+    {gen:"3세대",period:"1998~2005",code:"XG",note:"단종"},
+    {gen:"1~2세대",period:"1986~1998",code:"LX/LX2",note:"각그랜저·뉴그랜저, 단종"},
+  ],
+  "투싼 NX4": [
+    {gen:"4세대 (현재)",period:"2020~현재",code:"NX4",note:"HEV 포함"},
+    {gen:"3세대",period:"2015~2020",code:"TL",note:"올뉴 투싼, 단종"},
+    {gen:"2세대",period:"2009~2015",code:"LM",note:"투싼 ix, 단종"},
+    {gen:"1세대",period:"2004~2009",code:"JM",note:"단종"},
+  ],
+  "싼타페 MX5": [
+    {gen:"5세대 (현재)",period:"2023~현재",code:"MX5",note:"HEV 포함"},
+    {gen:"4세대",period:"2018~2023",code:"TM",note:"단종"},
+    {gen:"3세대",period:"2012~2017",code:"DM",note:"단종"},
+    {gen:"2세대",period:"2006~2012",code:"CM",note:"단종"},
+    {gen:"1세대",period:"2000~2006",code:"SM",note:"단종"},
+  ],
+  "K5 3세대": [
+    {gen:"3세대 (현재)",period:"2019~현재",code:"DL3",note:"HEV 포함"},
+    {gen:"2세대",period:"2015~2019",code:"JF",note:"단종"},
+    {gen:"1세대",period:"2010~2015",code:"TF",note:"단종"},
+    {gen:"전신: 로체",period:"2005~2010",code:"MG",note:"단종"},
+    {gen:"전신: 옵티마",period:"2000~2005",code:"MS",note:"단종"},
+  ],
+  "쏘렌토 MQ4": [
+    {gen:"4세대 (현재)",period:"2020~현재",code:"MQ4",note:"HEV/PHEV 포함"},
+    {gen:"3세대",period:"2014~2020",code:"UM",note:"올뉴 쏘렌토, 단종"},
+    {gen:"2세대",period:"2009~2014",code:"XM",note:"쏘렌토 R, 단종"},
+    {gen:"1세대",period:"2002~2009",code:"BL",note:"단종"},
+  ],
+  "스포티지 5세대": [
+    {gen:"5세대 (현재)",period:"2021~현재",code:"NQ5",note:"HEV 포함"},
+    {gen:"4세대",period:"2015~2021",code:"QL",note:"단종"},
+    {gen:"3세대",period:"2010~2015",code:"SL",note:"스포티지 R, 단종"},
+    {gen:"2세대",period:"2004~2010",code:"KM",note:"단종"},
+  ],
+  "G80 2세대": [
+    {gen:"2세대 (현재)",period:"2020~현재",code:"RG3",note:"Electrified G80 포함"},
+    {gen:"1세대",period:"2016~2020",code:"DH F/L",note:"단종"},
+    {gen:"전신: 제네시스 DH",period:"2013~2016",code:"DH",note:"단종"},
+  ],
+  "카니발 4세대": [
+    {gen:"4세대 (현재)",period:"2020~현재",code:"KA4",note:""},
+    {gen:"3세대",period:"2014~2020",code:"YP",note:"단종"},
+    {gen:"2세대",period:"2005~2014",code:"VQ",note:"단종"},
+    {gen:"1세대",period:"1998~2005",code:"KV",note:"단종"},
+  ],
+};
 
 export default function CatalogPage() {
   const [brandType, setBrandType] = useState<"domestic"|"import">("domestic");
@@ -329,6 +542,29 @@ export default function CatalogPage() {
                       </div>
                     </div>
                   </div>
+
+                  {/* 세대 히스토리 */}
+                  {GENERATION_HISTORY[selectedModel] && (
+                    <div style={{background:"white",borderRadius:"18px",padding:"22px 28px"}}>
+                      <div style={{fontSize:"15px",fontWeight:800,marginBottom:"14px",display:"flex",alignItems:"center",gap:"8px"}}>
+                        <div style={{width:"8px",height:"8px",background:"#E8A020",borderRadius:"50%"}}/> 세대 히스토리
+                      </div>
+                      <div style={{display:"flex",flexDirection:"column",gap:"0"}}>
+                        {GENERATION_HISTORY[selectedModel].map((h,i)=>(
+                          <div key={i} style={{display:"flex",gap:"14px",padding:"10px 0",borderBottom:i<GENERATION_HISTORY[selectedModel].length-1?"1px solid #F0EEE9":"none",alignItems:"flex-start"}}>
+                            <div style={{width:"10px",height:"10px",borderRadius:"50%",background:i===0?"#FF3B1E":"#E0DDD7",flexShrink:0,marginTop:"4px"}}/>
+                            <div style={{flex:1}}>
+                              <div style={{display:"flex",alignItems:"center",gap:"8px"}}>
+                                <span style={{fontSize:"14px",fontWeight:i===0?800:600,color:i===0?"#1A1A1A":"#888"}}>{h.gen}</span>
+                                <span style={{background:"#F0EEE9",color:"#888",padding:"2px 8px",borderRadius:"100px",fontSize:"11px",fontWeight:700}}>{h.code}</span>
+                              </div>
+                              <div style={{fontSize:"12px",color:"#AAA",marginTop:"2px",fontWeight:400}}>{h.period}{h.note?" · "+h.note:""}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* 정보 수정 요청 - 하단 */}
                   <div style={{background:"white",borderRadius:"18px",padding:"20px 24px"}}>
