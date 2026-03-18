@@ -336,6 +336,70 @@ const GENERATION_HISTORY: Record<string, {gen:string;period:string;code:string;n
   ],
 };
 
+
+const CAR_ISSUES: Record<string, {issues:string[];fuelIssues?:string[];yearIssues?:{year:string;issue:string}[]}> = {
+  "아반떼 CN7": {
+    issues:["1.6T DCT 변속 시 미세 떨림 (콜드스타트)","내비 디스플레이 터치 반응 간헐적 오류","뒷좌석 바람소리 (고속도로)"],
+    fuelIssues:["T-GDi 터보: DPF 카본 누적 → 주기적 엔진 청소 권장","MPI 자연흡기: 상대적으로 고질병 적음"],
+    yearIssues:[{year:"2020~2021년식",issue:"DCT 소프트웨어 버그 (리콜 완료 여부 확인 필요)"},{year:"2022년식~",issue:"개선 후 출고, 상대적으로 안정적"}],
+  },
+  "쏘나타 DN8": {
+    issues:["8단 자동변속기 저속 변속 충격 (초기 모델)","원격 스마트 주차 시스템 오작동","후방 카메라 영상 끊김"],
+    fuelIssues:["2.0 HEV: 하이브리드 배터리 냉각 효율 주의 (폭염 시)","1.6T: 터보랙 체감 가능"],
+    yearIssues:[{year:"2019~2020년식",issue:"변속기 충격 이슈 → 소프트웨어 업데이트 권장"},{year:"2021년식~",issue:"대부분 수정 완료"}],
+  },
+  "그랜저 GN7": {
+    issues:["ADAS(차선보조) 오작동 간헐적 발생","전동 트렁크 닫힘 불량","공조기 소음 (블로어 모터)"],
+    fuelIssues:["3.5 GDi V6: 연비 불량 (도심 7~8km/ℓ)","1.6 T-HEV: 배터리 충전 전략 이슈"],
+    yearIssues:[{year:"2022년식(초기)",issue:"AWD 구동계 진동 (소수 보고)"},{year:"2023년식~",issue:"AWD 개선 완료"}],
+  },
+  "투싼 NX4": {
+    issues:["1.6 T-HEV 전자식 AWD 연결 지연 (코너링 시)","파노라마 선루프 소음","스마트 크루즈 간헐 해제"],
+    fuelIssues:["디젤 2.0: DPF 재생 빈도 높음 (도심 단거리 위주 시)","하이브리드: 연비 광고값과 실연비 차이 있음 (도심)"],
+    yearIssues:[{year:"2020~2021년식",issue:"전자 제어 유닛 소프트웨어 이슈 (업데이트 필요)"}],
+  },
+  "K5 3세대": {
+    issues:["8단AT 저속 변속 충격 (공통)","스마트 주차 보조 오인식","앞유리 성에 제거 느림"],
+    fuelIssues:["2.0 T-GDi AWD: 연료 직분사 카본 누적 빠름 (인젝터 청소 권장)","HEV: 실연비 광고 대비 낮을 수 있음"],
+    yearIssues:[{year:"2020~2021년식",issue:"8단 TCU 이슈 (리콜 확인)"}],
+  },
+  "쏘렌토 MQ4": {
+    issues:["PHEV 충전 포트 락 오작동","3열 접이 레버 위치 불편","HEV 회생 제동 충격"],
+    fuelIssues:["PHEV: 배터리 잔량 낮을 때 연비 급감","디젤: DPF 빈도 도심 주행 시 잦음"],
+    yearIssues:[{year:"2020~2022년식",issue:"PHEV 충전 시스템 소프트웨어 버그"}],
+  },
+  "3시리즈": {
+    issues:["B48 엔진 냉각수 호스 누수 (10만km 이상)","전자 파킹 브레이크 경고등","iDrive 소프트웨어 응답 느림"],
+    fuelIssues:["2.0 터보: 고RPM 오일 소모량 확인 권장","디젤: 요소수 소모 빠름"],
+    yearIssues:[{year:"2019~2021년식",issue:"냉각수 호스 리콜 대상 여부 확인"}],
+  },
+  "모델Y": {
+    issues:["패널 갭 불균일 (조립 품질 편차)","열펌프 한국 겨울 효율 저하","도어 씰 소음"],
+    fuelIssues:["전기: 한겨울 주행가능거리 20~30% 감소","고속 충전 반복 시 배터리 열화 가속"],
+    yearIssues:[{year:"2022~2023년식",issue:"패널갭·마감 이슈 (초기 대비 개선 중)"}],
+  },
+  "싼타페 MX5": {
+    issues:["후방 카메라 눈/비 오염 시 시야 차단","공조기 소음 간헐 발생","파노라마 선루프 우수음"],
+    fuelIssues:["2.5T 가솔린: 엔진 오일 소모 확인 권장","HEV: 실연비 17km 달성 어려움 (도심)"],
+    yearIssues:[{year:"2023년식(초기)",issue:"ADAS 오작동 간헐 보고 → 업데이트 확인"}],
+  },
+  "아이오닉5": {
+    issues:["급속 충전 후 주행가능거리 표시 오류","겨울 히트펌프 효율 저하","후방 범퍼 도장 얇음"],
+    fuelIssues:["전기: 겨울 주행거리 20~30% 감소","AWD: RR 대비 주행거리 감소"],
+    yearIssues:[{year:"2021~2022년식",issue:"배터리 냉각 소프트웨어 개선 필요 (업데이트 확인)"}],
+  },
+  "EV6": {
+    issues:["충전 포트 동결 (영하 날씨)","사이드 미러 진동 (고속)","GT-Line 브레이크 먼지 많음"],
+    fuelIssues:["전기 일반: 겨울 항속거리 감소","GT: 고성능 주행 시 배터리 온도 관리 필요"],
+    yearIssues:[{year:"2021~2022년식",issue:"충전 소프트웨어 버그 (OTA 업데이트로 해결)"}],
+  },
+  "카니발 4세대": {
+    issues:["3열 접이식 시트 이물질 끼임","파워슬라이딩 도어 소음","디젤 DPF 경고등 (단거리 반복 시)"],
+    fuelIssues:["디젤: 단거리 반복 시 DPF 재생 빈도 높음","3.5 가솔린: 연비 실연비 8~9km/ℓ 수준"],
+    yearIssues:[{year:"2020~2021년식",issue:"파워슬라이딩 도어 초기 불량 간헐 보고"}],
+  },
+};
+
 export default function CatalogPage() {
   const [brandType, setBrandType] = useState<"domestic"|"import">("domestic");
   const [selectedBrand, setSelectedBrand] = useState("현대");
@@ -564,6 +628,45 @@ export default function CatalogPage() {
                       ))}
                     </div>
                   </div>
+
+                  {/* 고질병·주의사항 */}
+                  {CAR_ISSUES[selectedModel] && (
+                    <div style={{background:"white",borderRadius:"18px",padding:"22px 28px"}}>
+                      <div style={{fontSize:"15px",fontWeight:800,marginBottom:"14px",display:"flex",alignItems:"center",gap:"8px"}}>
+                        <div style={{width:"8px",height:"8px",background:"#E24B4A",borderRadius:"50%"}}/> 고질병·주의사항
+                      </div>
+                      <div style={{background:"#FFF0ED",border:"1px solid #FFB8A8",borderRadius:"10px",padding:"10px 14px",marginBottom:"14px",fontSize:"12px",color:"#CC2200",fontWeight:400}}>
+                        ⚠️ 개인 경험 기반 정보예요. 모든 차량에 해당하지 않을 수 있어요.
+                      </div>
+                      <div style={{display:"flex",flexDirection:"column",gap:"14px"}}>
+                        <div>
+                          <div style={{fontSize:"13px",fontWeight:800,marginBottom:"6px"}}>차량 고질병</div>
+                          {CAR_ISSUES[selectedModel].issues.map((issue,i)=>(
+                            <div key={i} style={{fontSize:"13px",color:"#555",padding:"5px 0",borderBottom:"1px solid #F0EEE9",fontWeight:400}}>• {issue}</div>
+                          ))}
+                        </div>
+                        {CAR_ISSUES[selectedModel].fuelIssues && (
+                          <div>
+                            <div style={{fontSize:"13px",fontWeight:800,marginBottom:"6px"}}>연료별 주의사항</div>
+                            {CAR_ISSUES[selectedModel].fuelIssues?.map((fi,i)=>(
+                              <div key={i} style={{fontSize:"13px",color:"#555",padding:"5px 0",borderBottom:"1px solid #F0EEE9",fontWeight:400}}>• {fi}</div>
+                            ))}
+                          </div>
+                        )}
+                        {CAR_ISSUES[selectedModel].yearIssues && (
+                          <div>
+                            <div style={{fontSize:"13px",fontWeight:800,marginBottom:"6px"}}>연도별 이슈</div>
+                            {CAR_ISSUES[selectedModel].yearIssues?.map((yi,i)=>(
+                              <div key={i} style={{display:"flex",gap:"8px",padding:"5px 0",borderBottom:"1px solid #F0EEE9",fontSize:"13px"}}>
+                                <span style={{fontWeight:800,color:"#FF3B1E",flexShrink:0}}>{yi.year}</span>
+                                <span style={{color:"#555",fontWeight:400}}>{yi.issue}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {/* 세대 히스토리 */}
                   {GENERATION_HISTORY[selectedModel] && (
