@@ -1,12 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Lock, CheckCircle, CreditCard, Smartphone } from "lucide-react";
 
 declare global { interface Window { PortOne: any; } }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const searchParams = useSearchParams();
   const carId = searchParams.get("carId");
   const [car, setCar] = useState<any>(null);
@@ -129,5 +129,13 @@ export default function CheckoutPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"#F0EEE9",fontFamily:"sans-serif"}}>로딩 중...</div>}>
+      <CheckoutContent />
+    </Suspense>
   );
 }
