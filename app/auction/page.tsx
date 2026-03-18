@@ -76,7 +76,7 @@ function AuctionCard({ a }: { a: typeof MOCK_AUCTIONS[0] }) {
           <div style={{marginTop:"10px",display:"flex",alignItems:"center",gap:"6px"}}>
             <Users size={14} color="#888"/>
             <span style={{fontSize:"13px",color:"#888",fontWeight:400}}>{a.bidCount}명 입찰 중</span>
-            <span style={{fontSize:"11px",color:"#AAA",fontWeight:400"}}>· 순위는 비공개 · 이름 비공개</span>
+            <span style={{fontSize:"11px",color:"#AAA",fontWeight:400}}>· 순위는 비공개 · 이름 비공개</span>
           </div>
         </div>
         <div style={{background:"#EEF2FF",border:"1px solid #B8C8FF",borderRadius:"12px",padding:"12px 14px",marginBottom:"14px",fontSize:"12px",color:"#1847FF",lineHeight:1.7,fontWeight:400}}>
