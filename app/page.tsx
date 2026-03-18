@@ -66,8 +66,6 @@ export default function Home() {
   return (
     <>
       <style>{`
-      .content-banner-card { transition:all 0.2s; }
-.content-banner-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.07); }
         @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -185,8 +183,8 @@ export default function Home() {
         {/* PICK + FIX */}
         <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", borderRadius:"24px", overflow:"hidden" }}>
-            <div style={{ background:"#FF3B1E", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
-              <div style={{ position:"absolute", right:"-16px", bottom:"-20px", fontFamily:"'Bebas Neue',serif", fontSize:"140px", color:"rgba(255,255,255,0.07)", lineHeight:1 }}>PICK</div>
+            <div style={{ background:"linear-gradient(135deg, #FF5A3C 0%, #E8290F 60%, #C41E08 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
+              <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"200px", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>PICK</div>
               <div style={{ width:"56px", height:"56px", background:"rgba(255,255,255,0.15)", borderRadius:"18px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"22px" }}>
                 <Zap size={28} color="white" />
               </div>
@@ -200,8 +198,8 @@ export default function Home() {
                 퀴즈 시작 <ArrowRight size={14}/>
               </a>
             </div>
-            <div style={{ background:"#1847FF", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
-              <div style={{ position:"absolute", right:"-16px", bottom:"-20px", fontFamily:"'Bebas Neue',serif", fontSize:"140px", color:"rgba(255,255,255,0.07)", lineHeight:1 }}>FIX</div>
+            <div style={{ background:"linear-gradient(135deg, #3060FF 0%, #1338E0 60%, #0A25B8 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
+              <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"200px", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>FIX</div>
               <div style={{ width:"56px", height:"56px", background:"rgba(255,255,255,0.15)", borderRadius:"18px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"22px" }}>
                 <Lock size={28} color="white" />
               </div>
@@ -266,8 +264,9 @@ export default function Home() {
               { emoji:"💬", title:"커뮤니티", desc:"자유게시판·리뷰·Q&A", href:"/community", color:"#E8A020" },
             ].map(item => (
               <a key={item.title} href={item.href}>
-                <div className="content-banner-card" style={{ background:"white", borderRadius:"18px", padding:"22px", cursor:"pointer" }}
-                >
+                <div style={{ background:"white", borderRadius:"18px", padding:"22px", transition:"all 0.2s", cursor:"pointer" }}
+                  onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-3px)")}
+                  onMouseLeave={e => (e.currentTarget.style.transform = "none")}>
                   <div style={{ fontSize:"28px", marginBottom:"10px" }}>{item.emoji}</div>
                   <div style={{ fontSize:"15px", fontWeight:800, marginBottom:"5px", color:item.color }}>{item.title}</div>
                   <div style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>{item.desc}</div>

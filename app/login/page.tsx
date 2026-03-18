@@ -24,10 +24,10 @@ export default function LoginPage() {
         .kakao-btn { background:#FEE500; color:#391B1B; border:none; padding:16px 24px; border-radius:14px; font-size:16px; font-weight:800; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s; }
         .kakao-btn:hover { background:#F5D800; transform:translateY(-2px); box-shadow:0 8px 24px rgba(254,229,0,0.4); }
         .feature-item { display:flex; align-items:flex-start; gap:12px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.08); }
-        @media(max-width:768px) { .login-grid { grid-template-columns:1fr !important; } .left-panel { display:none !important; } }
+        @media(max-width:900px) { .login-grid { grid-template-columns:1fr !important; } .left-panel { display:none !important; } }
       `}</style>
 
-      <div style={{ minHeight:"100vh", display:"grid" }} className="login-grid">
+      <div style={{ minHeight:"100vh", display:"grid", gridTemplateColumns:"1fr 1fr" }} className="login-grid">
         {/* 왼쪽 — 픽스카 메인 컬러 */}
         <div className="left-panel" style={{ background:"linear-gradient(135deg, #FF3B1E 0%, #D42E14 100%)", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", padding:"60px 52px", position:"relative", overflow:"hidden" }}>
           <div style={{ position:"absolute", right:"-60px", bottom:"-60px", fontFamily:"'Bebas Neue',serif", fontSize:"200px", color:"rgba(255,255,255,0.05)", lineHeight:1, pointerEvents:"none" }}>FIXCAR</div>
