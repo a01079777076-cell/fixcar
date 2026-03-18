@@ -177,7 +177,7 @@ const SEGMENTS_INFO: Record<string, string> = {
   "E세그먼트 SUV (대형 SUV)": "대형 SUV. 자동차세·보험료 모두 높음.",
   "F세그먼트 SUV (럭셔리 SUV)": "최고급 SUV. 자동차세·보험료 최고 구간.",
   "E세그먼트 (전기 SUV)": "전기차는 배기량 0 → 연간 자동차세 13만원 정액.",
-  "E세그먼트 (대형 세단)": "대형 세단. 수입차는 보험료 할증 가능.",
+  "E세그먼트 (대형)": "대형 세단. 수입차는 보험료 할증 가능.",
   "E세그먼트 (대형 CUV)": "전기 크로스오버. 자동차세 13만원 정액.",
   "D세그먼트 (준대형 수입)": "수입 중형. 부품비 비싸 보험료 높을 수 있음.",
   "E세그먼트 (대형 수입)": "수입 대형. 보험료·수리비 국산 대비 높음.",
@@ -189,7 +189,7 @@ export default function CatalogPage() {
   const [selectedModel, setSelectedModel] = useState("아반떼 CN7");
   const [search, setSearch] = useState("");
   const [showReport, setShowReport] = useState(false);
-  const [reportForm, setReportForm] = useState({ wrongInfo: "", correctInfo: "" });
+  const [reportForm, setReportForm] = useState({ wrongInfo: "", correctInfo: "", phone: "" });
   const [reportSent, setReportSent] = useState(false);
 
   const brands = Object.keys(CAR_DB);
@@ -298,35 +298,11 @@ export default function CatalogPage() {
                         {car.tax.surcharge && <span style={{ background:"#FFF0ED", color:"#FF3B1E", padding:"4px 12px", borderRadius:"100px", fontSize:"12px", fontWeight:800 }}>⚠️ 보험 할증 대상</span>}
                       </div>
                     </div>
-                    <button onClick={() => setShowReport(!showReport)}
-                      style={{ background:"#F0EEE9", border:"none", padding:"10px 16px", borderRadius:"10px", fontSize:"13px", fontWeight:700, color:"#555", display:"flex", alignItems:"center", gap:"6px" }}>
-                      <AlertCircle size={14} /> 정보 수정 요청
-                    </button>
+
                   </div>
                 </div>
 
-                {/* 정보 수정 요청 폼 */}
-                {showReport && (
-                  <div style={{ background:"white", borderRadius:"18px", padding:"22px 24px" }}>
-                    <div style={{ fontSize:"15px", fontWeight:800, marginBottom:"14px", display:"flex", justifyContent:"space-between" }}>
-                      <span>🚨 정보 수정 요청</span>
-                      <button onClick={() => setShowReport(false)} style={{ background:"none", border:"none", cursor:"pointer" }}><X size={16} color="#AAA"/></button>
-                    </div>
-                    <div style={{ display:"flex", flexDirection:"column", gap:"10px" }}>
-                      <div>
-                        <label style={{ fontSize:"13px", fontWeight:800, display:"block", marginBottom:"5px" }}>틀린 내용</label>
-                        <textarea rows={2} placeholder="어떤 정보가 틀렸나요?" value={reportForm.wrongInfo} onChange={e => setReportForm(p => ({ ...p, wrongInfo: e.target.value }))}
-                          style={{ width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"10px 14px", fontSize:"14px", resize:"none", background:"#FAFAF8" }} />
-                      </div>
-                      <div>
-                        <label style={{ fontSize:"13px", fontWeight:800, display:"block", marginBottom:"5px" }}>정확한 내용</label>
-                        <textarea rows={2} placeholder="올바른 정보를 입력해주세요" value={reportForm.correctInfo} onChange={e => setReportForm(p => ({ ...p, correctInfo: e.target.value }))}
-                          style={{ width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"10px 14px", fontSize:"14px", resize:"none", background:"#FAFAF8" }} />
-                      </div>
-                      <button onClick={handleReport} style={{ background:"#1847FF", color:"white", border:"none", padding:"12px", borderRadius:"10px", fontSize:"14px", fontWeight:800 }}>신고 접수하기</button>
-                    </div>
-                  </div>
-                )}
+
 
                 {/* 등급별 출고가 */}
                 <div style={{ background:"white", borderRadius:"18px", padding:"22px 28px" }}>
@@ -398,6 +374,39 @@ export default function CatalogPage() {
                   <div style={{ fontSize:"13px", color:"#444", lineHeight:1.7, fontWeight:400 }}>
                     {SEGMENTS_INFO[car.info.segment] || "국제 차량 분류 기준에 따른 세그먼트입니다."}
                   </div>
+                </div>
+
+                {/* 정보 수정 요청 - 하단 */}
+                <div style={{ background:"white", borderRadius:"18px", padding:"20px 24px" }}>
+                  <button onClick={() => setShowReport(!showReport)}
+                    style={{ background:"#F8F6F2", border:"1.5px solid #E0DDD7", padding:"11px 18px", borderRadius:"10px", fontSize:"13px", fontWeight:700, color:"#555", display:"flex", alignItems:"center", gap:"6px", width:"100%", justifyContent:"center" }}>
+                    <AlertCircle size={14} /> 앗, 정보가 틀렸어요! 수정 요청하기
+                  </button>
+                  {showReport && (
+                    <div style={{ marginTop:"14px" }}>
+                      <div style={{ background:"#FFF8EC", border:"1px solid #FFD89A", borderRadius:"10px", padding:"10px 14px", marginBottom:"12px", fontSize:"12px", color:"#7A5500", lineHeight:1.65, fontWeight:400 }}>
+                        ⚠️ 스팸성 또는 정상적이지 않은 정정신고는 <strong style={{ fontWeight:800 }}>수정요청이 거부</strong>될 수 있으며, 누적 불량접수 3회 이상 시 더 이상 정보수정요청을 하실 수 없게 됩니다.
+                      </div>
+                      <div style={{ display:"flex", flexDirection:"column", gap:"10px" }}>
+                        <div>
+                          <label style={{ fontSize:"13px", fontWeight:800, display:"block", marginBottom:"5px" }}>틀린 내용 <span style={{ color:"#FF3B1E" }}>*</span></label>
+                          <textarea rows={2} placeholder="어떤 정보가 틀렸나요?" value={reportForm.wrongInfo} onChange={e => setReportForm(p => ({ ...p, wrongInfo: e.target.value }))}
+                            style={{ width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"10px 14px", fontSize:"14px", resize:"none", background:"#FAFAF8" }} />
+                        </div>
+                        <div>
+                          <label style={{ fontSize:"13px", fontWeight:800, display:"block", marginBottom:"5px" }}>정확한 내용 <span style={{ color:"#FF3B1E" }}>*</span></label>
+                          <textarea rows={2} placeholder="올바른 정보를 입력해주세요" value={reportForm.correctInfo} onChange={e => setReportForm(p => ({ ...p, correctInfo: e.target.value }))}
+                            style={{ width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"10px 14px", fontSize:"14px", resize:"none", background:"#FAFAF8" }} />
+                        </div>
+                        <div>
+                          <label style={{ fontSize:"13px", fontWeight:800, display:"block", marginBottom:"5px" }}>연락처 (답변 받을 연락처)</label>
+                          <input type="tel" placeholder="010-0000-0000" value={reportForm.phone || ""} onChange={e => setReportForm(p => ({ ...p, phone: e.target.value }))}
+                            style={{ width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"10px 14px", fontSize:"14px", background:"#FAFAF8" }} />
+                        </div>
+                        <button onClick={handleReport} style={{ background:"#1847FF", color:"white", border:"none", padding:"12px", borderRadius:"10px", fontSize:"14px", fontWeight:800 }}>접수하기</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* 픽스카 매물 */}

@@ -1,559 +1,370 @@
 "use client";
-
 import { useState, useRef } from "react";
-import {
-  Car, Camera, CheckCircle, ChevronRight, ArrowLeft,
-  Upload, X, Plus, Lock, Shield, DollarSign, Search,
-  AlertCircle, Loader
-} from "lucide-react";
+import { ChevronRight, CheckCircle, Camera, X, Search } from "lucide-react";
 
-const BRANDS = ["현대","기아","제네시스","쉐보레","르노","KG모빌리티","BMW","벤츠","아우디","폭스바겐","토요타","혼다"];
-const FUELS = ["가솔린","디젤","전기","하이브리드","LPG","수소"];
-const TRANSMISSIONS = ["자동","수동","CVT","DCT"];
-const REGIONS = ["광주 동구","광주 서구","광주 남구","광주 북구","광주 광산구","전남 나주","전남 화순","전남 담양"];
-const OPTIONS_LIST = ["후방카메라","전방카메라","열선시트","통풍시트","스마트크루즈","애플카플레이","안드로이드오토","파노라마 선루프","HDA","BSD","원격 주차보조","LED 헤드램프","전동 트렁크","열선 핸들","HUD"];
-const TAGS_LIST = ["무사고","초보 추천","1인 오너","가성비","가족용","주차 쉬움","연비 좋음","넓은 트렁크","스포티","전기차"];
-
-const MAX_IMAGES = 30;
+const STEPS = ["판매자·차량 정보", "차량 사진 등록", "최종 확인"];
+const FUELS = ["가솔린","디젤","LPG","하이브리드","전기","수소"];
+const COLORS = ["흰색","검정","은색","회색","파랑","빨강","초록","갈색","노랑","주황","보라","기타"];
+const TRANSMISSIONS = ["자동","수동","CVT","DCT","AMT"];
+const REGIONS = ["광주 동구","광주 서구","광주 남구","광주 북구","광주 광산구","전남 목포","전남 여수","전남 순천","전남 기타","타지역 탁송"];
+const OPTIONS_LIST: Record<string, string[]> = {
+  "내/외장·편의": ["선루프","파노라마","풀오토 에어컨","스마트키","하이패스","블루투스","네비게이션","열선 스티어링 휠","알루미늄 휠","레인센서","전동식 트렁크 도어","루프랙","고스트 도어 클로징","모바일기기 무선충전","패들 시프트","공기청정기","커튼/블라인드"],
+  "주행·주차": ["주차센서(전방)","주차센서(후방)","크루즈컨트롤","어댑티브","차체자세 제어(ESC)","구동력 제어(TCS)","브레이크 잠김방지(ABS)","4륜구동","전자식 주차브레이크(EPB)","타이어 공기압 모니터링","차선유지보조(LDWS)","측후방 경보","경사로발진 보조","전자동주차(SPAS)","전자제어 서스펜션(ECS)","전방충돌방지(FCA)","후방교차충돌방지(RCCW)","아이들링 스톱(ISG)"],
+  "램프·미러·카메라": ["헤드램프(HID)","헤드램프(LED)","레이저 헤드램프","어댑티브 헤드램프","오토 라이트","상향등 보조(HBA)","전방카메라","후방카메라","360도 어라운드뷰","헤드업 디스플레이","전동접이 사이드미러","눈부심방지 미러","AV모니터"],
+  "시트·에어백": ["가죽시트","전동시트(운전)","전동시트(동승)","전동시트(뒤)","열선시트(앞)","열선시트(뒤)","통풍시트(앞)","통풍시트(뒤)","마사지(앞)","운전자세 메모리(IMS)","에어백(운전)","에어백(동승)","에어백(사이드/커튼)"],
+  "화물·특장": ["파워 리프트게이트","전동 틸팅캠","루프 스포일러","동력인출장치(PTO)","자동 호루 덮개","그리스 주유기","매연저감장치","무시동 히터/에어컨","에어브레이크","타코미터","열선내장 슬리핑 베드"],
+};
 
 export default function DealerNewCarPage() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [images, setImages] = useState<string[]>([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [done, setDone] = useState(false);
+  const [opts, setOpts] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
-  const [carNumber, setCarNumber] = useState("");
-  const [lookingUp, setLookingUp] = useState(false);
-  const [lookupError, setLookupError] = useState("");
+  const [done, setDone] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
-    name: "", brand: "", year: "", mileage: "", fuel: "가솔린",
-    color: "", region: "", price: "", cc: "", power: "",
-    efficiency: "", transmission: "자동", owners: "1",
-    accident: false, options: [] as string[], tags: [] as string[],
+    sellerName:"", sellerPhone:"", licenseNumber:"", region:"광주 북구",
+    plateNumber:"", brand:"", modelName:"", grade:"",
+    year:"", firstRegDate:"", transmission:"자동", fuel:"가솔린",
+    color:"흰색", mileage:"", displacement:"", power:"", efficiency:"",
+    owners:"1", accident:"없음",
+    price:"", negotiable:false, fixPrice:true,
+    usageChange:"없음", ownerChange:"없음", plateChange:"없음",
+    selfDamage:"없음", otherDamage:"없음", shareAccident:false,
+    engineStatus:"양호", transmissionStatus:"양호", brakeStatus:"양호", bodyStatus:"양호",
+    description:"", specialNote:"",
   });
 
-  const update = (k: string, v: string | boolean) => setForm(prev => ({ ...prev, [k]: v }));
+  const set = (k: string, v: string | boolean) => setForm(p => ({ ...p, [k]: v }));
+  const toggleOpt = (o: string) => setOpts(p => p.includes(o) ? p.filter(x=>x!==o) : [...p, o]);
 
-  const toggleItem = (key: "options"|"tags", val: string) => {
-    setForm(prev => ({
-      ...prev,
-      [key]: prev[key].includes(val) ? prev[key].filter(i=>i!==val) : [...prev[key], val]
-    }));
-  };
+  const inp: React.CSSProperties = { width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"10px 14px", fontSize:"14px", background:"#FAFAF8", fontFamily:"'NanumSquareRound',sans-serif" };
+  const sel: React.CSSProperties = { ...inp, cursor:"pointer" };
+  const lbl: React.CSSProperties = { fontSize:"13px", fontWeight:800, display:"block", marginBottom:"5px" };
 
-  // 차량번호로 차량 정보 조회
-  const lookupCarByNumber = async () => {
-    if (!carNumber.trim()) return;
-    setLookingUp(true);
-    setLookupError("");
-
-    try {
-      const res = await fetch(`/api/cars/lookup?carNumber=${encodeURIComponent(carNumber.trim())}`);
-      const data = await res.json();
-
-      if (data.success && data.data) {
-        const info = data.data;
-        setForm(prev => ({
-          ...prev,
-          name: info.model || prev.name,
-          brand: info.brand || prev.brand,
-          year: info.year ? String(info.year) : prev.year,
-          fuel: info.fuel || prev.fuel,
-          color: info.color || prev.color,
-          cc: info.cc ? String(info.cc) : prev.cc,
-          transmission: info.transmission || prev.transmission,
-          accident: info.accident ?? prev.accident,
-        }));
-      } else {
-        setLookupError(data.error || "차량 정보를 찾을 수 없어요. 직접 입력해주세요.");
-      }
-    } catch {
-      setLookupError("조회 중 오류가 발생했어요. 직접 입력해주세요.");
-    } finally {
-      setLookingUp(false);
-    }
-  };
-
-  // 이미지 업로드 - 수정된 버전
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    const remaining = MAX_IMAGES - images.length;
-    if (remaining <= 0) {
-      alert(`최대 ${MAX_IMAGES}장까지 업로드 가능해요.`);
-      return;
-    }
-
-    const filesToUpload = Array.from(files).slice(0, remaining);
-    setUploading(true);
-    setUploadProgress(0);
-
-    const uploaded: string[] = [];
-
-    for (let i = 0; i < filesToUpload.length; i++) {
-      const file = filesToUpload[i];
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("folder", "fixcar/cars");
-
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await res.json();
-        if (data.success && data.data?.url) {
-          uploaded.push(data.data.url);
-        } else {
-          console.error("Upload failed:", data.error);
-        }
-      } catch (err) {
-        console.error("Upload error:", err);
-      }
-      setUploadProgress(Math.round(((i + 1) / filesToUpload.length) * 100));
-    }
-
-    if (uploaded.length > 0) {
-      setImages(prev => [...prev, ...uploaded]);
-    } else {
-      alert("업로드에 실패했어요. Cloudinary 설정을 확인해주세요.");
-    }
-
-    setUploading(false);
-    setUploadProgress(0);
-    // 파일 input 초기화 (같은 파일 재선택 가능하게)
-    if (fileRef.current) fileRef.current.value = "";
+  const handleImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    Array.from(e.target.files || []).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = ev => setImages(p => p.length < 30 ? [...p, ev.target?.result as string] : p);
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleSubmit = async () => {
+    if (!form.brand || !form.modelName || !form.price) { alert("필수 항목을 입력해주세요"); return; }
     setSubmitting(true);
     try {
       const res = await fetch("/api/cars", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          dealerId: 1,
-          name: `${form.brand} ${form.name}`,
-          brand: form.brand,
-          year: parseInt(form.year),
-          mileage: parseInt(form.mileage),
-          fuel: form.fuel,
-          color: form.color,
-          region: form.region,
-          price: parseInt(form.price),
-          cc: parseInt(form.cc || "0"),
-          power: parseInt(form.power || "0"),
-          efficiency: form.efficiency || "0",
-          transmission: form.transmission,
-          owners: parseInt(form.owners),
-          accident: form.accident,
-          tags: form.tags,
-          options: form.options,
-          images,
+          name: `${form.brand} ${form.modelName} ${form.grade}`.trim(),
+          brand: form.brand, year: parseInt(form.year)||2020,
+          mileage: parseInt(form.mileage.replace(/,/g,""))||0,
+          fuel: form.fuel, color: form.color, region: form.region,
+          price: parseInt(form.price.replace(/,/g,""))||0,
+          transmission: form.transmission, owners: parseInt(form.owners)||1,
+          accident: form.accident !== "없음",
+          cc: parseInt(form.displacement)||0, power: parseInt(form.power)||0,
+          efficiency: form.efficiency||"0",
+          tags: opts.slice(0,5), options: opts, images: images.slice(0,30),
+          description: form.description, status: "REVIEWING",
         }),
       });
       const data = await res.json();
       if (data.success) setDone(true);
-      else alert(data.error || "등록에 실패했어요");
-    } catch {
-      alert("등록 중 오류가 발생했어요");
-    } finally {
-      setSubmitting(false);
-    }
+      else alert(data.error || "등록 실패");
+    } catch { alert("오류 발생"); }
+    setSubmitting(false);
   };
 
   if (done) return (
     <>
-      <style>{`
-        @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'NanumSquareRound',sans-serif; background:#F0EEE9; }
-        a { text-decoration:none; color:inherit; }
-        @keyframes scaleIn { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
-      `}</style>
-      <div style={{ minHeight:"100vh", background:"#F0EEE9", display:"flex", alignItems:"center", justifyContent:"center", padding:"40px 20px" }}>
-        <div style={{ textAlign:"center", maxWidth:"480px", width:"100%" }}>
-          <div style={{ width:"88px", height:"88px", background:"#EAF6EF", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 24px", animation:"scaleIn 0.5s ease" }}>
-            <CheckCircle size={44} color="#2D8A52" />
-          </div>
-          <h1 style={{ fontSize:"36px", fontWeight:800, letterSpacing:"-1px", marginBottom:"12px", animation:"fadeUp 0.5s 0.1s both" }}>매물 등록 완료! 🎉</h1>
-          <p style={{ fontSize:"16px", color:"#888", lineHeight:1.8, marginBottom:"32px", fontWeight:400, animation:"fadeUp 0.5s 0.2s both" }}>
-            <strong style={{ color:"#1A1A1A", fontWeight:800 }}>{form.brand} {form.name}</strong>이<br />픽스카에 등록됐어요!
-          </p>
-          <div style={{ display:"flex", gap:"12px", animation:"fadeUp 0.5s 0.3s both" }}>
-            <a href="/dealer" style={{ flex:1 }}><button style={{ width:"100%", background:"#1847FF", color:"white", border:"none", padding:"15px", borderRadius:"12px", fontSize:"15px", fontWeight:800, cursor:"pointer" }}>딜러 대시보드</button></a>
-            <a href="/cars" style={{ flex:1 }}><button style={{ width:"100%", background:"white", border:"2px solid #E0DDD7", padding:"13px", borderRadius:"12px", fontSize:"15px", fontWeight:700, cursor:"pointer" }}>매물 보기</button></a>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;}`}</style>
+      <div style={{minHeight:"100vh",background:"#F0EEE9",display:"flex",alignItems:"center",justifyContent:"center"}}>
+        <div style={{background:"white",borderRadius:"24px",padding:"48px",textAlign:"center",maxWidth:"440px",width:"90%"}}>
+          <CheckCircle size={64} color="#2D8A52" style={{margin:"0 auto 20px"}}/>
+          <div style={{fontSize:"24px",fontWeight:800,marginBottom:"8px"}}>매물 등록 완료!</div>
+          <div style={{fontSize:"15px",color:"#888",marginBottom:"28px",fontWeight:400}}>관리자 검수 후 24시간 내 게시돼요.</div>
+          <div style={{display:"flex",gap:"10px"}}>
+            <a href="/dealer" style={{flex:1}}><button style={{width:"100%",background:"#F0EEE9",color:"#1A1A1A",border:"none",padding:"13px",borderRadius:"12px",fontSize:"14px",fontWeight:800,cursor:"pointer"}}>대시보드</button></a>
+            <a href="/dealer/cars" style={{flex:1}}><button style={{width:"100%",background:"#FF3B1E",color:"white",border:"none",padding:"13px",borderRadius:"12px",fontSize:"14px",fontWeight:800,cursor:"pointer"}}>내 매물 보기</button></a>
           </div>
         </div>
       </div>
     </>
   );
 
-  const STEPS = ["기본 정보", "상세 정보", "사진 등록", "태그·옵션"];
-  const inputStyle: React.CSSProperties = { width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"12px 14px", fontSize:"14px", outline:"none", background:"#FAFAF8", fontFamily:"'NanumSquareRound',sans-serif" };
-  const labelStyle: React.CSSProperties = { fontSize:"14px", fontWeight:800, display:"block", marginBottom:"7px" };
-
   return (
     <>
       <style>{`
         @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'NanumSquareRound',sans-serif; background:#F0EEE9; -webkit-font-smoothing:antialiased; }
-        a { text-decoration:none; color:inherit; }
-        button { font-family:'NanumSquareRound',sans-serif; cursor:pointer; }
-        input, select { font-family:'NanumSquareRound',sans-serif; }
-        input:focus, select:focus { border-color:#FF3B1E !important; background:white !important; }
-        .tag-btn { transition:all 0.15s; cursor:pointer; border:1.5px solid; border-radius:100px; padding:7px 16px; font-size:13px; font-weight:700; background:transparent; }
-        .tag-btn:hover { transform:translateY(-1px); }
-        .btn-red { background:#FF3B1E; color:white; border:none; border-radius:14px; font-size:15px; font-weight:800; padding:16px; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; width:100%; }
-        .btn-red:hover { background:#D42E14; }
-        .btn-red:disabled { background:#E0DDD7; color:#AAA; cursor:default; }
-        .upload-zone { transition:all 0.2s; border:2px dashed #E0DDD7; border-radius:16px; cursor:pointer; background:#F8F6F2; }
-        .upload-zone:hover { border-color:#1847FF; background:#EEF2FF; }
-        .img-card { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; }
-        .img-card img { width:100%; height:100%; object-fit:cover; display:block; }
-        .img-card .delete-btn { position:absolute; top:6px; right:6px; width:26px; height:26px; background:rgba(0,0,0,0.6); border:none; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; }
-        .img-card:hover .delete-btn { opacity:1; }
-        @media(max-width:768px) { .page-wrap { padding:16px !important; } .form-grid { grid-template-columns:1fr !important; } .img-grid { grid-template-columns:repeat(3,1fr) !important; } }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;-webkit-font-smoothing:antialiased;}
+        a{text-decoration:none;color:inherit;}
+        button{font-family:'NanumSquareRound',sans-serif;cursor:pointer;}
+        input,select,textarea{font-family:'NanumSquareRound',sans-serif;}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:#FF3B1E!important;background:white!important;}
+        .card{background:white;border-radius:18px;padding:24px 28px;margin-bottom:16px;}
+        .stitle{font-size:17px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:2px solid #F0EEE9;}
+        .snum{width:28px;height:28px;background:#FF3B1E;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:800;flex-shrink:0;}
+        .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+        .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+        .ob{border:1.5px solid #E0DDD7;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;background:white;transition:all 0.15s;font-family:'NanumSquareRound',sans-serif;}
+        .ob.on{border-color:#1847FF;background:#EEF2FF;color:#1847FF;}
+        .req{color:#FF3B1E;}
+        @media(max-width:768px){.g2{grid-template-columns:1fr!important;}.g3{grid-template-columns:1fr 1fr!important;}}
       `}</style>
 
-      <div style={{ minHeight:"100vh", background:"#F0EEE9" }}>
-        {/* 헤더 */}
-        <div style={{ background:"#1A1A1A", padding:"0 32px", height:"64px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-          <a href="/" style={{ fontFamily:"'Bebas Neue',serif", fontSize:"24px", letterSpacing:"3px" }}>
-            <span style={{ color:"#FF3B1E" }}>FIX</span><span style={{ color:"white" }}>CAR</span>
-          </a>
-          <a href="/dealer" style={{ display:"flex", alignItems:"center", gap:"6px", fontSize:"14px", fontWeight:700, color:"rgba(255,255,255,0.5)" }}>
-            <ArrowLeft size={16}/> 대시보드로
-          </a>
+      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
+        <div style={{background:"#1A1A1A",padding:"0 32px",height:"64px",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100}}>
+          <a href="/" style={{fontFamily:"'Bebas Neue',serif",fontSize:"24px",letterSpacing:"3px"}}><span style={{color:"#FF3B1E"}}>FIX</span><span style={{color:"white"}}>CAR</span></a>
+          <span style={{fontSize:"14px",fontWeight:700,color:"rgba(255,255,255,0.5)"}}>딜러 매물 등록</span>
+          <a href="/dealer" style={{fontSize:"13px",color:"rgba(255,255,255,0.4)",fontWeight:700}}>← 대시보드</a>
         </div>
 
-        {/* 스텝 */}
-        <div style={{ background:"white", borderBottom:"1px solid #ECEAE4", padding:"0 32px" }}>
-          <div style={{ maxWidth:"800px", margin:"0 auto", display:"flex", alignItems:"center", padding:"14px 0" }}>
-            {STEPS.map((s, i) => (
-              <div key={s} style={{ display:"flex", alignItems:"center", flex:i<STEPS.length-1?1:"none" }}>
-                <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
-                  <div style={{ width:"28px", height:"28px", borderRadius:"50%", background:step>i+1?"#2D8A52":step===i+1?"#1847FF":"#E0DDD7", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:800, color:"white", transition:"all 0.3s", flexShrink:0 }}>
-                    {step>i+1 ? <CheckCircle size={14}/> : i+1}
-                  </div>
-                  <span style={{ fontSize:"13px", fontWeight:step===i+1?800:600, color:step>=i+1?"#1A1A1A":"#AAA", whiteSpace:"nowrap" }}>{s}</span>
-                </div>
-                {i<STEPS.length-1 && <div style={{ flex:1, height:"1px", background:step>i+1?"#2D8A52":"#E0DDD7", margin:"0 10px", transition:"background 0.3s" }} />}
+        <div style={{maxWidth:"860px",margin:"0 auto",padding:"24px 32px 80px"}}>
+          {/* 스텝바 */}
+          <div style={{background:"white",borderRadius:"14px",overflow:"hidden",marginBottom:"20px",display:"flex"}}>
+            {STEPS.map((s,i)=>(
+              <div key={s} style={{flex:1,textAlign:"center",padding:"14px 8px",fontSize:"13px",fontWeight:step===i?800:600,color:step===i?"#FF3B1E":step>i?"#2D8A52":"#AAA",borderBottom:`3px solid ${step===i?"#FF3B1E":step>i?"#2D8A52":"transparent"}`}}>
+                {step>i?"✓ ":""}{s}
               </div>
             ))}
           </div>
-        </div>
 
-        <div className="page-wrap" style={{ maxWidth:"800px", margin:"0 auto", padding:"28px 32px 80px" }}>
-
-          {/* STEP 1 — 기본 정보 */}
-          {step===1 && (
-            <div style={{ display:"flex", flexDirection:"column", gap:"16px" }}>
-
-              {/* 차량번호 자동조회 */}
-              <div style={{ background:"white", borderRadius:"20px", padding:"24px 28px" }}>
-                <div style={{ fontSize:"16px", fontWeight:800, marginBottom:"6px", display:"flex", alignItems:"center", gap:"8px" }}>
-                  <Search size={18} color="#1847FF"/> 차량번호로 자동 입력
+          {step === 0 && <>
+            {/* 1. 판매자 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">1</div>판매자 및 위치 정보</div>
+              <div className="g2">
+                <div><label style={lbl}>이름 <span className="req">*</span></label><input style={inp} type="text" placeholder="이름" value={form.sellerName} onChange={e=>set("sellerName",e.target.value)}/></div>
+                <div><label style={lbl}>연락처 <span className="req">*</span></label><input style={inp} type="tel" placeholder="010-0000-0000" value={form.sellerPhone} onChange={e=>set("sellerPhone",e.target.value)}/></div>
+                <div><label style={lbl}>사원증 번호</label><input style={inp} placeholder="선택사항" value={form.licenseNumber} onChange={e=>set("licenseNumber",e.target.value)}/></div>
+                <div><label style={lbl}>차량 위치 <span className="req">*</span></label>
+                  <select style={sel} value={form.region} onChange={e=>set("region",e.target.value)}>{REGIONS.map(r=><option key={r}>{r}</option>)}</select>
                 </div>
-                <div style={{ fontSize:"13px", color:"#888", marginBottom:"16px", fontWeight:400 }}>
-                  차량번호를 입력하면 차종·연식·사고이력을 자동으로 가져와요
-                </div>
-                <div style={{ display:"flex", gap:"10px" }}>
-                  <input
-                    style={{ ...inputStyle, flex:1, fontSize:"16px", fontWeight:700, letterSpacing:"2px" }}
-                    type="text"
-                    placeholder="예: 12가 3456"
-                    value={carNumber}
-                    onChange={e=>setCarNumber(e.target.value)}
-                    onKeyDown={e=>{ if(e.key==="Enter") lookupCarByNumber(); }}
-                  />
-                  <button
-                    onClick={lookupCarByNumber}
-                    disabled={!carNumber.trim() || lookingUp}
-                    style={{ background:"#1847FF", color:"white", border:"none", borderRadius:"10px", padding:"12px 20px", fontSize:"14px", fontWeight:800, cursor:carNumber.trim()&&!lookingUp?"pointer":"default", display:"flex", alignItems:"center", gap:"7px", whiteSpace:"nowrap", opacity:carNumber.trim()&&!lookingUp?1:0.5 }}
-                  >
-                    {lookingUp ? <><Loader size={14} style={{ animation:"spin 1s linear infinite" }}/> 조회중</> : <><Search size={14}/> 조회</>}
-                  </button>
-                </div>
-                {lookupError && (
-                  <div style={{ marginTop:"10px", display:"flex", alignItems:"center", gap:"6px", fontSize:"13px", color:"#E8A020", fontWeight:400 }}>
-                    <AlertCircle size={14} color="#E8A020"/> {lookupError}
-                  </div>
-                )}
-                <div style={{ marginTop:"10px", fontSize:"12px", color:"#AAA", fontWeight:400 }}>
-                  ※ 국토교통부 자동차 정보 API를 통해 조회해요. API 키 설정이 필요해요.
-                </div>
-              </div>
-
-              <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
-                <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"24px", display:"flex", alignItems:"center", gap:"10px" }}>
-                  <Car size={20} color="#1847FF"/> 차량 기본 정보
-                </div>
-                <div className="form-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
-                  <div>
-                    <label style={labelStyle}>브랜드 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                    <select style={inputStyle} value={form.brand} onChange={e=>update("brand",e.target.value)}>
-                      <option value="">선택해주세요</option>
-                      {BRANDS.map(b=><option key={b}>{b}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>모델명 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                    <input style={inputStyle} type="text" placeholder="예: 아반떼 CN7 1.6 스마트" value={form.name} onChange={e=>update("name",e.target.value)} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>연식 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                    <select style={inputStyle} value={form.year} onChange={e=>update("year",e.target.value)}>
-                      <option value="">선택</option>
-                      {Array.from({length:15},(_,i)=>2024-i).map(y=><option key={y}>{y}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>주행거리 (km) <span style={{ color:"#FF3B1E" }}>*</span></label>
-                    <input style={inputStyle} type="number" placeholder="예: 45000" value={form.mileage} onChange={e=>update("mileage",e.target.value)} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>연료</label>
-                    <select style={inputStyle} value={form.fuel} onChange={e=>update("fuel",e.target.value)}>
-                      {FUELS.map(f=><option key={f}>{f}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>색상</label>
-                    <input style={inputStyle} type="text" placeholder="예: 흰색" value={form.color} onChange={e=>update("color",e.target.value)} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>위치 <span style={{ color:"#FF3B1E" }}>*</span></label>
-                    <select style={inputStyle} value={form.region} onChange={e=>update("region",e.target.value)}>
-                      <option value="">선택</option>
-                      {REGIONS.map(r=><option key={r}>{r}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>FIX 가격 (만원) <span style={{ color:"#FF3B1E" }}>*</span></label>
-                    <input style={inputStyle} type="number" placeholder="예: 1450" value={form.price} onChange={e=>update("price",e.target.value)} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>소유자 수</label>
-                    <select style={inputStyle} value={form.owners} onChange={e=>update("owners",e.target.value)}>
-                      {["1","2","3","4+"].map(n=><option key={n}>{n}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>사고이력</label>
-                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"8px" }}>
-                      {[["무사고",false],["사고있음",true]].map(([l,v])=>(
-                        <div key={String(l)} onClick={()=>update("accident",v as boolean)} style={{ padding:"11px", borderRadius:"10px", border:`2px solid ${form.accident===v?"#FF3B1E":"#E0DDD7"}`, background:form.accident===v?"#FFF0ED":"#F8F6F2", cursor:"pointer", textAlign:"center", fontSize:"14px", fontWeight:form.accident===v?800:600, color:form.accident===v?"#FF3B1E":"#555", transition:"all 0.15s" }}>{l as string}</div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <button className="btn-red" style={{ marginTop:"24px" }} disabled={!form.brand||!form.name||!form.year||!form.mileage||!form.region||!form.price} onClick={()=>setStep(2)}>
-                  다음 — 상세 정보 <ChevronRight size={16}/>
-                </button>
               </div>
             </div>
-          )}
 
-          {/* STEP 2 — 상세 정보 */}
-          {step===2 && (
-            <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
-              <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"24px", display:"flex", alignItems:"center", gap:"10px" }}>
-                <Shield size={20} color="#1847FF"/> 차량 상세 정보
+            {/* 2. 차량 기본 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">2</div>차량 기본 정보</div>
+              <div style={{display:"flex",gap:"10px",marginBottom:"14px",alignItems:"flex-end"}}>
+                <div style={{flex:1}}>
+                  <label style={lbl}>차량번호 <span className="req">*</span></label>
+                  <input style={inp} placeholder="예: 12가3456" value={form.plateNumber} onChange={e=>set("plateNumber",e.target.value)}/>
+                </div>
+                <button onClick={()=>alert("국토교통부 API 연동 후 사용 가능해요.")}
+                  style={{background:"#1847FF",color:"white",border:"none",padding:"10px 18px",borderRadius:"10px",fontSize:"13px",fontWeight:800,height:"42px",display:"flex",alignItems:"center",gap:"6px",flexShrink:0}}>
+                  <Search size={14}/> 차량정보 불러오기
+                </button>
               </div>
-              <div className="form-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
-                <div>
-                  <label style={labelStyle}>배기량 (cc)</label>
-                  <input style={inputStyle} type="number" placeholder="예: 1598 (전기차는 0)" value={form.cc} onChange={e=>update("cc",e.target.value)} />
+              <div style={{background:"#FFF8EC",border:"1px solid #FFD89A",borderRadius:"10px",padding:"10px 14px",marginBottom:"14px",fontSize:"12px",color:"#7A5500",fontWeight:400}}>
+                ※ 차량정보 불러오기는 자동입력된 정보의 정확함을 보증하지 않습니다. 차량등록증으로 반드시 확인하세요.
+              </div>
+              <div className="g3">
+                <div><label style={lbl}>제조사 <span className="req">*</span></label><input style={inp} placeholder="예: 현대" value={form.brand} onChange={e=>set("brand",e.target.value)}/></div>
+                <div><label style={lbl}>모델명 <span className="req">*</span></label><input style={inp} placeholder="예: 아반떼" value={form.modelName} onChange={e=>set("modelName",e.target.value)}/></div>
+                <div><label style={lbl}>등급</label><input style={inp} placeholder="예: 인스퍼레이션" value={form.grade} onChange={e=>set("grade",e.target.value)}/></div>
+                <div><label style={lbl}>변속기 <span className="req">*</span></label>
+                  <select style={sel} value={form.transmission} onChange={e=>set("transmission",e.target.value)}>{TRANSMISSIONS.map(t=><option key={t}>{t}</option>)}</select>
                 </div>
-                <div>
-                  <label style={labelStyle}>최대출력 (마력)</label>
-                  <input style={inputStyle} type="number" placeholder="예: 123" value={form.power} onChange={e=>update("power",e.target.value)} />
+                <div><label style={lbl}>연료 <span className="req">*</span></label>
+                  <select style={sel} value={form.fuel} onChange={e=>set("fuel",e.target.value)}>{FUELS.map(f=><option key={f}>{f}</option>)}</select>
                 </div>
-                <div>
-                  <label style={labelStyle}>연비</label>
-                  <input style={inputStyle} type="text" placeholder="예: 15.2" value={form.efficiency} onChange={e=>update("efficiency",e.target.value)} />
+                <div><label style={lbl}>색상 <span className="req">*</span></label>
+                  <select style={sel} value={form.color} onChange={e=>set("color",e.target.value)}>{COLORS.map(c=><option key={c}>{c}</option>)}</select>
                 </div>
-                <div>
-                  <label style={labelStyle}>변속기</label>
-                  <select style={inputStyle} value={form.transmission} onChange={e=>update("transmission",e.target.value)}>
-                    {TRANSMISSIONS.map(t=><option key={t}>{t}</option>)}
+                <div><label style={lbl}>연식 <span className="req">*</span></label><input style={inp} type="number" placeholder="예: 2021" value={form.year} onChange={e=>set("year",e.target.value)}/></div>
+                <div><label style={lbl}>최초등록일</label><input style={inp} placeholder="예: 20210315" value={form.firstRegDate} onChange={e=>set("firstRegDate",e.target.value)}/></div>
+                <div><label style={lbl}>주행거리 (km) <span className="req">*</span></label><input style={inp} placeholder="예: 32000" value={form.mileage} onChange={e=>set("mileage",e.target.value)}/></div>
+                <div><label style={lbl}>배기량 (cc)</label><input style={inp} placeholder="예: 1598" value={form.displacement} onChange={e=>set("displacement",e.target.value)}/></div>
+                <div><label style={lbl}>최대출력 (마력)</label><input style={inp} placeholder="예: 123" value={form.power} onChange={e=>set("power",e.target.value)}/></div>
+                <div><label style={lbl}>연비 (km/ℓ)</label><input style={inp} placeholder="예: 14.2" value={form.efficiency} onChange={e=>set("efficiency",e.target.value)}/></div>
+                <div><label style={lbl}>소유자 변경 <span className="req">*</span></label>
+                  <select style={sel} value={form.owners} onChange={e=>set("owners",e.target.value)}>
+                    {["1","2","3","4","5이상"].map(o=><option key={o} value={o}>{o}인</option>)}
+                  </select>
+                </div>
+                <div><label style={lbl}>사고 유무 <span className="req">*</span></label>
+                  <select style={sel} value={form.accident} onChange={e=>set("accident",e.target.value)}>
+                    {["없음","경미한 사고","사고 있음"].map(a=><option key={a}>{a}</option>)}
                   </select>
                 </div>
               </div>
-              <div style={{ marginTop:"20px", background:"#EEF2FF", border:"1px solid #B8C8FF", borderRadius:"12px", padding:"14px 18px", display:"flex", gap:"10px" }}>
-                <Lock size={18} color="#1847FF" style={{ flexShrink:0 }}/>
-                <div style={{ fontSize:"13px", color:"#1847FF", lineHeight:1.6, fontWeight:400 }}>
-                  <strong style={{ fontWeight:800 }}>FIX 가격이란?</strong> 등록한 가격이 최종 판매가예요. 구매자와 가격 협상 없이 고정 가격으로 판매돼요.
+            </div>
+
+            {/* 3. 가격 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">3</div>가격 정보</div>
+              <div className="g2">
+                <div>
+                  <label style={lbl}>판매가 (만원) <span className="req">*</span></label>
+                  <input style={inp} placeholder="예: 1450" value={form.price} onChange={e=>set("price",e.target.value)}/>
+                  <div style={{fontSize:"12px",color:"#AAA",marginTop:"5px",fontWeight:400}}>국산차 미입력 시 광고 불가</div>
                 </div>
-              </div>
-              <div style={{ display:"flex", gap:"12px", marginTop:"24px" }}>
-                <button onClick={()=>setStep(1)} style={{ background:"white", border:"2px solid #E0DDD7", borderRadius:"12px", padding:"14px 24px", fontSize:"14px", fontWeight:700, display:"flex", alignItems:"center", gap:"8px", cursor:"pointer" }}>
-                  <ArrowLeft size={15}/> 이전
-                </button>
-                <button className="btn-red" style={{ flex:1 }} onClick={()=>setStep(3)}>
-                  다음 — 사진 등록 <ChevronRight size={16}/>
-                </button>
+                <div style={{display:"flex",flexDirection:"column",gap:"12px",justifyContent:"center"}}>
+                  <label style={{display:"flex",alignItems:"center",gap:"8px",cursor:"pointer",fontSize:"14px",fontWeight:700}}>
+                    <input type="checkbox" checked={form.fixPrice} onChange={e=>set("fixPrice",e.target.checked)} style={{accentColor:"#FF3B1E",width:"16px",height:"16px"}}/>
+                    🔒 FIX 정찰가 등록
+                  </label>
+                  <label style={{display:"flex",alignItems:"center",gap:"8px",cursor:"pointer",fontSize:"14px",fontWeight:400,color:"#888"}}>
+                    <input type="checkbox" checked={form.negotiable} onChange={e=>set("negotiable",e.target.checked)} style={{width:"16px",height:"16px"}}/>
+                    상담가 표시 (협의 가능)
+                  </label>
+                </div>
               </div>
             </div>
-          )}
 
-          {/* STEP 3 — 사진 등록 */}
-          {step===3 && (
-            <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
-              <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"4px", display:"flex", alignItems:"center", gap:"10px" }}>
-                <Camera size={20} color="#1847FF"/> 차량 사진 등록
+            {/* 4. 사고이력 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">4</div>사고이력 정보</div>
+              <div style={{background:"#FFF0ED",border:"1px solid #FFB8A8",borderRadius:"10px",padding:"11px 14px",marginBottom:"14px",fontSize:"12px",color:"#CC2200",lineHeight:1.7,fontWeight:400}}>
+                ※ 허위 기재 시 표시광고의 공정화에 관한 법률에 의해 <strong>1억원 이하 과태료</strong>가 부과될 수 있습니다.
               </div>
-              <div style={{ fontSize:"14px", color:"#888", marginBottom:"6px", fontWeight:400 }}>
-                외관·실내·엔진룸 사진을 올려주세요. 사진이 많을수록 문의가 늘어요!
+              <div className="g2">
+                {[["용도변경 이력","usageChange"],["소유자 변경","ownerChange"],["차량번호 변경","plateChange"],["내차 피해","selfDamage"],["상대차 피해","otherDamage"]].map(([l,k])=>(
+                  <div key={k}>
+                    <label style={lbl}>{l}</label>
+                    <select style={sel} value={form[k as keyof typeof form] as string} onChange={e=>set(k,e.target.value)}>
+                      {["없음","있음"].map(v=><option key={v}>{v}</option>)}
+                    </select>
+                  </div>
+                ))}
               </div>
-              <div style={{ fontSize:"13px", color:"#AAA", marginBottom:"20px", fontWeight:400 }}>
-                {images.length}/{MAX_IMAGES}장 업로드됨
+              <label style={{display:"flex",alignItems:"center",gap:"8px",marginTop:"12px",cursor:"pointer",fontSize:"14px",fontWeight:700}}>
+                <input type="checkbox" checked={form.shareAccident} onChange={e=>set("shareAccident",e.target.checked)} style={{accentColor:"#FF3B1E",width:"16px",height:"16px"}}/>
+                차량광고에 사고이력 정보 공개
+              </label>
+            </div>
+
+            {/* 5. 점검기록부 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">5</div>성능·상태 점검기록부</div>
+              <div className="g2">
+                {[["엔진 상태","engineStatus"],["변속기 상태","transmissionStatus"],["브레이크 상태","brakeStatus"],["외관 상태","bodyStatus"]].map(([l,k])=>(
+                  <div key={k}>
+                    <label style={lbl}>{l}</label>
+                    <select style={sel} value={form[k as keyof typeof form] as string} onChange={e=>set(k,e.target.value)}>
+                      {["양호","정비요","불량"].map(v=><option key={v}>{v}</option>)}
+                    </select>
+                  </div>
+                ))}
               </div>
-
-              {/* 업로드 버튼 */}
-              {images.length < MAX_IMAGES && (
-                <div
-                  className="upload-zone"
-                  style={{ padding:"36px", textAlign:"center", marginBottom:"20px" }}
-                  onClick={() => fileRef.current?.click()}
-                >
-                  {uploading ? (
-                    <div>
-                      <Loader size={36} color="#1847FF" style={{ margin:"0 auto 12px", animation:"spin 1s linear infinite" }} />
-                      <div style={{ fontSize:"15px", fontWeight:800, color:"#1847FF", marginBottom:"6px" }}>업로드 중... {uploadProgress}%</div>
-                      <div style={{ height:"6px", background:"#E0DDD7", borderRadius:"3px", overflow:"hidden", maxWidth:"200px", margin:"0 auto" }}>
-                        <div style={{ height:"6px", background:"#1847FF", borderRadius:"3px", width:`${uploadProgress}%`, transition:"width 0.3s" }} />
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <Upload size={36} color="#AAA" style={{ margin:"0 auto 12px" }} />
-                      <div style={{ fontSize:"16px", fontWeight:800, color:"#555", marginBottom:"6px" }}>클릭해서 사진 추가</div>
-                      <div style={{ fontSize:"13px", color:"#AAA", fontWeight:400 }}>JPG, PNG · 최대 10MB · 여러 장 선택 가능 · 최대 {MAX_IMAGES}장</div>
-                    </>
-                  )}
-                  <input
-                    ref={fileRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    multiple
-                    onChange={handleImageUpload}
-                    style={{ display:"none" }}
-                    disabled={uploading}
-                  />
-                </div>
-              )}
-
-              {/* 업로드된 이미지 그리드 */}
-              {images.length > 0 && (
-                <div className="img-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:"10px", marginBottom:"20px" }}>
-                  {images.map((url, i) => (
-                    <div key={i} className="img-card">
-                      <img src={url} alt={`차량 ${i+1}`} />
-                      {i===0 && (
-                        <div style={{ position:"absolute", top:6, left:6, background:"#1847FF", color:"white", padding:"2px 8px", borderRadius:"100px", fontSize:"10px", fontWeight:800 }}>대표</div>
-                      )}
-                      <button
-                        className="delete-btn"
-                        onClick={() => setImages(prev => prev.filter((_,idx) => idx !== i))}
-                      >
-                        <X size={12} color="white" />
-                      </button>
-                    </div>
-                  ))}
-                  {images.length < MAX_IMAGES && (
-                    <div
-                      onClick={() => fileRef.current?.click()}
-                      style={{ aspectRatio:"4/3", borderRadius:"12px", border:"2px dashed #E0DDD7", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", cursor:"pointer", background:"#F8F6F2", transition:"all 0.15s" }}
-                    >
-                      <Plus size={24} color="#AAA" />
-                      <div style={{ fontSize:"11px", color:"#AAA", marginTop:"6px", fontWeight:400 }}>추가</div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div style={{ display:"flex", gap:"12px" }}>
-                <button onClick={()=>setStep(2)} style={{ background:"white", border:"2px solid #E0DDD7", borderRadius:"12px", padding:"14px 24px", fontSize:"14px", fontWeight:700, display:"flex", alignItems:"center", gap:"8px", cursor:"pointer" }}>
-                  <ArrowLeft size={15}/> 이전
-                </button>
-                <button className="btn-red" style={{ flex:1 }} onClick={()=>setStep(4)}>
-                  다음 — 태그·옵션 <ChevronRight size={16}/>
-                </button>
+              <div style={{background:"#EEF2FF",border:"1px solid #B8C8FF",borderRadius:"10px",padding:"10px 14px",marginTop:"12px",fontSize:"12px",color:"#1847FF",fontWeight:400}}>
+                📋 전체 점검기록부는 제휴 성능점검장에서 검사 후 자동 등록됩니다.
               </div>
             </div>
-          )}
 
-          {/* STEP 4 — 태그·옵션 */}
-          {step===4 && (
-            <div style={{ display:"flex", flexDirection:"column", gap:"20px" }}>
-              <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
-                <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"6px" }}>차량 태그 선택</div>
-                <div style={{ fontSize:"14px", color:"#888", marginBottom:"18px", fontWeight:400 }}>매물 목록에서 강조 표시돼요</div>
-                <div style={{ display:"flex", gap:"8px", flexWrap:"wrap" }}>
-                  {TAGS_LIST.map(tag => (
-                    <button key={tag} className="tag-btn" onClick={()=>toggleItem("tags",tag)} style={{ borderColor:form.tags.includes(tag)?"#FF3B1E":"#E0DDD7", color:form.tags.includes(tag)?"#FF3B1E":"#555", background:form.tags.includes(tag)?"#FFF0ED":"#F8F6F2" }}>
-                      {form.tags.includes(tag)?"✓ ":""}{tag}
+            {/* 6. 옵션 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">6</div>옵션 사항</div>
+              <div style={{background:"#FFF8EC",border:"1px solid #FFD89A",borderRadius:"10px",padding:"10px 14px",marginBottom:"14px",fontSize:"12px",color:"#7A5500",fontWeight:400}}>
+                ※ 구매자와의 법적분쟁 방지를 위해 실 차량 확인 후 정확히 입력해주세요.
+              </div>
+              {Object.entries(OPTIONS_LIST).map(([cat, items]) => (
+                <div key={cat} style={{marginBottom:"16px"}}>
+                  <div style={{fontSize:"13px",fontWeight:800,color:"#555",marginBottom:"8px",padding:"6px 0",borderBottom:"1px solid #F0EEE9"}}>{cat}</div>
+                  <div style={{display:"flex",flexWrap:"wrap",gap:"6px"}}>
+                    {items.map(o=>(
+                      <button key={o} className={`ob${opts.includes(o)?" on":""}`} onClick={()=>toggleOpt(o)}>{o}</button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* 7. 차량 설명 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">7</div>차량 설명</div>
+              <textarea rows={6} placeholder="차량의 특징, 관리 이력 등을 자유롭게 작성해주세요.&#10;예: 1인 오너, 정기점검 완료, 외관 흠집 없음" value={form.description} onChange={e=>set("description",e.target.value)}
+                style={{width:"100%",border:"1.5px solid #E0DDD7",borderRadius:"10px",padding:"12px 14px",fontSize:"14px",resize:"vertical",background:"#FAFAF8"}}/>
+            </div>
+
+            {/* 8. 목록 문구 */}
+            <div className="card">
+              <div className="stitle"><div className="snum">8</div>목록 문구 (20자 이내)</div>
+              <input style={inp} placeholder="예: 1인소유, 무사고, 교환가능" maxLength={20} value={form.specialNote} onChange={e=>set("specialNote",e.target.value)}/>
+              <div style={{fontSize:"12px",color:"#AAA",marginTop:"5px",fontWeight:400}}>{form.specialNote.length}/20자 · 차량 목록에 표시되는 짧은 문구예요</div>
+            </div>
+
+            <button onClick={()=>setStep(1)} style={{width:"100%",background:"#FF3B1E",color:"white",border:"none",padding:"16px",borderRadius:"14px",fontSize:"16px",fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",gap:"8px"}}>
+              다음 단계 — 차량 사진 등록 <ChevronRight size={18}/>
+            </button>
+          </>}
+
+          {step === 1 && <>
+            <div className="card">
+              <div className="stitle"><div className="snum" style={{background:"#1847FF"}}>📸</div>차량 사진 등록 (최대 30장)</div>
+              <div style={{background:"#EEF2FF",border:"1px solid #B8C8FF",borderRadius:"10px",padding:"12px 16px",marginBottom:"16px",fontSize:"13px",color:"#1847FF",lineHeight:1.75,fontWeight:400}}>
+                <strong style={{fontWeight:800}}>권장 촬영 순서:</strong> 정면 → 측면(좌/우) → 후면 → 계기판 → 시트 → 트렁크 → 엔진룸 → 외관 흠집
+              </div>
+              <input ref={fileRef} type="file" multiple accept="image/*" onChange={handleImages} style={{display:"none"}}/>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:"8px",marginBottom:"12px"}}>
+                {images.map((img,i)=>(
+                  <div key={i} style={{position:"relative",paddingBottom:"100%",borderRadius:"10px",overflow:"hidden",background:"#F0EEE9"}}>
+                    <img src={img} alt="" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>
+                    <button onClick={()=>setImages(p=>p.filter((_,idx)=>idx!==i))} style={{position:"absolute",top:"4px",right:"4px",background:"rgba(0,0,0,0.6)",border:"none",borderRadius:"50%",width:"22px",height:"22px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <X size={12} color="white"/>
                     </button>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ background:"white", borderRadius:"20px", padding:"28px 32px" }}>
-                <div style={{ fontSize:"18px", fontWeight:800, marginBottom:"6px" }}>주요 옵션 선택</div>
-                <div style={{ fontSize:"14px", color:"#888", marginBottom:"18px", fontWeight:400 }}>탑재된 옵션을 선택해주세요</div>
-                <div style={{ display:"flex", gap:"8px", flexWrap:"wrap" }}>
-                  {OPTIONS_LIST.map(opt => (
-                    <button key={opt} className="tag-btn" onClick={()=>toggleItem("options",opt)} style={{ borderColor:form.options.includes(opt)?"#1847FF":"#E0DDD7", color:form.options.includes(opt)?"#1847FF":"#555", background:form.options.includes(opt)?"#EEF2FF":"#F8F6F2" }}>
-                      {form.options.includes(opt)?"✓ ":""}{opt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 최종 확인 */}
-              <div style={{ background:"#1A1A1A", borderRadius:"20px", padding:"24px 28px" }}>
-                <div style={{ fontSize:"15px", fontWeight:800, color:"white", marginBottom:"16px", display:"flex", alignItems:"center", gap:"8px" }}>
-                  <DollarSign size={18} color="#FF3B1E"/> 등록 정보 최종 확인
-                </div>
-                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"8px" }}>
-                  {[
-                    ["차량명", `${form.brand} ${form.name}`],
-                    ["연식", `${form.year}년식`],
-                    ["주행거리", `${parseInt(form.mileage||"0").toLocaleString()}km`],
-                    ["FIX 가격", `${parseInt(form.price||"0").toLocaleString()}만원`],
-                    ["연료", form.fuel],
-                    ["위치", form.region],
-                    ["사진", `${images.length}장`],
-                    ["사고이력", form.accident?"있음":"무사고"],
-                  ].map(([k,v]) => (
-                    <div key={k} style={{ display:"flex", justifyContent:"space-between", padding:"8px 12px", background:"rgba(255,255,255,0.06)", borderRadius:"8px" }}>
-                      <span style={{ fontSize:"12px", color:"rgba(255,255,255,0.4)", fontWeight:400 }}>{k}</span>
-                      <span style={{ fontSize:"12px", fontWeight:800, color:"white" }}>{v}</span>
+                  </div>
+                ))}
+                {images.length < 30 && (
+                  <button onClick={()=>fileRef.current?.click()} style={{position:"relative",paddingBottom:"100%",borderRadius:"10px",border:"2px dashed #E0DDD7",background:"#FAFAF8",cursor:"pointer"}}>
+                    <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:"4px"}}>
+                      <Camera size={20} color="#AAA"/><span style={{fontSize:"11px",color:"#AAA",fontWeight:700}}>추가</span>
                     </div>
-                  ))}
-                </div>
+                  </button>
+                )}
               </div>
+              <div style={{fontSize:"13px",color:"#AAA",fontWeight:400}}>{images.length}/30장 등록됨</div>
+            </div>
+            <div style={{display:"flex",gap:"10px"}}>
+              <button onClick={()=>setStep(0)} style={{flex:1,background:"#F0EEE9",color:"#555",border:"none",padding:"15px",borderRadius:"12px",fontSize:"15px",fontWeight:800}}>← 이전</button>
+              <button onClick={()=>setStep(2)} style={{flex:2,background:"#FF3B1E",color:"white",border:"none",padding:"15px",borderRadius:"12px",fontSize:"15px",fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",gap:"8px"}}>
+                다음 단계 — 최종 확인 <ChevronRight size={16}/>
+              </button>
+            </div>
+          </>}
 
-              <div style={{ display:"flex", gap:"12px" }}>
-                <button onClick={()=>setStep(3)} style={{ background:"white", border:"2px solid #E0DDD7", borderRadius:"12px", padding:"14px 24px", fontSize:"14px", fontWeight:700, display:"flex", alignItems:"center", gap:"8px", cursor:"pointer" }}>
-                  <ArrowLeft size={15}/> 이전
-                </button>
-                <button className="btn-red" style={{ flex:1 }} disabled={submitting} onClick={handleSubmit}>
-                  {submitting ? "등록 중..." : <><CheckCircle size={16}/> 매물 등록 완료</>}
-                </button>
+          {step === 2 && <>
+            <div className="card">
+              <div className="stitle"><div className="snum" style={{background:"#2D8A52"}}>✓</div>최종 확인</div>
+              <div style={{display:"flex",flexDirection:"column",gap:"0"}}>
+                {[
+                  ["차량명",`${form.brand} ${form.modelName} ${form.grade}`.trim()||"-"],
+                  ["연식",form.year?`${form.year}년식`:"-"],
+                  ["주행거리",form.mileage?`${parseInt(form.mileage.replace(/,/g,"")).toLocaleString()}km`:"-"],
+                  ["연료/변속기",`${form.fuel} / ${form.transmission}`],
+                  ["색상",form.color],
+                  ["소유자",`${form.owners}인`],
+                  ["사고이력",form.accident],
+                  ["판매가",form.price?`${parseInt(form.price.replace(/,/g,"")).toLocaleString()}만원`:"-"],
+                  ["FIX 정찰가",form.fixPrice?"✅ FIX 등록":"❌ 일반"],
+                  ["위치",form.region],
+                  ["사진",`${images.length}장`],
+                  ["선택 옵션",`${opts.length}개`],
+                ].map(([k,v])=>(
+                  <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"11px 0",borderBottom:"1px solid #F0EEE9"}}>
+                    <span style={{fontSize:"14px",color:"#888",fontWeight:400}}>{k}</span>
+                    <span style={{fontSize:"14px",fontWeight:700}}>{v}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          )}
+            <div style={{background:"#EAF6EF",border:"1px solid #B8DFC8",borderRadius:"14px",padding:"14px 18px",marginBottom:"14px",fontSize:"13px",color:"#555",lineHeight:1.75,fontWeight:400}}>
+              • 등록된 매물은 관리자 검수 후 24시간 내 게시돼요<br/>
+              • 허위매물 등록 시 이용이 제한됩니다
+            </div>
+            <div style={{display:"flex",gap:"10px"}}>
+              <button onClick={()=>setStep(1)} style={{flex:1,background:"#F0EEE9",color:"#555",border:"none",padding:"15px",borderRadius:"12px",fontSize:"15px",fontWeight:800}}>← 이전</button>
+              <button onClick={handleSubmit} disabled={submitting} style={{flex:2,background:submitting?"#E0DDD7":"#FF3B1E",color:submitting?"#AAA":"white",border:"none",padding:"15px",borderRadius:"12px",fontSize:"15px",fontWeight:800,cursor:submitting?"default":"pointer"}}>
+                {submitting?"등록 중...":"🚀 매물 등록하기"}
+              </button>
+            </div>
+          </>}
         </div>
       </div>
     </>
