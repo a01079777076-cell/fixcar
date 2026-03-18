@@ -66,6 +66,8 @@ export default function Home() {
   return (
     <>
       <style>{`
+      .content-banner-card { transition:all 0.2s; }
+.content-banner-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.07); }
         @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -264,7 +266,7 @@ export default function Home() {
               { emoji:"💬", title:"커뮤니티", desc:"자유게시판·리뷰·Q&A", href:"/community", color:"#E8A020" },
             ].map(item => (
               <a key={item.title} href={item.href}>
-                <div style={{ background:"white", borderRadius:"18px", padding:"22px", transition:"all 0.2s", cursor:"pointer" }}
+                <div className="content-banner-card" style={{ background:"white", borderRadius:"18px", padding:"22px", cursor:"pointer" }}>
                   onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-3px)")}
                   onMouseLeave={e => (e.currentTarget.style.transform = "none")}>
                   <div style={{ fontSize:"28px", marginBottom:"10px" }}>{item.emoji}</div>
