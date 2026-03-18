@@ -22,9 +22,11 @@ model User {
   favorites         Favorite[]
   inquiries         Inquiry[]
   purchases         Purchase[]
-  blogPosts         BlogPost[]        @relation("BlogPosts")
-  communityPosts    CommunityPost[]   @relation("CommunityPosts")
+  blogPosts         BlogPost[]         @relation("BlogPosts")
+  communityPosts    CommunityPost[]    @relation("CommunityPosts")
   communityComments CommunityComment[] @relation("CommunityComments")
+  wishAlerts        WishAlert[]        @relation("WishAlerts")
+  catalogReports    CatalogReport[]    @relation("CatalogReports")
 }
 
 enum Role {
@@ -177,34 +179,31 @@ model CommunityComment {
   createdAt DateTime      @default(now())
 }
 
+// 매물 알림
 model WishAlert {
   id        Int      @id @default(autoincrement())
   userId    Int
   user      User     @relation("WishAlerts", fields: [userId], references: [id], onDelete: Cascade)
-  brand     String?  // 브랜드 (null = 전체)
-  model     String?  // 모델명 (null = 전체)
-  minPrice  Int?     // 최소 가격 (만원)
-  maxPrice  Int?     // 최대 가격 (만원)
-  minYear   Int?     // 최소 연식
-  maxYear   Int?     // 최대 연식
-  fuel      String?  // 연료 (null = 전체)
+  brand     String?
+  model     String?
+  minPrice  Int?
+  maxPrice  Int?
+  minYear   Int?
+  maxYear   Int?
+  fuel      String?
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+// 카탈로그 정정 신고
 model CatalogReport {
   id          Int      @id @default(autoincrement())
   userId      Int
   user        User     @relation("CatalogReports", fields: [userId], references: [id])
-  carModel    String   // 차량명
+  carModel    String
   wrongInfo   String   @db.Text
   correctInfo String   @db.Text
   status      String   @default("PENDING")
   createdAt   DateTime @default(now())
-  wishAlerts        WishAlert[]       @relation("WishAlerts")
-  catalogReports    CatalogReport[]   @relation("CatalogReports")}
-
-// User 모델에 추가할 relation:
-// wishAlerts     WishAlert[]     @relation("WishAlerts")
-// catalogReports CatalogReport[] @relation("CatalogReports")
+}
