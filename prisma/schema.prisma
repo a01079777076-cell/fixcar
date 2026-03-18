@@ -176,3 +176,34 @@ model CommunityComment {
   author    User          @relation("CommunityComments", fields: [authorId], references: [id])
   createdAt DateTime      @default(now())
 }
+
+model WishAlert {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation("WishAlerts", fields: [userId], references: [id], onDelete: Cascade)
+  brand     String?  // 브랜드 (null = 전체)
+  model     String?  // 모델명 (null = 전체)
+  minPrice  Int?     // 최소 가격 (만원)
+  maxPrice  Int?     // 최대 가격 (만원)
+  minYear   Int?     // 최소 연식
+  maxYear   Int?     // 최대 연식
+  fuel      String?  // 연료 (null = 전체)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CatalogReport {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation("CatalogReports", fields: [userId], references: [id])
+  carModel    String   // 차량명
+  wrongInfo   String   @db.Text
+  correctInfo String   @db.Text
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+}
+
+// User 모델에 추가할 relation:
+// wishAlerts     WishAlert[]     @relation("WishAlerts")
+// catalogReports CatalogReport[] @relation("CatalogReports")
