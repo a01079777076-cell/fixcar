@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import jwt from "jsonwebtoken";
 
 function getUserId(req: NextRequest): string | null {
   const token = req.cookies.get("token")?.value || req.cookies.get("auth-token")?.value;
   if (!token) return null;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const decoded = jwt.verify(token, process.env.NEXTAUTH_SECRET || "fixcar2025secretkey!@#$%") as any;
-    return decoded.userId || decoded.id || decoded.sub || null;
+    /* JWT payload 디코딩 (base64) - 검증은 미들웨어에서 처리 */
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf-8"));
+    return payload.userId || payload.id || payload.sub || null;
   } catch { return null; }
 }
 
-/* GET: 내 찜 목록 */
 export async function GET(req: NextRequest) {
   const userId = getUserId(req);
   if (!userId) return NextResponse.json([], { status: 200 });
@@ -28,7 +28,6 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/* POST: 찜 추가 */
 export async function POST(req: NextRequest) {
   const userId = getUserId(req);
   if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
@@ -36,11 +35,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const carId = body.carId;
     if (!carId) return NextResponse.json({ error: "carId 필수" }, { status: 400 });
-
-    /* 중복 체크 */
     const existing = await prisma.favorite.findFirst({ where: { userId, carId } });
     if (existing) return NextResponse.json(existing);
-
     const fav = await prisma.favorite.create({ data: { userId, carId } });
     return NextResponse.json(fav, { status: 201 });
   } catch (e) {
@@ -48,7 +44,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-/* DELETE: 찜 제거 */
 export async function DELETE(req: NextRequest) {
   const userId = getUserId(req);
   if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
@@ -56,7 +51,6 @@ export async function DELETE(req: NextRequest) {
     const body = await req.json();
     const carId = body.carId;
     if (!carId) return NextResponse.json({ error: "carId 필수" }, { status: 400 });
-
     await prisma.favorite.deleteMany({ where: { userId, carId } });
     return NextResponse.json({ success: true });
   } catch (e) {

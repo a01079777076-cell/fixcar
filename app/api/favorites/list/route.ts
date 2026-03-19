@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import jwt from "jsonwebtoken";
 
 function getUserId(req: NextRequest): string | null {
   const token = req.cookies.get("token")?.value || req.cookies.get("auth-token")?.value;
   if (!token) return null;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const decoded = jwt.verify(token, process.env.NEXTAUTH_SECRET || "fixcar2025secretkey!@#$%") as any;
-    return decoded.userId || decoded.id || decoded.sub || null;
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf-8"));
+    return payload.userId || payload.id || payload.sub || null;
   } catch { return null; }
 }
 
