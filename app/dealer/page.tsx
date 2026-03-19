@@ -3,6 +3,35 @@ import { useState, useEffect } from "react";
 import { Car, MessageCircle, TrendingUp, DollarSign, Plus, Eye, Heart, ArrowRight, Zap, Shield, BarChart2, Bell } from "lucide-react";
 import Link from "next/link";
 
+import RoleGuard from "@/components/RoleGuard";
+
+// 기존 export default function DealerDashboard() { 내용을 감싸기:
+export default function DealerPage() {
+  return (
+    <RoleGuard allowedRoles={["DEALER", "ADMIN"]}>
+      <DealerDashboard />
+    </RoleGuard>
+  );
+}
+
+function DealerDashboard() {
+  // 기존 코드 그대로
+}
+
+import RoleGuard from "@/components/RoleGuard";
+
+export default function AdminPage() {
+  return (
+    <RoleGuard allowedRoles={["ADMIN"]}>
+      <AdminContent />
+    </RoleGuard>
+  );
+}
+
+function AdminContent() {
+  // 기존 코드 그대로
+}
+
 export default function DealerDashboard() {
   const [stats, setStats] = useState({ cars:0, inquiries:0, views:0, favorites:0 });
 
