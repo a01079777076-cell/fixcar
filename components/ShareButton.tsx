@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Share2, Link2, MessageCircle } from "lucide-react";
+import { Share2, Link2 } from "lucide-react";
 
 export default function ShareButton({ carId, carName, price }: { carId:number; carName:string; price:number }) {
   const [open, setOpen] = useState(false);
@@ -13,10 +13,22 @@ export default function ShareButton({ carId, carName, price }: { carId:number; c
   };
 
   const shareKakao = () => {
-    const k = (window as Record<string,unknown>)["Kakao"] as {Share?:{sendDefault:(o:unknown)=>void}};
-    if (k?.Share) {
-      k.Share.sendDefault({ objectType:"feed", content:{ title:carName, description:`FIX 정찰가 ${price.toLocaleString()}만원`, imageUrl:"https://www.fixcar.kr/favicon.svg", link:{mobileWebUrl:url,webUrl:url} }, buttons:[{title:"차량 보러가기",link:{mobileWebUrl:url,webUrl:url}}] });
-    } else copyLink();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as any;
+    if (w.Kakao?.Share) {
+      w.Kakao.Share.sendDefault({
+        objectType: "feed",
+        content: {
+          title: carName,
+          description: `FIX 정찰가 ${price.toLocaleString()}만원`,
+          imageUrl: "https://www.fixcar.kr/favicon.svg",
+          link: { mobileWebUrl: url, webUrl: url },
+        },
+        buttons: [{ title:"차량 보러가기", link:{ mobileWebUrl:url, webUrl:url } }],
+      });
+    } else {
+      copyLink();
+    }
     setOpen(false);
   };
 
