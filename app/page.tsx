@@ -60,7 +60,7 @@ export default async function Home() {
 
   const FOOTER_COLS = [
     { title:"차량 찾기", links:[["전체 매물","/cars"],["내차 찾기","/quiz-select"],["차량 MBTI","/mbti"],["차량 카탈로그","/catalog"],["자동차 랭킹","/ranking"]] },
-    { title:"정보·커뮤니티", links:[["초보 가이드","/guide"],["픽스카 블로그","/blog"],["커뮤니티","/community"],["자주 묻는 질문","/faq"]] },
+    { title:"정보·커뮤니티", links:[["초보 가이드","/guide"],["픽스카 블로그","/blog"],["커뮤니티","/community"],["자동차 배틀","/battle"],["공개 경매","/auction"],["자주 묻는 질문","/faq"]] },
     { title:"거래하기", links:[["내 차 팔기","/sell"],["서비스 결제","/payment"],["딜러 신청","/dealer/apply"]] },
     { title:"픽스카", links:[["회사 소개","/about"],["고객센터","/contact"],["개인정보처리방침","/privacy"],["이용약관","/terms"]] },
   ];
@@ -90,8 +90,8 @@ export default async function Home() {
         .footer-link{display:block;font-size:14px;color:rgba(255,255,255,0.35);margin-bottom:10px;font-weight:400;transition:color 0.15s;}
         .footer-link:hover{color:rgba(255,255,255,0.7);}
         .img-placeholder{text-align:center;padding:20px;}
-        @media(max-width:1024px){.hero-grid{grid-template-columns:1fr!important;}.hero-img-col{display:none!important;}.cars-3{grid-template-columns:1fr 1fr!important;}.promises-4{grid-template-columns:1fr 1fr!important;}.reviews-3{grid-template-columns:1fr!important;}.footer-cols{grid-template-columns:1fr 1fr!important;}.section-pad{padding-left:24px!important;padding-right:24px!important;}.hero-section{padding:60px 24px 48px!important;}}
-        @media(max-width:600px){.cars-3{grid-template-columns:1fr!important;}.content-banners{grid-template-columns:1fr 1fr!important;}}
+        @media(max-width:1024px){.hero-grid{grid-template-columns:1fr!important;}.hero-img-col{display:none!important;}.cars-3{grid-template-columns:1fr 1fr!important;}.promises-4{grid-template-columns:1fr 1fr!important;}.reviews-3{grid-template-columns:1fr!important;}.footer-cols{grid-template-columns:1fr 1fr!important;}.section-pad{padding-left:24px!important;padding-right:24px!important;}.hero-section{padding:60px 24px 48px!important;}.content-banners{grid-template-columns:1fr 1fr!important;}}
+        @media(max-width:600px){.cars-3{grid-template-columns:1fr!important;}.content-banners{grid-template-columns:1fr!important;}}
         @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
       `}</style>
 
@@ -186,12 +186,14 @@ export default async function Home() {
 
         {/* 콘텐츠 배너 2줄 큰 카드 */}
         <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
+          <div className="content-banners" style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:"16px" }}>
             {[
               { emoji:"📊", title:"자동차 랭킹", subtitle:"궁금하지 않아? 세상 모든 차량 순위가", desc:"최고가·최저가·깡통·풀옵·저주행·초보추천 랭킹표 전체", href:"/ranking", color:"#FF3B1E", bg:"#FFF0ED" },
               { emoji:"📚", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
+              { emoji:"⚔️", title:"자동차 지식배틀", subtitle:"스포츠카 vs 럭셔리카 64강 토너먼트", desc:"당신의 드림카는? 64대 자동차 월드컵 지금 시작!", href:"/battle", color:"#9B30FF", bg:"#F5EEFF" },
+              { emoji:"🔨", title:"공개 경매", subtitle:"실시간 입찰, 투명한 가격 경쟁", desc:"직접 검수한 차량을 경매로! 뒷자리 숨김 입찰 시스템", href:"/auction", color:"#E8A020", bg:"#FFF8EC" },
               { emoji:"✍️", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"모아놓는 중! 딜러 추천 꿀템부터 관리 노하우까지", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
-              { emoji:"💬", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#E8A020", bg:"#FFF8EC" },
+              { emoji:"💬", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#CC6633", bg:"#FFF5ED" },
             ].map(item=>(
               <a key={item.title} href={item.href}>
                 <div className="content-banner-card" style={{ background:"white", borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%" }}>

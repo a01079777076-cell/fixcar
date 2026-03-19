@@ -7,12 +7,22 @@ export default function Navbar() {
   const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const pathname = usePathname();
   const userMenuRef = useRef<HTMLDivElement>(null);
   const isDealer = pathname.startsWith("/dealer");
 
   useEffect(() => {
-    fetch("/api/auth/session").then(r => r.json()).then(d => { if (d?.user) setUser(d.user); }).catch(() => {});
+    /* 로그아웃 직후에는 세션 체크 안 함 */
+    if (sessionStorage.getItem("fixcar_logged_out") === "true") {
+      sessionStorage.removeItem("fixcar_logged_out");
+      setUser(null);
+      return;
+    }
+    fetch("/api/auth/session", { cache: "no-store" })
+      .then(r => r.json())
+      .then(d => { if (d?.user) setUser(d.user); else setUser(null); })
+      .catch(() => setUser(null));
   }, []);
 
   useEffect(() => {
@@ -24,15 +34,37 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-    } catch {}
-    /* 쿠키 직접 삭제 */
-    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    setLoggingOut(true);
     setUser(null);
     setShowUserMenu(false);
-    window.location.href = "/";
+
+    /* 1. 서버 쿠키 삭제 요청 */
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch {}
+
+    /* 2. 클라이언트 쿠키 전부 삭제 (httpOnly 제외한 것들) */
+    const cookieNames = ["token", "auth-token", "session", "next-auth.session-token"];
+    const domains = ["", ".fixcar.kr", "fixcar.kr", "www.fixcar.kr"];
+    const paths = ["/", ""];
+    cookieNames.forEach(name => {
+      domains.forEach(domain => {
+        paths.forEach(path => {
+          let cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path || "/"}`;
+          if (domain) cookie += `; domain=${domain}`;
+          document.cookie = cookie;
+        });
+      });
+    });
+
+    /* 3. sessionStorage 플래그 - 리다이렉트 후 재로그인 방지 */
+    sessionStorage.setItem("fixcar_logged_out", "true");
+
+    /* 4. 강제 리다이렉트 (캐시 무시) */
+    window.location.replace("/?_t=" + Date.now());
   };
 
   const accent = isDealer ? "#0066FF" : "#FF3B1E";
@@ -43,7 +75,7 @@ export default function Navbar() {
     { label: "카탈로그", href: "/catalog" },
     { label: "랭킹", href: "/ranking" },
     { label: "배틀", href: "/battle" },
-    { label: "블로그", href: "/blog" },
+    { label: "경매", href: "/auction" },
   ];
 
   return (
@@ -77,7 +109,7 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* 딜러 히든버튼 - 5번 탭 */}
+            {/* 딜러 히든버튼 */}
             <Link href="/dealer" style={{
               padding: "8px 12px", borderRadius: 10, fontSize: 14, fontWeight: 600,
               color: "transparent", textDecoration: "none", userSelect: "none",
@@ -122,12 +154,13 @@ export default function Navbar() {
                       </Link>
                     ))}
                     <div style={{ height: 1, background: "#F0EEE9", margin: "4px 8px" }} />
-                    <button onClick={handleLogout} style={{
+                    <button onClick={handleLogout} disabled={loggingOut} style={{
                       width: "100%", padding: "10px 14px", borderRadius: 8, border: "none",
                       background: "transparent", fontSize: 13, fontWeight: 700, color: "#E24B4A",
-                      textAlign: "left", cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif",
+                      textAlign: "left", cursor: loggingOut ? "wait" : "pointer", fontFamily: "'NanumSquareRound',sans-serif",
+                      opacity: loggingOut ? 0.5 : 1,
                     }}>
-                      로그아웃
+                      {loggingOut ? "로그아웃 중..." : "로그아웃"}
                     </button>
                   </div>
                 )}
@@ -165,7 +198,7 @@ export default function Navbar() {
             padding: "8px 16px 16px", borderTop: "1px solid #F0EEE9",
             display: "flex", flexDirection: "column", gap: 2,
           }}>
-            {NAV_LINKS.map(link => (
+            {[...NAV_LINKS, { label: "블로그", href: "/blog" }].map(link => (
               <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} style={{
                 padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 700,
                 color: pathname === link.href ? accent : "#555",
