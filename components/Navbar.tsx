@@ -3,6 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+/* 카카오 로그인 시작 URL */
+const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID || "6cf753da0f172df40eda14bd143c8bec"}&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || "https://www.fixcar.kr/api/auth/kakao/callback")}&response_type=code`;
+
 export default function Navbar() {
   const [user, setUser] = useState<{ name?: string; email?: string; role?: string } | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,7 +41,8 @@ export default function Navbar() {
     setUser(null);
     setShowUserMenu(false);
     try { await fetch("/api/auth/logout", { method: "POST", credentials: "include" }); } catch {}
-    const cookieNames = ["token", "auth-token", "session", "next-auth.session-token"];
+    /* ★ fixcar-token 포함 모든 쿠키 삭제 */
+    const cookieNames = ["fixcar-token", "token", "auth-token", "session", "next-auth.session-token"];
     const domains = ["", ".fixcar.kr", "fixcar.kr", "www.fixcar.kr"];
     cookieNames.forEach(name => {
       domains.forEach(domain => {
@@ -78,12 +82,10 @@ export default function Navbar() {
           maxWidth: 1200, margin: "0 auto", padding: "0 20px",
           display: "flex", alignItems: "center", justifyContent: "space-between", height: 60,
         }}>
-          {/* 로고 */}
           <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 24, color: accent, letterSpacing: 1.5 }}>FIXCAR</span>
           </Link>
 
-          {/* PC 메뉴 */}
           <div className="nav-pc-menu" style={{ display: "flex", alignItems: "center", gap: 4 }}>
             {NAV_LINKS.map(link => (
               <Link key={link.href} href={link.href} style={{
@@ -95,33 +97,18 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-
-            {/* ★ 딜러 히든버튼 - DEALER 또는 ADMIN만 보임 */}
             {isDealerUser && (
-              <Link href="/dealer" style={{
-                padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 800,
-                color: "#0066FF", textDecoration: "none",
-                background: "#EEF5FF", border: "1px solid #DDEEFF",
-                marginLeft: 4,
-              }}>
+              <Link href="/dealer" style={{ padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 800, color: "#0066FF", textDecoration: "none", background: "#EEF5FF", border: "1px solid #DDEEFF", marginLeft: 4 }}>
                 🏪 딜러
               </Link>
             )}
-
-            {/* ★ 관리자 히든버튼 - ADMIN만 보임 */}
             {isAdminUser && (
-              <Link href="/admin" style={{
-                padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 800,
-                color: "#FF3B1E", textDecoration: "none",
-                background: "#FFF0ED", border: "1px solid #FFB8A8",
-                marginLeft: 4,
-              }}>
+              <Link href="/admin" style={{ padding: "6px 12px", borderRadius: 8, fontSize: 12, fontWeight: 800, color: "#FF3B1E", textDecoration: "none", background: "#FFF0ED", border: "1px solid #FFB8A8", marginLeft: 4 }}>
                 ⚙️ 관리자
               </Link>
             )}
           </div>
 
-          {/* 우측 영역 */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             {user ? (
               <div ref={userMenuRef} style={{ position: "relative" }}>
@@ -135,13 +122,8 @@ export default function Navbar() {
                     {(user.name || "U")[0]}
                   </span>
                   {user.name || "회원"}
-                  {/* role 뱃지 */}
                   {userRole !== "USER" && (
-                    <span style={{
-                      fontSize: 9, fontWeight: 800, padding: "2px 6px", borderRadius: 4,
-                      background: userRole === "ADMIN" ? "#FF3B1E" : "#0066FF",
-                      color: "white", letterSpacing: 0.5,
-                    }}>{userRole}</span>
+                    <span style={{ fontSize: 9, fontWeight: 800, padding: "2px 6px", borderRadius: 4, background: userRole === "ADMIN" ? "#FF3B1E" : "#0066FF", color: "white", letterSpacing: 0.5 }}>{userRole}</span>
                   )}
                 </button>
                 {showUserMenu && (
@@ -159,30 +141,14 @@ export default function Navbar() {
                       <Link key={i} href={item.href} onClick={() => setShowUserMenu(false)} style={{
                         display: "block", padding: "10px 14px", borderRadius: 8, fontSize: 13,
                         fontWeight: 600, color: "#333", textDecoration: "none",
-                      }}>
-                        {item.label}
-                      </Link>
+                      }}>{item.label}</Link>
                     ))}
-                    {/* 딜러 메뉴 */}
                     {isDealerUser && (
-                      <>
-                        <div style={{ height: 1, background: "#F0EEE9", margin: "4px 8px" }} />
-                        <Link href="/dealer" onClick={() => setShowUserMenu(false)} style={{
-                          display: "block", padding: "10px 14px", borderRadius: 8, fontSize: 13,
-                          fontWeight: 700, color: "#0066FF", textDecoration: "none",
-                        }}>
-                          🏪 딜러 대시보드
-                        </Link>
-                      </>
+                      <><div style={{ height: 1, background: "#F0EEE9", margin: "4px 8px" }} />
+                      <Link href="/dealer" onClick={() => setShowUserMenu(false)} style={{ display: "block", padding: "10px 14px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#0066FF", textDecoration: "none" }}>🏪 딜러 대시보드</Link></>
                     )}
-                    {/* 관리자 메뉴 */}
                     {isAdminUser && (
-                      <Link href="/admin" onClick={() => setShowUserMenu(false)} style={{
-                        display: "block", padding: "10px 14px", borderRadius: 8, fontSize: 13,
-                        fontWeight: 700, color: "#FF3B1E", textDecoration: "none",
-                      }}>
-                        ⚙️ 관리자 패널
-                      </Link>
+                      <Link href="/admin" onClick={() => setShowUserMenu(false)} style={{ display: "block", padding: "10px 14px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#FF3B1E", textDecoration: "none" }}>⚙️ 관리자 패널</Link>
                     )}
                     <div style={{ height: 1, background: "#F0EEE9", margin: "4px 8px" }} />
                     <button onClick={handleLogout} disabled={loggingOut} style={{
@@ -190,14 +156,13 @@ export default function Navbar() {
                       background: "transparent", fontSize: 13, fontWeight: 700, color: "#E24B4A",
                       textAlign: "left", cursor: loggingOut ? "wait" : "pointer", fontFamily: "'NanumSquareRound',sans-serif",
                       opacity: loggingOut ? 0.5 : 1,
-                    }}>
-                      {loggingOut ? "로그아웃 중..." : "로그아웃"}
-                    </button>
+                    }}>{loggingOut ? "로그아웃 중..." : "로그아웃"}</button>
                   </div>
                 )}
               </div>
             ) : (
-              <a href="/api/auth/kakao/callback" style={{ textDecoration: "none" }}>
+              /* ★ 수정: 카카오 인증 페이지로 이동 (콜백 아님) */
+              <a href={KAKAO_LOGIN_URL} style={{ textDecoration: "none" }}>
                 <button style={{
                   padding: "8px 18px", borderRadius: 100, border: "none",
                   background: "#FEE500", color: "#3C1E1E", fontSize: 13, fontWeight: 800,
@@ -209,7 +174,6 @@ export default function Navbar() {
               </a>
             )}
 
-            {/* 모바일 햄버거 */}
             <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} style={{
               display: "none", padding: 8, border: "none", background: "transparent", cursor: "pointer",
               flexDirection: "column", gap: 4,
@@ -223,44 +187,21 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* 모바일 메뉴 */}
         {menuOpen && (
-          <div className="nav-mobile-menu" style={{
-            padding: "8px 16px 16px", borderTop: "1px solid #F0EEE9",
-            display: "flex", flexDirection: "column", gap: 2,
-          }}>
+          <div className="nav-mobile-menu" style={{ padding: "8px 16px 16px", borderTop: "1px solid #F0EEE9", display: "flex", flexDirection: "column", gap: 2 }}>
             {[...NAV_LINKS, { label: "블로그", href: "/blog" }].map(link => (
               <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} style={{
                 padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 700,
                 color: pathname === link.href ? accent : "#555",
-                background: pathname === link.href ? "#FFF0ED" : "transparent",
-                textDecoration: "none",
-              }}>
-                {link.label}
-              </Link>
+                background: pathname === link.href ? "#FFF0ED" : "transparent", textDecoration: "none",
+              }}>{link.label}</Link>
             ))}
-            {isDealerUser && (
-              <Link href="/dealer" onClick={() => setMenuOpen(false)} style={{
-                padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 800,
-                color: "#0066FF", background: "#EEF5FF", textDecoration: "none",
-              }}>🏪 딜러 대시보드</Link>
-            )}
-            {isAdminUser && (
-              <Link href="/admin" onClick={() => setMenuOpen(false)} style={{
-                padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 800,
-                color: "#FF3B1E", background: "#FFF0ED", textDecoration: "none",
-              }}>⚙️ 관리자</Link>
-            )}
+            {isDealerUser && <Link href="/dealer" onClick={() => setMenuOpen(false)} style={{ padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 800, color: "#0066FF", background: "#EEF5FF", textDecoration: "none" }}>🏪 딜러</Link>}
+            {isAdminUser && <Link href="/admin" onClick={() => setMenuOpen(false)} style={{ padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 800, color: "#FF3B1E", background: "#FFF0ED", textDecoration: "none" }}>⚙️ 관리자</Link>}
           </div>
         )}
       </nav>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .nav-pc-menu { display: none !important; }
-          .nav-hamburger { display: flex !important; }
-        }
-      `}</style>
+      <style>{`@media (max-width: 768px) { .nav-pc-menu { display: none !important; } .nav-hamburger { display: flex !important; } }`}</style>
     </>
   );
 }
