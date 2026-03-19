@@ -1,72 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { verifyToken } from "@/lib/auth";
 
-// GET /api/purchases?userId=1
-export async function GET(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
+    const token = req.cookies.get("fixcar-token")?.value;
+    if (!token) return NextResponse.json({ success: false, error: "로그인이 필요해요" }, { status: 401 });
+    const payload = await verifyToken(token);
+    if (!payload) return NextResponse.json({ success: false, error: "인증 실패" }, { status: 401 });
 
-    const where: Record<string, unknown> = {};
-    if (userId) where.userId = parseInt(userId);
+    const { carId, amount, payType, paymentId } = await req.json();
 
-    const purchases = await prisma.purchase.findMany({
-      where,
-      include: {
-        car: {
-          include: {
-            dealer: { select: { shopName: true } },
-          },
-        },
-        user: { select: { name: true, phone: true } },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    return NextResponse.json({ success: true, data: purchases });
-  } catch (error) {
-    console.error("Purchases Error:", error);
-    return NextResponse.json(
-      { success: false, error: "구매 이력을 불러올 수 없어요" },
-      { status: 500 }
-    );
-  }
-}
-
-// POST /api/purchases — 계약금 결제
-export async function POST(request: NextRequest) {
-  try {
-    const { userId, carId, amount, payType } = await request.json();
-
-    if (!userId || !carId || !amount) {
-      return NextResponse.json(
-        { success: false, error: "필수 항목이 누락됐어요" },
-        { status: 400 }
-      );
-    }
-
-    // 차량 상태를 예약중으로 변경
+    // 차량 예약 상태로 변경
     await prisma.car.update({
-      where: { id: parseInt(carId) },
+      where: { id: carId },
       data: { status: "RESERVED" },
     });
 
+    // 구매 레코드 생성
     const purchase = await prisma.purchase.create({
       data: {
-        userId: parseInt(userId),
-        carId: parseInt(carId),
-        amount: parseInt(amount),
-        payType: payType || "installment",
+        userId: payload.id,
+        carId,
+        amount,
+        payType: payType || "card",
         status: "DEPOSIT_PAID",
       },
     });
 
-    return NextResponse.json({ success: true, data: purchase }, { status: 201 });
-  } catch (error) {
-    console.error("Purchase Create Error:", error);
-    return NextResponse.json(
-      { success: false, error: "구매 처리에 실패했어요" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true, data: purchase });
+  } catch {
+    return NextResponse.json({ success: false, error: "결제 처리 실패" }, { status: 500 });
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    const token = req.cookies.get("fixcar-token")?.value;
+    if (!token) return NextResponse.json({ success: false, error: "로그인 필요" }, { status: 401 });
+    const payload = await verifyToken(token);
+    if (!payload) return NextResponse.json({ success: false, error: "인증 실패" }, { status: 401 });
+
+    const purchases = await prisma.purchase.findMany({
+      where: { userId: payload.id },
+      orderBy: { createdAt: "desc" },
+      include: { car: { select: { name:true, price:true, images:true } } },
+    });
+
+    return NextResponse.json({ success: true, data: purchases });
+  } catch {
+    return NextResponse.json({ success: false, error: "조회 실패" }, { status: 500 });
   }
 }

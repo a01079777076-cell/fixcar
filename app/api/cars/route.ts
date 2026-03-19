@@ -1,92 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status");
-    const fuel = searchParams.get("fuel");
-    const maxPrice = searchParams.get("maxPrice");
-    const sort = searchParams.get("sort") || "createdAt";
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "12");
+    const brand = searchParams.get("brand") || undefined;
+    const fuel = searchParams.get("fuel") || undefined;
+    const minPrice = searchParams.get("minPrice") ? parseInt(searchParams.get("minPrice")!) : undefined;
+    const maxPrice = searchParams.get("maxPrice") ? parseInt(searchParams.get("maxPrice")!) : undefined;
+    const minYear = searchParams.get("minYear") ? parseInt(searchParams.get("minYear")!) : undefined;
+    const maxYear = searchParams.get("maxYear") ? parseInt(searchParams.get("maxYear")!) : undefined;
+    const region = searchParams.get("region") || undefined;
+    const search = searchParams.get("search") || undefined;
+    const sort = searchParams.get("sort") || "latest";
 
-    const where: Record<string, unknown> = {};
-    if (status) where.status = status;
+    const where: Record<string, unknown> = { status: "AVAILABLE" };
+    if (brand) where.brand = brand;
     if (fuel) where.fuel = fuel;
-    if (maxPrice) where.price = { lte: parseInt(maxPrice) };
+    if (region) where.region = { contains: region };
+    if (minPrice || maxPrice) where.price = { ...(minPrice && { gte: minPrice }), ...(maxPrice && { lte: maxPrice }) };
+    if (minYear || maxYear) where.year = { ...(minYear && { gte: minYear }), ...(maxYear && { lte: maxYear }) };
+    if (search) where.OR = [{ name: { contains: search } }, { brand: { contains: search } }];
 
-    const orderBy: Record<string, string> = {};
-    if (sort === "price_asc") orderBy.price = "asc";
-    else if (sort === "price_desc") orderBy.price = "desc";
-    else if (sort === "mileage") orderBy.mileage = "asc";
-    else if (sort === "newest") orderBy.year = "desc";
-    else orderBy.createdAt = "desc";
+    const orderBy = sort === "price_asc" ? { price: "asc" as const }
+      : sort === "price_desc" ? { price: "desc" as const }
+      : sort === "mileage" ? { mileage: "asc" as const }
+      : { createdAt: "desc" as const };
 
-    const cars = await prisma.car.findMany({
-      where,
-      orderBy,
-      include: {
-        dealer: {
-          select: {
-            shopName: true,
-            rating: true,
-            verified: true,
-          },
-        },
-      },
+    const [cars, total] = await Promise.all([
+      prisma.car.findMany({
+        where,
+        orderBy,
+        skip: (page - 1) * limit,
+        take: limit,
+        include: { dealer: { select: { shopName: true } } },
+      }),
+      prisma.car.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      data: cars,
+      pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
     });
-
-    return NextResponse.json({ success: true, data: cars });
-  } catch (error) {
-    console.error("Cars API Error:", error);
-    return NextResponse.json(
-      { success: false, error: "차량 목록을 불러올 수 없어요" },
-      { status: 500 }
-    );
+  } catch {
+    return NextResponse.json({ success: false, error: "조회 실패" }, { status: 500 });
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json();
-    const {
-      dealerId, name, brand, year, mileage, fuel, color,
-      region, price, cc, power, efficiency, transmission,
-      owners, accident, tags, options, images,
-    } = body;
-
-    if (!dealerId || !name || !brand || !year || !mileage || !price) {
-      return NextResponse.json(
-        { success: false, error: "필수 항목이 누락됐어요" },
-        { status: 400 }
-      );
-    }
-
-    const car = await prisma.car.create({
-      data: {
-        dealerId: parseInt(dealerId),
-        name, brand,
-        year: parseInt(year),
-        mileage: parseInt(mileage),
-        fuel, color, region,
-        price: parseInt(price),
-        cc: parseInt(cc || "0"),
-        power: parseInt(power || "0"),
-        efficiency: efficiency || "0",
-        transmission: transmission || "자동",
-        owners: parseInt(owners || "1"),
-        accident: accident === true,
-        tags: tags || [],
-        options: options || [],
-        images: images || [],
-      },
-    });
-
-    return NextResponse.json({ success: true, data: car }, { status: 201 });
-  } catch (error) {
-    console.error("Car Create Error:", error);
-    return NextResponse.json(
-      { success: false, error: "차량 등록에 실패했어요" },
-      { status: 500 }
-    );
+    const data = await req.json();
+    const car = await prisma.car.create({ data });
+    return NextResponse.json({ success: true, data: car });
+  } catch {
+    return NextResponse.json({ success: false, error: "등록 실패" }, { status: 500 });
   }
 }

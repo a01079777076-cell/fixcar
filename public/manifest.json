@@ -1,0 +1,23 @@
+// public/manifest.json
+{
+  "name": "픽스카 FIXCAR",
+  "short_name": "픽스카",
+  "description": "광주 1위 중고차 정찰제 플랫폼",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F0EEE9",
+  "theme_color": "#FF3B1E",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "categories": ["automotive", "shopping"],
+  "lang": "ko",
+  "shortcuts": [
+    { "name": "매물 보기", "url": "/cars", "description": "중고차 매물 전체 보기" },
+    { "name": "내 차 팔기", "url": "/sell", "description": "내 차 견적 신청" },
+    { "name": "배틀 게임", "url": "/battle", "description": "자동차 지식배틀" }
+  ]
+}
