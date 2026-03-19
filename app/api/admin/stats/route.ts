@@ -8,10 +8,9 @@ export async function GET() {
       prisma.car.count().catch(()=>0),
       prisma.visitorLog.count().catch(()=>0),
       prisma.inquiry.count().catch(()=>0),
-      prisma.dealer.count({ where:{ isApproved:false } }).catch(()=>0),
+      prisma.dealer.count().catch(()=>0),
     ]);
 
-    /* 오류 신고 - 테이블이 없을 수도 있으므로 try */
     let totalErrors = 0;
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
