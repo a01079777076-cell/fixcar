@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import HomeMbtiSection from "@/components/HomeMbtiSection";
 import { prisma } from "@/lib/prisma";
 import {
   Shield, RotateCcw, Truck, ChevronRight,
@@ -58,7 +59,7 @@ export default async function Home() {
   ];
 
   const FOOTER_COLS = [
-    { title:"차량 찾기", links:[["전체 매물","/cars"],["추천 퀴즈","/quiz"],["차량 비교","/compare"],["차량 카탈로그","/catalog"],["자동차 랭킹","/ranking"]] },
+    { title:"차량 찾기", links:[["전체 매물","/cars"],["내차 찾기","/quiz-select"],["차량 MBTI","/mbti"],["차량 카탈로그","/catalog"],["자동차 랭킹","/ranking"]] },
     { title:"정보·커뮤니티", links:[["초보 가이드","/guide"],["픽스카 블로그","/blog"],["커뮤니티","/community"],["자주 묻는 질문","/faq"]] },
     { title:"거래하기", links:[["내 차 팔기","/sell"],["서비스 결제","/payment"],["딜러 신청","/dealer/apply"]] },
     { title:"픽스카", links:[["회사 소개","/about"],["고객센터","/contact"],["개인정보처리방침","/privacy"],["이용약관","/terms"]] },
@@ -202,6 +203,11 @@ export default async function Home() {
               </a>
             ))}
           </div>
+        </section>
+
+        {/* 차량 MBTI */}
+        <section style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
+          <HomeMbtiSection />
         </section>
 
         {/* 추천 매물 */}

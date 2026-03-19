@@ -1,47 +1,51 @@
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, MessageCircle, Send } from "lucide-react";
 
-interface Post { id:number; title:string; content:string; category:string; views:number; createdAt:string; author:{name:string}; _count:{comments:number}; }
-interface Comment { id:number; content:string; createdAt:string; author:{name:string}; }
+interface Post {
+  id: string; title: string; content: string; author: { name?: string };
+  createdAt: string; _count?: { comments: number }; likes?: number;
+}
 
-export default function CommunityDetailPage() {
-  const params = useParams();
-  const router = useRouter();
-  const id = params?.id;
-  const [post, setPost] = useState<Post|null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [user, setUser] = useState<{name:string}|null>(null);
-  const [newComment, setNewComment] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+export default function CommunityPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [tab, setTab] = useState<"all"|"popular"|"new">("all");
+  const [showWrite, setShowWrite] = useState(false);
+  const [writeForm, setWriteForm] = useState({ title: "", content: "" });
 
   useEffect(() => {
-    fetch("/api/auth/session").then(r=>r.json()).then(d=>setUser(d.user));
-    if (id) {
-      fetch(`/api/community/${id}`).then(r=>r.json()).then(d=>{ if(d.success){setPost(d.data);} setLoading(false); })
-        .catch(()=>setLoading(false));
-      fetch(`/api/community/comments?postId=${id}`).then(r=>r.json()).then(d=>{ if(d.success) setComments(d.data); });
-    }
-  }, [id]);
+    setLoading(true);
+    setError(false);
+    fetch("/api/community?tab=" + tab)
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(data => {
+        setPosts(Array.isArray(data) ? data : data.posts || []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setPosts([]);
+        setLoading(false);
+        setError(true);
+      });
+  }, [tab]);
 
-  const handleComment = async () => {
-    if (!user) { alert("로그인이 필요해요!"); return; }
-    if (!newComment.trim()) return;
-    setSubmitting(true);
-    const res = await fetch("/api/community/comments", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ postId:Number(id), content:newComment }) });
-    const data = await res.json();
-    if (data.success) { setComments(p=>[...p, data.data]); setNewComment(""); }
-    else alert(data.error||"오류가 발생했어요");
-    setSubmitting(false);
+  const handleSubmit = async () => {
+    if (!writeForm.title || !writeForm.content) { alert("제목과 내용을 입력해주세요"); return; }
+    try {
+      const res = await fetch("/api/community", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(writeForm),
+      });
+      if (res.ok) {
+        setWriteForm({ title: "", content: "" });
+        setShowWrite(false);
+        setTab("new");
+      }
+    } catch { alert("작성 중 오류가 발생했어요"); }
   };
-
-  if (loading) return <div style={{minHeight:"100vh",background:"#F0EEE9",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"sans-serif"}}>로딩 중...</div>;
-
-  const samplePost = { id:1, title:"아반떼 CN7 2년 탄 후기 진짜 솔직하게 써봄", content:"처음 구매할 때 픽스카에서 샀는데 진짜 가격 협상 없이 바로 살 수 있어서 좋았어요.\n\n2년 동안 타면서 별 문제 없었고 연비도 나쁘지 않았어요. 고속도로에서 약 16km/L 정도 나왔고요.\n\n다음에도 중고차 살 때 픽스카 이용할 것 같아요!", category:"구매후기", views:234, createdAt:"2025-03-18", author:{name:"김○○"}, _count:{comments:2} };
-  const displayPost = post || samplePost;
 
   return (
     <>
@@ -49,63 +53,101 @@ export default function CommunityDetailPage() {
         @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;-webkit-font-smoothing:antialiased;}
-        a{text-decoration:none;color:inherit;}
-        button{font-family:'NanumSquareRound',sans-serif;cursor:pointer;}
-        textarea{font-family:'NanumSquareRound',sans-serif;}
-        textarea:focus{outline:none;border-color:#FF3B1E!important;background:white!important;}
+        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
       `}</style>
-      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <Navbar />
-        <div style={{maxWidth:"800px",margin:"0 auto",padding:"28px 32px 80px"}}>
-          <button onClick={()=>router.back()} style={{display:"flex",alignItems:"center",gap:"8px",background:"white",border:"2px solid #E0DDD7",borderRadius:"100px",padding:"10px 18px",fontSize:"14px",fontWeight:700,marginBottom:"20px",cursor:"pointer"}}>
-            <ArrowLeft size={15}/> 목록으로
-          </button>
+      <Navbar />
+      <div style={{ minHeight: "100vh", background: "#F0EEE9" }}>
+        <div style={{ background: "#1A1A1A", padding: "36px 24px 28px" }}>
+          <div style={{ maxWidth: 800, margin: "0 auto" }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 12, letterSpacing: 4, color: "#FF3B1E", marginBottom: 6 }}>COMMUNITY</div>
+            <h1 style={{ fontSize: 28, fontWeight: 800, color: "white", letterSpacing: -1, marginBottom: 4 }}>커뮤니티</h1>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>픽스카 사용자들과 차량 이야기를 나눠보세요</p>
+          </div>
+        </div>
 
-          <div style={{background:"white",borderRadius:"20px",overflow:"hidden",marginBottom:"16px"}}>
-            <div style={{padding:"28px 32px",borderBottom:"1px solid #F0EEE9"}}>
-              <span style={{background:"#EEF2FF",color:"#1847FF",padding:"4px 12px",borderRadius:"100px",fontSize:"12px",fontWeight:800,display:"inline-block",marginBottom:"14px"}}>{displayPost.category}</span>
-              <h1 style={{fontSize:"22px",fontWeight:800,lineHeight:1.3,marginBottom:"12px"}}>{displayPost.title}</h1>
-              <div style={{display:"flex",gap:"16px",fontSize:"13px",color:"#AAA",fontWeight:400}}>
-                <span>{displayPost.author?.name}</span>
-                <span style={{display:"flex",alignItems:"center",gap:"4px"}}><MessageCircle size={13}/> {comments.length}</span>
-                <span>{String(displayPost.createdAt).slice(0,10)}</span>
-              </div>
+        <div style={{ maxWidth: 800, margin: "0 auto", padding: "20px 16px 120px" }}>
+          {/* 탭 + 글쓰기 */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            <div style={{ display: "flex", gap: 6 }}>
+              {([["all","전체"],["popular","인기"],["new","최신"]] as const).map(([id, label]) => (
+                <button key={id} onClick={() => setTab(id)} style={{
+                  padding: "8px 16px", borderRadius: 10, border: "none", fontSize: 13,
+                  fontWeight: tab === id ? 800 : 600, cursor: "pointer",
+                  background: tab === id ? "#1A1A1A" : "white", color: tab === id ? "white" : "#777",
+                  fontFamily: "'NanumSquareRound',sans-serif",
+                }}>{label}</button>
+              ))}
             </div>
-            <div style={{padding:"28px 32px"}}>
-              <div style={{fontSize:"15px",color:"#333",lineHeight:1.9,fontWeight:400,whiteSpace:"pre-line"}}>{displayPost.content}</div>
-            </div>
+            <button onClick={() => setShowWrite(!showWrite)} style={{
+              padding: "8px 18px", background: "#FF3B1E", color: "white", border: "none",
+              borderRadius: 10, fontSize: 13, fontWeight: 800, cursor: "pointer",
+              fontFamily: "'NanumSquareRound',sans-serif",
+            }}>✏️ 글쓰기</button>
           </div>
 
-          {/* 댓글 */}
-          <div style={{background:"white",borderRadius:"20px",padding:"24px 28px"}}>
-            <div style={{fontSize:"16px",fontWeight:800,marginBottom:"18px",display:"flex",alignItems:"center",gap:"8px"}}><MessageCircle size={18} color="#FF3B1E"/> 댓글 {comments.length}개</div>
+          {/* 글쓰기 폼 */}
+          {showWrite && (
+            <div style={{ background: "white", borderRadius: 18, padding: "22px 24px", marginBottom: 16 }}>
+              <input type="text" placeholder="제목을 입력하세요" value={writeForm.title}
+                onChange={e => setWriteForm(p => ({ ...p, title: e.target.value }))}
+                style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0DDD7", borderRadius: 10, fontSize: 15, fontWeight: 700, marginBottom: 10, fontFamily: "'NanumSquareRound',sans-serif", background: "#FAFAF8" }} />
+              <textarea rows={4} placeholder="내용을 작성해주세요" value={writeForm.content}
+                onChange={e => setWriteForm(p => ({ ...p, content: e.target.value }))}
+                style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0DDD7", borderRadius: 10, fontSize: 14, resize: "none", fontFamily: "'NanumSquareRound',sans-serif", background: "#FAFAF8" }} />
+              <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                <button onClick={handleSubmit} style={{ flex: 1, padding: "12px", background: "#FF3B1E", color: "white", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif" }}>작성 완료</button>
+                <button onClick={() => setShowWrite(false)} style={{ padding: "12px 20px", background: "#F0EEE9", color: "#888", border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif" }}>취소</button>
+              </div>
+            </div>
+          )}
 
-            {comments.length === 0 ? (
-              <div style={{textAlign:"center",padding:"24px",color:"#AAA",fontSize:"14px",fontWeight:400}}>첫 댓글을 남겨보세요!</div>
-            ) : (
-              <div style={{display:"flex",flexDirection:"column",gap:"14px",marginBottom:"20px"}}>
-                {comments.map(comment=>(
-                  <div key={comment.id} style={{padding:"14px 16px",background:"#F8F6F2",borderRadius:"12px"}}>
-                    <div style={{display:"flex",justifyContent:"space-between",marginBottom:"6px"}}>
-                      <span style={{fontSize:"13px",fontWeight:800}}>{comment.author?.name}</span>
-                      <span style={{fontSize:"12px",color:"#AAA",fontWeight:400}}>{String(comment.createdAt).slice(0,10)}</span>
+          {/* 게시글 목록 */}
+          {loading ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} style={{ background: "white", borderRadius: 16, padding: "20px 22px" }}>
+                  <div style={{ height: 16, background: "#E8E6E1", borderRadius: 4, width: "60%", marginBottom: 10 }} />
+                  <div style={{ height: 12, background: "#E8E6E1", borderRadius: 4, width: "90%" }} />
+                </div>
+              ))}
+            </div>
+          ) : error ? (
+            <div style={{ background: "white", borderRadius: 18, padding: "60px 24px", textAlign: "center" }}>
+              <div style={{ fontSize: 40, marginBottom: 12 }}>😢</div>
+              <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 8 }}>커뮤니티를 불러올 수 없어요</div>
+              <p style={{ fontSize: 13, color: "#AAA", fontWeight: 400, marginBottom: 20 }}>잠시 후 다시 시도해 주세요</p>
+              <button onClick={() => { setError(false); setLoading(true); setTab("all"); }} style={{
+                padding: "12px 24px", background: "#FF3B1E", color: "white", border: "none",
+                borderRadius: 10, fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif",
+              }}>다시 시도</button>
+            </div>
+          ) : posts.length === 0 ? (
+            <div style={{ background: "white", borderRadius: 18, padding: "60px 24px", textAlign: "center" }}>
+              <div style={{ fontSize: 40, marginBottom: 12 }}>💬</div>
+              <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 8 }}>아직 게시글이 없어요</div>
+              <p style={{ fontSize: 13, color: "#AAA", fontWeight: 400 }}>첫 번째 글을 작성해 보세요!</p>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {posts.map(post => (
+                <a key={post.id} href={`/community/${post.id}`} style={{ textDecoration: "none" }}>
+                  <div style={{ background: "white", borderRadius: 16, padding: "18px 22px", transition: "all 0.15s", cursor: "pointer" }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "#1A1A1A", marginBottom: 6 }}>{post.title}</div>
+                    <p style={{ fontSize: 13, color: "#888", fontWeight: 400, lineHeight: 1.6, marginBottom: 10,
+                      overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const }}>
+                      {post.content}
+                    </p>
+                    <div style={{ display: "flex", gap: 12, fontSize: 11, color: "#CCC", fontWeight: 400 }}>
+                      <span>{post.author?.name || "익명"}</span>
+                      <span>{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span>
+                      <span>💬 {post._count?.comments || 0}</span>
+                      {post.likes !== undefined && <span>❤️ {post.likes}</span>}
                     </div>
-                    <div style={{fontSize:"14px",color:"#444",lineHeight:1.7,fontWeight:400}}>{comment.content}</div>
                   </div>
-                ))}
-              </div>
-            )}
-
-            <div style={{display:"flex",gap:"10px"}}>
-              <textarea rows={3} placeholder={user?"댓글을 입력해주세요...":"로그인 후 댓글을 남길 수 있어요"} value={newComment} onChange={e=>setNewComment(e.target.value)} disabled={!user}
-                style={{flex:1,border:"1.5px solid #E0DDD7",borderRadius:"10px",padding:"12px 14px",fontSize:"14px",resize:"none",background:user?"#FAFAF8":"#F0EEE9"}} />
-              <button onClick={handleComment} disabled={!newComment.trim()||submitting||!user}
-                style={{background:newComment.trim()&&!submitting&&user?"#FF3B1E":"#E0DDD7",color:newComment.trim()&&!submitting&&user?"white":"#AAA",border:"none",padding:"0 18px",borderRadius:"10px",fontSize:"14px",fontWeight:800,display:"flex",alignItems:"center",gap:"6px",cursor:newComment.trim()&&!submitting&&user?"pointer":"default"}}>
-                <Send size={15}/> {submitting?"전송 중...":"등록"}
-              </button>
+                </a>
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
