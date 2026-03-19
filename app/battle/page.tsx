@@ -145,7 +145,8 @@ export default function BattlePage() {
       <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#0A0A0A;} a{text-decoration:none;color:inherit;} button{cursor:pointer;font-family:'NanumSquareRound',sans-serif;} .cc{background:#1A1A2E;border:2px solid #2A2A4A;border-radius:18px;padding:20px;cursor:pointer;transition:all 0.2s;flex:1;} .cc:hover{border-color:#FF3B1E;transform:translateY(-3px);} @media(max-width:700px){.bf{flex-direction:column!important;}}`}</style>
       <div style={{minHeight:"100vh",background:"#0A0A0A"}}>
         <div style={{background:"#050510",borderBottom:"1px solid #1A1A3A",padding:"0 28px",height:"60px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-          <button onClick={()=>setCateg(null)} style={{fontFamily:"'Bebas Neue',serif",fontSize:"22px",color:"white",background:"none",border:"none"}}><span style={{color:"#FF3B1E"}}>FIX</span>CAR</button>
+          {/* ★ 수정: onClick으로 카테고리 리셋 → href로 fixcar.kr 이동 */}
+          <a href="https://www.fixcar.kr" style={{fontFamily:"'Bebas Neue',serif",fontSize:"22px",color:"white",textDecoration:"none"}}><span style={{color:"#FF3B1E"}}>FIX</span>CAR</a>
           <div style={{display:"flex",gap:"6px"}}>
             {(["battle","rank"] as const).map(t=>(
               <button key={t} onClick={()=>setTab(t)} style={{background:tab===t?"rgba(255,255,255,0.1)":"transparent",border:`1px solid ${tab===t?"rgba(255,255,255,0.3)":"transparent"}`,color:tab===t?"white":"rgba(255,255,255,0.35)",padding:"6px 14px",borderRadius:"8px",fontSize:"13px",fontWeight:700}}>

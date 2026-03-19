@@ -1,50 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { verifyToken } from "@/lib/auth";
+import jwt from "jsonwebtoken";
 
+function getUserId(req: NextRequest): string | null {
+  const token = req.cookies.get("token")?.value || req.cookies.get("auth-token")?.value;
+  if (!token) return null;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const decoded = jwt.verify(token, process.env.NEXTAUTH_SECRET || "fixcar2025secretkey!@#$%") as any;
+    return decoded.userId || decoded.id || decoded.sub || null;
+  } catch { return null; }
+}
+
+/* GET: 내 찜 목록 */
 export async function GET(req: NextRequest) {
+  const userId = getUserId(req);
+  if (!userId) return NextResponse.json([], { status: 200 });
   try {
-    const token = req.cookies.get("fixcar-token")?.value;
-    if (!token) return NextResponse.json({ success: true, liked: false });
-    const payload = await verifyToken(token);
-    if (!payload) return NextResponse.json({ success: true, liked: false });
-    const { searchParams } = new URL(req.url);
-    const carId = parseInt(searchParams.get("carId") || "0");
-    const fav = await prisma.favorite.findUnique({ where: { userId_carId: { userId: payload.id, carId } } });
-    return NextResponse.json({ success: true, liked: !!fav });
-  } catch {
-    return NextResponse.json({ success: false, liked: false });
-  }
-}
-
-export async function POST(req: NextRequest) {
-  try {
-    const token = req.cookies.get("fixcar-token")?.value;
-    if (!token) return NextResponse.json({ success: false, error: "로그인이 필요해요" }, { status: 401 });
-    const payload = await verifyToken(token);
-    if (!payload) return NextResponse.json({ success: false, error: "인증 실패" }, { status: 401 });
-    const { carId } = await req.json();
-    await prisma.favorite.upsert({
-      where: { userId_carId: { userId: payload.id, carId } },
-      update: {},
-      create: { userId: payload.id, carId },
+    const favs = await prisma.favorite.findMany({
+      where: { userId },
+      include: { car: true },
+      orderBy: { createdAt: "desc" },
     });
-    return NextResponse.json({ success: true });
+    return NextResponse.json(favs);
   } catch {
-    return NextResponse.json({ success: false, error: "찜하기 실패" }, { status: 500 });
+    return NextResponse.json([], { status: 200 });
   }
 }
 
-export async function DELETE(req: NextRequest) {
+/* POST: 찜 추가 */
+export async function POST(req: NextRequest) {
+  const userId = getUserId(req);
+  if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
   try {
-    const token = req.cookies.get("fixcar-token")?.value;
-    if (!token) return NextResponse.json({ success: false, error: "로그인이 필요해요" }, { status: 401 });
-    const payload = await verifyToken(token);
-    if (!payload) return NextResponse.json({ success: false, error: "인증 실패" }, { status: 401 });
-    const { carId } = await req.json();
-    await prisma.favorite.deleteMany({ where: { userId: payload.id, carId } });
+    const body = await req.json();
+    const carId = body.carId;
+    if (!carId) return NextResponse.json({ error: "carId 필수" }, { status: 400 });
+
+    /* 중복 체크 */
+    const existing = await prisma.favorite.findFirst({ where: { userId, carId } });
+    if (existing) return NextResponse.json(existing);
+
+    const fav = await prisma.favorite.create({ data: { userId, carId } });
+    return NextResponse.json(fav, { status: 201 });
+  } catch (e) {
+    return NextResponse.json({ error: "찜 추가 실패", detail: String(e) }, { status: 500 });
+  }
+}
+
+/* DELETE: 찜 제거 */
+export async function DELETE(req: NextRequest) {
+  const userId = getUserId(req);
+  if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+  try {
+    const body = await req.json();
+    const carId = body.carId;
+    if (!carId) return NextResponse.json({ error: "carId 필수" }, { status: 400 });
+
+    await prisma.favorite.deleteMany({ where: { userId, carId } });
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ success: false, error: "찜 취소 실패" }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ error: "찜 제거 실패", detail: String(e) }, { status: 500 });
   }
 }

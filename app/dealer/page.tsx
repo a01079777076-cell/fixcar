@@ -38,12 +38,13 @@ export default function DealerDashboard() {
       `}</style>
 
       <div style={{minHeight:"100vh",background:"#F0F6FF"}}>
-        {/* 딜러 네비 - 밝은 화이트 */}
+        {/* 딜러 네비 */}
         <div style={{background:"white",borderBottom:"1.5px solid #DDEEFF",padding:"0 32px",height:"68px",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100,boxShadow:"0 2px 12px rgba(0,100,255,0.06)"}}>
-          <Link href="/" style={{fontFamily:"'Bebas Neue',serif",fontSize:"26px",letterSpacing:"3px",display:"flex",alignItems:"center",gap:"10px"}}>
+          {/* ★ 수정: href="/" → href="https://www.fixcar.kr" */}
+          <a href="https://www.fixcar.kr" style={{fontFamily:"'Bebas Neue',serif",fontSize:"26px",letterSpacing:"3px",display:"flex",alignItems:"center",gap:"10px",textDecoration:"none"}}>
             <span style={{color:"#FF3B1E"}}>FIX</span><span style={{color:"#1A1A1A"}}>CAR</span>
             <span style={{fontSize:"11px",fontFamily:"'NanumSquareRound',sans-serif",fontWeight:800,color:"#0066FF",letterSpacing:"2px",background:"#EEF5FF",padding:"3px 10px",borderRadius:"100px",marginLeft:"4px"}}>DEALER</span>
-          </Link>
+          </a>
           <div style={{display:"flex",gap:"6px"}}>
             {[["대시보드","/dealer"],["매물","/dealer/cars"],["문의","/dealer/inquiries"],["거래","/dealer/transactions"],["분석","/dealer/analytics"]].map(([l,h])=>(
               <Link key={l} href={h} style={{fontSize:"14px",fontWeight:700,color:h==="/dealer"?"#0066FF":"#888",padding:"8px 14px",borderRadius:"10px",background:h==="/dealer"?"#EEF5FF":"transparent"}}>
@@ -59,13 +60,16 @@ export default function DealerDashboard() {
         <div style={{maxWidth:"1100px",margin:"0 auto",padding:"28px 32px 80px"}}>
           {/* 헤더 */}
           <div style={{background:"linear-gradient(135deg, #0055FF 0%, #0099FF 100%)",borderRadius:"20px",padding:"28px 32px",marginBottom:"24px",display:"flex",justifyContent:"space-between",alignItems:"center",overflow:"hidden",position:"relative"}}>
-            <div style={{position:"absolute",right:"-20px",bottom:"-20px",fontFamily:"'Bebas Neue',serif",fontSize:"120px",color:"rgba(255,255,255,0.07)",lineHeight:1}}>DEALER</div>
+            {/* ★ 수정: DEALER 워터마크에 pointerEvents:"none", zIndex:0 추가 */}
+            <div style={{position:"absolute",right:"-20px",bottom:"-20px",fontFamily:"'Bebas Neue',serif",fontSize:"120px",color:"rgba(255,255,255,0.07)",lineHeight:1,pointerEvents:"none",zIndex:0,userSelect:"none"}}>DEALER</div>
+            {/* ★ 수정: 콘텐츠에 position:"relative", zIndex:1 추가 */}
             <div style={{position:"relative",zIndex:1}}>
               <div style={{fontSize:"13px",fontWeight:800,letterSpacing:"3px",color:"rgba(255,255,255,0.7)",marginBottom:"6px"}}>DEALER DASHBOARD</div>
               <h1 style={{fontSize:"28px",fontWeight:800,color:"white",letterSpacing:"-1px",marginBottom:"4px"}}>딜러 관리 센터</h1>
               <p style={{fontSize:"14px",color:"rgba(255,255,255,0.75)",fontWeight:400}}>픽스카 FIX 정찰가 딜러 전용 대시보드</p>
             </div>
-            <Link href="/dealer/cars/new">
+            {/* ★ 수정: 새 매물 등록 버튼에 position:"relative", zIndex:2 추가 */}
+            <Link href="/dealer/cars/new" style={{position:"relative",zIndex:2}}>
               <button style={{background:"white",color:"#0066FF",border:"none",padding:"14px 28px",borderRadius:"12px",fontSize:"15px",fontWeight:800,cursor:"pointer",display:"flex",alignItems:"center",gap:"8px",flexShrink:0}}>
                 <Plus size={18}/> 새 매물 등록
               </button>

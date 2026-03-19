@@ -13,14 +13,73 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const [imgIdx, setImgIdx] = useState(0);
   const [tab, setTab] = useState<"info"|"score"|"calc">("info");
   const [copied, setCopied] = useState(false);
+  const [paying, setPaying] = useState(false);
 
   const images = car.images?.length > 0 ? car.images : [`https://source.unsplash.com/800x500/?${car.brand},car`];
   const monthly = Math.round((car.price*10000*0.05/12*Math.pow(1+0.05/12,36))/(Math.pow(1+0.05/12,36)-1));
+  const depositAmount = Math.round(car.price * 0.1) * 10000; /* 10% 계약금 (원 단위) */
 
   const handleShare = async () => {
     const url = `https://www.fixcar.kr/cars/${car.id}`;
     if (navigator.share) { await navigator.share({ title:car.name, url }); }
     else { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(()=>setCopied(false),2000); }
+  };
+
+  /* 결제 함수 - storeId 수정 완료 */
+  const handlePayment = async () => {
+    setPaying(true);
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const PortOne = (window as any).PortOne;
+      if (!PortOne) {
+        alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+        setPaying(false);
+        return;
+      }
+
+      const storeId = process.env.NEXT_PUBLIC_PORTONE_STORE_ID;
+      if (!storeId) {
+        alert("결제 설정이 완료되지 않았습니다. 관리자에게 문의해주세요.");
+        setPaying(false);
+        return;
+      }
+
+      const paymentId = `fixcar-${car.id}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+
+      const res = await PortOne.requestPayment({
+        storeId: storeId,
+        channelKey: process.env.NEXT_PUBLIC_PORTONE_CHANNEL_KEY || "",
+        paymentId: paymentId,
+        orderName: `${car.name} 계약금 (10%)`,
+        totalAmount: depositAmount,
+        currency: "KRW",
+        payMethod: "EASY_PAY",
+        customer: {
+          fullName: "픽스카 고객",
+        },
+        redirectUrl: `https://www.fixcar.kr/cars/${car.id}?payment=complete`,
+      });
+
+      if (res?.code === "FAILURE") {
+        alert("결제가 취소되었습니다.");
+      } else if (res?.paymentId) {
+        /* 결제 성공 → 서버에 기록 */
+        await fetch("/api/purchases", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            carId: car.id,
+            paymentId: res.paymentId,
+            amount: depositAmount,
+            type: "DEPOSIT",
+          }),
+        });
+        alert("계약금 결제가 완료됐어요! 담당 딜러가 곧 연락드리겠습니다.");
+      }
+    } catch (e) {
+      alert("결제 오류: " + String(e));
+    }
+    setPaying(false);
   };
 
   return (
@@ -89,7 +148,10 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                   <div style={{fontSize:"12px",color:"#1847FF",fontWeight:800,marginTop:"3px",display:"flex",alignItems:"center",gap:"3px"}}><Lock size={11}/> FIX 정찰가 · 흥정 없음</div>
                   <div style={{fontSize:"11px",color:"#AAA",fontWeight:400,marginTop:"2px"}}>월 {monthly.toLocaleString()}원~ (36개월·5%)</div>
                 </div>
-                <Link href={`/checkout?carId=${car.id}`}><button style={{width:"100%",background:"#FF3B1E",color:"white",border:"none",padding:"15px",borderRadius:"12px",fontSize:"15px",fontWeight:800,cursor:"pointer",marginBottom:"8px"}}>계약금 결제 (10%)</button></Link>
+                {/* 결제 버튼 - storeId 수정 완료 */}
+                <button onClick={handlePayment} disabled={paying} style={{width:"100%",background:paying?"#CCC":"#FF3B1E",color:"white",border:"none",padding:"15px",borderRadius:"12px",fontSize:"15px",fontWeight:800,cursor:paying?"wait":"pointer",marginBottom:"8px"}}>
+                  {paying ? "결제 진행 중..." : `계약금 결제 (${(car.price*0.1).toFixed(0)}만원 · 10%)`}
+                </button>
                 <button onClick={handleShare} style={{width:"100%",background:"#F0EEE9",color:"#555",border:"none",padding:"12px",borderRadius:"12px",fontSize:"13px",fontWeight:700,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:"6px"}}><Share2 size={14}/> 공유하기</button>
               </div>
 

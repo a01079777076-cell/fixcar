@@ -986,7 +986,7 @@ export default function CatalogPage() {
               ) : (
                 <div style={{background:"white",borderRadius:"18px",padding:"60px",textAlign:"center",color:"#AAA"}}>
                   <div style={{fontSize:"32px",marginBottom:"14px"}}>📚</div>
-                  <div style={{fontSize:"16px",fontWeight:800}}>좌측에서 차량을 선택해주세요</div>
+                  <div style={{fontSize:"16px",fontWeight:800}}>죄송합니다 😅 아직 정보를 모으고 있어요! 나중에 확인해주세요!</div>
                 </div>
               )}
             </div>

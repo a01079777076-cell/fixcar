@@ -1,45 +1,79 @@
-import { prisma } from "@/lib/prisma";
-import Link from "next/link";
+"use client";
+import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
 
-async function getUsers() {
-  try { return await prisma.user.findMany({ orderBy:{ createdAt:"desc" }, take:50, select:{ id:true, name:true, email:true, role:true, provider:true, createdAt:true, phone:true } }); }
-  catch { return []; }
+interface User { id:string; name?:string; email?:string; phone?:string; role?:string; createdAt:string; }
+
+function formatPhone(phone:string|null|undefined): string {
+  if (!phone) return "-";
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 11) return `${digits.slice(0,3)}-${digits.slice(3,7)}-${digits.slice(7)}`;
+  if (digits.length === 10) return `${digits.slice(0,3)}-${digits.slice(3,6)}-${digits.slice(6)}`;
+  return phone;
 }
 
-export default async function AdminUsersPage() {
-  const users = await getUsers();
-  const RS: Record<string,{l:string;c:string;bg:string}> = { USER:{l:"일반",c:"#555",bg:"#F0EEE9"}, DEALER:{l:"딜러",c:"#0066FF",bg:"#EEF5FF"}, ADMIN:{l:"관리자",c:"#FF3B1E",bg:"#FFF0ED"} };
+export default function AdminUsersPage() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetch("/api/admin/users")
+      .then(r=>r.json())
+      .then(data=>{ setUsers(Array.isArray(data)?data:data.users||[]); setLoading(false); })
+      .catch(()=>{ setUsers([]); setLoading(false); });
+  }, []);
+
+  const filtered = users.filter(u => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (u.name||"").toLowerCase().includes(q) || (u.email||"").toLowerCase().includes(q) || (u.phone||"").includes(q);
+  });
+
   return (
     <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;}`}</style>
+      <style>{`
+        @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
+      `}</style>
+      <Navbar/>
       <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <div style={{background:"#1A1A1A",padding:"0 32px",height:"56px",display:"flex",alignItems:"center",gap:"20px"}}>
-          <Link href="/" style={{fontSize:"14px",fontWeight:700,color:"white",fontFamily:"'Bebas Neue',serif",letterSpacing:"2px"}}><span style={{color:"#FF3B1E"}}>FIX</span>CAR</Link>
-          {[["대시보드","/admin"],["방문자","/admin/visitors"],["회원","/admin/users"],["딜러","/admin/dealers"],["설정","/admin/settings"]].map(([l,h])=>(<Link key={l} href={h} style={{fontSize:"13px",fontWeight:700,color:h==="/admin/users"?"white":"rgba(255,255,255,0.35)"}}>{l}</Link>))}
+        <div style={{background:"#1A1A1A",padding:"36px 24px 28px"}}>
+          <div style={{maxWidth:900,margin:"0 auto"}}>
+            <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:12,letterSpacing:4,color:"#1847FF",marginBottom:6}}>USER MANAGEMENT</div>
+            <h1 style={{fontSize:28,fontWeight:800,color:"white"}}>회원 관리</h1>
+            <p style={{fontSize:13,color:"rgba(255,255,255,0.4)",fontWeight:400}}>전체 {users.length}명</p>
+          </div>
         </div>
-        <div style={{maxWidth:"1000px",margin:"0 auto",padding:"28px 32px 80px"}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"20px"}}>
-            <h1 style={{fontSize:"24px",fontWeight:800}}>회원 관리</h1>
-            <div style={{fontSize:"14px",color:"#888",fontWeight:400}}>총 {users.length}명</div>
+        <div style={{maxWidth:900,margin:"0 auto",padding:"24px 16px 100px"}}>
+          <div style={{marginBottom:16}}>
+            <input type="text" placeholder="이름, 이메일, 전화번호 검색" value={search} onChange={e=>setSearch(e.target.value)}
+              style={{width:"100%",padding:"14px 18px",border:"2px solid #E0DDD7",borderRadius:14,fontSize:15,fontFamily:"'NanumSquareRound',sans-serif",background:"white"}}/>
           </div>
-          <div style={{background:"white",borderRadius:"18px",overflow:"hidden"}}>
-            <div style={{display:"grid",gridTemplateColumns:"50px 1fr 100px 70px 70px 90px",padding:"11px 16px",background:"#F8F6F2",fontSize:"12px",fontWeight:800,color:"#888",gap:"8px"}}>
-              <div>ID</div><div>이름·이메일</div><div>연락처</div><div>가입수단</div><div>역할</div><div>가입일</div>
-            </div>
-            {users.map((u,i)=>{
-              const rs = RS[u.role]||RS.USER;
-              return (
-                <div key={u.id} style={{display:"grid",gridTemplateColumns:"50px 1fr 100px 70px 70px 90px",padding:"11px 16px",borderBottom:i<users.length-1?"1px solid #F0EEE9":"none",alignItems:"center",gap:"8px"}}>
-                  <div style={{fontSize:"12px",color:"#AAA"}}>{u.id}</div>
-                  <div><div style={{fontSize:"14px",fontWeight:700}}>{u.name}</div><div style={{fontSize:"11px",color:"#AAA",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{u.email}</div></div>
-                  <div style={{fontSize:"12px",color:"#888",fontWeight:400}}>{u.phone||"-"}</div>
-                  <div style={{fontSize:"12px",fontWeight:700,color:u.provider==="kakao"?"#E8A020":u.provider==="naver"?"#2D8A52":"#888"}}>{u.provider==="kakao"?"카카오":u.provider==="naver"?"네이버":"픽스카"}</div>
-                  <div><span style={{background:rs.bg,color:rs.c,padding:"2px 8px",borderRadius:"100px",fontSize:"11px",fontWeight:800}}>{rs.l}</span></div>
-                  <div style={{fontSize:"11px",color:"#AAA"}}>{u.createdAt.toISOString().slice(0,10)}</div>
+          {loading ? <div style={{textAlign:"center",padding:60,color:"#AAA"}}>로딩 중...</div> : (
+            <div style={{background:"white",borderRadius:18,overflow:"hidden"}}>
+              {/* 헤더 */}
+              <div style={{display:"grid",gridTemplateColumns:"2fr 2fr 1.5fr 1fr 1fr",padding:"14px 20px",background:"#F8F7F4",fontSize:12,fontWeight:800,color:"#888"}}>
+                <span>이름</span><span>이메일</span><span>연락처</span><span>등급</span><span>가입일</span>
+              </div>
+              {filtered.map(u=>(
+                <div key={u.id} style={{display:"grid",gridTemplateColumns:"2fr 2fr 1.5fr 1fr 1fr",padding:"14px 20px",borderBottom:"1px solid #F0EEE9",fontSize:13,alignItems:"center"}}>
+                  <span style={{fontWeight:700}}>{u.name||"-"}</span>
+                  <span style={{color:"#888",fontSize:12}}>{u.email||"-"}</span>
+                  <span style={{fontFamily:"'Bebas Neue',monospace",color:"#1847FF",fontSize:13,letterSpacing:0.5}}>
+                    {formatPhone(u.phone)}
+                  </span>
+                  <span><span style={{padding:"3px 10px",borderRadius:100,fontSize:11,fontWeight:700,
+                    background:u.role==="ADMIN"?"#FFF0ED":u.role==="DEALER"?"#EEF2FF":"#F8F7F4",
+                    color:u.role==="ADMIN"?"#FF3B1E":u.role==="DEALER"?"#1847FF":"#888",
+                  }}>{u.role||"USER"}</span></span>
+                  <span style={{fontSize:11,color:"#CCC"}}>{new Date(u.createdAt).toLocaleDateString("ko-KR")}</span>
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

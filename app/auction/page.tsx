@@ -11,10 +11,19 @@ const MOCK_AUCTIONS = [
   { id:3, name:"2021 현대 투싼 1.6 T-GDi", year:2021, mileage:38000, fuel:"가솔린", color:"은색", region:"광주 남구", startPrice:2100, currentBid:2180, bidCount:11, endsAt:new Date(Date.now()+3600000*2), image:"car", defects:[], deduction:0, tags:["1인소유","무사고","가득충전"] },
 ];
 
+/* ★ 수정: 뒤 2자리를 xx로 마스킹 */
 function hideBid(price: number): string {
+  if (price < 100) return "xx만원";
   const str = String(price);
-  const hidden = str.slice(0,-2) + "xx";
-  return hidden + "만원";
+  return str.slice(0, -2) + "xx만원";
+}
+
+/* ★ 추가: 최소 입찰가도 마스킹으로 표시 (정확한 금액 노출 방지) */
+function hideMinBid(price: number): string {
+  /* 100 단위로 올림해서 표시: ex) 851 → "9xx만원 이상" */
+  const rounded = Math.ceil(price / 100) * 100;
+  if (rounded < 100) return "입찰가 입력";
+  return String(rounded).slice(0, -2) + "xx만원 이상";
 }
 
 function useCountdown(target: Date) {
@@ -34,9 +43,14 @@ function AuctionCard({ a }: { a: typeof MOCK_AUCTIONS[0] }) {
 
   const handleBid = () => {
     const v = parseInt(myBid);
-    if(!v||v<=a.currentBid){alert(`${a.currentBid+1}만원 이상 입찰해주세요`);return;}
+    if(!v||v<=a.currentBid){alert(`현재 입찰가보다 높은 금액을 입력해주세요`);return;}
     setBidding(true);
-    setTimeout(()=>{alert(`${v}만원으로 입찰 완료! (실제 연동 필요)`);setBidding(false);},500);
+    /* ★ 수정: 입찰 완료 시에도 마스킹된 금액만 표시 */
+    setTimeout(()=>{
+      alert(`${hideBid(v)}으로 입찰 완료!\n\n실제 금액은 본인만 확인 가능합니다.`);
+      setBidding(false);
+      setMyBid("");
+    },500);
   };
 
   return (
@@ -66,10 +80,12 @@ function AuctionCard({ a }: { a: typeof MOCK_AUCTIONS[0] }) {
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px"}}>
             <div>
               <div style={{fontSize:"12px",color:"#AAA",marginBottom:"3px",fontWeight:400}}>시작 호가</div>
-              <div style={{fontSize:"18px",fontWeight:800,color:"#888"}}>{a.startPrice.toLocaleString()}만원</div>
+              {/* ★ 수정: 시작가도 마스킹 */}
+              <div style={{fontSize:"18px",fontWeight:800,color:"#888"}}>{hideBid(a.startPrice)}</div>
             </div>
             <div>
               <div style={{fontSize:"12px",color:"#1847FF",marginBottom:"3px",fontWeight:800}}>현재 최고 입찰가</div>
+              {/* ★ 이미 마스킹 적용 */}
               <div style={{fontSize:"22px",fontWeight:800,color:"#1847FF"}}>{hideBid(a.currentBid)}</div>
             </div>
           </div>
@@ -84,7 +100,8 @@ function AuctionCard({ a }: { a: typeof MOCK_AUCTIONS[0] }) {
           공개 경매 안내: 입찰가 뒷자리 2자리는 비공개. 이름은 절대 공개되지 않아요. 낙찰 후 딜러가 직접 연락해요.
         </div>
         <div style={{display:"flex",gap:"10px"}}>
-          <input type="number" placeholder={`${a.currentBid+1}만원 이상`} value={myBid} onChange={e=>setMyBid(e.target.value)}
+          {/* ★ 수정: placeholder에서 정확한 금액 대신 마스킹 표시 */}
+          <input type="number" placeholder={hideMinBid(a.currentBid + 1)} value={myBid} onChange={e=>setMyBid(e.target.value)}
             style={{flex:1,border:"1.5px solid #E0DDD7",borderRadius:"10px",padding:"13px 14px",fontSize:"15px",fontFamily:"'NanumSquareRound',sans-serif",outline:"none"}}/>
           <button onClick={handleBid} disabled={bidding} style={{background:bidding?"#E0DDD7":"#FF3B1E",color:bidding?"#AAA":"white",border:"none",padding:"13px 24px",borderRadius:"10px",fontSize:"15px",fontWeight:800,cursor:bidding?"default":"pointer",flexShrink:0,display:"flex",alignItems:"center",gap:"6px"}}>
             <ChevronUp size={16}/> 입찰
