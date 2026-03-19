@@ -1,38 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Car, MessageCircle, TrendingUp, DollarSign, Plus, Eye, Heart, ArrowRight, Zap, Shield, BarChart2, Bell } from "lucide-react";
+import { Car, MessageCircle, DollarSign, Plus, Eye, Heart, ArrowRight, Shield, BarChart2, Bell } from "lucide-react";
 import Link from "next/link";
-
 import RoleGuard from "@/components/RoleGuard";
 
-// 기존 export default function DealerDashboard() { 내용을 감싸기:
-export default function DealerPage() {
-  return (
-    <RoleGuard allowedRoles={["DEALER", "ADMIN"]}>
-      <DealerDashboard />
-    </RoleGuard>
-  );
-}
-
-function DealerDashboard() {
-  // 기존 코드 그대로
-}
-
-import RoleGuard from "@/components/RoleGuard";
-
-export default function AdminPage() {
-  return (
-    <RoleGuard allowedRoles={["ADMIN"]}>
-      <AdminContent />
-    </RoleGuard>
-  );
-}
-
-function AdminContent() {
-  // 기존 코드 그대로
-}
-
-export default function DealerDashboard() {
+function DealerDashboardContent() {
   const [stats, setStats] = useState({ cars:0, inquiries:0, views:0, favorites:0 });
 
   useEffect(() => {
@@ -51,6 +23,14 @@ export default function DealerDashboard() {
     { icon:<Shield size={22}/>, label:"딜러 프로필", href:"/dealer/profile", desc:"상호명·소개 수정", color:"#0044AA" },
   ];
 
+  const NAV_ITEMS = [
+    {label:"대시보드",href:"/dealer"},
+    {label:"매물",href:"/dealer/cars"},
+    {label:"문의",href:"/dealer/inquiries"},
+    {label:"거래",href:"/dealer/transactions"},
+    {label:"분석",href:"/dealer/analytics"},
+  ];
+
   return (
     <>
       <style>{`
@@ -63,41 +43,38 @@ export default function DealerDashboard() {
         .menu-card{background:white;border:1.5px solid #DDEEFF;border-radius:18px;padding:22px 24px;transition:all 0.2s;cursor:pointer;display:flex;align-items:center;gap:16px;}
         .menu-card:hover{border-color:#0066FF;box-shadow:0 6px 24px rgba(0,102,255,0.12);transform:translateY(-2px);}
         .stat-card{background:white;border:1.5px solid #DDEEFF;border-radius:18px;padding:20px 24px;}
-        @media(max-width:768px){.grid3{grid-template-columns:1fr 1fr!important;}.kpi-grid{grid-template-columns:1fr 1fr!important;}}
+        @media(max-width:768px){.grid3{grid-template-columns:1fr 1fr!important;}.kpi-grid{grid-template-columns:1fr 1fr!important;}.dealer-nav-links{display:none!important;}}
       `}</style>
 
       <div style={{minHeight:"100vh",background:"#F0F6FF"}}>
         {/* 딜러 네비 */}
         <div style={{background:"white",borderBottom:"1.5px solid #DDEEFF",padding:"0 32px",height:"68px",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100,boxShadow:"0 2px 12px rgba(0,100,255,0.06)"}}>
-          {/* ★ 수정: href="/" → href="https://www.fixcar.kr" */}
-          <a href="https://www.fixcar.kr" style={{fontFamily:"'Bebas Neue',serif",fontSize:"26px",letterSpacing:"3px",display:"flex",alignItems:"center",gap:"10px",textDecoration:"none"}}>
+          <Link href="https://www.fixcar.kr" style={{fontFamily:"'Bebas Neue',serif",fontSize:"26px",letterSpacing:"3px",display:"flex",alignItems:"center",gap:"10px"}}>
             <span style={{color:"#FF3B1E"}}>FIX</span><span style={{color:"#1A1A1A"}}>CAR</span>
             <span style={{fontSize:"11px",fontFamily:"'NanumSquareRound',sans-serif",fontWeight:800,color:"#0066FF",letterSpacing:"2px",background:"#EEF5FF",padding:"3px 10px",borderRadius:"100px",marginLeft:"4px"}}>DEALER</span>
-          </a>
-          <div style={{display:"flex",gap:"6px"}}>
-            {[["대시보드","/dealer"],["매물","/dealer/cars"],["문의","/dealer/inquiries"],["거래","/dealer/transactions"],["분석","/dealer/analytics"]].map(([l,h])=>(
-              <Link key={l} href={h} style={{fontSize:"14px",fontWeight:700,color:h==="/dealer"?"#0066FF":"#888",padding:"8px 14px",borderRadius:"10px",background:h==="/dealer"?"#EEF5FF":"transparent"}}>
-                {l}
+          </Link>
+          <div className="dealer-nav-links" style={{display:"flex",gap:"6px"}}>
+            {NAV_ITEMS.map(item=>(
+              <Link key={item.label} href={item.href} style={{fontSize:"14px",fontWeight:700,color:item.href==="/dealer"?"#0066FF":"#888",padding:"8px 14px",borderRadius:"10px",background:item.href==="/dealer"?"#EEF5FF":"transparent"}}>
+                {item.label}
               </Link>
             ))}
           </div>
-          <Link href="/">
-            <button style={{background:"#F0F6FF",color:"#0066FF",border:"1.5px solid #DDEEFF",padding:"8px 18px",borderRadius:"100px",fontSize:"13px",fontWeight:700,cursor:"pointer"}}>← 픽스카 홈</button>
+          <Link href="/" style={{background:"#F0F6FF",color:"#0066FF",border:"1.5px solid #DDEEFF",padding:"8px 18px",borderRadius:"100px",fontSize:"13px",fontWeight:700,display:"inline-block"}}>
+            ← 픽스카 홈
           </Link>
         </div>
 
         <div style={{maxWidth:"1100px",margin:"0 auto",padding:"28px 32px 80px"}}>
           {/* 헤더 */}
           <div style={{background:"linear-gradient(135deg, #0055FF 0%, #0099FF 100%)",borderRadius:"20px",padding:"28px 32px",marginBottom:"24px",display:"flex",justifyContent:"space-between",alignItems:"center",overflow:"hidden",position:"relative"}}>
-            {/* ★ 수정: DEALER 워터마크에 pointerEvents:"none", zIndex:0 추가 */}
+            {/* DEALER 워터마크 - pointerEvents:none으로 클릭 차단 */}
             <div style={{position:"absolute",right:"-20px",bottom:"-20px",fontFamily:"'Bebas Neue',serif",fontSize:"120px",color:"rgba(255,255,255,0.07)",lineHeight:1,pointerEvents:"none",zIndex:0,userSelect:"none"}}>DEALER</div>
-            {/* ★ 수정: 콘텐츠에 position:"relative", zIndex:1 추가 */}
             <div style={{position:"relative",zIndex:1}}>
               <div style={{fontSize:"13px",fontWeight:800,letterSpacing:"3px",color:"rgba(255,255,255,0.7)",marginBottom:"6px"}}>DEALER DASHBOARD</div>
               <h1 style={{fontSize:"28px",fontWeight:800,color:"white",letterSpacing:"-1px",marginBottom:"4px"}}>딜러 관리 센터</h1>
               <p style={{fontSize:"14px",color:"rgba(255,255,255,0.75)",fontWeight:400}}>픽스카 FIX 정찰가 딜러 전용 대시보드</p>
             </div>
-            {/* ★ 수정: 새 매물 등록 버튼에 position:"relative", zIndex:2 추가 */}
             <Link href="/dealer/cars/new" style={{position:"relative",zIndex:2}}>
               <button style={{background:"white",color:"#0066FF",border:"none",padding:"14px 28px",borderRadius:"12px",fontSize:"15px",fontWeight:800,cursor:"pointer",display:"flex",alignItems:"center",gap:"8px",flexShrink:0}}>
                 <Plus size={18}/> 새 매물 등록
@@ -152,12 +129,18 @@ export default function DealerDashboard() {
               <div style={{fontSize:"15px",fontWeight:800,color:"#1A1A1A",marginBottom:"2px"}}>매물 알림 설정</div>
               <div style={{fontSize:"13px",color:"#888",fontWeight:400}}>고객이 원하는 조건의 매물 등록 시 카카오톡으로 자동 알림이 발송돼요</div>
             </div>
-            <Link href="/alerts">
-              <button style={{background:"#FEE500",color:"#391B1B",border:"none",padding:"10px 20px",borderRadius:"10px",fontSize:"13px",fontWeight:800,cursor:"pointer",flexShrink:0}}>알림 설정 →</button>
-            </Link>
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+/* ★ RoleGuard로 감싸서 DEALER/ADMIN만 접근 가능 */
+export default function DealerPage() {
+  return (
+    <RoleGuard allowedRoles={["DEALER", "ADMIN"]}>
+      <DealerDashboardContent />
+    </RoleGuard>
   );
 }
