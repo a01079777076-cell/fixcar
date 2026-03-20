@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HomeMbtiSection from "@/components/HomeMbtiSection";
+import HomeCarousel from "@/components/HomeCarousel";
 import { prisma } from "@/lib/prisma";
 import {
   Shield, RotateCcw, Truck, ChevronRight,
@@ -97,6 +98,25 @@ export default async function Home() {
 
       <div style={{ minHeight:"100vh", background:"#F0EEE9" }}>
         <Navbar />
+
+        {/* 카테고리 퀵 바 (직방 스타일) */}
+        <div style={{ background:"white", borderBottom:"1px solid #E8E6E1", padding:"14px 0" }}>
+          <div style={{ maxWidth:1200, margin:"0 auto", display:"flex", justifyContent:"center", gap:"clamp(12px,3vw,40px)", padding:"0 20px", flexWrap:"wrap" }}>
+            {[
+              { emoji:"🚗", label:"전체 매물", href:"/cars" },
+              { emoji:"⚡", label:"전기차", href:"/cars?fuel=전기" },
+              { emoji:"💰", label:"1000만↓", href:"/cars?maxPrice=1000" },
+              { emoji:"🏆", label:"랭킹", href:"/ranking" },
+              { emoji:"📚", label:"카탈로그", href:"/catalog" },
+              { emoji:"🧬", label:"내차 찾기", href:"/quiz-select" },
+            ].map(item => (
+              <a key={item.label} href={item.href} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"6px", textDecoration:"none", minWidth:"60px" }}>
+                <div style={{ width:48, height:48, borderRadius:14, background:"#F8F7F4", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, transition:"all 0.2s" }}>{item.emoji}</div>
+                <span style={{ fontSize:12, fontWeight:700, color:"#555" }}>{item.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
 
         {/* 히어로 */}
         <section className="hero-section" style={{ maxWidth:"1360px", margin:"0 auto", padding:"80px 52px 72px" }}>
@@ -299,6 +319,9 @@ export default async function Home() {
             ))}
           </div>
         </section>
+
+        {/* 자동 캐러셀 (직방 스타일) */}
+        <HomeCarousel />
 
         {/* CTA - 역동적 리디자인 */}
         <section style={{ background:"#FF3B1E", minHeight:"520px", position:"relative", overflow:"hidden", display:"flex", alignItems:"center" }}>
