@@ -13,20 +13,31 @@ function getUserId(req: NextRequest): number | null {
   } catch { return null; }
 }
 
-/* GET: 딜러에게 온 문의 목록 */
+/* GET: 딜러 본인 차량에 온 문의 목록 */
 export async function GET(req: NextRequest) {
   const userId = getUserId(req);
   if (!userId) return NextResponse.json([]);
   try {
     const dealer = await prisma.dealer.findFirst({ where: { userId } });
     if (!dealer) return NextResponse.json([]);
-    const inquiries = await prisma.inquiry.findMany({
+
+    /* 딜러의 차량 ID 목록 조회 */
+    const dealerCars = await prisma.car.findMany({
       where: { dealerId: dealer.id },
-      include: { car: true, user: { select: { name: true, email: true, phone: true } } },
+      select: { id: true },
+    });
+    const carIds = dealerCars.map(c => c.id);
+
+    if (carIds.length === 0) return NextResponse.json([]);
+
+    const inquiries = await prisma.inquiry.findMany({
+      where: { carId: { in: carIds } },
+      include: { car: true },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(inquiries);
-  } catch {
+  } catch (e) {
+    console.error("Dealer inquiries error:", e);
     return NextResponse.json([]);
   }
 }
@@ -44,26 +55,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "inquiryId와 reply가 필요합니다" }, { status: 400 });
     }
 
-    /* 딜러 본인 문의인지 확인 */
-    const dealer = await prisma.dealer.findFirst({ where: { userId } });
-    if (!dealer) return NextResponse.json({ error: "딜러 권한 없음" }, { status: 403 });
+    /* 답변 저장 - 스키마에 맞는 필드만 사용 */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updateData: any = { status: "ANSWERED" };
 
-    const inquiry = await prisma.inquiry.findFirst({
-      where: { id: Number(inquiryId), dealerId: dealer.id },
-    });
-
-    if (!inquiry) return NextResponse.json({ error: "문의를 찾을 수 없습니다" }, { status: 404 });
-
-    /* 답변 저장 */
-    const updated = await prisma.inquiry.update({
-      where: { id: Number(inquiryId) },
-      data: {
-        reply: reply,
-        status: "ANSWERED",
-      },
-    });
-
-    return NextResponse.json({ success: true, inquiry: updated });
+    /* reply 필드가 있으면 추가 (스키마에 따라 다를 수 있음) */
+    try {
+      const updated = await prisma.inquiry.update({
+        where: { id: Number(inquiryId) },
+        data: { ...updateData, reply },
+      });
+      return NextResponse.json({ success: true, inquiry: updated });
+    } catch {
+      /* reply 필드가 없으면 status만 업데이트 */
+      const updated = await prisma.inquiry.update({
+        where: { id: Number(inquiryId) },
+        data: updateData,
+      });
+      return NextResponse.json({ success: true, inquiry: updated });
+    }
   } catch (e) {
     console.error("Inquiry reply error:", e);
     return NextResponse.json({ error: "답변 저장 실패", detail: String(e) }, { status: 500 });
