@@ -17,7 +17,6 @@ function getUserId(req: NextRequest): number | null {
 export async function GET() {
   try {
     const posts = await prisma.communityPost.findMany({
-      include: { user: { select: { name: true } } },
       orderBy: { createdAt: "desc" },
       take: 50,
     });
