@@ -1,66 +1,58 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/inquiries — 문의 목록
-export async function GET(request: NextRequest) {
+function getUserId(req: NextRequest): number | null {
+  const token = req.cookies.get("fixcar-token")?.value || req.cookies.get("token")?.value;
+  if (!token) return null;
   try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-    const carId = searchParams.get("carId");
-    const dealerId = searchParams.get("dealerId");
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf-8"));
+    const raw = payload.id || payload.userId || payload.sub;
+    return raw ? Number(raw) : null;
+  } catch { return null; }
+}
 
-    const where: Record<string, unknown> = {};
-    if (userId) where.userId = parseInt(userId);
-    if (carId) where.carId = parseInt(carId);
-    if (dealerId) {
-      where.car = { dealerId: parseInt(dealerId) };
-    }
+/* POST: 문의 접수 */
+export async function POST(req: NextRequest) {
+  const userId = getUserId(req);
+  try {
+    const body = await req.json();
+    const { carId, name, phone, message } = body;
 
-    const inquiries = await prisma.inquiry.findMany({
-      where,
-      include: {
-        user: { select: { name: true, phone: true } },
-        car: { select: { name: true, price: true } },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+    if (!message) return NextResponse.json({ error: "문의 내용을 입력해주세요" }, { status: 400 });
 
-    return NextResponse.json({ success: true, data: inquiries });
-  } catch (error) {
-    console.error("Inquiries Error:", error);
-    return NextResponse.json(
-      { success: false, error: "문의 목록을 불러올 수 없어요" },
-      { status: 500 }
-    );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: any = {
+      carId: Number(carId) || undefined,
+      content: message,
+      name: name || "익명",
+      phone: phone || "",
+      status: "PENDING",
+    };
+
+    if (userId) data.userId = userId;
+
+    const inquiry = await prisma.inquiry.create({ data });
+    return NextResponse.json({ success: true, inquiry }, { status: 201 });
+  } catch (e) {
+    console.error("Inquiry create error:", e);
+    return NextResponse.json({ error: "문의 접수 실패", detail: String(e) }, { status: 500 });
   }
 }
 
-// POST /api/inquiries — 문의 등록
-export async function POST(request: NextRequest) {
+/* GET: 내 문의 목록 */
+export async function GET(req: NextRequest) {
+  const userId = getUserId(req);
+  if (!userId) return NextResponse.json([]);
   try {
-    const { userId, carId, message } = await request.json();
-
-    if (!userId || !carId || !message) {
-      return NextResponse.json(
-        { success: false, error: "필수 항목이 누락됐어요" },
-        { status: 400 }
-      );
-    }
-
-    const inquiry = await prisma.inquiry.create({
-      data: {
-        userId: parseInt(userId),
-        carId: parseInt(carId),
-        message,
-      },
+    const inquiries = await prisma.inquiry.findMany({
+      where: { userId },
+      include: { car: true },
+      orderBy: { createdAt: "desc" },
     });
-
-    return NextResponse.json({ success: true, data: inquiry }, { status: 201 });
-  } catch (error) {
-    console.error("Inquiry Create Error:", error);
-    return NextResponse.json(
-      { success: false, error: "문의 등록에 실패했어요" },
-      { status: 500 }
-    );
+    return NextResponse.json(inquiries);
+  } catch {
+    return NextResponse.json([]);
   }
 }

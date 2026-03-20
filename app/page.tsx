@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import HomeMbtiSection from "@/components/HomeMbtiSection";
 import HomeCarousel from "@/components/HomeCarousel";
+import HomeBlogSection from "@/components/HomeBlogSection";
+import HomeDealerRanking from "@/components/HomeDealerRanking";
 import { prisma } from "@/lib/prisma";
 import {
   Shield, RotateCcw, Truck, ChevronRight,
@@ -226,6 +228,12 @@ export default async function Home() {
         <section style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
           <HomeMbtiSection />
         </section>
+
+        {/* 블로그 최신글 */}
+        <HomeBlogSection />
+
+        {/* 딜러 랭킹 */}
+        <HomeDealerRanking />
 
         {/* 추천 매물 */}
         <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
