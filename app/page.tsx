@@ -100,30 +100,32 @@ export default async function Home() {
         <Navbar />
 
         {/* ═══ 히어로 배너 + 카테고리 (직방 스타일) ═══ */}
-        <section style={{ position:"relative" }}>
+<section style={{ position:"relative" }}>
           {/* 배경 이미지 */}
-          <div style={{
-            height:"clamp(340px,45vw,520px)",
-            backgroundImage:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('/mainbanner.png')",
-            backgroundSize:"cover",
-            backgroundPosition:"center",
-            backgroundRepeat:"no-repeat",
-            display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
-            textAlign:"center", padding:"40px 20px 80px",
-          }}>
-            <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(8px)", borderRadius:"100px", padding:"8px 20px", marginBottom:"24px" }}>
-              <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
-              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 Ai 나에게 맞는 차량추천</span>
+          <div style={{ height:"clamp(340px,45vw,520px)", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", textAlign:"center", padding:"40px 20px 80px" }}>
+            {/* img 태그로 배경 */}
+            <img src="/mainbanner.png" alt="" style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
+            {/* 어두운 오버레이 */}
+            <div style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6))", zIndex:1 }} />
+            {/* 텍스트 콘텐츠 */}
+            <div style={{ position:"relative", zIndex:2 }}>
+              <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(8px)", borderRadius:"100px", padding:"8px 20px", marginBottom:"24px" }}>
+                <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
+                <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 AI 나에게 맞는 차량추천</span>
+              </div>
+              <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:400, color:"white", lineHeight:1.2, letterSpacing:"-1px", marginBottom:"14px" }}>
+                나, 이 차로 <span style={{ color:"#FF3B1E" }}>픽</span>했어, 픽스카
+              </h1>
+              <p style={{ fontSize:"clamp(14px,2vw,18px)", color:"rgba(255,255,255,0.65)", fontWeight:400, lineHeight:1.8, marginBottom:"28px" }}>
+                데이터기반 고객맞춤으로 추천부터, 대기하면 <span style={{ color:"rgb(255, 203, 30)" }}>💛카톡 알람으로</span> 안내까지!
+              </p>
+              <div style={{ display:"flex", gap:"12px", flexWrap:"wrap", justifyContent:"center" }}>
+                <a href="/cars"><button className="btn-red" style={{ padding:"16px 36px", fontSize:"16px" }}>매물 보러가기 <ArrowRight size={16}/></button></a>
+                <a href="/quiz-select"><button className="btn-blue-outline" style={{ padding:"14px 28px", fontSize:"15px", background:"rgba(255,255,255,0.1)", color:"white", border:"2px solid rgba(255,255,255,0.4)" }}><Lock size={15}/> 내차 찾기</button></a>
+              </div>
             </div>
-            <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:400, color:"white", lineHeight:1.2, letterSpacing:"-1px", marginBottom:"14px" }}>
-              나, 이 차로 <span style={{ color:"#FF3B1E" }}>픽</span>했어, 픽스카
-            </h1>
-            <p style={{ fontSize:"clamp(14px,2vw,18px)", color:"rgba(255,255,255,0.65)", fontWeight:400, lineHeight:1.8, marginBottom:"28px" }}>
-              데이터기반 고객맞춤으로 추천부터, 대기하면 <span style={{ color:"rgb(255, 203, 30)" }}>💛카톡 알람으로</span> 안내까지!
-            </p>
-            <div style={{ display:"flex", gap:"12px", flexWrap:"wrap", justifyContent:"center" }}>
-              <a href="/cars"><button className="btn-red" style={{ padding:"16px 36px", fontSize:"16px" }}>매물 보러가기 <ArrowRight size={16}/></button></a>
-              <a href="/quiz-select"><button className="btn-blue-outline" style={{ padding:"14px 28px", fontSize:"15px", background:"rgba(255,255,255,0.1)", color:"white", border:"2px solid rgba(255,255,255,0.4)" }}><Lock size={15}/> 내차 찾기</button></a>
+          </div>
+                        <a href="/quiz-select"><button className="btn-blue-outline" style={{ padding:"14px 28px", fontSize:"15px", background:"rgba(255,255,255,0.1)", color:"white", border:"2px solid rgba(255,255,255,0.4)" }}><Lock size={15}/> 내차 찾기</button></a>
             </div>
           </div>
 
