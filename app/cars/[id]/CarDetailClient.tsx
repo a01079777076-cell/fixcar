@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import FavoriteButton from "@/components/FavoriteButton";
-import InstallmentCalc from "@/components/InstallmentCalc";
 import { Lock, Share2, Phone, MessageCircle, ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 import Link from "next/link";
 
@@ -10,7 +9,6 @@ interface CarDetail { id:number; name:string; brand:string; year:number; mileage
 
 export default function CarDetailClient({ car }: { car: CarDetail }) {
   const [imgIdx, setImgIdx] = useState(0);
-  const [tab, setTab] = useState<"info"|"calc">("info");
   const [copied, setCopied] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const [paying, setPaying] = useState(false);
@@ -142,28 +140,19 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 )}
               </div>
 
-              {/* 탭: 차량 정보 / 할부 계산 */}
+              {/* 차량 정보 */}
               <div style={{ background:"white", borderRadius:"18px", overflow:"hidden" }}>
-                <div style={{ display:"flex", borderBottom:"2px solid #F0EEE9" }}>
-                  {([["info","차량 정보"],["calc","할부 계산"]] as const).map(([t,l])=>(
-                    <button key={t} onClick={()=>setTab(t)} style={{ flex:1, padding:"13px", border:"none", background:"transparent", fontSize:"14px", fontWeight:tab===t?800:600, color:tab===t?"#FF3B1E":"#888", borderBottom:`3px solid ${tab===t?"#FF3B1E":"transparent"}`, cursor:"pointer" }}>{l}</button>
-                  ))}
-                </div>
                 <div style={{ padding:"20px 22px" }}>
-                  {tab==="info"&&(
-                    <>
-                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"0" }}>
-                        {[["연식",`${car.year}년식`],["주행거리",`${car.mileage.toLocaleString()}km`],["연료",car.fuel],["변속기",car.transmission],["색상",car.color],["배기량",car.cc?`${car.cc.toLocaleString()}cc`:"전기"],["최대출력",car.power?`${car.power}마력`:"-"],["연비",car.efficiency||"-"],["소유자",`${car.owners}인`],["사고이력",car.accident?"있음":"없음"]].map(([k,v])=>(
-                          <div key={k as string} style={{ display:"flex", justifyContent:"space-between", padding:"9px 0", borderBottom:"1px solid #F0EEE9", paddingRight:"14px" }}>
-                            <span style={{ fontSize:"13px", color:"#888", fontWeight:400 }}>{k}</span>
-                            <span style={{ fontSize:"13px", fontWeight:800, color:k==="사고이력"&&v==="있음"?"#FF3B1E":"#1A1A1A" }}>{v as string}</span>
-                          </div>
-                        ))}
+                  <div style={{ fontSize:"16px", fontWeight:800, marginBottom:"14px" }}>차량 정보</div>
+                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"0" }}>
+                    {[["연식",`${car.year}년식`],["주행거리",`${car.mileage.toLocaleString()}km`],["연료",car.fuel],["변속기",car.transmission],["색상",car.color],["배기량",car.cc?`${car.cc.toLocaleString()}cc`:"전기"],["최대출력",car.power?`${car.power}마력`:"-"],["연비",car.efficiency||"-"],["소유자",`${car.owners}인`],["사고이력",car.accident?"있음":"없음"]].map(([k,v])=>(
+                      <div key={k as string} style={{ display:"flex", justifyContent:"space-between", padding:"9px 0", borderBottom:"1px solid #F0EEE9", paddingRight:"14px" }}>
+                        <span style={{ fontSize:"13px", color:"#888", fontWeight:400 }}>{k}</span>
+                        <span style={{ fontSize:"13px", fontWeight:800, color:k==="사고이력"&&v==="있음"?"#FF3B1E":"#1A1A1A" }}>{v as string}</span>
                       </div>
-                      {car.options?.length>0&&<div style={{ marginTop:"14px" }}><div style={{ fontSize:"13px", fontWeight:800, marginBottom:"8px" }}>옵션</div><div style={{ display:"flex", flexWrap:"wrap", gap:"5px" }}>{car.options.map(o=><span key={o} style={{ background:"#EEF2FF", color:"#1847FF", padding:"3px 9px", borderRadius:"7px", fontSize:"11px", fontWeight:700 }}>{o}</span>)}</div></div>}
-                    </>
-                  )}
-                  {tab==="calc"&&<InstallmentCalc defaultPrice={car.price}/>}
+                    ))}
+                  </div>
+                  {car.options?.length>0&&<div style={{ marginTop:"14px" }}><div style={{ fontSize:"13px", fontWeight:800, marginBottom:"8px" }}>옵션</div><div style={{ display:"flex", flexWrap:"wrap", gap:"5px" }}>{car.options.map(o=><span key={o} style={{ background:"#EEF2FF", color:"#1847FF", padding:"3px 9px", borderRadius:"7px", fontSize:"11px", fontWeight:700 }}>{o}</span>)}</div></div>}
                 </div>
               </div>
             </div>

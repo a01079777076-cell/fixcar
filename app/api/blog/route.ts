@@ -17,12 +17,15 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const limit = Number(searchParams.get("limit")) || 20;
-    const posts = await prisma.blogPost.findMany({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const posts = await (prisma as any).blogPost.findMany({
       orderBy: { createdAt: "desc" },
       take: limit,
     });
     return NextResponse.json(posts);
-  } catch {
+  } catch (e) {
+    console.error("Blog GET error:", e);
+    /* blogPost 테이블이 없으면 빈 배열 */
     return NextResponse.json([]);
   }
 }
@@ -32,16 +35,20 @@ export async function POST(req: NextRequest) {
   if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
   try {
     const body = await req.json();
+    if (!body.title || !body.content) {
+      return NextResponse.json({ error: "제목과 내용을 입력해주세요" }, { status: 400 });
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any = {
-      title: String(body.title || "").slice(0, 200),
-      content: String(body.content || "").slice(0, 50000),
+      title: String(body.title).slice(0, 200),
+      content: String(body.content).slice(0, 50000),
       userId,
     };
     if (body.thumbnail) data.thumbnail = body.thumbnail;
     if (body.category) data.category = body.category;
 
-    const post = await prisma.blogPost.create({ data });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const post = await (prisma as any).blogPost.create({ data });
     return NextResponse.json({ success: true, post }, { status: 201 });
   } catch (e) {
     console.error("Blog POST error:", e);

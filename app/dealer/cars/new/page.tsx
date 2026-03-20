@@ -56,6 +56,7 @@ function DealerCarNewContent() {
   const [description, setDescription] = useState("");
   const [accident, setAccident] = useState(false);
   const [accidentDetail, setAccidentDetail] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   /* 이미지 */
   const [images, setImages] = useState<string[]>([]);
@@ -181,7 +182,7 @@ function DealerCarNewContent() {
           </Link>
           <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:22, letterSpacing:2 }}>
             <span style={{ color:"#FF3B1E" }}>FIX</span><span style={{ color:"#1A1A1A" }}>CAR</span>
-            <span style={{ fontSize:11, fontWeight:800, color:"#0066FF", marginLeft:8 }}>새 매물 등록</span>
+            <span style={{ fontSize:13, fontWeight:800, color:"#0066FF", marginLeft:8, fontFamily:"'NanumSquareRound',sans-serif" }}>차량 광고 등록</span>
           </div>
           <div style={{ width:80 }} />
         </div>
@@ -306,6 +307,37 @@ function DealerCarNewContent() {
                 {accident && (
                   <textarea rows={3} value={accidentDetail} onChange={e=>setAccidentDetail(e.target.value)} placeholder="사고 내역을 상세히 기재해주세요" style={{ ...S.input, marginTop:14, resize:"none" as const }} />
                 )}
+              </div>
+
+              {/* 차량 옵션 */}
+              <div style={{ background:"white", borderRadius:18, padding:"24px 22px" }}>
+                <h3 style={{ fontSize:18, fontWeight:800, marginBottom:6 }}>차량 옵션</h3>
+                <p style={{ fontSize:12, color:"#888", fontWeight:400, marginBottom:16 }}>해당 차량에 포함된 옵션을 선택해주세요</p>
+                {[
+                  { cat:"안전", opts:["에어백(운전석)","에어백(동승석)","사이드에어백","커튼에어백","후방카메라","전방카메라","360도카메라","후방센서","전방센서","사각지대감지","차선이탈경보","전방충돌방지","크루즈컨트롤","어댑티브크루즈"] },
+                  { cat:"편의", opts:["네비게이션","스마트키","버튼시동","오토라이트","자동와이퍼","전동접이미러","헤드업디스플레이","무선충전","통풍시트(앞)","열선시트(앞)","열선시트(뒤)","열선핸들","전동시트(운전석)","전동시트(동승석)","메모리시트"] },
+                  { cat:"멀티미디어", opts:["블루투스","USB","AUX","애플카플레이","안드로이드오토","하이패스내장","JBL사운드","BOSE사운드","하만카돈"] },
+                  { cat:"외관", opts:["선루프","파노라마선루프","LED헤드램프","LED안개등","루프랙","전동트렁크","듀얼머플러","18인치이상휠"] },
+                  { cat:"성능", opts:["AWD(4WD)","스포츠모드","패들시프트","전자식파킹","자동주차","원격시동"] },
+                ].map(group=>(
+                  <div key={group.cat} style={{ marginBottom:16 }}>
+                    <div style={{ fontSize:13, fontWeight:800, color:"#0066FF", marginBottom:8 }}>{group.cat}</div>
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                      {group.opts.map(opt=>{
+                        const sel = selectedOptions.includes(opt);
+                        return (
+                          <button key={opt} onClick={()=>setSelectedOptions(prev=>sel?prev.filter(o=>o!==opt):[...prev,opt])} style={{
+                            padding:"7px 14px", borderRadius:100, fontSize:12, fontWeight:sel?800:500,
+                            border:sel?"2px solid #0066FF":"1.5px solid #DDEEFF",
+                            background:sel?"#EEF5FF":"white", color:sel?"#0066FF":"#888",
+                            cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif",
+                          }}>{sel?"✓ ":""}{opt}</button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+                <div style={{ fontSize:12, color:"#AAA", marginTop:8 }}>선택된 옵션: {selectedOptions.length}개</div>
               </div>
 
               <button onClick={goNext} style={{ width:"100%", padding:"18px", background:"#0066FF", color:"white", border:"none", borderRadius:14, fontSize:16, fontWeight:800 }}>
