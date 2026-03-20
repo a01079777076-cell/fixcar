@@ -104,7 +104,7 @@ export default async function Home() {
           {/* 배경 이미지 */}
           <div style={{
             height:"clamp(340px,45vw,520px)",
-            background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1600&q=80') center/cover no-repeat",
+            background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('/mainbanner.jpg') center/cover no-repeat",
             display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
             textAlign:"center", padding:"40px 20px 80px",
           }}>
@@ -350,32 +350,68 @@ export default async function Home() {
         </section>
 
         {/* 푸터 */}
-        <footer style={{ background:"#1A1A1A", padding:"64px 52px 44px" }}>
-          <div style={{ maxWidth:"1360px", margin:"0 auto" }}>
-            <div className="footer-cols" style={{ display:"grid", gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr", gap:"40px", paddingBottom:"48px", borderBottom:"1px solid rgba(255,255,255,0.07)", marginBottom:"36px" }}>
-              <div>
-                <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", letterSpacing:"3px", marginBottom:"14px" }}><span style={{ color:"#FF3B1E" }}>FIX</span><span style={{ color:"#fff" }}>CAR</span></div>
-                <p style={{ fontSize:"14px", color:"rgba(255,255,255,0.35)", lineHeight:1.9, fontWeight:400, marginBottom:"16px" }}>나, 이 차로 픽했어.<br />가격은 픽스.<br />광주 중고차 정찰제 플랫폼.</p>
-                <div style={{ display:"flex", gap:"8px" }}>
-                  <a href="/dealer/apply"><button style={{ background:"#1847FF", color:"white", border:"none", padding:"8px 16px", borderRadius:"100px", fontSize:"12px", fontWeight:800, cursor:"pointer" }}>딜러 신청</button></a>
-                  <a href="/contact"><button style={{ background:"rgba(255,255,255,0.1)", color:"white", border:"none", padding:"8px 16px", borderRadius:"100px", fontSize:"12px", fontWeight:700, cursor:"pointer" }}>고객센터</button></a>
-                </div>
-              </div>
-              {FOOTER_COLS.map(col=>(
-                <div key={col.title}>
-                  <div style={{ fontSize:"11px", fontWeight:800, letterSpacing:"2px", color:"rgba(255,255,255,0.35)", marginBottom:"16px" }}>{col.title.toUpperCase()}</div>
-                  {col.links.map(([label,href])=>(
-                    <a key={String(label)} href={String(href)} className="footer-link">{label}</a>
-                  ))}
-                </div>
+        {/* ═══ 푸터 (직방 스타일) ═══ */}
+        <footer style={{ background:"#fff", borderTop:"1px solid #E8E6E1" }}>
+          <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"48px 32px 40px" }}>
+            {/* 상단 링크 */}
+            <div style={{ display:"flex", flexWrap:"wrap", gap:"8px", alignItems:"center", paddingBottom:"24px", borderBottom:"1px solid #E8E6E1", marginBottom:"24px" }}>
+              {[
+                {label:"회사소개",href:"/about",bold:false},
+                {label:"딜러 신청",href:"/dealer/apply",bold:false},
+                {label:"이용약관",href:"/terms",bold:false},
+                {label:"개인정보 처리방침",href:"/privacy",bold:true},
+                {label:"고객센터",href:"/contact",bold:false},
+                {label:"블로그",href:"/blog",bold:false},
+                {label:"자주 묻는 질문",href:"/faq",bold:false},
+              ].map((item,i)=>(
+                <span key={item.label} style={{display:"flex",alignItems:"center",gap:"8px"}}>
+                  <a href={item.href} style={{ fontSize:"14px", fontWeight:item.bold?800:400, color:"#333", textDecoration:"none" }}>{item.label}</a>
+                  {i<6&&<span style={{color:"#E0DDD7"}}>|</span>}
+                </span>
               ))}
             </div>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"12px" }}>
-              <div style={{ fontSize:"13px", color:"rgba(255,255,255,0.2)", fontWeight:400 }}>© 2025 픽스카 FIXCAR · 광주광역시 중고차 정찰제 플랫폼</div>
-              <div style={{ display:"flex", gap:"16px" }}>
-                <a href="/privacy" style={{ fontSize:"12px", color:"rgba(255,255,255,0.25)", fontWeight:400 }}>개인정보처리방침</a>
-                <a href="/terms" style={{ fontSize:"12px", color:"rgba(255,255,255,0.25)", fontWeight:400 }}>이용약관</a>
-              </div>
+
+            {/* 회사 정보 */}
+            <div style={{ fontSize:"13px", color:"#999", lineHeight:2.0, fontWeight:400, marginBottom:"28px" }}>
+              <p>상호 : 픽스카 FIXCAR | 대표 : 상훈 | 사업자등록번호 : 000-00-00000</p>
+              <p>주소 : 광주광역시 (상세주소 추후 기입)</p>
+              <p>통신판매업 신고번호 : 제0000-광주-00000호</p>
+              <p>이메일 : info@fixcar.kr | 고객센터 : 062-000-0000 (평일 09:00~18:00)</p>
+            </div>
+
+            {/* 앱 다운로드 버튼 */}
+            <div style={{ display:"flex", gap:"12px", marginBottom:"32px", flexWrap:"wrap" }}>
+              <a href="#" style={{ textDecoration:"none" }}>
+                <div style={{
+                  display:"flex", alignItems:"center", gap:"10px",
+                  border:"1.5px solid #E0DDD7", borderRadius:"12px", padding:"12px 24px",
+                  background:"white", cursor:"pointer", transition:"all 0.15s",
+                }}>
+                  <svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M16.5 12.5c0-3.5 2.8-5.2 2.9-5.3-1.6-2.3-4-2.6-4.9-2.7-2.1-.2-4 1.2-5.1 1.2-1 0-2.6-1.2-4.3-1.1-2.2 0-4.2 1.3-5.4 3.3C-2.5 11.8.5 18.3 2.7 21.5c1.1 1.6 2.4 3.3 4.1 3.3 1.7-.1 2.3-1.1 4.2-1.1 2 0 2.5 1.1 4.3 1 1.8 0 2.9-1.6 4-3.2 1.3-1.8 1.8-3.6 1.8-3.7-.1 0-3.6-1.4-3.6-5.3zM13.4 3.2C14.3 2.1 14.9.6 14.7 0c-1.3.1-2.9.9-3.8 2-.8 1-1.6 2.5-1.4 4 1.5.1 2.9-.7 3.9-2.8z" fill="#333"/></svg>
+                  <div>
+                    <div style={{ fontSize:"10px", color:"#999", fontWeight:400, lineHeight:1 }}>Download on the</div>
+                    <div style={{ fontSize:"16px", fontWeight:800, color:"#333", lineHeight:1.3 }}>App Store</div>
+                  </div>
+                </div>
+              </a>
+              <a href="#" style={{ textDecoration:"none" }}>
+                <div style={{
+                  display:"flex", alignItems:"center", gap:"10px",
+                  border:"1.5px solid #E0DDD7", borderRadius:"12px", padding:"12px 24px",
+                  background:"white", cursor:"pointer", transition:"all 0.15s",
+                }}>
+                  <svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M1 1.6L11.4 11 1 20.4c-.3-.4-.5-.9-.5-1.4V3c0-.5.2-1 .5-1.4zm1.4-1L14 7.8l-2.6 2.6L1.8.2c.2-.1.4-.2.6-.2.3 0 .7.1 1 .3l-.1.1zM14 14.2l-2.6-2.6 2.6-2.6 3.2 1.8c.9.5.9 1.3 0 1.8L14 14.2zm-1.6-.6L2.4 21.8c-.5.3-1 .3-1.4.1l9.8-9.8 1.6 1.5z" fill="#333"/></svg>
+                  <div>
+                    <div style={{ fontSize:"10px", color:"#999", fontWeight:400, lineHeight:1 }}>GET IT ON</div>
+                    <div style={{ fontSize:"16px", fontWeight:800, color:"#333", lineHeight:1.3 }}>Google Play</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            {/* 카피라이트 */}
+            <div style={{ fontSize:"12px", color:"#CCC", fontWeight:400 }}>
+              Copyright © FIXCAR. All Rights Reserved.
             </div>
           </div>
         </footer>
