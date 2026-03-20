@@ -93,8 +93,8 @@ export default async function Home() {
         .footer-link{display:block;font-size:14px;color:rgba(255,255,255,0.35);margin-bottom:10px;font-weight:400;transition:color 0.15s;}
         .footer-link:hover{color:rgba(255,255,255,0.7);}
         .img-placeholder{text-align:center;padding:20px;}
-        @media(max-width:1024px){.cars-3{grid-template-columns:1fr 1fr!important;}.promises-4{grid-template-columns:1fr 1fr!important;}.reviews-3{grid-template-columns:1fr!important;}.footer-cols{grid-template-columns:1fr 1fr!important;}.section-pad{padding-left:24px!important;padding-right:24px!important;}.content-banners{grid-template-columns:1fr 1fr!important;}}
-        @media(max-width:600px){.cars-3{grid-template-columns:1fr!important;}.content-banners{grid-template-columns:1fr!important;}}
+        @media(max-width:1024px){.cars-3{grid-template-columns:1fr 1fr!important;}.promises-4{grid-template-columns:1fr 1fr!important;}.reviews-3{grid-template-columns:1fr!important;}.footer-cols{grid-template-columns:1fr 1fr!important;}.section-pad{padding-left:16px!important;padding-right:16px!important;}.content-banners{grid-template-columns:1fr 1fr!important;}.pickfix-grid{grid-template-columns:1fr!important;}.cta-grid{grid-template-columns:1fr!important;gap:16px!important;}.cta-cards{flex-direction:column!important;}}
+        @media(max-width:600px){.cars-3{grid-template-columns:1fr!important;}.content-banners{grid-template-columns:1fr!important;}.pickfix-inner{padding:32px 24px!important;}}
         @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
       `}</style>
 
@@ -168,22 +168,22 @@ export default async function Home() {
 
         {/* PICK + FIX */}
         <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", borderRadius:"24px", overflow:"hidden" }}>
-            <div style={{ background:"linear-gradient(135deg, #FF5A3C 0%, #E8290F 60%, #C41E08 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
-              <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"200px", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>PICK</div>
-              <div style={{ width:"56px", height:"56px", background:"rgba(255,255,255,0.15)", borderRadius:"18px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"22px" }}><Zap size={28} color="white" /></div>
-              <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"48px", color:"#fff", letterSpacing:"3px", marginBottom:"12px" }}>PICK</div>
-              <div style={{ fontSize:"24px", fontWeight:600, color:"rgba(255,255,255,0.95)", marginBottom:"16px" }}>나, 이 차로 픽했어</div>
-              <p style={{ fontSize:"15px", color:"rgba(255,255,255,0.78)", lineHeight:1.85, maxWidth:"320px", fontWeight:400 }}>차에 대해 아무것도 몰라도 괜찮아요.<br /><strong style={{ color:"#fff", fontWeight:800 }}>3분 퀴즈 하나로</strong> 나에게 딱 맞는 차를 픽해드려요.</p>
-              <a href="/quiz" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"20px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>퀴즈 시작 <ArrowRight size={14}/></a>
+          <div className="pickfix-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", borderRadius:"24px", overflow:"hidden" }}>
+            <div className="pickfix-inner" style={{ background:"linear-gradient(135deg, #FF5A3C 0%, #E8290F 60%, #C41E08 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
+              <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"clamp(120px,18vw,200px)", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>PICK</div>
+              <div style={{ width:"48px", height:"48px", background:"rgba(255,255,255,0.15)", borderRadius:"14px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"18px" }}><Zap size={24} color="white" /></div>
+              <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"clamp(32px,5vw,48px)", color:"#fff", letterSpacing:"3px", marginBottom:"10px" }}>PICK</div>
+              <div style={{ fontSize:"clamp(16px,2.5vw,24px)", fontWeight:600, color:"rgba(255,255,255,0.95)", marginBottom:"14px", wordBreak:"keep-all" }}>나에게 딱 맞는 차 찾기</div>
+              <p style={{ fontSize:"clamp(13px,1.5vw,15px)", color:"rgba(255,255,255,0.78)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>AI 추천 · 3분 퀴즈<br/>조건 맞춤 검색</p>
+              <a href="/quiz" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"18px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>내 차 PICK 하러 가기 <ArrowRight size={14}/></a>
             </div>
-            <div style={{ background:"linear-gradient(135deg, #3060FF 0%, #1338E0 60%, #0A25B8 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
-              <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"200px", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>FIX</div>
-              <div style={{ width:"56px", height:"56px", background:"rgba(255,255,255,0.15)", borderRadius:"18px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"22px" }}><Lock size={28} color="white" /></div>
-              <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"48px", color:"#fff", letterSpacing:"3px", marginBottom:"12px" }}>FIX</div>
-              <div style={{ fontSize:"24px", fontWeight:800, color:"rgba(255,255,255,0.95)", marginBottom:"16px" }}>가격은 픽스, 믿음도 픽스</div>
-              <p style={{ fontSize:"15px", color:"rgba(255,255,255,0.78)", lineHeight:1.85, maxWidth:"320px", fontWeight:400 }}>모든 매물의 가격을 고정(FIX)해요.<br /><strong style={{ color:"#fff", fontWeight:800 }}>표시 가격 = 최종 가격.</strong> 추가 비용 없음.</p>
-              <a href="/cars" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"20px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>매물 보기 <ArrowRight size={14}/></a>
+            <div className="pickfix-inner" style={{ background:"linear-gradient(135deg, #3060FF 0%, #1338E0 60%, #0A25B8 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
+              <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"clamp(120px,18vw,200px)", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>FIX</div>
+              <div style={{ width:"48px", height:"48px", background:"rgba(255,255,255,0.15)", borderRadius:"14px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"18px" }}><Lock size={24} color="white" /></div>
+              <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"clamp(32px,5vw,48px)", color:"#fff", letterSpacing:"3px", marginBottom:"10px" }}>FIX</div>
+              <div style={{ fontSize:"clamp(16px,2.5vw,24px)", fontWeight:700, color:"rgba(255,255,255,0.95)", marginBottom:"14px", wordBreak:"keep-all" }}>정찰가 매물 바로 보기</div>
+              <p style={{ fontSize:"clamp(13px,1.5vw,15px)", color:"rgba(255,255,255,0.78)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>흥정 없음 · 가격 투명<br/>100항목 검수</p>
+              <a href="/cars" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"18px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>FIX 가격 매물 보기 <ArrowRight size={14}/></a>
             </div>
           </div>
         </section>
@@ -338,23 +338,23 @@ export default async function Home() {
           <div style={{ position:"absolute", bottom:"-30px", right:"-10px", fontFamily:"'Bebas Neue',serif", fontSize:"clamp(140px,22vw,280px)", color:"rgba(0,0,0,0.1)", lineHeight:1, letterSpacing:"-5px", pointerEvents:"none", userSelect:"none" }}>FIX</div>
 
           {/* 중앙 콘텐츠 */}
-          <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:"1200px", margin:"0 auto", padding:"80px 52px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:"60px", alignItems:"center" }}>
+          <div className="cta-grid" style={{ position:"relative", zIndex:1, width:"100%", maxWidth:"1200px", margin:"0 auto", padding:"clamp(40px,8vw,80px) clamp(20px,5vw,52px)", display:"grid", gridTemplateColumns:"1fr 1fr", gap:"40px", alignItems:"center" }}>
             {/* 왼쪽 */}
             <div>
               <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(0,0,0,0.15)", borderRadius:"100px", padding:"8px 18px", marginBottom:"24px" }}>
                 <div style={{ width:"8px", height:"8px", background:"white", borderRadius:"50%", opacity:0.8 }}/>
                 <span style={{ fontSize:"13px", fontWeight:800, color:"rgba(255,255,255,0.9)", letterSpacing:"2px" }}>FIXCAR 광주</span>
               </div>
-              <h2 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(40px,6vw,76px)", fontWeight:400, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"20px" }}>
+              <h2 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(32px,6vw,76px)", fontWeight:400, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"20px", wordBreak:"keep-all" }}>
                 나, 이 차로<br />픽했어
               </h2>
-              <p style={{ fontSize:"17px", color:"rgba(255,255,255,0.8)", lineHeight:1.85, fontWeight:400 }}>
+              <p style={{ fontSize:"clamp(14px,2vw,17px)", color:"rgba(255,255,255,0.8)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>
                 3분 퀴즈로 내 차를 픽(PICK)하고<br />픽스(FIX) 정찰가로 스트레스 없이 구매하세요.
               </p>
             </div>
 
             {/* 오른쪽 */}
-            <div style={{ display:"flex", flexDirection:"column", gap:"14px" }}>
+            <div className="cta-cards" style={{ display:"flex", flexDirection:"column", gap:"14px" }}>
               {/* PICK 카드 */}
               <div style={{ background:"rgba(255,255,255,0.12)", border:"1px solid rgba(255,255,255,0.2)", borderRadius:"20px", padding:"24px 28px" }}>
                 <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:"white", letterSpacing:"3px", marginBottom:"6px" }}>PICK</div>

@@ -37,10 +37,11 @@ export default function HomeDealerRanking() {
         </Link>
       </div>
 
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(5, 1fr)", gap:"14px" }}>
+      <div style={{ display:"flex", gap:"14px", overflowX:"auto", paddingBottom:"8px", scrollSnapType:"x mandatory", WebkitOverflowScrolling:"touch" }}>
         {items.slice(0,5).map((dealer, i) => (
-          <Link key={dealer.id} href={`/ranking/dealers#${dealer.id}`} style={{ textDecoration:"none" }}>
+          <Link key={dealer.id} href={`/ranking/dealers#${dealer.id}`} style={{ textDecoration:"none", flexShrink:0, scrollSnapAlign:"start" }}>
             <div style={{
+              width:"clamp(160px,30vw,200px)",
               background: i===0 ? "linear-gradient(135deg, #FFF8EC, #FFF0DD)" : "white",
               border: i===0 ? "2px solid #E8A020" : "1.5px solid #E8E6E1",
               borderRadius:"20px", padding:"24px 20px", textAlign:"center", cursor:"pointer",
@@ -84,7 +85,7 @@ export default function HomeDealerRanking() {
         ))}
       </div>
 
-      <style>{`@media(max-width:1024px){section > div:last-child{grid-template-columns:repeat(3,1fr)!important;}}@media(max-width:600px){section > div:last-child{grid-template-columns:1fr 1fr!important;}}`}</style>
+      <style>{`.dealer-scroll::-webkit-scrollbar{display:none;}`}</style>
     </section>
   );
 }

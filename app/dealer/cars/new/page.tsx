@@ -146,13 +146,13 @@ function DealerCarNewContent() {
   };
 
   if (submitted) return (
-    <div style={{ textAlign:"center", padding:"80px 20px" }}>
+    <div style={{ textAlign:"center", padding:"80px 20px", fontFamily:"'NanumSquareRound',sans-serif" }}>
       <div style={{ fontSize:60, marginBottom:20 }}>✅</div>
-      <h2 style={{ fontSize:24, fontWeight:800, marginBottom:10 }}>매물 등록 완료!</h2>
-      <p style={{ fontSize:15, color:"#888", fontWeight:400, marginBottom:28 }}>관리자 검수 후 게시됩니다.</p>
+      <h2 style={{ fontSize:28, fontWeight:700, marginBottom:10, letterSpacing:"-0.5px" }}>매물 등록 완료!</h2>
+      <p style={{ fontSize:16, color:"#888", fontWeight:400, marginBottom:28 }}>관리자 검수 후 게시됩니다.</p>
       <div style={{ display:"flex", gap:12, justifyContent:"center" }}>
-        <Link href="/dealer/cars"><button style={{ padding:"14px 28px", background:"#0066FF", color:"white", border:"none", borderRadius:12, fontSize:15, fontWeight:800, cursor:"pointer" }}>내 매물 관리</button></Link>
-        <button onClick={()=>{setSubmitted(false);setStep(1);}} style={{ padding:"14px 28px", background:"#F0F6FF", color:"#0066FF", border:"none", borderRadius:12, fontSize:15, fontWeight:700, cursor:"pointer" }}>추가 등록</button>
+        <Link href="/dealer"><button style={{ padding:"14px 28px", background:"#0066FF", color:"white", border:"none", borderRadius:12, fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif" }}>내 매물 관리</button></Link>
+        <button onClick={()=>{setSubmitted(false);setStep(1);}} style={{ padding:"14px 28px", background:"#F0F6FF", color:"#0066FF", border:"none", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif" }}>추가 등록</button>
       </div>
     </div>
   );
