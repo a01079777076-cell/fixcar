@@ -137,13 +137,13 @@ export default async function Home() {
           }}>
             {[
               { icon:"🧬", img:"", label:"내차 찾기", href:"/quiz-select" },
-              { icon:"", img:"/icon/main_allcars_button.png", label:"전체 매물", href:"/cars" },
+              { icon:"", img:"public/icon/main_allcars_button.png", label:"전체 매물", href:"/cars" },
               { icon:"🏆", img:"", label:"랭킹", href:"/ranking" },
               { icon:"📚", img:"", label:"카탈로그", href:"/catalog" },
             ].map(item => (
               <a key={item.label} href={item.href} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"8px", textDecoration:"none", padding:"8px 12px", borderRadius:"14px", transition:"all 0.2s", cursor:"pointer", minWidth:"70px" }}>
-                <div style={{ width:"52px", height:"52px", borderRadius:"16px", background:"#F8F7F4", border:"1.5px solid #E8E6E1", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"24px", transition:"all 0.2s", overflow:"hidden" }}>
-                  {item.img ? <img src={item.img} alt={item.label} style={{ width:"100%", height:"100%", objectFit:"cover" }} /> : item.icon}
+                <div style={{ width:"64px", height:"64px", borderRadius:"16px", background:"#F8F7F4", border:"1.5px solid #E8E6E1", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"24px", transition:"all 0.2s", overflow:"hidden" }}>
+                  {item.img ? <img src={item.img} alt={item.label} style={{ width:"100%", height:"100%", objectFit:"contain" }} /> : item.icon}
                 </div>
                 <span style={{ fontSize:"13px", fontWeight:700, color:"#444" }}>{item.label}</span>
               </a>
