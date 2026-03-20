@@ -117,7 +117,7 @@ export default async function Home() {
             </div>
             <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:400, color:"white", lineHeight:1.2, letterSpacing:"-1px", marginBottom:"14px" }}>
               나, 이 차로 <span style={{ color:"#FF3B1E" }}>픽</span>했어, 픽스카
-            </h1>            </h1>
+            </h1>
             <p style={{ fontSize:"clamp(14px,2vw,18px)", color:"rgba(255,255,255,0.65)", fontWeight:400, lineHeight:1.8, marginBottom:"28px" }}>
               데이터기반 고객맞춤으로 추천부터, 대기하면 <span style={{ color:"rgb(255, 203, 30)" }}>💛카톡 알람으로</span> 안내까지!
             </p>
