@@ -229,7 +229,7 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
                         <div>
                           <div style={{fontSize:13,fontWeight:800,color:"#1847FF",marginBottom:6}}>연도별 이슈</div>
                           <div style={{fontSize:13,color:"#555",lineHeight:1.8,background:"#EEF2FF",borderRadius:10,padding:"12px 16px",border:"1px solid #B8C8FF"}}>
-                            {issueInfo.yearIssues.split(" / ")..map((item:string,i:number)=>(
+                            {issueInfo.yearIssues.split(" / ").map((item:string,i:number)=>(
                               <div key={i}>• {item}</div>
                             ))}
                           </div>
