@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { CarStatus } from "@prisma/client";
 
 function getUserId(req: NextRequest): number | null {
   const token = req.cookies.get("fixcar-token")?.value || req.cookies.get("token")?.value;
@@ -13,12 +14,10 @@ function getUserId(req: NextRequest): number | null {
   } catch { return null; }
 }
 
-/* GET: 딜러 본인 매물 */
 export async function GET(req: NextRequest) {
   const userId = getUserId(req);
   if (!userId) return NextResponse.json({ error: "인증 필요" }, { status: 401 });
   try {
-    /* 딜러 찾기 */
     const dealer = await prisma.dealer.findFirst({ where: { userId } });
     if (!dealer) return NextResponse.json([]);
     const cars = await prisma.car.findMany({
@@ -31,19 +30,15 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/* POST: 새 매물 등록 */
 export async function POST(req: NextRequest) {
   const userId = getUserId(req);
   if (!userId) return NextResponse.json({ error: "인증 필요" }, { status: 401 });
 
   try {
-    /* 딜러 확인 */
     const dealer = await prisma.dealer.findFirst({ where: { userId } });
     if (!dealer) return NextResponse.json({ error: "딜러 권한이 없습니다" }, { status: 403 });
 
     const body = await req.json();
-
-    /* 필수 필드 검증 */
     if (!body.name) return NextResponse.json({ error: "차량명은 필수입니다" }, { status: 400 });
 
     const car = await prisma.car.create({
@@ -58,10 +53,9 @@ export async function POST(req: NextRequest) {
         color: body.color || "",
         tags: body.tags || [],
         images: body.images || [],
-        description: body.description || "",
         isAccident: body.isAccident === true,
         isPick: false,
-        status: "REVIEWING",
+        status: CarStatus.AVAILABLE,
         dealerId: dealer.id,
       },
     });
