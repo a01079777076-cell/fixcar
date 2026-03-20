@@ -102,19 +102,22 @@ export default async function Home() {
         {/* ═══ 히어로 배너 + 카테고리 (직방 스타일) ═══ */}
         <section style={{ position:"relative" }}>
           {/* 배경 이미지 */}
-          <div style={{
+<div style={{
             height:"clamp(340px,45vw,520px)",
-            background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('/mainbanner.png') center/cover no-repeat",
+            backgroundImage:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('/mainbanner.png')",
+            backgroundSize:"cover",
+            backgroundPosition:"center",
+            backgroundRepeat:"no-repeat",
             display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
             textAlign:"center", padding:"40px 20px 80px",
           }}>
             <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(8px)", borderRadius:"100px", padding:"8px 20px", marginBottom:"24px" }}>
               <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
-              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 Ai 나에게 맞는 차량추천</span>
+              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 AI 나에게 맞는 차량추천</span>
             </div>
-            <h1 style={{ fontFamily:"'NanumSquareRound',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:800, color:"white", lineHeight:1.2, letterSpacing:"-1.5px", marginBottom:"14px" }}>
+            <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:400, color:"white", lineHeight:1.2, letterSpacing:"-1px", marginBottom:"14px" }}>
               나, 이 차로 <span style={{ color:"#FF3B1E" }}>픽</span>했어, 픽스카
-            </h1>
+            </h1>            </h1>
             <p style={{ fontSize:"clamp(14px,2vw,18px)", color:"rgba(255,255,255,0.65)", fontWeight:400, lineHeight:1.8, marginBottom:"28px" }}>
               데이터기반 고객맞춤으로 추천부터, 대기하면 <span style={{ color:"rgb(255, 203, 30)" }}>💛카톡 알람으로</span> 안내까지!
             </p>
