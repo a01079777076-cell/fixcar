@@ -7,17 +7,12 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
-          /* XSS 방지 */
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-XSS-Protection", value: "1; mode=block" },
-          /* 클릭재킹 방지 */
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          /* HTTPS 강제 (1년) */
           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
-          /* 권한 제한 */
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(self)" },
-          /* Content Security Policy */
           {
             key: "Content-Security-Policy",
             value: [
@@ -43,8 +38,7 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  /* 기존 설정 유지 */
-  eslint: { ignoreDuringBuilds: true },
+  /* 빌드 설정 */
   typescript: { ignoreBuildErrors: false },
 };
 

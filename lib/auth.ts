@@ -8,29 +8,17 @@ export interface AuthUser {
   role?: string;
 }
 
-/**
- * fixcar-token 쿠키에서 유저 정보 추출
- */
-export function getAuthUser(req: NextRequest): AuthUser | null {
-  const token =
-    req.cookies.get("fixcar-token")?.value ||
-    req.cookies.get("token")?.value ||
-    req.cookies.get("auth-token")?.value;
-
-  if (!token) return null;
-
+/** 토큰 문자열에서 payload 추출 */
+function decodeToken(token: string): AuthUser | null {
   try {
     const parts = token.split(".");
     if (parts.length !== 3) return null;
     const payload = JSON.parse(
       Buffer.from(parts[1], "base64url").toString("utf-8")
     );
-
     const id = payload.id || payload.userId || payload.sub;
     if (!id) return null;
-
     if (payload.exp && payload.exp * 1000 < Date.now()) return null;
-
     return {
       id: Number(id),
       email: payload.email || undefined,
@@ -43,10 +31,26 @@ export function getAuthUser(req: NextRequest): AuthUser | null {
 }
 
 /**
- * ★ 기존 호환용 - verifyToken
+ * fixcar-token 쿠키에서 유저 정보 추출
  */
-export function verifyToken(req: NextRequest): AuthUser | null {
-  return getAuthUser(req);
+export function getAuthUser(req: NextRequest): AuthUser | null {
+  const token =
+    req.cookies.get("fixcar-token")?.value ||
+    req.cookies.get("token")?.value ||
+    req.cookies.get("auth-token")?.value;
+  if (!token) return null;
+  return decodeToken(token);
+}
+
+/**
+ * ★ 기존 호환용 - verifyToken
+ * NextRequest 또는 토큰 문자열 둘 다 받음
+ */
+export function verifyToken(reqOrToken: NextRequest | string): AuthUser | null {
+  if (typeof reqOrToken === "string") {
+    return decodeToken(reqOrToken);
+  }
+  return getAuthUser(reqOrToken);
 }
 
 /**
@@ -70,10 +74,7 @@ export async function signToken(payload: Record<string, unknown>): Promise<strin
 export function requireAuth(req: NextRequest): AuthUser | NextResponse {
   const user = getAuthUser(req);
   if (!user) {
-    return NextResponse.json(
-      { error: "로그인이 필요합니다" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
   }
   return user;
 }
@@ -85,10 +86,7 @@ export function requireAdmin(req: NextRequest): AuthUser | NextResponse {
   const result = requireAuth(req);
   if (result instanceof NextResponse) return result;
   if (result.role !== "ADMIN") {
-    return NextResponse.json(
-      { error: "관리자 권한이 필요합니다" },
-      { status: 403 }
-    );
+    return NextResponse.json({ error: "관리자 권한이 필요합니다" }, { status: 403 });
   }
   return result;
 }
@@ -100,10 +98,7 @@ export function requireDealer(req: NextRequest): AuthUser | NextResponse {
   const result = requireAuth(req);
   if (result instanceof NextResponse) return result;
   if (result.role !== "DEALER" && result.role !== "ADMIN") {
-    return NextResponse.json(
-      { error: "딜러 권한이 필요합니다" },
-      { status: 403 }
-    );
+    return NextResponse.json({ error: "딜러 권한이 필요합니다" }, { status: 403 });
   }
   return result;
 }
