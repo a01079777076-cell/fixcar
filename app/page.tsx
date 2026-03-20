@@ -104,19 +104,19 @@ export default async function Home() {
           {/* 배경 이미지 */}
           <div style={{
             height:"clamp(340px,45vw,520px)",
-            background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('/mainbanner.jpg') center/cover no-repeat",
+            background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('/mainbanner.png') center/cover no-repeat",
             display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
             textAlign:"center", padding:"40px 20px 80px",
           }}>
             <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(8px)", borderRadius:"100px", padding:"8px 20px", marginBottom:"24px" }}>
               <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
-              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 중고차 정찰제 플랫폼</span>
+              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 Ai 나에게 맞는 차량추천</span>
             </div>
             <h1 style={{ fontFamily:"'NanumSquareRound',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:800, color:"white", lineHeight:1.2, letterSpacing:"-1.5px", marginBottom:"14px" }}>
-              중고차는 <span style={{ color:"#FF3B1E" }}>픽스카</span>로
+              나, 이 차로 <span style={{ color:"#FF3B1E" }}>픽</span>했어, 픽스카
             </h1>
             <p style={{ fontSize:"clamp(14px,2vw,18px)", color:"rgba(255,255,255,0.65)", fontWeight:400, lineHeight:1.8, marginBottom:"28px" }}>
-              FIX 정찰가 · AI 맞춤 추천 · 100항목 검수 · 3일 환불 보장
+              데이터기반 고객맞춤으로 추천부터, 대기하면 <span style={{ color:"rgb(255, 203, 30)" }}>💛카톡 알람으로</span> 안내까지!
             </p>
             <div style={{ display:"flex", gap:"12px", flexWrap:"wrap", justifyContent:"center" }}>
               <a href="/cars"><button className="btn-red" style={{ padding:"16px 36px", fontSize:"16px" }}>매물 보러가기 <ArrowRight size={16}/></button></a>
