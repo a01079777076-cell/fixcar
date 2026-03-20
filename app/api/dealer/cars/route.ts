@@ -41,23 +41,25 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     if (!body.name) return NextResponse.json({ error: "차량명은 필수입니다" }, { status: 400 });
 
-    const car = await prisma.car.create({
-      data: {
-        name: body.name || "",
-        brand: body.brand || "",
-        year: Number(body.year) || new Date().getFullYear(),
-        mileage: Number(body.mileage) || 0,
-        price: Number(body.price) || 0,
-        fuel: body.fuel || "가솔린",
-        transmission: body.transmission || "자동",
-        color: body.color || "",
-        tags: body.tags || [],
-        images: body.images || [],
-        accident: body.isAccident === true || body.accident === true,
-        status: CarStatus.AVAILABLE,
-        dealerId: dealer.id,
-      },
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: any = {
+      name: body.name || "",
+      brand: body.brand || "",
+      year: Number(body.year) || new Date().getFullYear(),
+      mileage: Number(body.mileage) || 0,
+      price: Number(body.price) || 0,
+      fuel: body.fuel || "가솔린",
+      transmission: body.transmission || "자동",
+      color: body.color || "",
+      region: body.region || "광주",
+      tags: body.tags || [],
+      images: body.images || [],
+      accident: body.accident === true || body.isAccident === true,
+      status: CarStatus.AVAILABLE,
+      dealerId: dealer.id,
+    };
+
+    const car = await prisma.car.create({ data });
 
     return NextResponse.json({ success: true, car }, { status: 201 });
   } catch (e) {
