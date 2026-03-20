@@ -1,45 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { verifyToken } from "@/lib/auth";
+
+function getUserId(req: NextRequest): number | null {
+  const token = req.cookies.get("fixcar-token")?.value || req.cookies.get("token")?.value;
+  if (!token) return null;
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf-8"));
+    const raw = payload.id || payload.userId || payload.sub;
+    return raw ? Number(raw) : null;
+  } catch { return null; }
+}
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const category = searchParams.get("category");
-    const take = parseInt(searchParams.get("take") || "20");
-
+    const limit = Number(searchParams.get("limit")) || 20;
     const posts = await prisma.blogPost.findMany({
-      where: { published: true, ...(category ? { category } : {}) },
       orderBy: { createdAt: "desc" },
-      take,
-      select: { id:true, title:true, summary:true, category:true, tags:true, createdAt:true, author:{ select:{ name:true } } },
+      take: limit,
     });
-    return NextResponse.json({ success: true, data: posts });
+    return NextResponse.json(posts);
   } catch {
-    return NextResponse.json({ success: false, error: "조회 실패" }, { status: 500 });
+    return NextResponse.json([]);
   }
 }
 
 export async function POST(req: NextRequest) {
+  const userId = getUserId(req);
+  if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
   try {
-    const token = req.cookies.get("fixcar-token")?.value;
-    if (!token) return NextResponse.json({ success: false, error: "로그인 필요" }, { status: 401 });
-    const payload = await verifyToken(token);
-    if (!payload || payload.role !== "ADMIN") return NextResponse.json({ success: false, error: "권한 없음" }, { status: 403 });
-
     const body = await req.json();
-    const { title, summary, category, content, products, tags } = body;
-    if (!title || !content) return NextResponse.json({ success: false, error: "제목과 내용을 입력해주세요" }, { status: 400 });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: any = {
+      title: String(body.title || "").slice(0, 200),
+      content: String(body.content || "").slice(0, 50000),
+      userId,
+    };
+    if (body.thumbnail) data.thumbnail = body.thumbnail;
+    if (body.category) data.category = body.category;
 
-    const post = await prisma.blogPost.create({
-      data: {
-        title, summary: summary || "", category: category || "구매 가이드",
-        content, products: products || [], tags: tags || [],
-        published: true, authorId: payload.id,
-      },
-    });
-    return NextResponse.json({ success: true, data: post });
-  } catch {
-    return NextResponse.json({ success: false, error: "저장 실패" }, { status: 500 });
+    const post = await prisma.blogPost.create({ data });
+    return NextResponse.json({ success: true, post }, { status: 201 });
+  } catch (e) {
+    console.error("Blog POST error:", e);
+    return NextResponse.json({ error: "글 작성 실패", detail: String(e) }, { status: 500 });
   }
 }

@@ -162,14 +162,14 @@ export default function Navbar() {
               </div>
             ) : (
               /* ★ 수정: 카카오 인증 페이지로 이동 (콜백 아님) */
-              <a href={KAKAO_LOGIN_URL} style={{ textDecoration: "none" }}>
+              <a href="/login" style={{ textDecoration: "none" }}>
                 <button style={{
                   padding: "8px 18px", borderRadius: 100, border: "none",
-                  background: "#FEE500", color: "#3C1E1E", fontSize: 13, fontWeight: 800,
+                  background: "#1A1A1A", color: "white", fontSize: 13, fontWeight: 800,
                   cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif",
                   display: "flex", alignItems: "center", gap: 6,
                 }}>
-                  🗨️ 카카오 로그인
+                  로그인 / 회원가입
                 </button>
               </a>
             )}

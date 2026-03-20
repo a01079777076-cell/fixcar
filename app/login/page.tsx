@@ -1,62 +1,44 @@
 "use client";
-
 import { useState } from "react";
-import { Eye, EyeOff, Lock, Shield, CheckCircle, ArrowLeft, User, Mail, Phone, Link } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID || ""}&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || "https://www.fixcar.kr/api/auth/kakao/callback")}&response_type=code`;
 
 export default function LoginPage() {
-  const KAKAO_CLIENT_ID = "6cf753da0f172df40eda14bd143c8bec";
-  const REDIRECT_URI = "https://www.fixcar.kr/api/auth/kakao/callback";
+  const router = useRouter();
+  const [mode, setMode] = useState<"login"|"register">("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [tab, setTab] = useState<"login" | "register">("login");
-  const [showPw, setShowPw] = useState(false);
-  const [showRegPw, setShowRegPw] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: "", pw: "" });
-  const [registerForm, setRegisterForm] = useState({ name: "", email: "", phone: "", pw: "", pwConfirm: "" });
-  const [agreed, setAgreed] = useState(false);
-  const [loginLoading, setLoginLoading] = useState(false);
-  const [registerLoading, setRegisterLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleKakaoLogin = () => {
-    const url = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
-    window.location.href = url;
-  };
-
-  const handleIdLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!loginForm.email || !loginForm.pw) { setError("이메일과 비밀번호를 입력해주세요"); return; }
-    setLoginLoading(true); setError("");
+  const handleSubmit = async () => {
+    if (!email || !password) { alert("이메일과 비밀번호를 입력해주세요"); return; }
+    if (mode === "register" && !name) { alert("이름을 입력해주세요"); return; }
+    setLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: loginForm.email, password: loginForm.pw }),
+      const endpoint = mode === "login" ? "/api/auth/login" : "/api/auth/register";
+      const body = mode === "login" ? { email, password } : { email, password, name, phone };
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (data.success) window.location.href = "/";
-      else setError(data.error || "로그인 실패");
-    } catch { setError("오류가 발생했어요"); }
-    setLoginLoading(false);
+      if (data.success || data.token) {
+        router.push("/");
+        router.refresh();
+      } else {
+        alert(data.error || "로그인/회원가입 실패");
+      }
+    } catch { alert("네트워크 오류"); }
+    setLoading(false);
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!registerForm.name || !registerForm.email || !registerForm.pw) { setError("필수 항목을 입력해주세요"); return; }
-    if (registerForm.pw !== registerForm.pwConfirm) { setError("비밀번호가 일치하지 않아요"); return; }
-    if (!agreed) { setError("이용약관에 동의해주세요"); return; }
-    setRegisterLoading(true); setError("");
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: registerForm.name, email: registerForm.email, phone: registerForm.phone, password: registerForm.pw }),
-      });
-      const data = await res.json();
-      if (data.success) window.location.href = "/";
-      else setError(data.error || "회원가입 실패");
-    } catch { setError("오류가 발생했어요"); }
-    setRegisterLoading(false);
-  };
-
-  const inp: React.CSSProperties = { width:"100%", border:"1.5px solid #E0DDD7", borderRadius:"10px", padding:"13px 14px 13px 40px", fontSize:"15px", background:"#FAFAF8", fontFamily:"'NanumSquareRound',sans-serif", outline:"none" };
+  const S = { input: { width:"100%", padding:"14px 18px", border:"1.5px solid #E0DDD7", borderRadius:12, fontSize:15, fontFamily:"'NanumSquareRound',sans-serif", background:"white" } };
 
   return (
     <>
@@ -64,178 +46,78 @@ export default function LoginPage() {
         @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'NanumSquareRound',sans-serif;-webkit-font-smoothing:antialiased;}
-        a{text-decoration:none;color:inherit;}
-        button{font-family:'NanumSquareRound',sans-serif;cursor:pointer;}
-        input{font-family:'NanumSquareRound',sans-serif;}
-        input:focus{outline:none;border-color:#FF3B1E!important;background:white!important;}
-        .kakao-btn{background:#FEE500;color:#391B1B;border:none;padding:15px 24px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;}
-        .kakao-btn:hover{background:#F5D800;transform:translateY(-1px);}
-        .submit-btn{background:#FF3B1E;color:white;border:none;padding:15px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;width:100%;transition:all 0.2s;}
-        .submit-btn:hover{background:#D42E14;}
-        .submit-btn:disabled{background:#E0DDD7;color:#AAA;cursor:default;}
-        .tab-btn{flex:1;padding:13px;border:none;background:transparent;font-size:15px;font-weight:700;cursor:pointer;font-family:'NanumSquareRound',sans-serif;border-bottom:3px solid transparent;transition:all 0.15s;}
-        .feature-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08);}
-        @media(max-width:900px){.login-grid{grid-template-columns:1fr!important;}.left-panel{display:none!important;}}
+        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
+        input:focus{outline:none;border-color:#FF3B1E!important;}
       `}</style>
-
-      <div style={{minHeight:"100vh",display:"grid",gridTemplateColumns:"1fr 1fr"}} className="login-grid">
-
-        {/* 왼쪽 */}
-        <div className="left-panel" style={{background:"linear-gradient(135deg, #FF5A3C 0%, #E8290F 60%, #C41E08 100%)",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",padding:"60px 52px",position:"relative",overflow:"hidden"}}>
-          <div style={{position:"absolute",right:"-60px",bottom:"-60px",fontFamily:"'Bebas Neue',serif",fontSize:"200px",color:"rgba(255,255,255,0.08)",lineHeight:1,pointerEvents:"none"}}>FIXCAR</div>
-          <div style={{maxWidth:"440px",width:"100%",position:"relative",zIndex:1}}>
-            <a href="/" style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"48px"}}>
-              <img src="/favicon.svg" alt="픽스카" width={40} height={40} style={{borderRadius:"10px"}}/>
-              <div style={{fontFamily:"'Bebas Neue',serif",fontSize:"36px",letterSpacing:"3px",color:"white"}}>FIXCAR</div>
-            </a>
-            <h1 style={{fontSize:"clamp(32px,4vw,52px)",fontWeight:800,color:"white",letterSpacing:"-1.5px",lineHeight:1.1,marginBottom:"16px"}}>
-              나, 이 차로<br/>픽했어
-            </h1>
-            <p style={{fontSize:"17px",color:"rgba(255,255,255,0.75)",lineHeight:1.8,marginBottom:"48px",fontWeight:400}}>
-              광주 중고차 FIX 정찰제 플랫폼.<br/>흥정 없이, 믿고 사는 중고차.
-            </p>
-            {[
-              {icon:<CheckCircle size={18} color="#FF7A63"/>,title:"FIX 정찰가",desc:"표시 가격 = 최종 가격"},
-              {icon:<Shield size={18} color="#FF7A63"/>,title:"100항목 검수",desc:"전문 정비사가 직접 점검"},
-              {icon:<Lock size={18} color="#FF7A63"/>,title:"3일 환불 보장",desc:"이유 불문 100% 환불"},
-            ].map(item=>(
-              <div key={item.title} className="feature-item">
-                <div style={{flexShrink:0,marginTop:"2px"}}>{item.icon}</div>
-                <div>
-                  <div style={{fontSize:"15px",fontWeight:800,color:"white",marginBottom:"3px"}}>{item.title}</div>
-                  <div style={{fontSize:"13px",color:"rgba(255,255,255,0.6)",fontWeight:400}}>{item.desc}</div>
-                </div>
-              </div>
-            ))}
+      <Navbar/>
+      <div style={{ minHeight:"100vh", background:"#F0EEE9", display:"flex", alignItems:"center", justifyContent:"center", padding:"40px 20px" }}>
+        <div style={{ width:"100%", maxWidth:420 }}>
+          {/* 로고 */}
+          <div style={{ textAlign:"center", marginBottom:32 }}>
+            <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:40, letterSpacing:3, marginBottom:6 }}>
+              <span style={{ color:"#FF3B1E" }}>FIX</span><span style={{ color:"#1A1A1A" }}>CAR</span>
+            </div>
+            <p style={{ fontSize:14, color:"#AAA", fontWeight:400 }}>광주 No.1 중고차 정찰제 플랫폼</p>
           </div>
-        </div>
 
-        {/* 오른쪽 */}
-        <div style={{background:"#F0EEE9",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",padding:"40px 32px",overflowY:"auto"}}>
-          <div style={{maxWidth:"400px",width:"100%"}}>
-
-            <a href="/" style={{display:"inline-flex",alignItems:"center",gap:"8px",marginBottom:"24px",padding:"11px 20px",background:"white",border:"2px solid #E0DDD7",borderRadius:"100px",fontSize:"15px",fontWeight:800,color:"#1A1A1A"}}>
-              <ArrowLeft size={16}/> 홈으로 돌아가기
-            </a>
-
+          <div style={{ background:"white", borderRadius:22, padding:"32px 28px", boxShadow:"0 4px 24px rgba(0,0,0,0.06)" }}>
             {/* 탭 */}
-            <div style={{background:"white",borderRadius:"16px",marginBottom:"20px",display:"flex",overflow:"hidden"}}>
-              <button className={`tab-btn`} onClick={()=>{setTab("login");setError("");}} style={{color:tab==="login"?"#FF3B1E":"#888",borderBottomColor:tab==="login"?"#FF3B1E":"transparent",fontWeight:tab==="login"?800:700}}>로그인</button>
-              <button className={`tab-btn`} onClick={()=>{setTab("register");setError("");}} style={{color:tab==="register"?"#FF3B1E":"#888",borderBottomColor:tab==="register"?"#FF3B1E":"transparent",fontWeight:tab==="register"?800:700}}>회원가입</button>
+            <div style={{ display:"flex", marginBottom:24, background:"#F8F7F4", borderRadius:12, padding:4 }}>
+              {(["login","register"] as const).map(m => (
+                <button key={m} onClick={()=>setMode(m)} style={{
+                  flex:1, padding:"12px", borderRadius:10, border:"none",
+                  background: mode===m?"white":"transparent", color: mode===m?"#1A1A1A":"#AAA",
+                  fontSize:14, fontWeight: mode===m?800:600, cursor:"pointer",
+                  fontFamily:"'NanumSquareRound',sans-serif",
+                  boxShadow: mode===m?"0 2px 8px rgba(0,0,0,0.06)":"none",
+                }}>{m==="login"?"로그인":"회원가입"}</button>
+              ))}
             </div>
 
-            {error && (
-              <div style={{background:"#FFF0ED",border:"1px solid #FFB8A8",borderRadius:"10px",padding:"12px 16px",marginBottom:"14px",fontSize:"13px",color:"#CC2200",fontWeight:700}}>
-                {error}
-              </div>
-            )}
+            {/* 카카오 로그인 */}
+            <a href={KAKAO_LOGIN_URL} style={{ textDecoration:"none" }}>
+              <button style={{
+                width:"100%", padding:"16px", background:"#FEE500", color:"#3C1E1E",
+                border:"none", borderRadius:12, fontSize:15, fontWeight:800,
+                cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif",
+                display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:16,
+              }}>
+                🗨️ 카카오로 {mode==="login"?"로그인":"시작하기"}
+              </button>
+            </a>
 
-            {/* 로그인 탭 */}
-            {tab === "login" && (
-              <div style={{display:"flex",flexDirection:"column",gap:"12px"}}>
-                <button className="kakao-btn" onClick={handleKakaoLogin}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#391B1B"><path d="M12 3C6.477 3 2 6.477 2 10.909c0 2.868 1.671 5.388 4.199 6.894l-1.07 3.966a.5.5 0 0 0 .731.546l4.469-2.97A11.6 11.6 0 0 0 12 19.818c5.523 0 10-3.477 10-7.909S17.523 3 12 3z"/></svg>
-                  카카오톡으로 로그인
-                </button>
+            {/* 구분선 */}
+            <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
+              <div style={{ flex:1, height:1, background:"#E8E6E1" }}/>
+              <span style={{ fontSize:12, color:"#CCC", fontWeight:400 }}>또는</span>
+              <div style={{ flex:1, height:1, background:"#E8E6E1" }}/>
+            </div>
 
-                {/* 카카오·픽스카 계정 통합 안내 */}
-                <div style={{background:"#FFF8EC",border:"1px solid #FFD89A",borderRadius:"12px",padding:"12px 16px",fontSize:"13px",color:"#7A5500",lineHeight:1.7,fontWeight:400}}>
-                  <div style={{fontWeight:800,marginBottom:"4px",display:"flex",alignItems:"center",gap:"6px"}}><Link size={13}/> 계정 통합 안내</div>
-                  카카오 로그인과 픽스카 아이디를 동시에 사용하면 <strong style={{fontWeight:800}}>하나의 통합계정</strong>으로 묶여요. 카카오톡 알림도 자동으로 연동됩니다.
-                </div>
+            {/* 픽스카 로그인/회원가입 폼 */}
+            <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+              {mode==="register" && (
+                <>
+                  <input type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="이름" style={S.input} />
+                  <input type="tel" value={phone} onChange={e=>setPhone(e.target.value)} placeholder="연락처 (선택)" style={S.input} />
+                </>
+              )}
+              <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="이메일" style={S.input} />
+              <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="비밀번호"
+                onKeyDown={e=>{if(e.key==="Enter")handleSubmit();}} style={S.input} />
 
-                <div style={{display:"flex",alignItems:"center",gap:"12px",margin:"4px 0"}}>
-                  <div style={{flex:1,height:"1px",background:"#E0DDD7"}}/>
-                  <span style={{fontSize:"13px",color:"#AAA",fontWeight:400}}>또는 아이디로 로그인</span>
-                  <div style={{flex:1,height:"1px",background:"#E0DDD7"}}/>
-                </div>
+              <button onClick={handleSubmit} disabled={loading} style={{
+                width:"100%", padding:"16px", background:loading?"#CCC":"#FF3B1E", color:"white",
+                border:"none", borderRadius:12, fontSize:15, fontWeight:800,
+                cursor:loading?"wait":"pointer", fontFamily:"'NanumSquareRound',sans-serif", marginTop:4,
+              }}>
+                {loading ? "처리 중..." : mode==="login" ? "픽스카 로그인" : "픽스카 회원가입"}
+              </button>
+            </div>
+          </div>
 
-                <form onSubmit={handleIdLogin} style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-                  <div style={{position:"relative"}}>
-                    <Mail size={16} color="#AAA" style={{position:"absolute",left:"14px",top:"50%",transform:"translateY(-50%)"}}/>
-                    <input type="email" placeholder="이메일" value={loginForm.email} onChange={e=>setLoginForm(p=>({...p,email:e.target.value}))} style={inp}/>
-                  </div>
-                  <div style={{position:"relative"}}>
-                    <Lock size={16} color="#AAA" style={{position:"absolute",left:"14px",top:"50%",transform:"translateY(-50%)"}}/>
-                    <input type={showPw?"text":"password"} placeholder="비밀번호" value={loginForm.pw} onChange={e=>setLoginForm(p=>({...p,pw:e.target.value}))} style={{...inp,paddingRight:"44px"}}/>
-                    <button type="button" onClick={()=>setShowPw(!showPw)} style={{position:"absolute",right:"12px",top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer"}}>
-                      {showPw?<EyeOff size={16} color="#AAA"/>:<Eye size={16} color="#AAA"/>}
-                    </button>
-                  </div>
-                  <button type="submit" className="submit-btn" disabled={loginLoading}>{loginLoading?"로그인 중...":"로그인"}</button>
-                </form>
-
-                <div style={{textAlign:"center"}}>
-                  <a href="/contact" style={{fontSize:"13px",color:"#AAA",fontWeight:400}}>아이디·비밀번호 찾기</a>
-                </div>
-
-                <p style={{fontSize:"12px",color:"#AAA",textAlign:"center",lineHeight:1.8,fontWeight:400}}>
-                  로그인 시 <a href="/terms" style={{color:"#555",fontWeight:700,textDecoration:"underline"}}>이용약관</a> 및 <a href="/privacy" style={{color:"#555",fontWeight:700,textDecoration:"underline"}}>개인정보처리방침</a>에 동의하게 돼요.
-                </p>
-              </div>
-            )}
-
-            {/* 회원가입 탭 */}
-            {tab === "register" && (
-              <div style={{display:"flex",flexDirection:"column",gap:"12px"}}>
-                <div style={{background:"#EEF2FF",border:"1px solid #B8C8FF",borderRadius:"12px",padding:"13px 16px",fontSize:"13px",color:"#1847FF",lineHeight:1.65,fontWeight:400}}>
-                  💡 <strong style={{fontWeight:800}}>카카오 로그인 추천!</strong><br/>
-                  카카오로 가입하면 카카오톡 알림까지 자동 연동돼요. 픽스카 아이디로 가입해도 나중에 카카오 계정과 통합할 수 있어요.
-                </div>
-
-                <button className="kakao-btn" onClick={handleKakaoLogin}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#391B1B"><path d="M12 3C6.477 3 2 6.477 2 10.909c0 2.868 1.671 5.388 4.199 6.894l-1.07 3.966a.5.5 0 0 0 .731.546l4.469-2.97A11.6 11.6 0 0 0 12 19.818c5.523 0 10-3.477 10-7.909S17.523 3 12 3z"/></svg>
-                  카카오로 회원가입 (추천)
-                </button>
-
-                <div style={{display:"flex",alignItems:"center",gap:"12px",margin:"4px 0"}}>
-                  <div style={{flex:1,height:"1px",background:"#E0DDD7"}}/>
-                  <span style={{fontSize:"13px",color:"#AAA",fontWeight:400}}>또는 픽스카 아이디로 가입</span>
-                  <div style={{flex:1,height:"1px",background:"#E0DDD7"}}/>
-                </div>
-
-                <form onSubmit={handleRegister} style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-                  {[
-                    {icon:<User size={16} color="#AAA"/>,key:"name",placeholder:"이름",type:"text"},
-                    {icon:<Mail size={16} color="#AAA"/>,key:"email",placeholder:"이메일 (아이디)",type:"email"},
-                    {icon:<Phone size={16} color="#AAA"/>,key:"phone",placeholder:"휴대폰 번호 (선택)",type:"tel"},
-                  ].map(field=>(
-                    <div key={field.key} style={{position:"relative"}}>
-                      <div style={{position:"absolute",left:"14px",top:"50%",transform:"translateY(-50%)"}}>{field.icon}</div>
-                      <input type={field.type} placeholder={field.placeholder}
-                        value={registerForm[field.key as keyof typeof registerForm] as string}
-                        onChange={e=>setRegisterForm(p=>({...p,[field.key]:e.target.value}))} style={inp}/>
-                    </div>
-                  ))}
-                  <div style={{position:"relative"}}>
-                    <Lock size={16} color="#AAA" style={{position:"absolute",left:"14px",top:"50%",transform:"translateY(-50%)"}}/>
-                    <input type={showRegPw?"text":"password"} placeholder="비밀번호 (6자 이상)" value={registerForm.pw} onChange={e=>setRegisterForm(p=>({...p,pw:e.target.value}))} style={{...inp,paddingRight:"44px"}}/>
-                    <button type="button" onClick={()=>setShowRegPw(!showRegPw)} style={{position:"absolute",right:"12px",top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer"}}>
-                      {showRegPw?<EyeOff size={16} color="#AAA"/>:<Eye size={16} color="#AAA"/>}
-                    </button>
-                  </div>
-                  <input type="password" placeholder="비밀번호 확인" value={registerForm.pwConfirm} onChange={e=>setRegisterForm(p=>({...p,pwConfirm:e.target.value}))} style={{...inp,paddingLeft:"14px"}}/>
-
-                  <label style={{display:"flex",alignItems:"flex-start",gap:"10px",cursor:"pointer",padding:"12px",background:"white",borderRadius:"10px"}}>
-                    <input type="checkbox" checked={agreed} onChange={e=>setAgreed(e.target.checked)} style={{marginTop:"2px",accentColor:"#FF3B1E",width:"16px",height:"16px",flexShrink:0}}/>
-                    <span style={{fontSize:"13px",color:"#555",lineHeight:1.7,fontWeight:400}}>
-                      <a href="/terms" style={{color:"#1847FF",fontWeight:800}}>이용약관</a> 및 <a href="/privacy" style={{color:"#1847FF",fontWeight:800}}>개인정보처리방침</a>에 동의합니다 (필수)
-                    </span>
-                  </label>
-
-                  <button type="submit" className="submit-btn" disabled={registerLoading||!registerForm.name||!registerForm.email||!registerForm.pw||!agreed}>
-                    {registerLoading?"가입 중...":"픽스카 회원가입"}
-                  </button>
-                </form>
-
-                {/* 계정 통합 안내 */}
-                <div style={{background:"#F8F6F2",borderRadius:"12px",padding:"12px 16px",fontSize:"12px",color:"#888",lineHeight:1.75,fontWeight:400}}>
-                  <div style={{fontWeight:800,color:"#555",marginBottom:"4px"}}>📌 계정 통합 안내</div>
-                  픽스카 아이디로 가입 후 마이페이지에서 카카오 계정을 연동하면 두 계정이 하나로 합쳐져요. 카카오 연동 완료 시 매물 알림을 카카오톡으로 받을 수 있어요.
-                </div>
-              </div>
-            )}
+          {/* 하단 */}
+          <div style={{ textAlign:"center", marginTop:16, fontSize:13, color:"#AAA" }}>
+            <Link href="/" style={{ color:"#888", fontWeight:600 }}>← 홈으로 돌아가기</Link>
           </div>
         </div>
       </div>

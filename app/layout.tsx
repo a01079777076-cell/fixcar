@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import BottomTabBar from "@/components/BottomTabBar";
+import PortOneScript from "@/components/PortOneScript";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX";
 const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || "";
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       
       <body>{children}
         <BottomTabBar />
+        <PortOneScript />
       </body>
     </html>
   );

@@ -16,7 +16,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
   const [paying, setPaying] = useState(false);
 
   const images = car.images?.length > 0 ? car.images : [];
-  const monthly = Math.round((car.price*10000*0.05/12*Math.pow(1+0.05/12,36))/(Math.pow(1+0.05/12,36)-1));
+  const monthly = Math.round((car.price*10000*0.06/12*Math.pow(1+0.06/12,36))/(Math.pow(1+0.06/12,36)-1));
   const depositAmount = Math.round(car.price * 0.1) * 10000;
 
   const handleShare = async () => {
@@ -178,7 +178,7 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
                 <div style={{ marginBottom:"14px" }}>
                   <div style={{ fontSize:"30px", fontWeight:800, color:"#FF3B1E", letterSpacing:"-1px" }}>{car.price.toLocaleString()}<span style={{ fontSize:"15px", color:"#AAA", fontWeight:700 }}>만원</span></div>
                   <div style={{ fontSize:"12px", color:"#1847FF", fontWeight:800, marginTop:"3px", display:"flex", alignItems:"center", gap:"3px" }}><Lock size={11}/> FIX 정찰가 · 흥정 없음</div>
-                  <div style={{ fontSize:"11px", color:"#AAA", fontWeight:400, marginTop:"2px" }}>월 {monthly.toLocaleString()}원~ (36개월·5%)</div>
+                  <div style={{ fontSize:"11px", color:"#AAA", fontWeight:400, marginTop:"2px" }}>월 {monthly.toLocaleString()}원~ (36개월·금리6%)</div>
                 </div>
                 <button onClick={handlePayment} disabled={paying} style={{ width:"100%", background:paying?"#CCC":"#FF3B1E", color:"white", border:"none", padding:"15px", borderRadius:"12px", fontSize:"15px", fontWeight:800, cursor:paying?"wait":"pointer", marginBottom:"8px" }}>
                   {paying ? "결제 진행 중..." : `계약금 결제 (${(car.price*0.1).toFixed(0)}만원 · 10%)`}
@@ -211,14 +211,18 @@ export default function CarDetailClient({ car }: { car: CarDetail }) {
 
               {/* 할부 계산 (간략) */}
               <div style={{ background:"white", borderRadius:"18px", padding:"16px 18px" }}>
-                <div style={{ fontSize:"12px", fontWeight:800, color:"#888", marginBottom:"8px" }}>예상 할부금</div>
-                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8 }}>
-                  {[{m:24,r:0.049},{m:36,r:0.05},{m:48,r:0.052}].map(({m,r})=>{
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"8px" }}>
+                  <div style={{ fontSize:"12px", fontWeight:800, color:"#888" }}>예상 할부금</div>
+                  <div style={{ fontSize:"10px", color:"#CCC", fontWeight:400 }}>금리 6% 기준</div>
+                </div>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:6 }}>
+                  {[{m:24},{m:36},{m:48},{m:60}].map(({m})=>{
+                    const r=0.06;
                     const mo = Math.round((car.price*10000*r/12*Math.pow(1+r/12,m))/(Math.pow(1+r/12,m)-1));
                     return (
                       <div key={m} style={{ textAlign:"center", padding:"10px 0", background:"#F8F7F4", borderRadius:10 }}>
                         <div style={{ fontSize:11, color:"#AAA", fontWeight:400 }}>{m}개월</div>
-                        <div style={{ fontSize:15, fontWeight:800, color:"#1A1A1A" }}>{Math.round(mo/10000)}만</div>
+                        <div style={{ fontSize:14, fontWeight:800, color:"#1A1A1A" }}>{Math.round(mo/10000)}만</div>
                       </div>
                     );
                   })}

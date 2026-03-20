@@ -26,7 +26,7 @@ const BRANDS: Record<string, string[]> = {
 };
 
 const FUEL_TYPES = ["가솔린","디젤","LPG","전기","하이브리드(가솔린)","하이브리드(디젤)","플러그인하이브리드"];
-const TRANSMISSIONS = ["자동","수동","CVT","DCT"];
+const TRANSMISSIONS = ["자동","수동"];
 const COLORS = ["흰색","검정","은색","회색","빨강","파랑","초록","노랑","갈색","베이지","기타"];
 const OWNERS = ["1인","2인","3인","4인","5인","6인","7인","8인","9인","9인 이상"];
 const currentYear = new Date().getFullYear();
@@ -72,6 +72,7 @@ function DealerCarNewContent() {
     if (!mileage) errs.push("주행거리를 입력해주세요");
     if (!fuel) errs.push("연료를 선택해주세요");
     if (!color) errs.push("색상을 선택해주세요");
+    if (!plateNumber) errs.push("차량번호를 입력해주세요");
     return errs;
   };
 
@@ -280,12 +281,17 @@ function DealerCarNewContent() {
                       <option value="">선택</option>
                       {COLORS.map(c=><option key={c} value={c}>{c}</option>)}
                     </select>
+                    {color==="기타"&&<input type="text" placeholder="색상 직접입력" onChange={e=>setColor(e.target.value)} style={{...S.input,marginTop:8}} />}
                   </div>
                 </div>
 
                 <div style={{ marginTop:14 }}>
-                  <label style={S.label}>차량번호</label>
-                  <input type="text" value={plateNumber} onChange={e=>setPlateNumber(e.target.value)} placeholder="예: 12가1234" style={S.input} />
+                  <label style={S.label}>차량번호 <span style={{color:"#FF3B1E"}}>*</span></label>
+                  <div style={{ display:"flex", gap:8 }}>
+                    <input type="text" value={plateNumber} onChange={e=>setPlateNumber(e.target.value)} placeholder="예: 12가1234" style={{...S.input, flex:1}} />
+                    <button onClick={()=>alert("국토교통부 API 연동 준비 중입니다.\n차량번호 입력 후 자동 조회 기능이 곧 추가됩니다!")} style={{ padding:"13px 18px", background:"#0066FF", color:"white", border:"none", borderRadius:10, fontSize:13, fontWeight:800, cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif", flexShrink:0, whiteSpace:"nowrap" as const }}>🔍 국토부 조회</button>
+                  </div>
+                  <div style={{ fontSize:11, color:"#AAA", marginTop:6 }}>차량번호 입력 후 국토교통부 API로 차량 정보를 자동 조회합니다</div>
                 </div>
               </div>
 
