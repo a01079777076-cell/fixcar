@@ -9,7 +9,6 @@ export interface AuthUser {
 
 /**
  * fixcar-token 쿠키에서 유저 정보 추출
- * 인증 필요한 API에서 사용
  */
 export function getAuthUser(req: NextRequest): AuthUser | null {
   const token =
@@ -29,7 +28,6 @@ export function getAuthUser(req: NextRequest): AuthUser | null {
     const id = payload.id || payload.userId || payload.sub;
     if (!id) return null;
 
-    /* 만료 체크 */
     if (payload.exp && payload.exp * 1000 < Date.now()) return null;
 
     return {
@@ -44,8 +42,15 @@ export function getAuthUser(req: NextRequest): AuthUser | null {
 }
 
 /**
+ * ★ 기존 호환용 - verifyToken
+ * 기존 API들이 이 함수를 import하고 있음
+ */
+export function verifyToken(req: NextRequest): AuthUser | null {
+  return getAuthUser(req);
+}
+
+/**
  * 인증 필수 API 래퍼
- * 로그인 안 하면 401 자동 반환
  */
 export function requireAuth(req: NextRequest): AuthUser | NextResponse {
   const user = getAuthUser(req);
