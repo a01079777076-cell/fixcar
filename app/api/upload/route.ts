@@ -1,52 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const formData = await request.formData();
+    const formData = await req.formData();
     const file = formData.get("file") as File;
-    const folder = formData.get("folder") as string || "fixcar";
+    if (!file) return NextResponse.json({ error: "파일이 없습니다" }, { status: 400 });
 
-    if (!file) {
-      return NextResponse.json(
-        { success: false, error: "파일이 없어요" },
-        { status: 400 }
-      );
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET || process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || "fixcar";
+
+    if (!cloudName) {
+      return NextResponse.json({ error: "Cloudinary 설정이 안 되어 있습니다" }, { status: 500 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64 = buffer.toString("base64");
-    const dataUri = `data:${file.type};base64,${base64}`;
+    const cloudForm = new FormData();
+    cloudForm.append("file", file);
+    cloudForm.append("upload_preset", uploadPreset);
 
-    const result = await cloudinary.uploader.upload(dataUri, {
-      folder,
-      resource_type: "image",
-      transformation: [
-        { width: 1200, height: 800, crop: "fill", quality: "auto" }
-      ],
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: "POST",
+      body: cloudForm,
     });
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        url: result.secure_url,
-        publicId: result.public_id,
-        width: result.width,
-        height: result.height,
-      },
-    });
-  } catch (error) {
-    console.error("Upload error:", error);
-    return NextResponse.json(
-      { success: false, error: "업로드에 실패했어요" },
-      { status: 500 }
-    );
+    const data = await res.json();
+    if (data.secure_url) {
+      return NextResponse.json({ success: true, url: data.secure_url });
+    }
+    return NextResponse.json({ error: "업로드 실패", detail: data.error?.message || "" }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ error: "업로드 실패", detail: String(e) }, { status: 500 });
   }
 }

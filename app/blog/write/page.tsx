@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
+import RoleGuard from "@/components/RoleGuard";
 import { useRouter } from "next/navigation";
-import { Upload, X, Bold, Italic, AlignLeft, AlignCenter, AlignRight, Type, Image as ImageIcon } from "lucide-react";
+import { Upload, X, Image as ImageIcon } from "lucide-react";
 
-export default function BlogWritePage() {
+function BlogWriteContent() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -12,28 +13,36 @@ export default function BlogWritePage() {
   const [thumbnail, setThumbnail] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const CATEGORIES = ["구매팁","로드테스트","리뷰","정비/관리","뉴스","자유"];
+
+  /* 서버 API로 이미지 업로드 */
+  const uploadImage = async (file: File): Promise<string | null> => {
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      return data.url || null;
+    } catch { return null; }
+  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, isThumbnail = false) => {
     const files = e.target.files;
     if (!files) return;
+    setUploading(true);
     for (const file of Array.from(files)) {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || "fixcar");
-      try {
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "fixcar"}/image/upload`, { method:"POST", body:formData });
-        const data = await res.json();
-        if (data.secure_url) {
-          if (isThumbnail) { setThumbnail(data.secure_url); }
-          else {
-            setImages(prev => [...prev, data.secure_url]);
-            setContent(prev => prev + `\n[이미지: ${data.secure_url}]\n`);
-          }
+      const url = await uploadImage(file);
+      if (url) {
+        if (isThumbnail) { setThumbnail(url); }
+        else {
+          setImages(prev => [...prev, url]);
+          setContent(prev => prev + `\n[이미지: ${url}]\n`);
         }
-      } catch { alert("이미지 업로드 실패"); }
+      } else { alert("이미지 업로드에 실패했어요. Cloudinary 설정을 확인해주세요."); }
     }
+    setUploading(false);
   };
 
   const handleSave = async () => {
@@ -50,9 +59,7 @@ export default function BlogWritePage() {
       if (data.success) {
         alert("글이 등록됐어요!");
         router.push("/blog");
-      } else {
-        alert("저장 실패: " + (data.error || "다시 시도해주세요"));
-      }
+      } else { alert("저장 실패: " + (data.error || "다시 시도해주세요")); }
     } catch { alert("네트워크 오류"); }
     setSaving(false);
   };
@@ -70,6 +77,7 @@ export default function BlogWritePage() {
         <div style={{background:"#1A1A1A",padding:"36px 24px 28px"}}>
           <div style={{maxWidth:800,margin:"0 auto"}}>
             <h1 style={{fontSize:26,fontWeight:800,color:"white"}}>✏️ 블로그 글쓰기</h1>
+            <p style={{fontSize:13,color:"rgba(255,255,255,0.4)",marginTop:4}}>관리자 전용</p>
           </div>
         </div>
         <div style={{maxWidth:800,margin:"0 auto",padding:"24px 16px 100px"}}>
@@ -101,23 +109,21 @@ export default function BlogWritePage() {
               <label style={{display:"flex",alignItems:"center",justifyContent:"center",height:120,border:"2px dashed #E0DDD7",borderRadius:12,cursor:"pointer",background:"#FAFAF8"}}>
                 <div style={{textAlign:"center"}}>
                   <Upload size={24} color="#CCC" style={{marginBottom:4}}/>
-                  <div style={{fontSize:13,color:"#AAA"}}>클릭하여 대표 이미지 선택</div>
+                  <div style={{fontSize:13,color:"#AAA"}}>{uploading?"업로드 중...":"클릭하여 대표 이미지 선택"}</div>
                 </div>
-                <input type="file" accept="image/*" onChange={e=>handleImageUpload(e,true)} style={{display:"none"}}/>
+                <input type="file" accept="image/*" onChange={e=>handleImageUpload(e,true)} style={{display:"none"}} disabled={uploading}/>
               </label>
             )}
           </div>
 
           {/* 본문 */}
           <div style={{background:"white",borderRadius:16,overflow:"hidden",marginBottom:14}}>
-            {/* 툴바 */}
-            <div style={{display:"flex",gap:4,padding:"10px 16px",borderBottom:"1px solid #F0EEE9",flexWrap:"wrap"}}>
-              {/* 사진 추가 버튼 */}
-              <label style={{display:"flex",alignItems:"center",gap:4,padding:"6px 12px",borderRadius:8,background:"#EEF2FF",color:"#1847FF",fontSize:12,fontWeight:700,cursor:"pointer"}}>
-                <ImageIcon size={14}/>사진 추가
-                <input type="file" accept="image/*" multiple onChange={e=>handleImageUpload(e,false)} style={{display:"none"}}/>
+            <div style={{display:"flex",gap:4,padding:"10px 16px",borderBottom:"1px solid #F0EEE9",flexWrap:"wrap",alignItems:"center"}}>
+              <label style={{display:"flex",alignItems:"center",gap:4,padding:"6px 12px",borderRadius:8,background:"#EEF2FF",color:"#1847FF",fontSize:12,fontWeight:700,cursor:uploading?"wait":"pointer"}}>
+                <ImageIcon size={14}/>{uploading?"업로드 중...":"📷 사진 추가"}
+                <input type="file" accept="image/*" multiple onChange={e=>handleImageUpload(e,false)} style={{display:"none"}} disabled={uploading}/>
               </label>
-              <span style={{fontSize:11,color:"#CCC",display:"flex",alignItems:"center",marginLeft:8}}>본문에 사진을 여러 장 삽입할 수 있어요</span>
+              <span style={{fontSize:11,color:"#CCC",marginLeft:8}}>본문에 사진을 여러 장 삽입할 수 있어요</span>
             </div>
             <textarea value={content} onChange={e=>setContent(e.target.value)} placeholder="내용을 입력하세요... 사진은 위 '사진 추가' 버튼으로 삽입할 수 있어요."
               style={{width:"100%",minHeight:400,padding:"20px 22px",border:"none",fontSize:15,fontFamily:"'NanumSquareRound',sans-serif",lineHeight:1.8,resize:"vertical"}}/>
@@ -139,7 +145,6 @@ export default function BlogWritePage() {
             </div>
           )}
 
-          {/* 저장 버튼 */}
           <button onClick={handleSave} disabled={saving} style={{
             width:"100%",padding:"18px",background:saving?"#CCC":"#FF3B1E",color:"white",border:"none",
             borderRadius:14,fontSize:16,fontWeight:800,cursor:saving?"wait":"pointer",fontFamily:"'NanumSquareRound',sans-serif",
@@ -147,5 +152,14 @@ export default function BlogWritePage() {
         </div>
       </div>
     </>
+  );
+}
+
+/* ★ 관리자만 접근 가능 */
+export default function BlogWritePage() {
+  return (
+    <RoleGuard allowedRoles={["ADMIN"]}>
+      <BlogWriteContent />
+    </RoleGuard>
   );
 }

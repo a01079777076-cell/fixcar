@@ -4,8 +4,6 @@ import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID || ""}&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || "https://www.fixcar.kr/api/auth/kakao/callback")}&response_type=code`;
-
 export default function LoginPage() {
   const router = useRouter();
   const [mode, setMode] = useState<"login"|"register">("login");
@@ -52,7 +50,6 @@ export default function LoginPage() {
       <Navbar/>
       <div style={{ minHeight:"100vh", background:"#F0EEE9", display:"flex", alignItems:"center", justifyContent:"center", padding:"40px 20px" }}>
         <div style={{ width:"100%", maxWidth:420 }}>
-          {/* 로고 */}
           <div style={{ textAlign:"center", marginBottom:32 }}>
             <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:40, letterSpacing:3, marginBottom:6 }}>
               <span style={{ color:"#FF3B1E" }}>FIX</span><span style={{ color:"#1A1A1A" }}>CAR</span>
@@ -74,8 +71,8 @@ export default function LoginPage() {
               ))}
             </div>
 
-            {/* 카카오 로그인 */}
-            <a href={KAKAO_LOGIN_URL} style={{ textDecoration:"none" }}>
+            {/* ★ 카카오 로그인 - 서버 API로 리다이렉트 */}
+            <a href="/api/auth/kakao" style={{ textDecoration:"none" }}>
               <button style={{
                 width:"100%", padding:"16px", background:"#FEE500", color:"#3C1E1E",
                 border:"none", borderRadius:12, fontSize:15, fontWeight:800,
@@ -86,14 +83,12 @@ export default function LoginPage() {
               </button>
             </a>
 
-            {/* 구분선 */}
             <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
               <div style={{ flex:1, height:1, background:"#E8E6E1" }}/>
               <span style={{ fontSize:12, color:"#CCC", fontWeight:400 }}>또는</span>
               <div style={{ flex:1, height:1, background:"#E8E6E1" }}/>
             </div>
 
-            {/* 픽스카 로그인/회원가입 폼 */}
             <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
               {mode==="register" && (
                 <>
@@ -115,7 +110,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* 하단 */}
           <div style={{ textAlign:"center", marginTop:16, fontSize:13, color:"#AAA" }}>
             <Link href="/" style={{ color:"#888", fontWeight:600 }}>← 홈으로 돌아가기</Link>
           </div>
