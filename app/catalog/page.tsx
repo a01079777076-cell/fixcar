@@ -12,13 +12,17 @@ export default function CatalogPage() {
   const [selectedModel, setSelectedModel] = useState<string>("");
 
   const brands = tab === "domestic" ? DOMESTIC_BRANDS : IMPORT_BRANDS;
-  const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
-  const spec = selectedModel ? (CAR_SPECS as Record<string,typeof CAR_SPECS[SpecKey]>)[selectedModel] : null;
-  const grades = selectedModel ? (CAR_GRADES as Record<string,unknown[]>)[selectedModel] as {grade:string;price:number;engine:string;power:string;torque:string;efficiency:string}[] || [] : [];
-  const taxInfo = selectedModel ? (CAR_TAX as Record<string,{annualTax:number;insuranceClass:string;performanceSurcharge:string}>)[selectedModel] : null;
-  const issueInfo = selectedModel ? (CAR_ISSUES as Record<string,{knownIssues:string;fuelNotes:string;yearIssues:string}>)[selectedModel] : null;
-  const historyInfo = selectedModel ? (CAR_HISTORY as Record<string,{generation:string;period:string;code:string;note:string}[]>)[selectedModel] : null;
-
+const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const spec = selectedModel ? (CAR_SPECS as any)[selectedModel] : null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const grades = selectedModel ? ((CAR_GRADES as any)[selectedModel] || []) as {grade:string;price:number;engine:string;power:string;torque:string;efficiency:string}[] : [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const taxInfo = selectedModel ? (CAR_TAX as any)[selectedModel] : null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const issueInfo = selectedModel ? (CAR_ISSUES as any)[selectedModel] : null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const historyInfo = selectedModel ? ((CAR_HISTORY as any)[selectedModel] || null) as {generation:string;period:string;code:string;note:string}[] | null : null;
   return (
     <>
       <style>{`
