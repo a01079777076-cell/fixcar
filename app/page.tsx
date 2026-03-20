@@ -91,7 +91,7 @@ export default async function Home() {
         .footer-link{display:block;font-size:14px;color:rgba(255,255,255,0.35);margin-bottom:10px;font-weight:400;transition:color 0.15s;}
         .footer-link:hover{color:rgba(255,255,255,0.7);}
         .img-placeholder{text-align:center;padding:20px;}
-        @media(max-width:1024px){.hero-grid{grid-template-columns:1fr!important;}.hero-img-col{display:none!important;}.cars-3{grid-template-columns:1fr 1fr!important;}.promises-4{grid-template-columns:1fr 1fr!important;}.reviews-3{grid-template-columns:1fr!important;}.footer-cols{grid-template-columns:1fr 1fr!important;}.section-pad{padding-left:24px!important;padding-right:24px!important;}.hero-section{padding:60px 24px 48px!important;}.content-banners{grid-template-columns:1fr 1fr!important;}}
+        @media(max-width:1024px){.cars-3{grid-template-columns:1fr 1fr!important;}.promises-4{grid-template-columns:1fr 1fr!important;}.reviews-3{grid-template-columns:1fr!important;}.footer-cols{grid-template-columns:1fr 1fr!important;}.section-pad{padding-left:24px!important;padding-right:24px!important;}.content-banners{grid-template-columns:1fr 1fr!important;}}
         @media(max-width:600px){.cars-3{grid-template-columns:1fr!important;}.content-banners{grid-template-columns:1fr!important;}}
         @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
       `}</style>
@@ -99,86 +99,64 @@ export default async function Home() {
       <div style={{ minHeight:"100vh", background:"#F0EEE9" }}>
         <Navbar />
 
-        {/* 카테고리 퀵 바 (직방 스타일) */}
-        <div style={{ background:"white", borderBottom:"1px solid #E8E6E1", padding:"14px 0" }}>
-          <div style={{ maxWidth:1200, margin:"0 auto", display:"flex", justifyContent:"center", gap:"clamp(12px,3vw,40px)", padding:"0 20px", flexWrap:"wrap" }}>
+        {/* ═══ 히어로 배너 + 카테고리 (직방 스타일) ═══ */}
+        <section style={{ position:"relative" }}>
+          {/* 배경 이미지 */}
+          <div style={{
+            height:"clamp(340px,45vw,520px)",
+            background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1600&q=80') center/cover no-repeat",
+            display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
+            textAlign:"center", padding:"40px 20px 80px",
+          }}>
+            <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(8px)", borderRadius:"100px", padding:"8px 20px", marginBottom:"24px" }}>
+              <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
+              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 중고차 정찰제 플랫폼</span>
+            </div>
+            <h1 style={{ fontFamily:"'NanumSquareRound',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:800, color:"white", lineHeight:1.2, letterSpacing:"-1.5px", marginBottom:"14px" }}>
+              중고차는 <span style={{ color:"#FF3B1E" }}>픽스카</span>로
+            </h1>
+            <p style={{ fontSize:"clamp(14px,2vw,18px)", color:"rgba(255,255,255,0.65)", fontWeight:400, lineHeight:1.8, marginBottom:"28px" }}>
+              FIX 정찰가 · AI 맞춤 추천 · 100항목 검수 · 3일 환불 보장
+            </p>
+            <div style={{ display:"flex", gap:"12px", flexWrap:"wrap", justifyContent:"center" }}>
+              <a href="/cars"><button className="btn-red" style={{ padding:"16px 36px", fontSize:"16px" }}>매물 보러가기 <ArrowRight size={16}/></button></a>
+              <a href="/quiz-select"><button className="btn-blue-outline" style={{ padding:"14px 28px", fontSize:"15px", background:"rgba(255,255,255,0.1)", color:"white", border:"2px solid rgba(255,255,255,0.4)" }}><Lock size={15}/> 내차 찾기</button></a>
+            </div>
+          </div>
+
+          {/* 카테고리 카드 (배너 위에 겹침) */}
+          <div style={{
+            maxWidth:"840px", margin:"-48px auto 0", position:"relative", zIndex:10,
+            background:"white", borderRadius:"24px", padding:"28px 32px",
+            boxShadow:"0 12px 48px rgba(0,0,0,0.1)",
+            display:"flex", justifyContent:"space-around", alignItems:"center", flexWrap:"wrap", gap:"8px",
+          }}>
             {[
-              { emoji:"🚗", label:"전체 매물", href:"/cars" },
-              { emoji:"⚡", label:"전기차", href:"/cars?fuel=전기" },
-              { emoji:"💰", label:"1000만↓", href:"/cars?maxPrice=1000" },
-              { emoji:"🏆", label:"랭킹", href:"/ranking" },
-              { emoji:"📚", label:"카탈로그", href:"/catalog" },
-              { emoji:"🧬", label:"내차 찾기", href:"/quiz-select" },
+              { icon:"🚗", label:"전체 매물", href:"/cars" },
+              { icon:"⚡", label:"전기차", href:"/cars?fuel=전기" },
+              { icon:"💰", label:"1000만↓", href:"/cars?maxPrice=1000" },
+              { icon:"🏆", label:"랭킹", href:"/ranking" },
+              { icon:"📚", label:"카탈로그", href:"/catalog" },
+              { icon:"🧬", label:"내차 찾기", href:"/quiz-select" },
+              { icon:"⚔️", label:"배틀", href:"/battle" },
             ].map(item => (
-              <a key={item.label} href={item.href} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"6px", textDecoration:"none", minWidth:"60px" }}>
-                <div style={{ width:48, height:48, borderRadius:14, background:"#F8F7F4", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, transition:"all 0.2s" }}>{item.emoji}</div>
-                <span style={{ fontSize:12, fontWeight:700, color:"#555" }}>{item.label}</span>
+              <a key={item.label} href={item.href} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"8px", textDecoration:"none", padding:"8px 12px", borderRadius:"14px", transition:"all 0.2s", cursor:"pointer", minWidth:"70px" }}>
+                <div style={{ width:"52px", height:"52px", borderRadius:"16px", background:"#F8F7F4", border:"1.5px solid #E8E6E1", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"24px", transition:"all 0.2s" }}>{item.icon}</div>
+                <span style={{ fontSize:"13px", fontWeight:700, color:"#444" }}>{item.label}</span>
               </a>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* 히어로 */}
-        <section className="hero-section" style={{ maxWidth:"1360px", margin:"0 auto", padding:"80px 52px 72px" }}>
-          <div className="hero-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"64px", alignItems:"center" }}>
-            <div>
-              <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"#fff", border:"1px solid #E0DDD7", borderRadius:"100px", padding:"8px 18px", marginBottom:"32px" }}>
-                <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
-                <span style={{ fontSize:"14px", fontWeight:700, color:"#555" }}>NEW AI 나에게 알맞는 완벽한 중고차</span>
+        {/* 통계 스트립 */}
+        <section style={{ maxWidth:"1360px", margin:"24px auto 0", padding:"0 52px" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", background:"white", borderRadius:"18px", overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.04)" }}>
+            {[["2,418+","현재 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
+              <div key={String(label)} style={{ padding:"24px", textAlign:"center", borderRight:"1px solid #F0EEE9" }}>
+                <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:String(color), letterSpacing:"-1px" }}>{num}</div>
+                <div style={{ fontSize:"13px", color:"#AAA", marginTop:"3px", fontWeight:400 }}>{label}</div>
               </div>
-              <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(52px,7vw,88px)", fontWeight:900, lineHeight:1.0, letterSpacing:"-3px", marginBottom:"24px" }}>
-                나, 이 차로<br /><span style={{ color:"#FF3B1E" }}>픽</span>했어
-              </h1>
-              <p style={{ fontSize:"18px", color:"#666", lineHeight:1.85, marginBottom:"40px", fontWeight:400 }}>
-                너무 많은 매물.. <br />
-                <strong style={{ color:"#1A1A1A", fontWeight:800 }}>AI가 고객맞춤으로 추천부터,</strong><br />
-                대기하면 <strong style={{ color:"#391B1B", fontWeight:800, background:"#FEE500", padding:"3px 10px", borderRadius:"6px", display:"inline-block" }}>💛 카톡 알람</strong>으로 안내까지!
-              </p>
-              <div style={{ display:"flex", gap:"14px", flexWrap:"wrap", marginBottom:"32px" }}>
-                <a href="/quiz"><button className="btn-red">내 차 픽하기 <ArrowRight size={18}/></button></a>
-                <a href="/cars"><button className="btn-blue-outline"><Lock size={16}/> 정찰가 매물 보기</button></a>
-              </div>
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", paddingTop:"32px", borderTop:"1px solid #E0DDD7" }}>
-                {[["2,418+","현재 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
-                  <div key={String(label)}>
-                    <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:String(color), letterSpacing:"-1px" }}>{num}</div>
-                    <div style={{ fontSize:"14px", color:"#AAA", marginTop:"3px", fontWeight:400 }}>{label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="hero-img-col" style={{ position:"relative" }}>
-              <div style={{ background:"#1A1A1A", borderRadius:"24px", overflow:"hidden", boxShadow:"0 32px 80px rgba(0,0,0,0.2)" }}>
-                <div style={{ height:"240px", overflow:"hidden", position:"relative" }}>
-                  <img src={`https://source.unsplash.com/800x500/?${cars[0].query}`} alt={cars[0].name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                  <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.5))" }} />
-                  <div style={{ position:"absolute", top:16, left:16, display:"flex", gap:"8px" }}>
-                    <span style={{ background:"#FF3B1E", color:"#fff", padding:"6px 14px", borderRadius:"100px", fontSize:"12px", fontWeight:800 }}>✨ PICK 추천</span>
-                    <span style={{ background:"#1847FF", color:"#fff", padding:"6px 14px", borderRadius:"100px", fontSize:"12px", fontWeight:800 }}>🔒 FIX 가격</span>
-                  </div>
-                </div>
-                <div style={{ padding:"22px 24px" }}>
-                  <div style={{ fontSize:"20px", fontWeight:800, color:"#fff", marginBottom:"4px" }}>{cars[0].name}</div>
-                  <div style={{ fontSize:"14px", color:"#666", marginBottom:"18px", fontWeight:400 }}>{cars[0].year} · {cars[0].mileage} · {cars[0].fuel}</div>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end" }}>
-                    <div>
-                      <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"44px", color:"#fff", letterSpacing:"1px", lineHeight:1 }}>{cars[0].price.toLocaleString()}<span style={{ fontSize:"18px", fontFamily:"'NanumSquareRound',sans-serif", fontWeight:700, color:"#555", marginLeft:"4px" }}>만원</span></div>
-                      <div style={{ fontSize:"13px", color:"#555", marginTop:"4px", fontWeight:400 }}>월 {cars[0].monthly}만원부터 (60개월)</div>
-                    </div>
-                    <div style={{ background:"#1847FF", color:"#fff", padding:"6px 14px", borderRadius:"8px", fontSize:"12px", fontWeight:800 }}>FIX PRICE</div>
-                  </div>
-                </div>
-              </div>
-              <div style={{ position:"absolute", bottom:"28px", left:"-28px", background:"#fff", borderRadius:"18px", padding:"14px 20px", boxShadow:"0 12px 40px rgba(0,0,0,0.12)", display:"flex", alignItems:"center", gap:"12px" }}>
-                <div style={{ width:"36px", height:"36px", background:"#EAF6EF", borderRadius:"10px", display:"flex", alignItems:"center", justifyContent:"center" }}>
-                  <CheckCircle size={20} color="#2D8A52" />
-                </div>
-                <div>
-                  <div style={{ fontSize:"13px", fontWeight:800 }}>허위 매물 0건</div>
-                  <div style={{ fontSize:"11px", color:"#AAA", fontWeight:400 }}>직접 검수한 매물만 등록</div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
