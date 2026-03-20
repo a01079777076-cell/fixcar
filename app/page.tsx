@@ -100,14 +100,17 @@ export default async function Home() {
         <Navbar />
 
         {/* ═══ 히어로 배너 + 카테고리 (직방 스타일) ═══ */}
-<section style={{ position:"relative" }}>
+        <section style={{ position:"relative" }}>
           {/* 배경 이미지 */}
-          <div style={{ height:"clamp(340px,45vw,520px)", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", textAlign:"center", padding:"40px 20px 80px" }}>
-            {/* img 태그로 배경 */}
-            <img src="/mainbanner.png" alt="" style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
-            {/* 어두운 오버레이 */}
+          <div style={{
+            height:"clamp(340px,45vw,520px)",
+            position:"relative", overflow:"hidden",
+            display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
+            textAlign:"center", padding:"40px 20px 80px",
+          }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/mainbanner.png" alt="픽스카 메인배너" style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
             <div style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", background:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6))", zIndex:1 }} />
-            {/* 텍스트 콘텐츠 */}
             <div style={{ position:"relative", zIndex:2 }}>
               <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(8px)", borderRadius:"100px", padding:"8px 20px", marginBottom:"24px" }}>
                 <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
@@ -123,9 +126,6 @@ export default async function Home() {
                 <a href="/cars"><button className="btn-red" style={{ padding:"16px 36px", fontSize:"16px" }}>매물 보러가기 <ArrowRight size={16}/></button></a>
                 <a href="/quiz-select"><button className="btn-blue-outline" style={{ padding:"14px 28px", fontSize:"15px", background:"rgba(255,255,255,0.1)", color:"white", border:"2px solid rgba(255,255,255,0.4)" }}><Lock size={15}/> 내차 찾기</button></a>
               </div>
-            </div>
-          </div>
-                        <a href="/quiz-select"><button className="btn-blue-outline" style={{ padding:"14px 28px", fontSize:"15px", background:"rgba(255,255,255,0.1)", color:"white", border:"2px solid rgba(255,255,255,0.4)" }}><Lock size={15}/> 내차 찾기</button></a>
             </div>
           </div>
 
@@ -323,7 +323,7 @@ export default async function Home() {
             <div>
               <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(0,0,0,0.15)", borderRadius:"100px", padding:"8px 18px", marginBottom:"24px" }}>
                 <div style={{ width:"8px", height:"8px", background:"white", borderRadius:"50%", opacity:0.8 }}/>
-                <span style={{ fontSize:"13px", fontWeight:800, color:"rgba(255,255,255,0.9)", letterSpacing:"2px" }}>광주 No.1 AI 나에게 맞는 차량추천</span>
+                <span style={{ fontSize:"13px", fontWeight:800, color:"rgba(255,255,255,0.9)", letterSpacing:"2px" }}>FIXCAR 광주</span>
               </div>
               <h2 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(40px,6vw,76px)", fontWeight:400, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"20px" }}>
                 나, 이 차로<br />픽했어
