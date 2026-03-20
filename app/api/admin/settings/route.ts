@@ -1,42 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/lib/auth";
+import { readFile, writeFile, mkdir } from "fs/promises";
+import path from "path";
 
-// 간단한 인메모리 설정 (추후 DB 연동)
-let SETTINGS = {
+/* DB 테이블 없이 JSON 파일로 설정 저장 */
+const SETTINGS_PATH = path.join(process.cwd(), "data", "settings.json");
+
+const DEFAULT_SETTINGS = {
   siteName: "픽스카 FIXCAR",
-  bannerText: "NEW AI 나에게 알맞는 완벽한 중고차 · 광주 1위 AI 추천차량 픽스카",
-  commissionRate: "3",
-  depositRate: "10",
-  maxCarsPerDealer: "50",
-  kakaoAlertEnabled: true,
-  emailAlertEnabled: true,
-  maintenanceMode: false,
-  newSignupEnabled: true,
+  siteDesc: "광주 중고차 정찰제 플랫폼",
+  phone: "062-000-0000",
+  email: "info@fixcar.kr",
+  address: "광주광역시",
   notice: "",
+  bannerText: "",
+  maintenanceMode: false,
 };
 
-export async function GET(req: NextRequest) {
+async function loadSettings() {
   try {
-    const token = req.cookies.get("fixcar-token")?.value;
-    if (!token) return NextResponse.json({ success: false, error: "권한 없음" }, { status: 401 });
-    const payload = await verifyToken(token);
-    if (!payload || payload.role !== "ADMIN") return NextResponse.json({ success: false, error: "관리자만 접근" }, { status: 403 });
-    return NextResponse.json({ success: true, data: SETTINGS });
+    const data = await readFile(SETTINGS_PATH, "utf-8");
+    return { ...DEFAULT_SETTINGS, ...JSON.parse(data) };
   } catch {
-    return NextResponse.json({ success: false }, { status: 500 });
+    return DEFAULT_SETTINGS;
   }
 }
 
-export async function PUT(req: NextRequest) {
+async function saveSettings(settings: Record<string, unknown>) {
+  const dir = path.dirname(SETTINGS_PATH);
+  await mkdir(dir, { recursive: true });
+  await writeFile(SETTINGS_PATH, JSON.stringify(settings, null, 2), "utf-8");
+}
+
+export async function GET() {
+  const settings = await loadSettings();
+  return NextResponse.json(settings);
+}
+
+export async function POST(req: NextRequest) {
   try {
-    const token = req.cookies.get("fixcar-token")?.value;
-    if (!token) return NextResponse.json({ success: false, error: "권한 없음" }, { status: 401 });
-    const payload = await verifyToken(token);
-    if (!payload || payload.role !== "ADMIN") return NextResponse.json({ success: false, error: "관리자만 접근" }, { status: 403 });
     const body = await req.json();
-    SETTINGS = { ...SETTINGS, ...body };
-    return NextResponse.json({ success: true, data: SETTINGS });
-  } catch {
-    return NextResponse.json({ success: false }, { status: 500 });
+    const current = await loadSettings();
+    const merged = { ...current, ...body };
+    await saveSettings(merged);
+    return NextResponse.json({ success: true, settings: merged });
+  } catch (e) {
+    console.error("Settings save error:", e);
+    return NextResponse.json({ error: "설정 저장 실패", detail: String(e) }, { status: 500 });
   }
 }

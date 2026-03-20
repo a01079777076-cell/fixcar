@@ -1,84 +1,100 @@
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { Users, Eye, TrendingUp, Calendar } from "lucide-react";
-import Link from "next/link";
+import RoleGuard from "@/components/RoleGuard";
 
-interface VisitorData { todayTotal:number; todayUnique:number; totalVisits:number; weeklyData:{date:string;count:number}[]; }
+interface VisitorLog { id: number; path: string; ip?: string; userAgent?: string; createdAt: string; }
 
-export default function AdminVisitorsPage() {
-  const [data, setData] = useState<VisitorData|null>(null);
+function VisitorsContent() {
+  const [logs, setLogs] = useState<VisitorLog[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/admin/visitors").then(r=>r.json()).then(d=>{
-      if(d.success) setData(d.data);
-      else setData({ todayTotal:127, todayUnique:89, totalVisits:4823, weeklyData:[{date:"03-13",count:58},{date:"03-14",count:72},{date:"03-15",count:91},{date:"03-16",count:115},{date:"03-17",count:103},{date:"03-18",count:134},{date:"03-19",count:127}] });
-      setLoading(false);
-    }).catch(()=>{
-      setData({ todayTotal:127, todayUnique:89, totalVisits:4823, weeklyData:[{date:"03-13",count:58},{date:"03-14",count:72},{date:"03-15",count:91},{date:"03-16",count:115},{date:"03-17",count:103},{date:"03-18",count:134},{date:"03-19",count:127}] });
-      setLoading(false);
-    });
+    fetch("/api/admin/visitors")
+      .then(r => r.json())
+      .then(data => { setLogs(Array.isArray(data) ? data : data.logs || []); setLoading(false); })
+      .catch(() => { setLogs([]); setLoading(false); });
   }, []);
 
-  const maxCount = data ? Math.max(...data.weeklyData.map(d=>d.count),1) : 1;
+  /* 오늘/어제/이번주 통계 */
+  const today = new Date().toDateString();
+  const todayCount = logs.filter(l => new Date(l.createdAt).toDateString() === today).length;
+  const totalCount = logs.length;
+
+  /* 페이지별 집계 */
+  const pageCounts: Record<string, number> = {};
+  logs.forEach(l => { pageCounts[l.path] = (pageCounts[l.path] || 0) + 1; });
+  const topPages = Object.entries(pageCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
 
   return (
     <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;} button{font-family:'NanumSquareRound',sans-serif;cursor:pointer;} .bar:hover{opacity:0.8;}`}</style>
-      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <Navbar/>
-        <div style={{background:"#1A1A1A",padding:"0 32px",height:"56px",display:"flex",alignItems:"center",gap:"20px"}}>
-          {[["대시보드","/admin"],["방문자","/admin/visitors"],["회원","/admin/users"],["딜러","/admin/dealers"],["설정","/admin/settings"]].map(([l,h])=>(
-            <Link key={l} href={h} style={{fontSize:"13px",fontWeight:700,color:h==="/admin/visitors"?"white":"rgba(255,255,255,0.35)"}}>{l}</Link>
-          ))}
+      <style>{`
+        @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
+      `}</style>
+      <Navbar />
+      <div style={{ minHeight: "100vh", background: "#F0EEE9" }}>
+        <div style={{ background: "#1A1A1A", padding: "36px 24px 28px" }}>
+          <div style={{ maxWidth: 900, margin: "0 auto" }}>
+            <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 12, letterSpacing: 4, color: "#00C471", marginBottom: 6 }}>VISITOR ANALYTICS</div>
+            <h1 style={{ fontSize: 28, fontWeight: 800, color: "white" }}>방문자 통계</h1>
+          </div>
         </div>
-        <div style={{maxWidth:"960px",margin:"0 auto",padding:"28px 32px 80px"}}>
-          <h1 style={{fontSize:"26px",fontWeight:800,marginBottom:"24px"}}>방문자 통계</h1>
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px 16px 100px" }}>
+          {/* KPI */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 24 }}>
+            <div style={{ background: "white", borderRadius: 16, padding: "24px 20px", textAlign: "center" }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 36, color: "#00C471" }}>{todayCount}</div>
+              <div style={{ fontSize: 13, color: "#AAA", fontWeight: 400, marginTop: 4 }}>오늘 방문</div>
+            </div>
+            <div style={{ background: "white", borderRadius: 16, padding: "24px 20px", textAlign: "center" }}>
+              <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 36, color: "#1847FF" }}>{totalCount}</div>
+              <div style={{ fontSize: 13, color: "#AAA", fontWeight: 400, marginTop: 4 }}>전체 방문</div>
+            </div>
+          </div>
 
-          {loading ? <div style={{textAlign:"center",padding:"60px",color:"#AAA"}}>로딩 중...</div> : data&&(
-            <>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"12px",marginBottom:"20px"}}>
-                {[
-                  {l:"오늘 총 방문",v:data.todayTotal.toLocaleString(),u:"회",color:"#FF3B1E",icon:<Eye size={20} color="white"/>},
-                  {l:"오늘 순방문자",v:data.todayUnique.toLocaleString(),u:"명",color:"#1847FF",icon:<Users size={20} color="white"/>},
-                  {l:"이번주 평균",v:Math.round(data.weeklyData.reduce((s,d)=>s+d.count,0)/Math.max(data.weeklyData.length,1)).toLocaleString(),u:"회/일",color:"#2D8A52",icon:<TrendingUp size={20} color="white"/>},
-                  {l:"누적 총 방문",v:data.totalVisits.toLocaleString(),u:"회",color:"#E8A020",icon:<Calendar size={20} color="white"/>},
-                ].map(k=>(
-                  <div key={k.l} style={{background:"white",borderRadius:"16px",padding:"16px 18px",display:"flex",alignItems:"center",gap:"12px"}}>
-                    <div style={{width:"42px",height:"42px",background:k.color,borderRadius:"11px",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{k.icon}</div>
-                    <div>
-                      <div style={{fontSize:"11px",color:"#AAA",fontWeight:400}}>{k.l}</div>
-                      <div style={{fontSize:"20px",fontWeight:800}}>{k.v}<span style={{fontSize:"11px",color:"#AAA",marginLeft:"2px",fontWeight:400}}>{k.u}</span></div>
-                    </div>
+          {/* 인기 페이지 */}
+          <div style={{ background: "white", borderRadius: 18, padding: "22px 24px", marginBottom: 20 }}>
+            <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>📊 인기 페이지 TOP 10</div>
+            {topPages.length === 0 ? (
+              <div style={{ textAlign: "center", padding: 40, color: "#CCC" }}>데이터 없음</div>
+            ) : topPages.map(([pg, cnt], i) => (
+              <div key={pg} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: i < topPages.length - 1 ? "1px solid #F0EEE9" : "none" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ width: 24, height: 24, borderRadius: 6, background: i < 3 ? "#FF3B1E" : "#E8E6E1", color: i < 3 ? "white" : "#888", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: "#333" }}>{pg}</span>
+                </div>
+                <span style={{ fontSize: 14, fontWeight: 800, color: "#1847FF" }}>{cnt}회</span>
+              </div>
+            ))}
+          </div>
+
+          {/* 최근 방문 로그 */}
+          <div style={{ background: "white", borderRadius: 18, padding: "22px 24px" }}>
+            <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>🕐 최근 방문 로그</div>
+            {loading ? <div style={{ textAlign: "center", padding: 40, color: "#CCC" }}>로딩 중...</div> : (
+              <div style={{ maxHeight: 400, overflowY: "auto" }}>
+                {logs.slice(0, 50).map((log, i) => (
+                  <div key={log.id || i} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid #F0EEE9", fontSize: 13 }}>
+                    <span style={{ fontWeight: 600, color: "#333" }}>{log.path}</span>
+                    <span style={{ color: "#CCC", fontSize: 11 }}>{new Date(log.createdAt).toLocaleString("ko-KR")}</span>
                   </div>
                 ))}
               </div>
-
-              <div style={{background:"white",borderRadius:"20px",padding:"24px 28px",marginBottom:"16px"}}>
-                <div style={{fontSize:"16px",fontWeight:800,marginBottom:"20px",display:"flex",alignItems:"center",gap:"8px"}}><TrendingUp size={17} color="#1847FF"/>최근 7일 방문자</div>
-                <div style={{display:"flex",alignItems:"flex-end",gap:"10px",height:"160px"}}>
-                  {data.weeklyData.map((d,i)=>{
-                    const h = Math.max((d.count/maxCount)*130,6);
-                    const isToday = i===data.weeklyData.length-1;
-                    return (
-                      <div key={i} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:"5px"}}>
-                        <div style={{fontSize:"11px",fontWeight:800,color:isToday?"#FF3B1E":"#888"}}>{d.count}</div>
-                        <div className="bar" style={{width:"100%",background:isToday?"#FF3B1E":"#1847FF",borderRadius:"6px 6px 0 0",height:`${h}px`,transition:"height 0.5s",opacity:isToday?1:0.6}}/>
-                        <div style={{fontSize:"11px",color:isToday?"#FF3B1E":"#AAA",fontWeight:isToday?800:400}}>{d.date}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div style={{background:"#EEF2FF",border:"1px solid #B8C8FF",borderRadius:"14px",padding:"14px 18px",fontSize:"13px",color:"#1847FF",lineHeight:1.75,fontWeight:400}}>
-                📊 더 정확한 통계는 구글 애널리틱스 (GA4) 연동 후 확인 가능해요. NEXT_PUBLIC_GA_ID 환경변수를 설정해주세요.
-              </div>
-            </>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </>
+  );
+}
+
+export default function AdminVisitorsPage() {
+  return (
+    <RoleGuard allowedRoles={["ADMIN"]}>
+      <VisitorsContent />
+    </RoleGuard>
   );
 }
