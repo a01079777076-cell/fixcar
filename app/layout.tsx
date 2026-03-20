@@ -13,7 +13,8 @@ export const metadata: Metadata = {
   authors: [{ name:"픽스카 FIXCAR", url:"https://www.fixcar.kr" }],
   creator: "픽스카 FIXCAR",
   publisher: "픽스카 FIXCAR",
-  robots: { index:true, follow:true, googleBot:{ index:true, follow:true, "max-video-preview":-1, "max-image-preview":"large", "max-snippet":-1 } },
+  /* ★ 검색엔진 노출 차단 (오픈 시 index:true, follow:true 로 원복) */
+  robots: { index:false, follow:false, googleBot:{ index:false, follow:false } },
   openGraph: { type:"website", locale:"ko_KR", url:"https://www.fixcar.kr", siteName:"픽스카 FIXCAR", title:"픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다", description:"광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차.", images:[{ url:"/og-image.png", width:1200, height:630, alt:"픽스카 FIXCAR - 광주 중고차 정찰제 플랫폼" }] },
   twitter: { card:"summary_large_image", title:"픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다", description:"광주 1위 중고차 정찰제 플랫폼.", images:["/og-image.png"] },
   verification: { google:"구글서치콘솔코드입력", other:{ "naver-site-verification":"ef154da2a6ec7ab1f255ab654ae513a16c055191" } },
