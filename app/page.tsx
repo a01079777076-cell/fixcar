@@ -102,7 +102,7 @@ export default async function Home() {
         {/* ═══ 히어로 배너 + 카테고리 (직방 스타일) ═══ */}
         <section style={{ position:"relative" }}>
           {/* 배경 이미지 */}
-<div style={{
+          <div style={{
             height:"clamp(340px,45vw,520px)",
             backgroundImage:"linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.6)), url('/mainbanner.png')",
             backgroundSize:"cover",
@@ -113,7 +113,7 @@ export default async function Home() {
           }}>
             <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(255,255,255,0.12)", backdropFilter:"blur(8px)", borderRadius:"100px", padding:"8px 20px", marginBottom:"24px" }}>
               <div style={{ width:"8px", height:"8px", background:"#FF3B1E", borderRadius:"50%", animation:"pulse 2s infinite" }} />
-              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 AI 나에게 맞는 차량추천</span>
+              <span style={{ fontSize:"13px", fontWeight:700, color:"rgba(255,255,255,0.9)", letterSpacing:"1px" }}>광주 No.1 Ai 나에게 맞는 차량추천</span>
             </div>
             <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(28px,5vw,52px)", fontWeight:400, color:"white", lineHeight:1.2, letterSpacing:"-1px", marginBottom:"14px" }}>
               나, 이 차로 <span style={{ color:"#FF3B1E" }}>픽</span>했어, 픽스카
@@ -170,7 +170,7 @@ export default async function Home() {
               <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"200px", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>PICK</div>
               <div style={{ width:"56px", height:"56px", background:"rgba(255,255,255,0.15)", borderRadius:"18px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"22px" }}><Zap size={28} color="white" /></div>
               <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"48px", color:"#fff", letterSpacing:"3px", marginBottom:"12px" }}>PICK</div>
-              <div style={{ fontSize:"24px", fontWeight:800, color:"rgba(255,255,255,0.95)", marginBottom:"16px" }}>나, 이 차로 픽했어</div>
+              <div style={{ fontSize:"24px", fontWeight:600, color:"rgba(255,255,255,0.95)", marginBottom:"16px" }}>나, 이 차로 픽했어</div>
               <p style={{ fontSize:"15px", color:"rgba(255,255,255,0.78)", lineHeight:1.85, maxWidth:"320px", fontWeight:400 }}>차에 대해 아무것도 몰라도 괜찮아요.<br /><strong style={{ color:"#fff", fontWeight:800 }}>3분 퀴즈 하나로</strong> 나에게 딱 맞는 차를 픽해드려요.</p>
               <a href="/quiz" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"20px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>퀴즈 시작 <ArrowRight size={14}/></a>
             </div>
@@ -321,9 +321,9 @@ export default async function Home() {
             <div>
               <div style={{ display:"inline-flex", alignItems:"center", gap:"8px", background:"rgba(0,0,0,0.15)", borderRadius:"100px", padding:"8px 18px", marginBottom:"24px" }}>
                 <div style={{ width:"8px", height:"8px", background:"white", borderRadius:"50%", opacity:0.8 }}/>
-                <span style={{ fontSize:"13px", fontWeight:800, color:"rgba(255,255,255,0.9)", letterSpacing:"2px" }}>FIXCAR 광주</span>
+                <span style={{ fontSize:"13px", fontWeight:800, color:"rgba(255,255,255,0.9)", letterSpacing:"2px" }}>광주 No.1 AI 나에게 맞는 차량추천</span>
               </div>
-              <h2 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(40px,6vw,76px)", fontWeight:900, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"20px" }}>
+              <h2 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(40px,6vw,76px)", fontWeight:400, color:"white", letterSpacing:"-2px", lineHeight:1.05, marginBottom:"20px" }}>
                 나, 이 차로<br />픽했어
               </h2>
               <p style={{ fontSize:"17px", color:"rgba(255,255,255,0.8)", lineHeight:1.85, fontWeight:400 }}>
