@@ -209,7 +209,7 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
                         <div style={{marginBottom:14}}>
                           <div style={{fontSize:13,fontWeight:800,color:"#FF3B1E",marginBottom:6}}>알려진 고질병</div>
                           <div style={{fontSize:13,color:"#555",lineHeight:1.8,background:"#FFF8F6",borderRadius:10,padding:"12px 16px",border:"1px solid #FFE0D6"}}>
-                            {issueInfo.knownIssues.split(" / ").map((item,i)=>(
+                            {issueInfo.knownIssues.split(" / ").map((item:string,i:number)=>(
                               <div key={i}>• {item}</div>
                             ))}
                           </div>
@@ -219,7 +219,7 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
                         <div style={{marginBottom:14}}>
                           <div style={{fontSize:13,fontWeight:800,color:"#E8A020",marginBottom:6}}>연료별 주의사항</div>
                           <div style={{fontSize:13,color:"#555",lineHeight:1.8,background:"#FFF8EC",borderRadius:10,padding:"12px 16px",border:"1px solid #FFE4B5"}}>
-                            {issueInfo.fuelNotes.split(" / ").map((item,i)=>(
+                            {issueInfo.fuelNotes.split(" / ").map((item:string,i:number)=>(
                               <div key={i}>• {item}</div>
                             ))}
                           </div>
@@ -229,7 +229,7 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
                         <div>
                           <div style={{fontSize:13,fontWeight:800,color:"#1847FF",marginBottom:6}}>연도별 이슈</div>
                           <div style={{fontSize:13,color:"#555",lineHeight:1.8,background:"#EEF2FF",borderRadius:10,padding:"12px 16px",border:"1px solid #B8C8FF"}}>
-                            {issueInfo.yearIssues.split(" / ").map((item,i)=>(
+                            {issueInfo.yearIssues.split(" / ")..map((item:string,i:number)=>(
                               <div key={i}>• {item}</div>
                             ))}
                           </div>
