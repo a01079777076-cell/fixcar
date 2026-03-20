@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET || process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || "fixcar";
 
     if (!cloudName) {
-      return NextResponse.json({ error: "Cloudinary 설정이 안 되어 있습니다" }, { status: 500 });
+      return NextResponse.json({ error: "Cloudinary 설정이 안 되어 있습니다. Vercel 환경변수에 CLOUDINARY_CLOUD_NAME을 추가해주세요." }, { status: 500 });
     }
 
     const cloudForm = new FormData();
@@ -21,12 +21,12 @@ export async function POST(req: NextRequest) {
       method: "POST",
       body: cloudForm,
     });
-
     const data = await res.json();
+
     if (data.secure_url) {
       return NextResponse.json({ success: true, url: data.secure_url });
     }
-    return NextResponse.json({ error: "업로드 실패", detail: data.error?.message || "" }, { status: 500 });
+    return NextResponse.json({ error: "업로드 실패", detail: data.error?.message || JSON.stringify(data) }, { status: 500 });
   } catch (e) {
     return NextResponse.json({ error: "업로드 실패", detail: String(e) }, { status: 500 });
   }

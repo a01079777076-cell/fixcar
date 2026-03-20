@@ -2,39 +2,47 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
 
-export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const postId = parseInt(searchParams.get("postId") || "0");
-    if (!postId) return NextResponse.json({ success: false, error: "postId 필요" }, { status: 400 });
+/* POST: 댓글 작성 */
+export async function POST(req: NextRequest) {
+  const user = verifyToken(req);
+  if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
 
-    const comments = await prisma.communityComment.findMany({
-      where: { postId },
-      orderBy: { createdAt: "asc" },
-      include: { author: { select: { id:true, name:true } } },
+  try {
+    const body = await req.json();
+    const postId = Number(body.postId);
+    if (!postId || !body.content) {
+      return NextResponse.json({ error: "내용을 입력해주세요" }, { status: 400 });
+    }
+
+    /* 스키마: content(@db.Text), postId(Int), authorId(Int) */
+    const comment = await prisma.communityComment.create({
+      data: {
+        content: String(body.content).slice(0, 2000),
+        postId,
+        authorId: user.id,
+      },
     });
-    return NextResponse.json({ success: true, data: comments });
-  } catch {
-    return NextResponse.json({ success: false, error: "조회 실패" }, { status: 500 });
+    return NextResponse.json({ success: true, comment }, { status: 201 });
+  } catch (e) {
+    console.error("Comment POST:", e);
+    return NextResponse.json({ error: "댓글 작성 실패" }, { status: 500 });
   }
 }
 
-export async function POST(req: NextRequest) {
+/* GET: 특정 글의 댓글 */
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const postId = Number(searchParams.get("postId"));
+  if (!postId) return NextResponse.json([]);
+
   try {
-    const token = req.cookies.get("fixcar-token")?.value;
-    if (!token) return NextResponse.json({ success: false, error: "로그인 필요" }, { status: 401 });
-    const payload = await verifyToken(token);
-    if (!payload) return NextResponse.json({ success: false, error: "인증 실패" }, { status: 401 });
-
-    const { postId, content } = await req.json();
-    if (!postId || !content) return NextResponse.json({ success: false, error: "내용 입력 필요" }, { status: 400 });
-
-    const comment = await prisma.communityComment.create({
-      data: { postId, content, authorId: payload.id },
+    const comments = await prisma.communityComment.findMany({
+      where: { postId },
       include: { author: { select: { name: true } } },
+      orderBy: { createdAt: "asc" },
     });
-    return NextResponse.json({ success: true, data: comment });
+    return NextResponse.json(comments);
   } catch {
-    return NextResponse.json({ success: false, error: "저장 실패" }, { status: 500 });
+    return NextResponse.json([]);
   }
 }

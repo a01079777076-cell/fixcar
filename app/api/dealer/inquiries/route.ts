@@ -1,81 +1,62 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { verifyToken } from "@/lib/auth";
 
-function getUserId(req: NextRequest): number | null {
-  const token = req.cookies.get("fixcar-token")?.value || req.cookies.get("token")?.value;
-  if (!token) return null;
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf-8"));
-    const raw = payload.id || payload.userId || payload.sub;
-    return raw ? Number(raw) : null;
-  } catch { return null; }
-}
-
-/* GET: 딜러 본인 차량에 온 문의 목록 */
+/* GET: 딜러의 차량에 온 문의 목록 */
 export async function GET(req: NextRequest) {
-  const userId = getUserId(req);
-  if (!userId) return NextResponse.json([]);
+  const user = verifyToken(req);
+  if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+
   try {
-    const dealer = await prisma.dealer.findFirst({ where: { userId } });
-    if (!dealer) return NextResponse.json([]);
+    const dealer = await prisma.dealer.findUnique({ where: { userId: user.id } });
+    if (!dealer && user.role !== "ADMIN") return NextResponse.json([]);
 
-    /* 딜러의 차량 ID 목록 조회 */
-    const dealerCars = await prisma.car.findMany({
-      where: { dealerId: dealer.id },
-      select: { id: true },
-    });
-    const carIds = dealerCars.map(c => c.id);
-
-    if (carIds.length === 0) return NextResponse.json([]);
+    /* ADMIN이면 전체, 딜러면 자기 매물만 */
+    const where = user.role === "ADMIN" ? {} : {
+      car: { dealerId: dealer!.id },
+    };
 
     const inquiries = await prisma.inquiry.findMany({
-      where: { carId: { in: carIds } },
-      include: { car: true },
+      where,
+      include: {
+        user: { select: { name: true, email: true, phone: true } },
+        car: { select: { name: true, brand: true, price: true } },
+      },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(inquiries);
   } catch (e) {
-    console.error("Dealer inquiries error:", e);
+    console.error("Dealer inquiries GET:", e);
     return NextResponse.json([]);
   }
 }
 
-/* POST: 문의에 답변 */
-export async function POST(req: NextRequest) {
-  const userId = getUserId(req);
-  if (!userId) return NextResponse.json({ error: "인증 필요" }, { status: 401 });
+/* PATCH: 문의 답변 */
+export async function PATCH(req: NextRequest) {
+  const user = verifyToken(req);
+  if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+  if (user.role !== "DEALER" && user.role !== "ADMIN") {
+    return NextResponse.json({ error: "딜러 권한이 필요합니다" }, { status: 403 });
+  }
 
   try {
     const body = await req.json();
-    const { inquiryId, reply } = body;
-
-    if (!inquiryId || !reply) {
-      return NextResponse.json({ error: "inquiryId와 reply가 필요합니다" }, { status: 400 });
+    const inquiryId = Number(body.inquiryId || body.id);
+    if (!inquiryId || !body.reply) {
+      return NextResponse.json({ error: "답변 내용을 입력해주세요" }, { status: 400 });
     }
 
-    /* 답변 저장 - 스키마에 맞는 필드만 사용 */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updateData: any = { status: "ANSWERED" };
-
-    /* reply 필드가 있으면 추가 (스키마에 따라 다를 수 있음) */
-    try {
-      const updated = await prisma.inquiry.update({
-        where: { id: Number(inquiryId) },
-        data: { ...updateData, reply },
-      });
-      return NextResponse.json({ success: true, inquiry: updated });
-    } catch {
-      /* reply 필드가 없으면 status만 업데이트 */
-      const updated = await prisma.inquiry.update({
-        where: { id: Number(inquiryId) },
-        data: updateData,
-      });
-      return NextResponse.json({ success: true, inquiry: updated });
-    }
+    /* 스키마: reply(String?), status(InquiryStatus) */
+    const inquiry = await prisma.inquiry.update({
+      where: { id: inquiryId },
+      data: {
+        reply: String(body.reply).slice(0, 2000),
+        status: "REPLIED",
+      },
+    });
+    return NextResponse.json({ success: true, inquiry });
   } catch (e) {
-    console.error("Inquiry reply error:", e);
-    return NextResponse.json({ error: "답변 저장 실패", detail: String(e) }, { status: 500 });
+    console.error("Inquiry PATCH:", e);
+    return NextResponse.json({ error: "답변 실패" }, { status: 500 });
   }
 }

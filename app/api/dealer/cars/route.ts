@@ -1,25 +1,69 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { CarStatus } from "@prisma/client";
+import { verifyToken } from "@/lib/auth";
 
-function getUserId(req: NextRequest): number | null {
-  const token = req.cookies.get("fixcar-token")?.value || req.cookies.get("token")?.value;
-  if (!token) return null;
+/* POST: 매물 등록 */
+export async function POST(req: NextRequest) {
+  const user = verifyToken(req);
+  if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+  if (user.role !== "DEALER" && user.role !== "ADMIN") {
+    return NextResponse.json({ error: "딜러 권한이 필요합니다" }, { status: 403 });
+  }
+
   try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf-8"));
-    const raw = payload.id || payload.userId || payload.sub;
-    return raw ? Number(raw) : null;
-  } catch { return null; }
+    /* 딜러 레코드 찾기 */
+    let dealer = await prisma.dealer.findUnique({ where: { userId: user.id } });
+
+    /* ADMIN인데 딜러 레코드 없으면 자동 생성 */
+    if (!dealer && user.role === "ADMIN") {
+      dealer = await prisma.dealer.create({
+        data: { userId: user.id, shopName: "픽스카 직영", verified: true },
+      });
+    }
+    if (!dealer) return NextResponse.json({ error: "딜러 등록이 필요합니다" }, { status: 403 });
+
+    const body = await req.json();
+
+    /* 스키마: dealerId, name, brand, year, mileage, fuel, color, region, price, cc, power, efficiency, transmission, owners, accident, status, tags[], options[], images[] */
+    const car = await prisma.car.create({
+      data: {
+        dealerId: dealer.id,
+        name: String(body.name || "").slice(0, 200),
+        brand: String(body.brand || ""),
+        year: Number(body.year) || new Date().getFullYear(),
+        mileage: Number(body.mileage) || 0,
+        fuel: String(body.fuel || "가솔린"),
+        color: String(body.color || ""),
+        region: String(body.region || "광주"),
+        price: Number(body.price) || 0,
+        cc: Number(body.cc) || 0,
+        power: Number(body.power) || 0,
+        efficiency: String(body.efficiency || "0"),
+        transmission: String(body.transmission || "자동"),
+        owners: Number(body.owners) || 1,
+        accident: Boolean(body.accident),
+        status: "AVAILABLE",
+        tags: body.tags || [],
+        options: body.options || [],
+        images: body.images || [],
+      },
+    });
+    return NextResponse.json({ success: true, car }, { status: 201 });
+  } catch (e) {
+    console.error("Dealer car POST:", e);
+    return NextResponse.json({ error: "차량 등록 실패", detail: String(e) }, { status: 500 });
+  }
 }
 
+/* GET: 내 매물 목록 */
 export async function GET(req: NextRequest) {
-  const userId = getUserId(req);
-  if (!userId) return NextResponse.json({ error: "인증 필요" }, { status: 401 });
+  const user = verifyToken(req);
+  if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+
   try {
-    const dealer = await prisma.dealer.findFirst({ where: { userId } });
+    const dealer = await prisma.dealer.findUnique({ where: { userId: user.id } });
     if (!dealer) return NextResponse.json([]);
+
     const cars = await prisma.car.findMany({
       where: { dealerId: dealer.id },
       orderBy: { createdAt: "desc" },
@@ -27,43 +71,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(cars);
   } catch {
     return NextResponse.json([]);
-  }
-}
-
-export async function POST(req: NextRequest) {
-  const userId = getUserId(req);
-  if (!userId) return NextResponse.json({ error: "인증 필요" }, { status: 401 });
-
-  try {
-    const dealer = await prisma.dealer.findFirst({ where: { userId } });
-    if (!dealer) return NextResponse.json({ error: "딜러 권한이 없습니다" }, { status: 403 });
-
-    const body = await req.json();
-    if (!body.name) return NextResponse.json({ error: "차량명은 필수입니다" }, { status: 400 });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data: any = {
-      name: body.name || "",
-      brand: body.brand || "",
-      year: Number(body.year) || new Date().getFullYear(),
-      mileage: Number(body.mileage) || 0,
-      price: Number(body.price) || 0,
-      fuel: body.fuel || "가솔린",
-      transmission: body.transmission || "자동",
-      color: body.color || "",
-      region: body.region || "광주",
-      tags: body.tags || [],
-      images: body.images || [],
-      accident: body.accident === true || body.isAccident === true,
-      status: CarStatus.AVAILABLE,
-      dealerId: dealer.id,
-    };
-
-    const car = await prisma.car.create({ data });
-
-    return NextResponse.json({ success: true, car }, { status: 201 });
-  } catch (e) {
-    console.error("Dealer car create error:", e);
-    return NextResponse.json({ error: "매물 등록 실패", detail: String(e) }, { status: 500 });
   }
 }

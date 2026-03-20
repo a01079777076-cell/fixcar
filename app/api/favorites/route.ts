@@ -1,51 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { verifyToken } from "@/lib/auth";
 
-function getUserId(req: NextRequest): number | null {
-  const token = req.cookies.get("fixcar-token")?.value || req.cookies.get("token")?.value || req.cookies.get("auth-token")?.value;
-  if (!token) return null;
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf-8"));
-    const raw = payload.id || payload.userId || payload.sub || null;
-    if (raw === null) return null;
-    const num = Number(raw);
-    return isNaN(num) ? null : num;
-  } catch { return null; }
-}
-
-export async function GET(req: NextRequest) {
-  const userId = getUserId(req);
-  if (!userId) return NextResponse.json([], { status: 200 });
-  try {
-    const favs = await prisma.favorite.findMany({ where: { userId }, include: { car: true }, orderBy: { createdAt: "desc" } });
-    return NextResponse.json(favs);
-  } catch { return NextResponse.json([], { status: 200 }); }
-}
-
+/* POST: 찜 토글 */
 export async function POST(req: NextRequest) {
-  const userId = getUserId(req);
-  if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+  const user = verifyToken(req);
+  if (!user) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+
   try {
-    const body = await req.json();
-    const carId = typeof body.carId === "string" ? Number(body.carId) : body.carId;
-    if (!carId) return NextResponse.json({ error: "carId 필수" }, { status: 400 });
-    const existing = await prisma.favorite.findFirst({ where: { userId, carId } });
-    if (existing) return NextResponse.json(existing);
-    const fav = await prisma.favorite.create({ data: { userId, carId } });
-    return NextResponse.json(fav, { status: 201 });
-  } catch (e) { return NextResponse.json({ error: "찜 추가 실패", detail: String(e) }, { status: 500 }); }
+    const { carId } = await req.json();
+    const cid = Number(carId);
+    if (!cid) return NextResponse.json({ error: "carId 필요" }, { status: 400 });
+
+    /* 스키마: userId(Int), carId(Int), @@unique([userId, carId]) */
+    const existing = await prisma.favorite.findUnique({
+      where: { userId_carId: { userId: user.id, carId: cid } },
+    });
+
+    if (existing) {
+      await prisma.favorite.delete({ where: { id: existing.id } });
+      return NextResponse.json({ favorited: false });
+    } else {
+      await prisma.favorite.create({ data: { userId: user.id, carId: cid } });
+      return NextResponse.json({ favorited: true });
+    }
+  } catch (e) {
+    console.error("Favorite POST:", e);
+    return NextResponse.json({ error: "처리 실패" }, { status: 500 });
+  }
 }
 
-export async function DELETE(req: NextRequest) {
-  const userId = getUserId(req);
-  if (!userId) return NextResponse.json({ error: "로그인이 필요합니다" }, { status: 401 });
+/* GET: 내 찜 목록 */
+export async function GET(req: NextRequest) {
+  const user = verifyToken(req);
+  if (!user) return NextResponse.json([]);
+
   try {
-    const body = await req.json();
-    const carId = typeof body.carId === "string" ? Number(body.carId) : body.carId;
-    if (!carId) return NextResponse.json({ error: "carId 필수" }, { status: 400 });
-    await prisma.favorite.deleteMany({ where: { userId, carId } });
-    return NextResponse.json({ success: true });
-  } catch (e) { return NextResponse.json({ error: "찜 제거 실패", detail: String(e) }, { status: 500 }); }
+    const favs = await prisma.favorite.findMany({
+      where: { userId: user.id },
+      include: { car: true },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(favs);
+  } catch {
+    return NextResponse.json([]);
+  }
 }
