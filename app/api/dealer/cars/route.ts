@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
         color: body.color || "",
         tags: body.tags || [],
         images: body.images || [],
-        isAccident: body.isAccident === true,
+        accident: body.isAccident === true || body.accident === true,
         isPick: false,
         status: CarStatus.AVAILABLE,
         dealerId: dealer.id,
