@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { SignJWT } from "jose";
 
 export interface AuthUser {
   id: number;
@@ -43,10 +44,24 @@ export function getAuthUser(req: NextRequest): AuthUser | null {
 
 /**
  * ★ 기존 호환용 - verifyToken
- * 기존 API들이 이 함수를 import하고 있음
  */
 export function verifyToken(req: NextRequest): AuthUser | null {
   return getAuthUser(req);
+}
+
+/**
+ * ★ 기존 호환용 - signToken (JWT 생성)
+ */
+export async function signToken(payload: Record<string, unknown>): Promise<string> {
+  const secret = new TextEncoder().encode(
+    process.env.NEXTAUTH_SECRET || "fixcar2025secretkey!@#$%"
+  );
+  const token = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("7d")
+    .sign(secret);
+  return token;
 }
 
 /**
