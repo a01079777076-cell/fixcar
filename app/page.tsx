@@ -124,7 +124,6 @@ export default async function Home() {
               </p>
               <div style={{ display:"flex", gap:"12px", flexWrap:"wrap", justifyContent:"center" }}>
                 <a href="/cars"><button className="btn-red" style={{ padding:"16px 36px", fontSize:"16px" }}>매물 보러가기 <ArrowRight size={16}/></button></a>
-                <a href="/quiz-select"><button className="btn-blue-outline" style={{ padding:"14px 28px", fontSize:"15px", background:"rgba(255,255,255,0.1)", color:"white", border:"2px solid rgba(255,255,255,0.4)" }}><Lock size={15}/> 내차 찾기</button></a>
               </div>
             </div>
           </div>
@@ -137,16 +136,15 @@ export default async function Home() {
             display:"flex", justifyContent:"space-around", alignItems:"center", flexWrap:"wrap", gap:"8px",
           }}>
             {[
-              { icon:"🚗", label:"전체 매물", href:"/cars" },
-              { icon:"⚡", label:"전기차", href:"/cars?fuel=전기" },
-              { icon:"💰", label:"1000만↓", href:"/cars?maxPrice=1000" },
-              { icon:"🏆", label:"랭킹", href:"/ranking" },
-              { icon:"📚", label:"카탈로그", href:"/catalog" },
-              { icon:"🧬", label:"내차 찾기", href:"/quiz-select" },
-              { icon:"⚔️", label:"배틀", href:"/battle" },
+              { icon:"🧬", img:"", label:"내차 찾기", href:"/quiz-select" },
+              { icon:"", img:"/icon/main_allcars_button.png", label:"전체 매물", href:"/cars" },
+              { icon:"🏆", img:"", label:"랭킹", href:"/ranking" },
+              { icon:"📚", img:"", label:"카탈로그", href:"/catalog" },
             ].map(item => (
               <a key={item.label} href={item.href} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"8px", textDecoration:"none", padding:"8px 12px", borderRadius:"14px", transition:"all 0.2s", cursor:"pointer", minWidth:"70px" }}>
-                <div style={{ width:"52px", height:"52px", borderRadius:"16px", background:"#F8F7F4", border:"1.5px solid #E8E6E1", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"24px", transition:"all 0.2s" }}>{item.icon}</div>
+                <div style={{ width:"52px", height:"52px", borderRadius:"16px", background:"#F8F7F4", border:"1.5px solid #E8E6E1", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"24px", transition:"all 0.2s", overflow:"hidden" }}>
+                  {item.img ? <img src={item.img} alt={item.label} style={{ width:"100%", height:"100%", objectFit:"cover" }} /> : item.icon}
+                </div>
                 <span style={{ fontSize:"13px", fontWeight:700, color:"#444" }}>{item.label}</span>
               </a>
             ))}
