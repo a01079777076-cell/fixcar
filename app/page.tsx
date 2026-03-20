@@ -191,19 +191,32 @@ export default async function Home() {
         <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
           <div className="content-banners" style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:"16px" }}>
             {[
-              { emoji:"📊", title:"자동차 랭킹", subtitle:"궁금하지 않아? 세상 모든 차량 순위가", desc:"최고가·최저가·깡통·풀옵·저주행·초보추천 랭킹표 전체", href:"/ranking", color:"#FF3B1E", bg:"#FFF0ED" },
-              { emoji:"📚", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
-              { emoji:"⚔️", title:"자동차 지식배틀", subtitle:"스포츠카 vs 럭셔리카 64강 토너먼트", desc:"당신의 드림카는? 64대 자동차 월드컵 지금 시작!", href:"/battle", color:"#9B30FF", bg:"#F5EEFF" },
-              { emoji:"🔨", title:"공개 경매", subtitle:"실시간 입찰, 투명한 가격 경쟁", desc:"직접 검수한 차량을 경매로! 뒷자리 숨김 입찰 시스템", href:"/auction", color:"#E8A020", bg:"#FFF8EC" },
-              { emoji:"✍️", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"모아놓는 중! 딜러 추천 꿀템부터 관리 노하우까지", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
-              { emoji:"💬", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#CC6633", bg:"#FFF5ED" },
+              { emoji:"", bgImg:"/icon/main_ranking_button.png", title:"자동차 랭킹", subtitle:"궁금하지 않아? 세상 모든 차량 순위가", desc:"최고가·최저가·깡통·풀옵·저주행·초보추천 랭킹표 전체", href:"/ranking", color:"#FF3B1E", bg:"#FFF0ED" },
+              { emoji:"📚", bgImg:"", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
+              { emoji:"⚔️", bgImg:"", title:"자동차 지식배틀", subtitle:"스포츠카 vs 럭셔리카 64강 토너먼트", desc:"당신의 드림카는? 64대 자동차 월드컵 지금 시작!", href:"/battle", color:"#9B30FF", bg:"#F5EEFF" },
+              { emoji:"🔨", bgImg:"", title:"공개 경매", subtitle:"실시간 입찰, 투명한 가격 경쟁", desc:"직접 검수한 차량을 경매로! 뒷자리 숨김 입찰 시스템", href:"/auction", color:"#E8A020", bg:"#FFF8EC" },
+              { emoji:"✍️", bgImg:"", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"모아놓는 중! 딜러 추천 꿀템부터 관리 노하우까지", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
+              { emoji:"💬", bgImg:"", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#CC6633", bg:"#FFF5ED" },
             ].map(item=>(
               <a key={item.title} href={item.href}>
-                <div className="content-banner-card" style={{ background:"white", borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%" }}>
-                  <div style={{ fontSize:"38px", marginBottom:"14px" }}>{item.emoji}</div>
-                  <div style={{ display:"inline-block", background:item.bg, color:item.color, padding:"4px 14px", borderRadius:"100px", fontSize:"12px", fontWeight:800, marginBottom:"10px" }}>{item.subtitle}</div>
-                  <div style={{ fontSize:"20px", fontWeight:800, marginBottom:"8px", letterSpacing:"-0.5px" }}>{item.title}</div>
-                  <div style={{ fontSize:"14px", color:"#888", fontWeight:400, lineHeight:1.65 }}>{item.desc}</div>
+                <div className="content-banner-card" style={{
+                  background: item.bgImg ? `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.55))` : "white",
+                  borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%",
+                  position:"relative", overflow:"hidden",
+                }}>
+                  {item.bgImg && (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.bgImg} alt={item.title} style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", objectFit:"cover", zIndex:0 }} />
+                      <div style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%", background:"linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6))", zIndex:1 }} />
+                    </>
+                  )}
+                  <div style={{ position:"relative", zIndex:2 }}>
+                    {!item.bgImg && item.emoji && <div style={{ fontSize:"38px", marginBottom:"14px" }}>{item.emoji}</div>}
+                    <div style={{ display:"inline-block", background: item.bgImg ? "rgba(255,255,255,0.2)" : item.bg, color: item.bgImg ? "white" : item.color, padding:"4px 14px", borderRadius:"100px", fontSize:"12px", fontWeight:800, marginBottom:"10px", backdropFilter: item.bgImg ? "blur(4px)" : "none" }}>{item.subtitle}</div>
+                    <div style={{ fontSize:"20px", fontWeight:800, marginBottom:"8px", letterSpacing:"-0.5px", color: item.bgImg ? "white" : "#1A1A1A" }}>{item.title}</div>
+                    <div style={{ fontSize:"14px", color: item.bgImg ? "rgba(255,255,255,0.8)" : "#888", fontWeight:400, lineHeight:1.65 }}>{item.desc}</div>
+                  </div>
                 </div>
               </a>
             ))}
