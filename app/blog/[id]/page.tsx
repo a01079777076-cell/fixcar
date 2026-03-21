@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronLeft, Calendar, Tag } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import BlogContent from "@/components/BlogContent";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -82,7 +83,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
               <span style={{fontSize:"12px",color:"#AAA",fontWeight:400}}>by {authorName}</span>
             </div>
             <h1 style={{fontSize:"clamp(22px,3vw,30px)",fontWeight:800,letterSpacing:"-1px",lineHeight:1.3,marginBottom:"20px"}}>{title}</h1>
-            <div style={{fontSize:"15px",color:"#444",lineHeight:2,fontWeight:400,whiteSpace:"pre-line"}}>{content}</div>
+<BlogContent content={content} />
             {tags.length>0&&(
               <div style={{display:"flex",gap:"6px",flexWrap:"wrap",marginTop:"24px",paddingTop:"20px",borderTop:"1px solid #F0EEE9"}}>
                 {tags.map((t:string)=><span key={t} style={{background:"#F0EEE9",color:"#888",padding:"4px 10px",borderRadius:"100px",fontSize:"12px",fontWeight:700,display:"flex",alignItems:"center",gap:"3px"}}><Tag size={10}/>#{t}</span>)}
