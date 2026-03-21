@@ -202,7 +202,7 @@ export default async function Home() {
               <a key={item.title} href={item.href}>
                 <div className="content-banner-card" style={{
                   background: item.bgImg ? `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.55))` : "white",
-                  borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%",
+                  borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%", minHeight:"220px",
                   position:"relative", overflow:"hidden",
                 }}>
                   {item.bgImg && (
