@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { QUESTIONS, MBTI_TYPES, AXIS_INFO, MbtiType } from "@/data/car_mbti_data";
-import { ArrowRight, ChevronRight, RotateCcw, Save, ChevronUp, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronLeft, RotateCcw, Save, ChevronUp, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 function calcResult(scores: Record<string,number>): string {
@@ -32,6 +32,8 @@ export default function CarMbtiPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  const totalQ = QUESTIONS.length; /* 21문항 */
+
   const handleAnswer = (qIdx: number, optIdx: number) => {
     const q = QUESTIONS[qIdx];
     const score = q.options[optIdx].score;
@@ -39,18 +41,31 @@ export default function CarMbtiPage() {
     setScores(newScores);
     setAnswers([...answers, optIdx]);
 
-    if (qIdx === QUESTIONS.length - 1) {
+    if (qIdx === totalQ - 1) {
       const code = calcResult(newScores);
-      const type = MBTI_TYPES[code] || MBTI_TYPES["CSEU"];
+      const type = MBTI_TYPES[code] || MBTI_TYPES["CSET"];
       setResult(type);
       /* 초기 우선순위: 점수 절대값 높은 순 */
       const axes = ["DC","SL","EP","HT"];
-      const sorted = axes.sort((a,b) => Math.abs(newScores[b]||0) - Math.abs(newScores[a]||0));
+      const sorted = [...axes].sort((a,b) => Math.abs(newScores[b]||0) - Math.abs(newScores[a]||0));
       setPriorities(sorted);
-      setStep(20);
+      setStep(totalQ);
     } else {
       setStep(qIdx + 1);
     }
+  };
+
+  const handleBack = () => {
+    if (step <= 0) return;
+    const prevStep = step - 1;
+    const prevQ = QUESTIONS[prevStep];
+    const prevAnswer = answers[prevStep];
+    const prevScore = prevQ.options[prevAnswer].score;
+    /* 이전 점수 되돌리기 */
+    const newScores = { ...scores, [prevQ.axis]: (scores[prevQ.axis]||0) - prevScore };
+    setScores(newScores);
+    setAnswers(answers.slice(0, -1));
+    setStep(prevStep);
   };
 
   const movePriority = (idx: number, dir: -1|1) => {
@@ -125,20 +140,27 @@ export default function CarMbtiPage() {
               <button onClick={()=>setStep(0)} style={{width:"100%",padding:"18px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:18,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
                 테스트 시작하기 <ArrowRight size={20}/>
               </button>
-              <p style={{textAlign:"center",fontSize:12,color:"#CCC",marginTop:12}}>약 3~4분 소요 · 총 20문항</p>
+              <p style={{textAlign:"center",fontSize:12,color:"#CCC",marginTop:12}}>약 3~4분 소요 · 총 21문항</p>
             </div>
           </div>
         )}
 
         {/* ═══ 질문 ═══ */}
-        {step>=0&&step<20&&(
+        {step>=0&&step<totalQ&&(
           <div style={{maxWidth:640,margin:"0 auto",padding:"28px 24px 80px"}}>
             {/* 진행 바 */}
             <div style={{height:6,background:"#E0DDD7",borderRadius:3,marginBottom:20,overflow:"hidden"}}>
-              <div style={{height:"100%",width:`${((step+1)/20)*100}%`,background:"linear-gradient(90deg,#FF5A3C,#E8290F)",transition:"width 0.4s",borderRadius:3}}/>
+              <div style={{height:"100%",width:`${((step+1)/totalQ)*100}%`,background:"linear-gradient(90deg,#FF5A3C,#E8290F)",transition:"width 0.4s",borderRadius:3}}/>
             </div>
-            <div style={{display:"flex",justifyContent:"space-between",marginBottom:24}}>
-              <span style={{fontSize:13,color:"#AAA"}}>{step+1} / 20</span>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:24}}>
+              <div style={{display:"flex",alignItems:"center",gap:10}}>
+                {step > 0 && (
+                  <button onClick={handleBack} style={{display:"flex",alignItems:"center",gap:4,padding:"6px 12px",borderRadius:8,border:"1.5px solid #E0DDD7",background:"white",fontSize:12,fontWeight:700,color:"#888",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>
+                    <ChevronLeft size={14}/> 이전
+                  </button>
+                )}
+                <span style={{fontSize:13,color:"#AAA"}}>{step+1} / {totalQ}</span>
+              </div>
               <span style={{fontSize:12,color:"#CCC",background:"#F8F7F4",padding:"3px 10px",borderRadius:100}}>
                 {AXIS_INFO[QUESTIONS[step].axis as keyof typeof AXIS_INFO].left} vs {AXIS_INFO[QUESTIONS[step].axis as keyof typeof AXIS_INFO].right}
               </span>
@@ -164,7 +186,7 @@ export default function CarMbtiPage() {
         )}
 
         {/* ═══ 결과 ═══ */}
-        {step===20&&result&&(
+        {step===totalQ&&result&&(
           <div style={{maxWidth:640,margin:"0 auto",padding:"28px 24px 80px"}}>
             {/* 결과 카드 */}
             <div style={{background:`linear-gradient(135deg, ${result.color}dd, ${result.color})`,borderRadius:24,padding:"36px 28px",textAlign:"center",color:"white",marginBottom:20,position:"relative",overflow:"hidden"}}>
@@ -230,7 +252,7 @@ export default function CarMbtiPage() {
             {/* 우선순위 수정 */}
             <div style={{background:"white",borderRadius:18,padding:"24px 26px",marginBottom:16}}>
               <h3 style={{fontSize:16,fontWeight:800,marginBottom:6}}>⚙️ 나의 우선순위</h3>
-              <p style={{fontSize:12,color:"#AAA",marginBottom:14}}>원하는 대로 순서를 변경할 수 있어요. 위쪽이 더 중요!</p>
+              <p style={{fontSize:12,color:"#AAA",marginBottom:14}}>차량 추천 시 중요하게 볼 순서예요. 순서를 바꿔도 MBTI 결과({result.code})는 변하지 않아요!</p>
               {priorities.map((axis,i)=>{
                 const info = AXIS_INFO[axis as keyof typeof AXIS_INFO];
                 const p = pct[axis as keyof typeof pct];
