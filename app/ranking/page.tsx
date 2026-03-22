@@ -1,99 +1,128 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Navbar from "@/components/Navbar";
-import { Trophy } from "lucide-react";
+import Link from "next/link";
+import { CAR_SPECS, CAR_GRADES, BRAND_MODELS } from "@/data/catalog_data";
+import { Trophy, Zap, Fuel, DollarSign, Gauge, ArrowRight, ChevronDown } from "lucide-react";
 
-const ALL_CARS = [
-  { name:"기아 모닝", brand:"기아", segment:"경차", type:"domestic", price:1300, power:75, efficiency:14.5, discontinued:false, fuel:"가솔린" },
-  { name:"기아 레이", brand:"기아", segment:"경차", type:"domestic", price:1600, power:63, efficiency:13.0, discontinued:false, fuel:"가솔린" },
-  { name:"현대 캐스퍼", brand:"현대", segment:"경차", type:"domestic", price:1800, power:100, efficiency:14.0, discontinued:false, fuel:"가솔린" },
-  { name:"기아 셀토스", brand:"기아", segment:"소형SUV", type:"domestic", price:2600, power:177, efficiency:13.2, discontinued:false, fuel:"가솔린" },
-  { name:"현대 베뉴", brand:"현대", segment:"소형SUV", type:"domestic", price:2000, power:120, efficiency:14.0, discontinued:false, fuel:"가솔린" },
-  { name:"현대 코나", brand:"현대", segment:"소형SUV", type:"domestic", price:2700, power:145, efficiency:13.5, discontinued:false, fuel:"가솔린" },
-  { name:"쉐보레 트레일블레이저", brand:"쉐보레", segment:"소형SUV", type:"domestic", price:2400, power:155, efficiency:12.5, discontinued:false, fuel:"가솔린" },
-  { name:"현대 아반떼", brand:"현대", segment:"준중형", type:"domestic", price:2200, power:123, efficiency:14.2, discontinued:false, fuel:"가솔린" },
-  { name:"기아 K3", brand:"기아", segment:"준중형", type:"domestic", price:2000, power:123, efficiency:14.3, discontinued:true, fuel:"가솔린" },
-  { name:"현대 쏘나타", brand:"현대", segment:"중형", type:"domestic", price:3000, power:160, efficiency:12.8, discontinued:false, fuel:"가솔린" },
-  { name:"기아 K5", brand:"기아", segment:"중형", type:"domestic", price:2900, power:180, efficiency:13.2, discontinued:false, fuel:"가솔린" },
-  { name:"쉐보레 말리부", brand:"쉐보레", segment:"중형", type:"domestic", price:2700, power:160, efficiency:12.0, discontinued:true, fuel:"가솔린" },
-  { name:"현대 투싼", brand:"현대", segment:"중형SUV", type:"domestic", price:3000, power:180, efficiency:13.0, discontinued:false, fuel:"가솔린" },
-  { name:"기아 스포티지", brand:"기아", segment:"중형SUV", type:"domestic", price:3000, power:180, efficiency:13.0, discontinued:false, fuel:"가솔린" },
-  { name:"기아 쏘렌토", brand:"기아", segment:"중형SUV", type:"domestic", price:3700, power:230, efficiency:16.0, discontinued:false, fuel:"하이브리드" },
-  { name:"현대 싼타페", brand:"현대", segment:"중형SUV", type:"domestic", price:3700, power:230, efficiency:16.3, discontinued:false, fuel:"하이브리드" },
-  { name:"KG 토레스", brand:"KG모빌리티", segment:"중형SUV", type:"domestic", price:2800, power:170, efficiency:11.0, discontinued:false, fuel:"가솔린" },
-  { name:"현대 그랜저", brand:"현대", segment:"대형", type:"domestic", price:4200, power:198, efficiency:11.4, discontinued:false, fuel:"가솔린" },
-  { name:"기아 K8", brand:"기아", segment:"대형", type:"domestic", price:3700, power:198, efficiency:11.2, discontinued:false, fuel:"가솔린" },
-  { name:"기아 K9", brand:"기아", segment:"대형", type:"domestic", price:6800, power:370, efficiency:9.2, discontinued:false, fuel:"가솔린" },
-  { name:"제네시스 G70", brand:"제네시스", segment:"대형", type:"domestic", price:4500, power:252, efficiency:11.2, discontinued:false, fuel:"가솔린" },
-  { name:"제네시스 G80", brand:"제네시스", segment:"대형", type:"domestic", price:6500, power:304, efficiency:10.0, discontinued:false, fuel:"가솔린" },
-  { name:"제네시스 G90", brand:"제네시스", segment:"대형", type:"domestic", price:16000, power:380, efficiency:8.8, discontinued:false, fuel:"가솔린" },
-  { name:"현대 팰리세이드", brand:"현대", segment:"대형SUV", type:"domestic", price:4500, power:295, efficiency:8.4, discontinued:false, fuel:"가솔린" },
-  { name:"기아 모하비", brand:"기아", segment:"대형SUV", type:"domestic", price:5000, power:262, efficiency:10.1, discontinued:false, fuel:"디젤" },
-  { name:"제네시스 GV80", brand:"제네시스", segment:"대형SUV", type:"domestic", price:7500, power:304, efficiency:9.5, discontinued:false, fuel:"가솔린" },
-  { name:"KG G4렉스턴", brand:"KG모빌리티", segment:"대형SUV", type:"domestic", price:4500, power:187, efficiency:10.5, discontinued:false, fuel:"디젤" },
-  { name:"기아 카니발", brand:"기아", segment:"RV", type:"domestic", price:3800, power:202, efficiency:11.5, discontinued:false, fuel:"디젤" },
-  { name:"현대 스타리아", brand:"현대", segment:"RV", type:"domestic", price:3400, power:177, efficiency:10.8, discontinued:false, fuel:"디젤" },
-  { name:"제네시스 GV70", brand:"제네시스", segment:"SUV", type:"domestic", price:6000, power:304, efficiency:9.8, discontinued:false, fuel:"가솔린" },
-  { name:"현대 아이오닉5", brand:"현대", segment:"전기", type:"domestic", price:5400, power:217, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"현대 아이오닉6", brand:"현대", segment:"전기", type:"domestic", price:5400, power:229, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"기아 EV6", brand:"기아", segment:"전기", type:"domestic", price:5600, power:229, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"기아 EV9", brand:"기아", segment:"전기SUV", type:"domestic", price:8000, power:385, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"제네시스 GV60", brand:"제네시스", segment:"전기SUV", type:"domestic", price:6500, power:429, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"기아 니로 EV", brand:"기아", segment:"전기SUV", type:"domestic", price:4800, power:204, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"BMW 3시리즈", brand:"BMW", segment:"중형", type:"import", price:5500, power:258, efficiency:11.6, discontinued:false, fuel:"가솔린" },
-  { name:"BMW 5시리즈", brand:"BMW", segment:"대형", type:"import", price:8000, power:258, efficiency:11.3, discontinued:false, fuel:"가솔린" },
-  { name:"BMW X3", brand:"BMW", segment:"중형SUV", type:"import", price:7000, power:190, efficiency:12.0, discontinued:false, fuel:"가솔린" },
-  { name:"BMW X5", brand:"BMW", segment:"대형SUV", type:"import", price:10000, power:340, efficiency:10.0, discontinued:false, fuel:"가솔린" },
-  { name:"벤츠 C클래스", brand:"벤츠", segment:"중형", type:"import", price:6500, power:258, efficiency:11.8, discontinued:false, fuel:"가솔린" },
-  { name:"벤츠 E클래스", brand:"벤츠", segment:"대형", type:"import", price:9000, power:258, efficiency:11.5, discontinued:false, fuel:"가솔린" },
-  { name:"벤츠 GLC", brand:"벤츠", segment:"중형SUV", type:"import", price:8500, power:258, efficiency:11.0, discontinued:false, fuel:"가솔린" },
-  { name:"아우디 A4", brand:"아우디", segment:"중형", type:"import", price:5800, power:190, efficiency:12.0, discontinued:false, fuel:"가솔린" },
-  { name:"아우디 Q5", brand:"아우디", segment:"중형SUV", type:"import", price:7500, power:265, efficiency:11.5, discontinued:false, fuel:"가솔린" },
-  { name:"볼보 XC60", brand:"볼보", segment:"중형SUV", type:"import", price:8000, power:250, efficiency:11.0, discontinued:false, fuel:"가솔린" },
-  { name:"테슬라 모델3", brand:"테슬라", segment:"전기", type:"import", price:6000, power:358, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"테슬라 모델Y", brand:"테슬라", segment:"전기SUV", type:"import", price:7000, power:358, efficiency:0, discontinued:false, fuel:"전기" },
-  { name:"렉서스 ES", brand:"렉서스", segment:"대형", type:"import", price:7000, power:218, efficiency:14.5, discontinued:false, fuel:"하이브리드" },
-  { name:"포르쉐 카이엔", brand:"포르쉐", segment:"대형SUV", type:"import", price:14000, power:340, efficiency:9.5, discontinued:false, fuel:"가솔린" },
-];
-
-const RANK_KEYS = [
-  { key:"popular", label:"종합 인기순" },
-  { key:"price_asc", label:"가격 낮은순" },
-  { key:"power", label:"출력 높은순" },
-  { key:"efficiency", label:"연비 좋은순" },
-];
-const ORIGIN_OPTS = ["전체","국산","수입"];
-const SEG_OPTS = ["전체","경차","소형SUV","준중형","중형","중형SUV","대형","대형SUV","전기","전기SUV","RV","SUV"];
-
-function getScore(c: typeof ALL_CARS[0]) {
-  const p = Math.max(0, 100 - c.price / 150);
-  const pw = c.power / 8;
-  const e = c.fuel === "전기" ? 50 : c.efficiency * 3;
-  return Math.round((p + pw + e) / 3);
+/* 타입 */
+interface RankCar {
+  name: string;
+  brand: string;
+  segment: string;
+  bodyType: string;
+  lowestPrice: number;
+  highestPrice: number;
+  bestEfficiency: string;
+  bestPower: number;
+  zeroToHundred: number;
+  fuel: string;
+  weight: number;
 }
 
+/* 카탈로그에서 랭킹 데이터 추출 */
+function buildRankData(): RankCar[] {
+  const result: RankCar[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const specs = CAR_SPECS as any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const grades = CAR_GRADES as any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const brands = BRAND_MODELS as any;
+
+  /* 브랜드 매핑 */
+  const nameToBrand: Record<string,string> = {};
+  for (const [brand, info] of Object.entries(brands)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    for (const m of (info as any).models || []) {
+      nameToBrand[m.name] = brand;
+    }
+  }
+
+  for (const [name, spec] of Object.entries(specs)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const s = spec as any;
+    const gradeList = grades[name] || [];
+    if (gradeList.length === 0) continue;
+
+    const prices = gradeList.map((g: {price:number}) => g.price || 0).filter((p:number) => p > 0);
+    const powers = gradeList.map((g: {power:string}) => parseFloat(g.power) || 0).filter((p:number) => p > 0);
+    const efficiencies = gradeList.map((g: {efficiency:string}) => parseFloat(g.efficiency) || 0).filter((e:number) => e > 0);
+
+    const zStr = String(s.zeroToHundred || "").replace("초","").trim();
+    const z = parseFloat(zStr) || 99;
+
+    result.push({
+      name,
+      brand: nameToBrand[name] || "",
+      segment: s.segment || "",
+      bodyType: s.bodyType || "",
+      lowestPrice: prices.length > 0 ? Math.min(...prices) : 0,
+      highestPrice: prices.length > 0 ? Math.max(...prices) : 0,
+      bestEfficiency: efficiencies.length > 0 ? Math.max(...efficiencies).toFixed(1) : "0",
+      bestPower: powers.length > 0 ? Math.max(...powers) : 0,
+      zeroToHundred: z,
+      fuel: s.fuel || "",
+      weight: s.weight || 0,
+    });
+  }
+  return result;
+}
+
+const RANK_CATEGORIES = [
+  { id:"cheapest", label:"최저가", icon:DollarSign, color:"#2D8A52", desc:"가장 저렴하게 시작하는 차", emoji:"💰" },
+  { id:"expensive", label:"최고가", icon:Trophy, color:"#E8A020", desc:"가장 비싼 프리미엄 차", emoji:"👑" },
+  { id:"efficiency", label:"연비왕", icon:Fuel, color:"#00C471", desc:"기름값 걱정 끝! 연비 최고", emoji:"⛽" },
+  { id:"power", label:"최강마력", icon:Zap, color:"#FF3B1E", desc:"가장 강력한 파워 순위", emoji:"🔥" },
+  { id:"zerotohundred", label:"제로백", icon:Gauge, color:"#1847FF", desc:"0→100km/h 가장 빠른 차", emoji:"⚡" },
+  { id:"lightweight", label:"경량 순위", icon:Zap, color:"#9B30FF", desc:"가벼운 차체, 날렵한 주행", emoji:"🪶" },
+];
+
+const SEGMENTS = ["전체","경차","소형","준중형","중형","대형","SUV","쿠페","해치백","왜건","MPV","픽업"];
+
 export default function RankingPage() {
-  const [rankKey, setRankKey] = useState("popular");
-  const [origin, setOrigin] = useState("전체");
-  const [seg, setSeg] = useState("전체");
-  const [excludeDisc, setExcludeDisc] = useState(true);
+  const [category, setCategory] = useState("cheapest");
+  const [segment, setSegment] = useState("전체");
+  const [showAll, setShowAll] = useState(false);
 
-  const filtered = ALL_CARS.filter(c => {
-    if (excludeDisc && c.discontinued) return false;
-    if (origin === "국산" && c.type !== "domestic") return false;
-    if (origin === "수입" && c.type !== "import") return false;
-    if (seg !== "전체" && c.segment !== seg) return false;
-    return true;
-  });
+  const allCars = useMemo(() => buildRankData(), []);
 
-  const sorted = [...filtered].sort((a, b) => {
-    if (rankKey === "price_asc") return a.price - b.price;
-    if (rankKey === "power") return b.power - a.power;
-    if (rankKey === "efficiency") return (b.fuel==="전기"?0:b.efficiency) - (a.fuel==="전기"?0:a.efficiency);
-    return getScore(b) - getScore(a);
-  });
+  const filtered = useMemo(() => {
+    let list = allCars.filter(c => c.lowestPrice > 0);
+    if (segment !== "전체") {
+      list = list.filter(c => c.segment === segment || c.bodyType === segment);
+    }
+    return list;
+  }, [allCars, segment]);
 
-  const medalBg = (i: number) => i===0?"#FFD700":i===1?"#C0C0C0":i===2?"#CD7F32":"";
+  const ranked = useMemo(() => {
+    const sorted = [...filtered];
+    switch(category) {
+      case "cheapest": sorted.sort((a,b) => a.lowestPrice - b.lowestPrice); break;
+      case "expensive": sorted.sort((a,b) => b.highestPrice - a.highestPrice); break;
+      case "efficiency": sorted.sort((a,b) => parseFloat(b.bestEfficiency) - parseFloat(a.bestEfficiency)); break;
+      case "power": sorted.sort((a,b) => b.bestPower - a.bestPower); break;
+      case "zerotohundred": sorted.sort((a,b) => a.zeroToHundred - b.zeroToHundred); break;
+      case "lightweight": sorted.sort((a,b) => (a.weight||9999) - (b.weight||9999)); break;
+    }
+    return sorted;
+  }, [filtered, category]);
+
+  const display = showAll ? ranked : ranked.slice(0, 20);
+  const cat = RANK_CATEGORIES.find(c => c.id === category)!;
+  const medals = ["🥇","🥈","🥉"];
+
+  const getValue = (car: RankCar) => {
+    switch(category) {
+      case "cheapest": return `${car.lowestPrice.toLocaleString()}만원~`;
+      case "expensive": return `${car.highestPrice.toLocaleString()}만원`;
+      case "efficiency": return `${car.bestEfficiency}km/ℓ`;
+      case "power": return `${car.bestPower}PS`;
+      case "zerotohundred": return car.zeroToHundred < 90 ? `${car.zeroToHundred}초` : "-";
+      case "lightweight": return car.weight > 0 ? `${car.weight.toLocaleString()}kg` : "-";
+      default: return "";
+    }
+  };
 
   return (
     <>
@@ -102,71 +131,126 @@ export default function RankingPage() {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
-        a{text-decoration:none;color:inherit;}
         button{font-family:'NanumSquareRound',sans-serif;cursor:pointer;}
-        .fb{border:1.5px solid #E0DDD7;border-radius:100px;padding:6px 14px;font-size:12px;font-weight:700;background:white;cursor:pointer;transition:all 0.12s;}
-        .fb.on{border-color:#1A1A1A;background:#1A1A1A;color:white;}
-        .rrow{background:white;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow 0.15s;}
-        .rrow:hover{box-shadow:0 4px 16px rgba(0,0,0,0.07);}
+        .rank-row{transition:all 0.15s;} .rank-row:hover{background:#F8F7F4!important;}
+        .cat-btn{transition:all 0.15s;} .cat-btn:hover{transform:translateY(-2px);}
       `}</style>
+      <Navbar/>
       <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <Navbar/>
-        <div style={{background:"#1A1A1A",padding:"44px 52px 36px"}}>
-          <div style={{maxWidth:"900px",margin:"0 auto"}}>
-            <div style={{fontSize:"12px",fontWeight:800,letterSpacing:"3px",color:"#FF7A63",marginBottom:"10px"}}>CAR RANKING</div>
-            <h1 style={{fontSize:"clamp(24px,4vw,44px)",fontWeight:800,color:"white",letterSpacing:"-1px",marginBottom:"6px"}}>자동차 랭킹표</h1>
-            <p style={{fontSize:"14px",color:"rgba(255,255,255,0.4)",fontWeight:400}}>카탈로그 전체 차량 통합 순위 · 필터로 원하는 조건만 보기</p>
+        {/* 헤더 */}
+        <div style={{background:"#1A1A1A",padding:"44px 24px 36px"}}>
+          <div style={{maxWidth:1100,margin:"0 auto"}}>
+            <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:12,letterSpacing:4,color:"#FF3B1E",marginBottom:8}}>CAR RANKING</div>
+            <h1 style={{fontSize:"clamp(24px,4vw,36px)",fontWeight:800,color:"white",marginBottom:6}}>자동차 랭킹</h1>
+            <p style={{fontSize:14,color:"rgba(255,255,255,0.4)",fontWeight:400}}>카탈로그 {Object.keys(CAR_SPECS).length}개 모델 기반 종합 순위</p>
           </div>
         </div>
 
-        <div style={{maxWidth:"900px",margin:"0 auto",padding:"24px 32px 80px"}}>
-          <div style={{background:"white",borderRadius:"16px",padding:"18px 20px",marginBottom:"20px",display:"flex",flexDirection:"column",gap:"12px"}}>
-            <div style={{display:"flex",alignItems:"center",gap:"8px",flexWrap:"wrap"}}>
-              <span style={{fontSize:"12px",fontWeight:800,color:"#888",minWidth:"56px"}}>정렬</span>
-              {RANK_KEYS.map(r=><button key={r.key} className={`fb${rankKey===r.key?" on":""}`} onClick={()=>setRankKey(r.key)}>{r.label}</button>)}
-            </div>
-            <div style={{display:"flex",alignItems:"center",gap:"8px",flexWrap:"wrap"}}>
-              <span style={{fontSize:"12px",fontWeight:800,color:"#888",minWidth:"56px"}}>기준</span>
-              {ORIGIN_OPTS.map(o=><button key={o} className={`fb${origin===o?" on":""}`} onClick={()=>setOrigin(o)}>{o}</button>)}
-            </div>
-            <div style={{display:"flex",alignItems:"center",gap:"8px",flexWrap:"wrap"}}>
-              <span style={{fontSize:"12px",fontWeight:800,color:"#888",minWidth:"56px"}}>세그먼트</span>
-              {SEG_OPTS.map(s=><button key={s} className={`fb${seg===s?" on":""}`} onClick={()=>setSeg(s)}>{s}</button>)}
-            </div>
-            <label style={{display:"flex",alignItems:"center",gap:"8px",cursor:"pointer",fontSize:"13px",fontWeight:700}}>
-              <input type="checkbox" checked={excludeDisc} onChange={e=>setExcludeDisc(e.target.checked)} style={{accentColor:"#FF3B1E"}}/>
-              단종 모델 제외
-            </label>
+        <div style={{maxWidth:1100,margin:"0 auto",padding:"24px 16px 100px"}}>
+          {/* 카테고리 선택 */}
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:10,marginBottom:20}}>
+            {RANK_CATEGORIES.map(c=>(
+              <button key={c.id} className="cat-btn" onClick={()=>setCategory(c.id)} style={{
+                padding:"16px 14px",borderRadius:16,border:category===c.id?`2px solid ${c.color}`:"1.5px solid #E8E6E1",
+                background:category===c.id?"white":"white",textAlign:"left",
+                boxShadow:category===c.id?`0 4px 16px ${c.color}22`:"none",
+              }}>
+                <div style={{fontSize:24,marginBottom:6}}>{c.emoji}</div>
+                <div style={{fontSize:14,fontWeight:800,color:category===c.id?c.color:"#333"}}>{c.label}</div>
+                <div style={{fontSize:11,color:"#AAA",fontWeight:400,marginTop:2}}>{c.desc}</div>
+              </button>
+            ))}
           </div>
 
-          <div style={{fontSize:"13px",color:"#AAA",fontWeight:400,marginBottom:"12px"}}>{sorted.length}개 차량</div>
+          {/* 세그먼트 필터 */}
+          <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:20}}>
+            {SEGMENTS.map(s=>(
+              <button key={s} onClick={()=>setSegment(s)} style={{
+                padding:"6px 14px",borderRadius:100,border:segment===s?`2px solid ${cat.color}`:"1.5px solid #E0DDD7",
+                background:segment===s?"#1A1A1A":"white",color:segment===s?"white":"#888",
+                fontSize:12,fontWeight:segment===s?800:500,
+              }}>{s}</button>
+            ))}
+          </div>
 
-          <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
-            {sorted.map((car,i)=>(
-              <div key={car.name} className="rrow">
-                <div style={{width:"42px",textAlign:"center",flexShrink:0}}>
-                  {i<3
-                    ? <div style={{fontFamily:"'Bebas Neue',serif",fontSize:"28px",color:medalBg(i),lineHeight:1}}>{i+1}</div>
-                    : <div style={{fontSize:"15px",fontWeight:800,color:"#CCC"}}>{i+1}</div>
-                  }
-                </div>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{display:"flex",alignItems:"center",gap:"6px",flexWrap:"wrap",marginBottom:"3px"}}>
-                    <span style={{fontSize:"16px",fontWeight:800}}>{car.name}</span>
-                    <span style={{background:car.type==="import"?"#EEF2FF":"#EAF6EF",color:car.type==="import"?"#1847FF":"#2D8A52",padding:"2px 8px",borderRadius:"100px",fontSize:"11px",fontWeight:800}}>{car.type==="import"?"수입":"국산"}</span>
-                    <span style={{background:"#F0EEE9",color:"#888",padding:"2px 8px",borderRadius:"100px",fontSize:"11px",fontWeight:700}}>{car.segment}</span>
-                    {car.discontinued&&<span style={{background:"#F0EEE9",color:"#AAA",padding:"2px 8px",borderRadius:"100px",fontSize:"11px"}}>단종</span>}
+          {/* 결과 수 */}
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+            <div style={{fontSize:13,color:"#AAA"}}>총 {ranked.length}대</div>
+            <div style={{fontSize:12,color:cat.color,fontWeight:800}}>{cat.emoji} {cat.label} 순</div>
+          </div>
+
+          {/* 랭킹 리스트 */}
+          <div style={{background:"white",borderRadius:20,overflow:"hidden"}}>
+            {/* TOP 3 강조 */}
+            {display.slice(0,3).map((car,i)=>(
+              <Link key={car.name} href={`/catalog?model=${encodeURIComponent(car.name)}`} style={{textDecoration:"none"}}>
+                <div className="rank-row" style={{
+                  padding:"20px 24px",display:"flex",alignItems:"center",gap:16,
+                  borderBottom:"1px solid #F0EEE9",
+                  background:i===0?"#FFFBF0":i===1?"#F8F9FF":"#FFF8F6",
+                }}>
+                  <div style={{fontSize:28,width:40,textAlign:"center",flexShrink:0}}>{medals[i]}</div>
+                  <div style={{flex:1}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
+                      <span style={{fontSize:16,fontWeight:800}}>{car.name}</span>
+                      <span style={{fontSize:11,color:"#AAA",fontWeight:400}}>{car.brand}</span>
+                    </div>
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                      {car.segment&&<span style={{fontSize:10,background:"#F0EEE9",padding:"2px 8px",borderRadius:100,color:"#888"}}>{car.segment}</span>}
+                      {car.fuel&&<span style={{fontSize:10,background:"#F0EEE9",padding:"2px 8px",borderRadius:100,color:"#888"}}>{car.fuel}</span>}
+                    </div>
                   </div>
-                  <div style={{fontSize:"12px",color:"#AAA",fontWeight:400}}>
-                    {car.price.toLocaleString()}만원 · {car.power}마력 · {car.fuel==="전기"?"전기차":car.efficiency+"km/ℓ"} · {car.fuel}
+                  <div style={{textAlign:"right"}}>
+                    <div style={{fontSize:18,fontWeight:800,color:cat.color}}>{getValue(car)}</div>
                   </div>
+                  <ArrowRight size={14} color="#CCC"/>
                 </div>
-                <div style={{textAlign:"right",flexShrink:0}}>
-                  {rankKey==="popular"&&<><div style={{fontSize:"22px",fontWeight:800,color:"#FF3B1E"}}>{getScore(car)}</div><div style={{fontSize:"11px",color:"#AAA"}}>종합점수</div></>}
-                  {rankKey==="price_asc"&&<><div style={{fontSize:"20px",fontWeight:800,color:"#1847FF"}}>{car.price.toLocaleString()}</div><div style={{fontSize:"11px",color:"#AAA"}}>만원</div></>}
-                  {rankKey==="power"&&<><div style={{fontSize:"20px",fontWeight:800,color:"#FF3B1E"}}>{car.power}</div><div style={{fontSize:"11px",color:"#AAA"}}>마력</div></>}
-                  {rankKey==="efficiency"&&<><div style={{fontSize:"20px",fontWeight:800,color:"#2D8A52"}}>{car.fuel==="전기"?"-":car.efficiency}</div><div style={{fontSize:"11px",color:"#AAA"}}>{car.fuel==="전기"?"전기":"km/ℓ"}</div></>}
+              </Link>
+            ))}
+
+            {/* 4위~ */}
+            {display.slice(3).map((car,i)=>(
+              <Link key={car.name} href={`/catalog?model=${encodeURIComponent(car.name)}`} style={{textDecoration:"none"}}>
+                <div className="rank-row" style={{
+                  padding:"14px 24px",display:"flex",alignItems:"center",gap:16,
+                  borderBottom:"1px solid #F0EEE9",
+                }}>
+                  <div style={{fontSize:14,fontWeight:800,color:"#CCC",width:40,textAlign:"center",flexShrink:0}}>{i+4}</div>
+                  <div style={{flex:1}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8}}>
+                      <span style={{fontSize:14,fontWeight:700}}>{car.name}</span>
+                      <span style={{fontSize:11,color:"#CCC"}}>{car.brand}</span>
+                    </div>
+                  </div>
+                  <div style={{fontSize:14,fontWeight:800,color:"#555"}}>{getValue(car)}</div>
+                  <ArrowRight size={12} color="#DDD"/>
                 </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* 더보기 */}
+          {!showAll && ranked.length > 20 && (
+            <button onClick={()=>setShowAll(true)} style={{
+              width:"100%",padding:"16px",background:"white",border:"1.5px solid #E0DDD7",
+              borderRadius:14,fontSize:14,fontWeight:700,color:"#888",marginTop:12,
+              display:"flex",alignItems:"center",justifyContent:"center",gap:6,
+            }}>
+              전체 {ranked.length}대 보기 <ChevronDown size={16}/>
+            </button>
+          )}
+
+          {/* 종합 통계 카드 */}
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:12,marginTop:28}}>
+            {[
+              {label:"등록 모델",value:`${Object.keys(CAR_SPECS).length}대`,color:"#1847FF"},
+              {label:"최저가 모델",value:ranked.length>0&&category==="cheapest"?ranked[0].name:"",color:"#2D8A52"},
+              {label:"연비 1위",value:(()=>{const e=[...allCars].sort((a,b)=>parseFloat(b.bestEfficiency)-parseFloat(a.bestEfficiency));return e[0]?`${e[0].name} (${e[0].bestEfficiency})`:""})(),color:"#00C471"},
+              {label:"최강 마력",value:(()=>{const p=[...allCars].sort((a,b)=>b.bestPower-a.bestPower);return p[0]?`${p[0].name} (${p[0].bestPower}PS)`:""})(),color:"#FF3B1E"},
+            ].map(stat=>(
+              <div key={stat.label} style={{background:"white",borderRadius:16,padding:"20px 22px"}}>
+                <div style={{fontSize:12,color:"#AAA",marginBottom:6}}>{stat.label}</div>
+                <div style={{fontSize:15,fontWeight:800,color:stat.color}}>{stat.value}</div>
               </div>
             ))}
           </div>
