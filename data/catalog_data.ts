@@ -1,5 +1,5 @@
-/* 픽스카 카탈로그 데이터 - 자동 생성 */
-/* 43개 브랜드 · 510개 모델 · 234개 스펙 · 254개 등급 */
+/* 픽스카 카탈로그 데이터 - 자동 생성 (업데이트) */
+/* 43개 브랜드 · 679개 모델 · 234개 스펙 · 130개 등급 */
 
 export const BRAND_MODELS = {
   "현대": {
@@ -108,6 +108,198 @@ export const BRAND_MODELS = {
       {
         "name": "i30",
         "status": "단종"
+      },
+      {
+        "name": "아토스 MX",
+        "status": "단종"
+      },
+      {
+        "name": "클릭/겟츠 TB",
+        "status": "단종"
+      },
+      {
+        "name": "i10 PA",
+        "status": "단종"
+      },
+      {
+        "name": "i10 BA",
+        "status": "단종"
+      },
+      {
+        "name": "캐스퍼 AX1",
+        "status": "현행"
+      },
+      {
+        "name": "베르나 LC",
+        "status": "단종"
+      },
+      {
+        "name": "베르나 MC",
+        "status": "단종"
+      },
+      {
+        "name": "액센트 RB",
+        "status": "단종"
+      },
+      {
+        "name": "액센트 HC",
+        "status": "단종"
+      },
+      {
+        "name": "아반떼 XD",
+        "status": "단종"
+      },
+      {
+        "name": "i30 FD",
+        "status": "단종"
+      },
+      {
+        "name": "i30 GD",
+        "status": "단종"
+      },
+      {
+        "name": "i30 PD",
+        "status": "단종"
+      },
+      {
+        "name": "쏘나타 EF",
+        "status": "단종"
+      },
+      {
+        "name": "쏘나타 NF",
+        "status": "단종"
+      },
+      {
+        "name": "쏘나타 YF",
+        "status": "단종"
+      },
+      {
+        "name": "쏘나타 MX5",
+        "status": "현행"
+      },
+      {
+        "name": "i40 VF",
+        "status": "단종"
+      },
+      {
+        "name": "그랜저 XG",
+        "status": "단종"
+      },
+      {
+        "name": "그랜저 TG",
+        "status": "단종"
+      },
+      {
+        "name": "그랜저 HG",
+        "status": "단종"
+      },
+      {
+        "name": "에쿠스 LZ",
+        "status": "단종"
+      },
+      {
+        "name": "에쿠스 VI",
+        "status": "단종"
+      },
+      {
+        "name": "투스카니 RD",
+        "status": "단종"
+      },
+      {
+        "name": "제네시스 쿠페 BK",
+        "status": "단종"
+      },
+      {
+        "name": "벨로스터 FS",
+        "status": "단종"
+      },
+      {
+        "name": "벨로스터 JS",
+        "status": "단종"
+      },
+      {
+        "name": "코나 OS",
+        "status": "단종"
+      },
+      {
+        "name": "코나 SX2",
+        "status": "현행"
+      },
+      {
+        "name": "베뉴 QX",
+        "status": "현행"
+      },
+      {
+        "name": "투싼 JM",
+        "status": "단종"
+      },
+      {
+        "name": "투싼 LM",
+        "status": "단종"
+      },
+      {
+        "name": "싼타페 SM",
+        "status": "단종"
+      },
+      {
+        "name": "싼타페 CM",
+        "status": "단종"
+      },
+      {
+        "name": "싼타페 DM",
+        "status": "단종"
+      },
+      {
+        "name": "테라칸 HP",
+        "status": "단종"
+      },
+      {
+        "name": "베라크루즈 EN",
+        "status": "단종"
+      },
+      {
+        "name": "팰리세이드 LX2",
+        "status": "현행"
+      },
+      {
+        "name": "트라제XG FO",
+        "status": "단종"
+      },
+      {
+        "name": "스타렉스/스타리아 A1",
+        "status": "단종"
+      },
+      {
+        "name": "스타리아 US4",
+        "status": "현행"
+      },
+      {
+        "name": "아이오닉 AE",
+        "status": "단종"
+      },
+      {
+        "name": "아이오닉 5 NE",
+        "status": "현행"
+      },
+      {
+        "name": "아이오닉 6 CE",
+        "status": "현행"
+      },
+      {
+        "name": "아이오닉 9",
+        "status": "현행"
+      },
+      {
+        "name": "넥쏘 FE",
+        "status": "현행"
+      },
+      {
+        "name": "포터 HR",
+        "status": "현행"
+      },
+      {
+        "name": "마이티",
+        "status": "현행"
       }
     ]
   },
@@ -201,6 +393,202 @@ export const BRAND_MODELS = {
       {
         "name": "스토닉",
         "status": "단종"
+      },
+      {
+        "name": "모닝/비스토 SA",
+        "status": "단종"
+      },
+      {
+        "name": "모닝 BA/SA",
+        "status": "단종"
+      },
+      {
+        "name": "모닝 TA",
+        "status": "단종"
+      },
+      {
+        "name": "모닝 JA",
+        "status": "단종"
+      },
+      {
+        "name": "레이 TAM",
+        "status": "현행"
+      },
+      {
+        "name": "리오/프라이드 DC",
+        "status": "단종"
+      },
+      {
+        "name": "프라이드 JB",
+        "status": "단종"
+      },
+      {
+        "name": "프라이드 UB",
+        "status": "단종"
+      },
+      {
+        "name": "프라이드 YB",
+        "status": "단종"
+      },
+      {
+        "name": "스펙트라/쎄라토 LD",
+        "status": "단종"
+      },
+      {
+        "name": "포르테/쎄라토 TD",
+        "status": "단종"
+      },
+      {
+        "name": "K3 YD",
+        "status": "단종"
+      },
+      {
+        "name": "K3 BD",
+        "status": "단종"
+      },
+      {
+        "name": "EV4",
+        "status": "현행"
+      },
+      {
+        "name": "옵티마/매그넨티스 MS",
+        "status": "단종"
+      },
+      {
+        "name": "옵티마/로체 MG",
+        "status": "단종"
+      },
+      {
+        "name": "K5 TF",
+        "status": "단종"
+      },
+      {
+        "name": "K5 JF",
+        "status": "단종"
+      },
+      {
+        "name": "K5 DL3",
+        "status": "현행"
+      },
+      {
+        "name": "오피러스 GH",
+        "status": "단종"
+      },
+      {
+        "name": "K7 VG",
+        "status": "단종"
+      },
+      {
+        "name": "K7 YG",
+        "status": "단종"
+      },
+      {
+        "name": "K8 GL3",
+        "status": "현행"
+      },
+      {
+        "name": "K9 KH",
+        "status": "단종"
+      },
+      {
+        "name": "K9 RJ",
+        "status": "현행"
+      },
+      {
+        "name": "스팅어 CK",
+        "status": "단종"
+      },
+      {
+        "name": "셀토스 SP2",
+        "status": "현행"
+      },
+      {
+        "name": "니로 DE",
+        "status": "단종"
+      },
+      {
+        "name": "니로 SG2",
+        "status": "현행"
+      },
+      {
+        "name": "스포티지 KM",
+        "status": "단종"
+      },
+      {
+        "name": "스포티지 SL",
+        "status": "단종"
+      },
+      {
+        "name": "스포티지 NQ5",
+        "status": "현행"
+      },
+      {
+        "name": "쏘렌토 BL",
+        "status": "단종"
+      },
+      {
+        "name": "쏘렌토 XM",
+        "status": "단종"
+      },
+      {
+        "name": "모하비 HM",
+        "status": "단종"
+      },
+      {
+        "name": "모하비 HM2",
+        "status": "현행"
+      },
+      {
+        "name": "EV9 MV",
+        "status": "현행"
+      },
+      {
+        "name": "카렌스 UN",
+        "status": "단종"
+      },
+      {
+        "name": "카렌스 RP",
+        "status": "단종"
+      },
+      {
+        "name": "카렌스",
+        "status": "현행"
+      },
+      {
+        "name": "카니발 VQ",
+        "status": "단종"
+      },
+      {
+        "name": "카니발 YP",
+        "status": "단종"
+      },
+      {
+        "name": "카니발 KA4",
+        "status": "현행"
+      },
+      {
+        "name": "EV6 CV",
+        "status": "현행"
+      },
+      {
+        "name": "쏘울 AM",
+        "status": "단종"
+      },
+      {
+        "name": "쏘울 PS",
+        "status": "단종"
+      },
+      {
+        "name": "쏘울 SK3",
+        "status": "현행"
+      },
+      {
+        "name": "타스만",
+        "status": "현행"
+      },
+      {
+        "name": "봉고 PU",
+        "status": "현행"
       }
     ]
   },
@@ -242,6 +630,54 @@ export const BRAND_MODELS = {
       {
         "name": "EQ900",
         "status": "단종"
+      },
+      {
+        "name": "G90 HI",
+        "status": "단종"
+      },
+      {
+        "name": "G90 RS4",
+        "status": "현행"
+      },
+      {
+        "name": "G80 DH",
+        "status": "단종"
+      },
+      {
+        "name": "G80 RG3",
+        "status": "현행"
+      },
+      {
+        "name": "G70 IK",
+        "status": "현행"
+      },
+      {
+        "name": "GV70 JK1",
+        "status": "현행"
+      },
+      {
+        "name": "GV80 JX1",
+        "status": "현행"
+      },
+      {
+        "name": "GV80 쿠페 JX1C",
+        "status": "현행"
+      },
+      {
+        "name": "GV60 JW",
+        "status": "현행"
+      },
+      {
+        "name": "G80e RG3e",
+        "status": "현행"
+      },
+      {
+        "name": "GV70e JK1e",
+        "status": "현행"
+      },
+      {
+        "name": "GV90",
+        "status": "현행"
       }
     ]
   },
@@ -279,6 +715,78 @@ export const BRAND_MODELS = {
       {
         "name": "체어맨",
         "status": "단종"
+      },
+      {
+        "name": "체어맨 W100",
+        "status": "단종"
+      },
+      {
+        "name": "체어맨 W W140",
+        "status": "단종"
+      },
+      {
+        "name": "체어맨 H W140",
+        "status": "단종"
+      },
+      {
+        "name": "티볼리 X100",
+        "status": "현행"
+      },
+      {
+        "name": "코란도 KJ",
+        "status": "단종"
+      },
+      {
+        "name": "코란도C C200",
+        "status": "단종"
+      },
+      {
+        "name": "코란도 C300",
+        "status": "단종"
+      },
+      {
+        "name": "토레스 KR10",
+        "status": "현행"
+      },
+      {
+        "name": "액티언",
+        "status": "현행"
+      },
+      {
+        "name": "토레스 EVX",
+        "status": "현행"
+      },
+      {
+        "name": "렉스턴 Y200~Y296",
+        "status": "단종"
+      },
+      {
+        "name": "렉스턴(G4) Y400",
+        "status": "현행"
+      },
+      {
+        "name": "카이런 D100",
+        "status": "단종"
+      },
+      {
+        "name": "액티언(구) A100",
+        "status": "단종"
+      },
+      {
+        "name": "무쏘 Q200",
+        "status": "현행"
+      },
+      {
+        "name": "무쏘 EV",
+        "status": "현행"
+      },
+      {
+        "name": "로디우스/투리스모 R100",
+        "status": "단종"
+      },
+      {
+        "name": "투리스모 R200",
+        "status": "단종"
       }
     ]
   },
@@ -307,6 +815,62 @@ export const BRAND_MODELS = {
       },
       {
         "name": "SM5",
+        "status": "단종"
+      },
+      {
+        "name": "SM3 N16",
+        "status": "단종"
+      },
+      {
+        "name": "SM3 L38",
+        "status": "단종"
+      },
+      {
+        "name": "XM3 HJB",
+        "status": "현행"
+      },
+      {
+        "name": "SM5 KPQ",
+        "status": "단종"
+      },
+      {
+        "name": "SM5 L43(EX1)",
+        "status": "단종"
+      },
+      {
+        "name": "SM5 L43(L38)",
+        "status": "단종"
+      },
+      {
+        "name": "SM6 LFD",
+        "status": "단종"
+      },
+      {
+        "name": "SM7 EX2",
+        "status": "단종"
+      },
+      {
+        "name": "SM7 L47",
+        "status": "단종"
+      },
+      {
+        "name": "QM3 H5F",
+        "status": "단종"
+      },
+      {
+        "name": "QM5 J72",
+        "status": "단종"
+      },
+      {
+        "name": "QM6 D2",
+        "status": "현행"
+      },
+      {
+        "name": "SM3 Z.E.",
+        "status": "단종"
+      },
+      {
+        "name": "조에",
         "status": "단종"
       }
     ]
@@ -353,6 +917,118 @@ export const BRAND_MODELS = {
       {
         "name": "크루즈",
         "status": "단종"
+      },
+      {
+        "name": "마티즈 M150",
+        "status": "단종"
+      },
+      {
+        "name": "마티즈 M200",
+        "status": "단종"
+      },
+      {
+        "name": "마티즈(스파크) M300",
+        "status": "단종"
+      },
+      {
+        "name": "스파크 M400",
+        "status": "단종"
+      },
+      {
+        "name": "다마스",
+        "status": "단종"
+      },
+      {
+        "name": "라보",
+        "status": "단종"
+      },
+      {
+        "name": "칼로스(아베오) T200",
+        "status": "단종"
+      },
+      {
+        "name": "젠트라(아베오) T250",
+        "status": "단종"
+      },
+      {
+        "name": "아베오 T300",
+        "status": "단종"
+      },
+      {
+        "name": "라세티 J200",
+        "status": "단종"
+      },
+      {
+        "name": "라세티 프리미어(크루즈) J300",
+        "status": "단종"
+      },
+      {
+        "name": "크루즈 D2XX",
+        "status": "단종"
+      },
+      {
+        "name": "매그너스 V200",
+        "status": "단종"
+      },
+      {
+        "name": "토스카 V250",
+        "status": "단종"
+      },
+      {
+        "name": "말리부 V300",
+        "status": "단종"
+      },
+      {
+        "name": "말리부 D2UL",
+        "status": "단종"
+      },
+      {
+        "name": "매그너스/베리타스 V200L",
+        "status": "단종"
+      },
+      {
+        "name": "스테이츠맨 WM",
+        "status": "단종"
+      },
+      {
+        "name": "알페온 WM",
+        "status": "단종"
+      },
+      {
+        "name": "윈스톰(캡티바) C100",
+        "status": "단종"
+      },
+      {
+        "name": "트랙스",
+        "status": "단종"
+      },
+      {
+        "name": "이쿼녹스",
+        "status": "단종"
+      },
+      {
+        "name": "이쿼녹스 EV",
+        "status": "현행"
+      },
+      {
+        "name": "레조 U100",
+        "status": "단종"
+      },
+      {
+        "name": "올란도 J309",
+        "status": "단종"
+      },
+      {
+        "name": "볼트 EV",
+        "status": "단종"
+      },
+      {
+        "name": "볼트 EUV",
+        "status": "단종"
+      },
+      {
+        "name": "실버라도 EV",
+        "status": "현행"
       }
     ]
   },
@@ -9262,6 +9938,12 @@ export const CAR_HISTORY = {
       "period": "1993~1998",
       "code": "Y3",
       "note": "단종"
+    },
+    {
+      "generation": "10세대(MX5)",
+      "period": "2024~현재",
+      "code": "MX5",
+      "note": "더 뉴 쏘나타"
     }
   ],
   "그랜저": [
@@ -9996,6 +10678,976 @@ export const CAR_HISTORY = {
       "period": "2017~2022",
       "code": "-",
       "note": "단종"
+    }
+  ],
+  "아토스": [
+    {
+      "generation": "1세대",
+      "period": "1997~2003",
+      "code": "MX",
+      "note": "단종"
+    }
+  ],
+  "클릭": [
+    {
+      "generation": "1세대",
+      "period": "2002~2011",
+      "code": "TB",
+      "note": "해외명 Getz"
+    }
+  ],
+  "i10": [
+    {
+      "generation": "1세대",
+      "period": "2007~2013",
+      "code": "PA",
+      "note": "해외 전용(국내 미판매)"
+    },
+    {
+      "generation": "2세대",
+      "period": "2013~2019",
+      "code": "BA",
+      "note": "해외 전용"
+    }
+  ],
+  "캐스퍼": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "AX1",
+      "note": "경형 SUV"
+    }
+  ],
+  "베르나": [
+    {
+      "generation": "2세대",
+      "period": "1999~2005",
+      "code": "LC",
+      "note": ""
+    },
+    {
+      "generation": "3세대",
+      "period": "2005~2010",
+      "code": "MC",
+      "note": ""
+    }
+  ],
+  "액센트": [
+    {
+      "generation": "4세대",
+      "period": "2010~2017",
+      "code": "RB",
+      "note": "해외명 Accent"
+    },
+    {
+      "generation": "5세대",
+      "period": "2017~2023",
+      "code": "HC",
+      "note": "단종"
+    }
+  ],
+  "i30": [
+    {
+      "generation": "1세대",
+      "period": "2007~2011",
+      "code": "FD",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2011~2017",
+      "code": "GD",
+      "note": ""
+    },
+    {
+      "generation": "3세대",
+      "period": "2017~2023",
+      "code": "PD",
+      "note": "해외 판매"
+    }
+  ],
+  "i40": [
+    {
+      "generation": "1세대",
+      "period": "2011~2019",
+      "code": "VF",
+      "note": "왜건/세단, 단종"
+    }
+  ],
+  "에쿠스": [
+    {
+      "generation": "1세대",
+      "period": "1999~2009",
+      "code": "LZ",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2009~2016",
+      "code": "VI",
+      "note": "이후 제네시스 EQ900"
+    }
+  ],
+  "투스카니": [
+    {
+      "generation": "1세대",
+      "period": "2001~2008",
+      "code": "RD",
+      "note": "티뷰론 후속"
+    }
+  ],
+  "제네시스 쿠페": [
+    {
+      "generation": "1세대",
+      "period": "2008~2016",
+      "code": "BK",
+      "note": "단종"
+    }
+  ],
+  "벨로스터": [
+    {
+      "generation": "1세대",
+      "period": "2011~2017",
+      "code": "FS",
+      "note": "3도어"
+    },
+    {
+      "generation": "2세대",
+      "period": "2018~2021",
+      "code": "JS",
+      "note": "단종"
+    }
+  ],
+  "코나": [
+    {
+      "generation": "1세대",
+      "period": "2017~2023",
+      "code": "OS",
+      "note": "EV 포함"
+    },
+    {
+      "generation": "2세대",
+      "period": "2023~현재",
+      "code": "SX2",
+      "note": "EV 포함"
+    }
+  ],
+  "베뉴": [
+    {
+      "generation": "1세대",
+      "period": "2019~현재",
+      "code": "QX",
+      "note": "엔트리 SUV"
+    }
+  ],
+  "테라칸": [
+    {
+      "generation": "1세대",
+      "period": "2001~2007",
+      "code": "HP",
+      "note": "단종"
+    }
+  ],
+  "베라크루즈": [
+    {
+      "generation": "1세대",
+      "period": "2006~2012",
+      "code": "EN",
+      "note": "단종"
+    }
+  ],
+  "트라제XG": [
+    {
+      "generation": "1세대",
+      "period": "2000~2007",
+      "code": "FO",
+      "note": "단종"
+    }
+  ],
+  "스타렉스": [
+    {
+      "generation": "1세대",
+      "period": "1997~2021",
+      "code": "A1",
+      "note": "그랜드 스타렉스 포함"
+    }
+  ],
+  "스타리아": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "US4",
+      "note": "미래지향 디자인"
+    }
+  ],
+  "아이오닉": [
+    {
+      "generation": "1세대",
+      "period": "2016~2022",
+      "code": "AE",
+      "note": "HEV/PHEV/EV"
+    }
+  ],
+  "아이오닉 5": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "NE",
+      "note": "E-GMP 플랫폼"
+    }
+  ],
+  "아이오닉 6": [
+    {
+      "generation": "1세대",
+      "period": "2022~현재",
+      "code": "CE",
+      "note": "전기 세단"
+    }
+  ],
+  "아이오닉 9": [
+    {
+      "generation": "1세대",
+      "period": "2025~현재",
+      "code": "",
+      "note": "대형 전기 SUV"
+    }
+  ],
+  "넥쏘": [
+    {
+      "generation": "1세대",
+      "period": "2018~현재",
+      "code": "FE",
+      "note": "수소전기차"
+    }
+  ],
+  "포터": [
+    {
+      "generation": "2세대",
+      "period": "2004~현재",
+      "code": "HR",
+      "note": "1톤 트럭, EV 추가"
+    }
+  ],
+  "마이티": [
+    {
+      "generation": "2세대",
+      "period": "2000~현재",
+      "code": "",
+      "note": "2.5~3.5톤"
+    }
+  ],
+  "리오": [
+    {
+      "generation": "2세대",
+      "period": "2000~2005",
+      "code": "DC",
+      "note": ""
+    }
+  ],
+  "프라이드": [
+    {
+      "generation": "3세대",
+      "period": "2005~2011",
+      "code": "JB",
+      "note": ""
+    },
+    {
+      "generation": "4세대",
+      "period": "2011~2017",
+      "code": "UB",
+      "note": ""
+    },
+    {
+      "generation": "5세대",
+      "period": "2017~2020",
+      "code": "YB",
+      "note": "단종"
+    }
+  ],
+  "스펙트라": [
+    {
+      "generation": "1세대",
+      "period": "2003~2008",
+      "code": "LD",
+      "note": ""
+    }
+  ],
+  "포르테": [
+    {
+      "generation": "2세대",
+      "period": "2008~2012",
+      "code": "TD",
+      "note": ""
+    }
+  ],
+  "K3": [
+    {
+      "generation": "1세대",
+      "period": "2012~2018",
+      "code": "YD",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2018~2024",
+      "code": "BD",
+      "note": "단종"
+    }
+  ],
+  "EV4": [
+    {
+      "generation": "1세대",
+      "period": "2025~현재",
+      "code": "",
+      "note": "K3 후속 전기차"
+    }
+  ],
+  "옵티마": [
+    {
+      "generation": "1세대",
+      "period": "2000~2005",
+      "code": "MS",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2005~2010",
+      "code": "MG",
+      "note": ""
+    }
+  ],
+  "오피러스": [
+    {
+      "generation": "1세대",
+      "period": "2003~2010",
+      "code": "GH",
+      "note": "단종"
+    }
+  ],
+  "K7": [
+    {
+      "generation": "1세대",
+      "period": "2009~2016",
+      "code": "VG",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2016~2021",
+      "code": "YG",
+      "note": "단종"
+    }
+  ],
+  "스팅어": [
+    {
+      "generation": "1세대",
+      "period": "2017~2023",
+      "code": "CK",
+      "note": "단종"
+    }
+  ],
+  "니로": [
+    {
+      "generation": "1세대",
+      "period": "2016~2022",
+      "code": "DE",
+      "note": "HEV/PHEV/EV"
+    },
+    {
+      "generation": "2세대",
+      "period": "2022~현재",
+      "code": "SG2",
+      "note": "HEV/PHEV/EV"
+    }
+  ],
+  "EV3": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "소형 전기 SUV"
+    }
+  ],
+  "모하비": [
+    {
+      "generation": "1세대",
+      "period": "2008~2019",
+      "code": "HM",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2019~현재",
+      "code": "HM2",
+      "note": "더 마스터"
+    }
+  ],
+  "카렌스": [
+    {
+      "generation": "2세대",
+      "period": "2006~2013",
+      "code": "UN",
+      "note": ""
+    },
+    {
+      "generation": "3세대",
+      "period": "2013~2018",
+      "code": "RP",
+      "note": "단종"
+    },
+    {
+      "generation": "4세대",
+      "period": "2021~현재",
+      "code": "",
+      "note": "해외 판매 중심"
+    }
+  ],
+  "쏘울": [
+    {
+      "generation": "1세대",
+      "period": "2008~2013",
+      "code": "AM",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2013~2019",
+      "code": "PS",
+      "note": "EV 추가"
+    },
+    {
+      "generation": "3세대",
+      "period": "2019~현재",
+      "code": "SK3",
+      "note": "EV 전용"
+    }
+  ],
+  "타스만": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "기아 첫 픽업트럭"
+    }
+  ],
+  "봉고": [
+    {
+      "generation": "3세대",
+      "period": "2004~현재",
+      "code": "PU",
+      "note": "1톤 트럭, EV 추가"
+    }
+  ],
+  "GV80 쿠페": [
+    {
+      "generation": "1세대",
+      "period": "2023~현재",
+      "code": "JX1C",
+      "note": "쿠페형"
+    }
+  ],
+  "G80e": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "RG3e",
+      "note": "G80 전동화"
+    }
+  ],
+  "GV70e": [
+    {
+      "generation": "1세대",
+      "period": "2022~현재",
+      "code": "JK1e",
+      "note": "GV70 전동화"
+    }
+  ],
+  "GV90": [
+    {
+      "generation": "1세대",
+      "period": "2025~현재",
+      "code": "",
+      "note": "대형 전기 SUV"
+    }
+  ],
+  "체어맨": [
+    {
+      "generation": "1세대",
+      "period": "1997~2004",
+      "code": "W100",
+      "note": "벤츠 기반"
+    }
+  ],
+  "체어맨 W": [
+    {
+      "generation": "1세대",
+      "period": "2008~2014",
+      "code": "W140",
+      "note": "단종"
+    }
+  ],
+  "체어맨 H": [
+    {
+      "generation": "1세대",
+      "period": "2014~2017",
+      "code": "W140",
+      "note": "단종"
+    }
+  ],
+  "티볼리": [
+    {
+      "generation": "1세대",
+      "period": "2015~현재",
+      "code": "X100",
+      "note": "에어 포함"
+    }
+  ],
+  "코란도": [
+    {
+      "generation": "3세대(뉴)",
+      "period": "1996~2005",
+      "code": "KJ",
+      "note": "뉴코란도"
+    },
+    {
+      "generation": "5세대",
+      "period": "2019~2022",
+      "code": "C300",
+      "note": "코란도 이모션(EV)"
+    }
+  ],
+  "코란도C": [
+    {
+      "generation": "1세대",
+      "period": "2011~2019",
+      "code": "C200",
+      "note": ""
+    }
+  ],
+  "토레스": [
+    {
+      "generation": "1세대",
+      "period": "2022~현재",
+      "code": "KR10",
+      "note": ""
+    }
+  ],
+  "액티언": [
+    {
+      "generation": "2세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": ""
+    }
+  ],
+  "토레스 EVX": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "LFP 배터리"
+    }
+  ],
+  "렉스턴": [
+    {
+      "generation": "1세대",
+      "period": "2001~2017",
+      "code": "Y200~Y296",
+      "note": "장수 모델"
+    }
+  ],
+  "렉스턴(G4)": [
+    {
+      "generation": "2세대",
+      "period": "2017~현재",
+      "code": "Y400",
+      "note": "풀체인지"
+    }
+  ],
+  "카이런": [
+    {
+      "generation": "1세대",
+      "period": "2005~2012",
+      "code": "D100",
+      "note": "단종"
+    }
+  ],
+  "액티언(구)": [
+    {
+      "generation": "1세대",
+      "period": "2005~2012",
+      "code": "A100",
+      "note": "스포츠 포함, 단종"
+    }
+  ],
+  "무쏘": [
+    {
+      "generation": "리바이벌",
+      "period": "2018~현재",
+      "code": "Q200",
+      "note": "렉스턴 스포츠→무쏘"
+    }
+  ],
+  "무쏘 EV": [
+    {
+      "generation": "1세대",
+      "period": "2025~현재",
+      "code": "",
+      "note": "전기 픽업"
+    }
+  ],
+  "로디우스": [
+    {
+      "generation": "1세대",
+      "period": "2004~2013",
+      "code": "R100",
+      "note": "11인승"
+    }
+  ],
+  "투리스모": [
+    {
+      "generation": "2세대",
+      "period": "2013~2019",
+      "code": "R200",
+      "note": "단종"
+    }
+  ],
+  "SM3": [
+    {
+      "generation": "1세대",
+      "period": "2002~2009",
+      "code": "N16",
+      "note": "닛산 실피 기반"
+    },
+    {
+      "generation": "2세대",
+      "period": "2009~2020",
+      "code": "L38",
+      "note": "르노 플루언스 기반, 단종"
+    }
+  ],
+  "XM3": [
+    {
+      "generation": "1세대",
+      "period": "2020~현재",
+      "code": "HJB",
+      "note": "크로스오버, 르노 아르카나"
+    }
+  ],
+  "SM5": [
+    {
+      "generation": "1세대",
+      "period": "1998~2005",
+      "code": "KPQ",
+      "note": "닛산 세피로 기반"
+    },
+    {
+      "generation": "2세대",
+      "period": "2005~2010",
+      "code": "L43(EX1)",
+      "note": "닛산 티아나 기반"
+    },
+    {
+      "generation": "3세대",
+      "period": "2010~2020",
+      "code": "L43(L38)",
+      "note": "르노 라구나 기반, 단종"
+    }
+  ],
+  "SM6": [
+    {
+      "generation": "1세대",
+      "period": "2016~2025",
+      "code": "LFD",
+      "note": "르노 탈리스만 기반, 단종"
+    }
+  ],
+  "SM7": [
+    {
+      "generation": "1세대",
+      "period": "2004~2011",
+      "code": "EX2",
+      "note": "닛산 티아나 기반"
+    },
+    {
+      "generation": "2세대",
+      "period": "2011~2019",
+      "code": "L47",
+      "note": "르노 래티튜드 기반, 단종"
+    }
+  ],
+  "QM3": [
+    {
+      "generation": "1세대",
+      "period": "2013~2019",
+      "code": "H5F",
+      "note": "르노 캡처, 수입(스페인)"
+    }
+  ],
+  "QM5": [
+    {
+      "generation": "1세대",
+      "period": "2007~2013",
+      "code": "J72",
+      "note": "닛산 엑스트레일 기반"
+    }
+  ],
+  "QM6": [
+    {
+      "generation": "1세대",
+      "period": "2016~현재",
+      "code": "D2",
+      "note": "르노 콜레오스 기반"
+    }
+  ],
+  "SM3 Z.E.": [
+    {
+      "generation": "1세대",
+      "period": "2013~2020",
+      "code": "",
+      "note": "르노 조에 기반, 단종"
+    }
+  ],
+  "조에": [
+    {
+      "generation": "1세대",
+      "period": "2021~2023",
+      "code": "",
+      "note": "수입(프랑스), 단종"
+    }
+  ],
+  "그랑 콜레오스": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "르노-지리 합작 전기 SUV"
+    }
+  ],
+  "마티즈": [
+    {
+      "generation": "2세대",
+      "period": "2000~2005",
+      "code": "M150",
+      "note": "마티즈II"
+    },
+    {
+      "generation": "3세대",
+      "period": "2005~2009",
+      "code": "M200",
+      "note": "올뉴 마티즈"
+    }
+  ],
+  "마티즈(스파크)": [
+    {
+      "generation": "4세대",
+      "period": "2009~2015",
+      "code": "M300",
+      "note": "2011~쉐보레 스파크"
+    }
+  ],
+  "스파크": [
+    {
+      "generation": "5세대",
+      "period": "2015~2022",
+      "code": "M400",
+      "note": "단종"
+    }
+  ],
+  "다마스": [
+    {
+      "generation": "2세대",
+      "period": "1991~2021",
+      "code": "",
+      "note": "초장수 모델, 단종"
+    }
+  ],
+  "라보": [
+    {
+      "generation": "1세대",
+      "period": "1991~2021",
+      "code": "",
+      "note": "초장수 모델, 단종"
+    }
+  ],
+  "칼로스(아베오)": [
+    {
+      "generation": "1세대",
+      "period": "2002~2006",
+      "code": "T200",
+      "note": ""
+    }
+  ],
+  "젠트라(아베오)": [
+    {
+      "generation": "1세대",
+      "period": "2005~2011",
+      "code": "T250",
+      "note": "2011~쉐보레 아베오"
+    }
+  ],
+  "아베오": [
+    {
+      "generation": "2세대",
+      "period": "2011~2016",
+      "code": "T300",
+      "note": "단종"
+    }
+  ],
+  "라세티": [
+    {
+      "generation": "1세대",
+      "period": "2002~2008",
+      "code": "J200",
+      "note": ""
+    }
+  ],
+  "라세티 프리미어(크루즈)": [
+    {
+      "generation": "2세대",
+      "period": "2008~2017",
+      "code": "J300",
+      "note": "2011~쉐보레 크루즈"
+    }
+  ],
+  "크루즈": [
+    {
+      "generation": "2세대",
+      "period": "2017~2018",
+      "code": "D2XX",
+      "note": "단종(군산공장 폐쇄)"
+    }
+  ],
+  "매그너스": [
+    {
+      "generation": "1세대",
+      "period": "2000~2006",
+      "code": "V200",
+      "note": ""
+    }
+  ],
+  "토스카": [
+    {
+      "generation": "1세대",
+      "period": "2006~2011",
+      "code": "V250",
+      "note": "2011~쉐보레 에피카"
+    }
+  ],
+  "말리부": [
+    {
+      "generation": "8세대",
+      "period": "2011~2015",
+      "code": "V300",
+      "note": "한국 첫 말리부"
+    },
+    {
+      "generation": "9세대",
+      "period": "2016~2022",
+      "code": "D2UL",
+      "note": "단종"
+    }
+  ],
+  "스테이츠맨": [
+    {
+      "generation": "1세대",
+      "period": "2005~2008",
+      "code": "WM",
+      "note": "홀덴 기반"
+    }
+  ],
+  "알페온": [
+    {
+      "generation": "1세대",
+      "period": "2010~2016",
+      "code": "WM",
+      "note": "단종"
+    }
+  ],
+  "윈스톰(캡티바)": [
+    {
+      "generation": "1세대",
+      "period": "2006~2015",
+      "code": "C100",
+      "note": "2011~캡티바"
+    }
+  ],
+  "트랙스": [
+    {
+      "generation": "1세대",
+      "period": "2013~2022",
+      "code": "",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "크로스오버"
+    }
+  ],
+  "이쿼녹스": [
+    {
+      "generation": "1세대(한국)",
+      "period": "2020~2023",
+      "code": "",
+      "note": "수입"
+    }
+  ],
+  "이쿼녹스 EV": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "전기 SUV"
+    }
+  ],
+  "레조": [
+    {
+      "generation": "1세대",
+      "period": "2000~2004",
+      "code": "U100",
+      "note": "단종"
+    }
+  ],
+  "올란도": [
+    {
+      "generation": "1세대",
+      "period": "2011~2018",
+      "code": "J309",
+      "note": "단종(군산공장 폐쇄)"
+    }
+  ],
+  "볼트 EV": [
+    {
+      "generation": "1세대",
+      "period": "2017~2023",
+      "code": "",
+      "note": "수입, 단종"
+    }
+  ],
+  "볼트 EUV": [
+    {
+      "generation": "1세대",
+      "period": "2022~2023",
+      "code": "",
+      "note": "수입, 단종"
+    }
+  ],
+  "콜로라도": [
+    {
+      "generation": "1세대(한국)",
+      "period": "2023~현재",
+      "code": "",
+      "note": "수입"
+    }
+  ],
+  "실버라도 EV": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "전기 픽업, 수입"
     }
   ]
 } as const;
