@@ -1,5 +1,5 @@
-/* 픽스카 카탈로그 데이터 - 엑셀에서 자동 변환 */
-/* 43개 브랜드 · 690개 모델 · 396개 스펙 · 301개 등급 */
+/* 픽스카 카탈로그 데이터 - 국산+수입 통합 */
+/* 44개 브랜드 · 759개 모델 · 509개 스펙 · 424개 등급 */
 
 export const BRAND_MODELS = {
   "현대": {
@@ -1334,6 +1334,42 @@ export const BRAND_MODELS = {
       {
         "name": "X3 M / X4 M F97/F98",
         "status": "단종"
+      },
+      {
+        "name": "2시리즈 GC F44",
+        "status": "현행"
+      },
+      {
+        "name": "3시리즈 G20",
+        "status": "현행"
+      },
+      {
+        "name": "5시리즈 G60",
+        "status": "현행"
+      },
+      {
+        "name": "i4 G26",
+        "status": "현행"
+      },
+      {
+        "name": "iX I20",
+        "status": "현행"
+      },
+      {
+        "name": "4시리즈 G22",
+        "status": "현행"
+      },
+      {
+        "name": "8시리즈 G14",
+        "status": "현행"
+      },
+      {
+        "name": "Z4 G29",
+        "status": "현행"
+      },
+      {
+        "name": "iX1 U11",
+        "status": "현행"
       }
     ]
   },
@@ -1696,6 +1732,10 @@ export const BRAND_MODELS = {
       {
         "name": "S4/RS4",
         "status": "단종"
+      },
+      {
+        "name": "Q6 e-tron",
+        "status": "현행"
       }
     ]
   },
@@ -1789,6 +1829,26 @@ export const BRAND_MODELS = {
       {
         "name": "비틀 5C",
         "status": "단종"
+      },
+      {
+        "name": "폴로 AW",
+        "status": "현행"
+      },
+      {
+        "name": "T-Cross C1",
+        "status": "현행"
+      },
+      {
+        "name": "T-Roc A1",
+        "status": "현행"
+      },
+      {
+        "name": "티구안 CT1",
+        "status": "현행"
+      },
+      {
+        "name": "캘리포니아",
+        "status": "현행"
       }
     ]
   },
@@ -1846,6 +1906,22 @@ export const BRAND_MODELS = {
       {
         "name": "파나메라 971",
         "status": "단종"
+      },
+      {
+        "name": "718 박스터/카이맨 982",
+        "status": "현행"
+      },
+      {
+        "name": "파나메라 972",
+        "status": "현행"
+      },
+      {
+        "name": "카이엔 E3",
+        "status": "현행"
+      },
+      {
+        "name": "마칸",
+        "status": "현행"
       }
     ]
   },
@@ -1895,6 +1971,38 @@ export const BRAND_MODELS = {
       {
         "name": "미니 컨트리맨 F60",
         "status": "단종"
+      },
+      {
+        "name": "MINI 해치백 F56",
+        "status": "단종"
+      },
+      {
+        "name": "MINI 해치백 J01",
+        "status": "현행"
+      },
+      {
+        "name": "MINI 컨버터블 F57",
+        "status": "단종"
+      },
+      {
+        "name": "MINI 클럽맨 F54",
+        "status": "단종"
+      },
+      {
+        "name": "MINI 컨트리맨 F60",
+        "status": "단종"
+      },
+      {
+        "name": "MINI 컨트리맨 U25",
+        "status": "현행"
+      },
+      {
+        "name": "MINI Electric",
+        "status": "단종"
+      },
+      {
+        "name": "MINI 에이스맨 U10",
+        "status": "현행"
       }
     ]
   },
@@ -1960,6 +2068,26 @@ export const BRAND_MODELS = {
       {
         "name": "XC90 1세대",
         "status": "단종"
+      },
+      {
+        "name": "S60",
+        "status": "현행"
+      },
+      {
+        "name": "XC60",
+        "status": "현행"
+      },
+      {
+        "name": "XC90",
+        "status": "현행"
+      },
+      {
+        "name": "EX40",
+        "status": "현행"
+      },
+      {
+        "name": "EC40",
+        "status": "현행"
       }
     ]
   },
@@ -2054,6 +2182,34 @@ export const BRAND_MODELS = {
       {
         "name": "프리우스 XW50",
         "status": "단종"
+      },
+      {
+        "name": "캠리 XV40",
+        "status": "단종"
+      },
+      {
+        "name": "캠리",
+        "status": "현행"
+      },
+      {
+        "name": "프리우스",
+        "status": "단종"
+      },
+      {
+        "name": "C-HR",
+        "status": "단종"
+      },
+      {
+        "name": "RAV4",
+        "status": "현행"
+      },
+      {
+        "name": "하이랜더",
+        "status": "현행"
+      },
+      {
+        "name": "랜드크루저 J300",
+        "status": "현행"
       }
     ]
   },
@@ -2139,6 +2295,18 @@ export const BRAND_MODELS = {
       {
         "name": "RX AL20",
         "status": "단종"
+      },
+      {
+        "name": "ES XV60",
+        "status": "단종"
+      },
+      {
+        "name": "UX",
+        "status": "현행"
+      },
+      {
+        "name": "LC",
+        "status": "현행"
       }
     ]
   },
@@ -2204,6 +2372,30 @@ export const BRAND_MODELS = {
       {
         "name": "오딧세이 5세대",
         "status": "단종"
+      },
+      {
+        "name": "어코드",
+        "status": "단종"
+      },
+      {
+        "name": "시빅 FL/FE",
+        "status": "현행"
+      },
+      {
+        "name": "HR-V(베젤)",
+        "status": "현행"
+      },
+      {
+        "name": "CR-V RW",
+        "status": "단종"
+      },
+      {
+        "name": "CR-V",
+        "status": "현행"
+      },
+      {
+        "name": "e:Ny1(프롤로그)",
+        "status": "현행"
       }
     ]
   },
@@ -2253,6 +2445,26 @@ export const BRAND_MODELS = {
       {
         "name": "디스커버리 L319",
         "status": "단종"
+      },
+      {
+        "name": "이보크 L538",
+        "status": "단종"
+      },
+      {
+        "name": "이보크 L551",
+        "status": "현행"
+      },
+      {
+        "name": "레인지로버 스포츠 L461",
+        "status": "단종"
+      },
+      {
+        "name": "레인지로버 L460",
+        "status": "현행"
+      },
+      {
+        "name": "레인지로버 벨라 L560",
+        "status": "현행"
       }
     ]
   },
@@ -2974,6 +3186,75 @@ export const BRAND_MODELS = {
       {
         "name": "500X",
         "status": "철수"
+      }
+    ]
+  },
+  "벤츠": {
+    "category": "수입",
+    "models": [
+      {
+        "name": "A-Class W177",
+        "status": "단종"
+      },
+      {
+        "name": "C-Class W204",
+        "status": "단종"
+      },
+      {
+        "name": "C-Class W205",
+        "status": "단종"
+      },
+      {
+        "name": "C-Class W206",
+        "status": "현행"
+      },
+      {
+        "name": "E-Class W211",
+        "status": "단종"
+      },
+      {
+        "name": "E-Class W212",
+        "status": "단종"
+      },
+      {
+        "name": "E-Class W213",
+        "status": "단종"
+      },
+      {
+        "name": "E-Class W214",
+        "status": "현행"
+      },
+      {
+        "name": "S-Class W221",
+        "status": "단종"
+      },
+      {
+        "name": "S-Class W222",
+        "status": "단종"
+      },
+      {
+        "name": "S-Class W223",
+        "status": "현행"
+      },
+      {
+        "name": "GLE V167",
+        "status": "현행"
+      },
+      {
+        "name": "G-Class W463",
+        "status": "현행"
+      },
+      {
+        "name": "EQE SUV X294",
+        "status": "현행"
+      },
+      {
+        "name": "AMG GT C190/X290",
+        "status": "현행"
+      },
+      {
+        "name": "CLE C236",
+        "status": "현행"
       }
     ]
   }
@@ -9315,6 +9596,1814 @@ export const CAR_SPECS = {
     "bodyType": "",
     "seats": 5,
     "segment": "픽업"
+  },
+  "A-Class W177": {
+    "cc": 1991,
+    "fuel": "가솔린",
+    "transmission": "7DCT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "C-Class W204": {
+    "cc": 6208,
+    "fuel": "가솔린/디젤",
+    "transmission": "7AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "C-Class W205": {
+    "cc": 3982,
+    "fuel": "가솔린/디젤",
+    "transmission": "9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "C-Class W206": {
+    "cc": 1999,
+    "fuel": "가솔린(MHEV)",
+    "transmission": "9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "E-Class W211": {
+    "cc": 6208,
+    "fuel": "가솔린/디젤",
+    "transmission": "5AT/7AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "E-Class W212": {
+    "cc": 5461,
+    "fuel": "가솔린/디젤",
+    "transmission": "7AT/9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "E-Class W213": {
+    "cc": 3982,
+    "fuel": "가솔린/디젤",
+    "transmission": "9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "E-Class W214": {
+    "cc": 2999,
+    "fuel": "가솔린(MHEV)/PHEV",
+    "transmission": "9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "S-Class W221": {
+    "cc": 5980,
+    "fuel": "가솔린/디젤",
+    "transmission": "7AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "S-Class W222": {
+    "cc": 5980,
+    "fuel": "가솔린/디젤",
+    "transmission": "7AT/9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "S-Class W223": {
+    "cc": 3982,
+    "fuel": "가솔린(MHEV)/PHEV",
+    "transmission": "9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "GLC X253": {
+    "cc": 3982,
+    "fuel": "가솔린/디젤",
+    "transmission": "9AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "GLE V167": {
+    "cc": 3982,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "9AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "G-Class W463": {
+    "cc": 3982,
+    "fuel": "가솔린/디젤",
+    "transmission": "9AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "EQE SUV X294": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
+  },
+  "AMG GT C190/X290": {
+    "cc": 3982,
+    "fuel": "가솔린 터보",
+    "transmission": "7DCT/9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "스포츠"
+  },
+  "CLE C236": {
+    "cc": 2999,
+    "fuel": "가솔린(MHEV)",
+    "transmission": "9AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "쿠페",
+    "seats": 5,
+    "segment": "쿠페"
+  },
+  "1시리즈 F20": {
+    "cc": 2979,
+    "fuel": "가솔린/디젤",
+    "transmission": "6MT/8AT",
+    "drivetrain": "FF/FR",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "1시리즈 F40": {
+    "cc": 1998,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "2시리즈 GC F44": {
+    "cc": 1998,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "3시리즈 E90": {
+    "cc": 3999,
+    "fuel": "가솔린/디젤",
+    "transmission": "6MT/6AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "3시리즈 F30": {
+    "cc": 2979,
+    "fuel": "가솔린/디젤",
+    "transmission": "6MT/8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "3시리즈 G20": {
+    "cc": 2998,
+    "fuel": "가솔린/디젤",
+    "transmission": "8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "5시리즈 E60": {
+    "cc": 4999,
+    "fuel": "가솔린/디젤",
+    "transmission": "6AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "5시리즈 F10": {
+    "cc": 4395,
+    "fuel": "가솔린/디젤",
+    "transmission": "8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "5시리즈 G30": {
+    "cc": 4395,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "5시리즈 G60": {
+    "cc": 4395,
+    "fuel": "가솔린/디젤/PHEV/전기",
+    "transmission": "8AT/전기",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "7시리즈 E65": {
+    "cc": 5972,
+    "fuel": "가솔린/디젤",
+    "transmission": "6AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "7시리즈 F01": {
+    "cc": 5972,
+    "fuel": "가솔린/디젤",
+    "transmission": "6AT/8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "7시리즈 G11": {
+    "cc": 6592,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "X1 F48": {
+    "cc": 1998,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "X3 F25": {
+    "cc": 2979,
+    "fuel": "가솔린/디젤",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "X3 G01": {
+    "cc": 2998,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "X5 E70": {
+    "cc": 4395,
+    "fuel": "가솔린/디젤",
+    "transmission": "6AT/8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "i4 G26": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "전기"
+  },
+  "iX I20": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "전기"
+  },
+  "4시리즈 G22": {
+    "cc": 2998,
+    "fuel": "가솔린/디젤",
+    "transmission": "8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "스포츠"
+  },
+  "8시리즈 G14": {
+    "cc": 4395,
+    "fuel": "가솔린",
+    "transmission": "8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "스포츠"
+  },
+  "Z4 G29": {
+    "cc": 2998,
+    "fuel": "가솔린",
+    "transmission": "8AT",
+    "drivetrain": "FR",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "스포츠"
+  },
+  "iX3 G08": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "전기"
+  },
+  "iX1 U11": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
+  },
+  "A3 8V": {
+    "cc": 1984,
+    "fuel": "가솔린/디젤",
+    "transmission": "6MT/7DCT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "A4 B8": {
+    "cc": 2995,
+    "fuel": "가솔린/디젤",
+    "transmission": "CVT/7DCT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "A4 B9": {
+    "cc": 2894,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "A5 F5": {
+    "cc": 2894,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "A6 C7": {
+    "cc": 3993,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "Q2 GA": {
+    "cc": 1984,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "Q5 FY": {
+    "cc": 2894,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "Q6 e-tron": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단/2단",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
+  },
+  "TT 8S": {
+    "cc": 2480,
+    "fuel": "가솔린",
+    "transmission": "7DCT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "스포츠"
+  },
+  "R8 4S": {
+    "cc": 5204,
+    "fuel": "가솔린",
+    "transmission": "7DCT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "스포츠"
+  },
+  "골프 Mk7": {
+    "cc": 1984,
+    "fuel": "가솔린/디젤",
+    "transmission": "6MT/7DCT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "폴로 AW": {
+    "cc": 1984,
+    "fuel": "가솔린",
+    "transmission": "7DCT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "파사트 B8": {
+    "cc": 1984,
+    "fuel": "가솔린/디젤",
+    "transmission": "6DSG/7DSG",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "아테온": {
+    "cc": 1984,
+    "fuel": "가솔린",
+    "transmission": "7DSG",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "T-Cross C1": {
+    "cc": 999,
+    "fuel": "가솔린",
+    "transmission": "7DSG",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "T-Roc A1": {
+    "cc": 1984,
+    "fuel": "가솔린",
+    "transmission": "7DSG",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "티구안 AD1": {
+    "cc": 1984,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DSG",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "티구안 CT1": {
+    "cc": 1984,
+    "fuel": "가솔린/PHEV",
+    "transmission": "7DSG",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "캘리포니아": {
+    "cc": 1968,
+    "fuel": "디젤",
+    "transmission": "7DSG",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "경상용"
+  },
+  "사이버트럭": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "픽업"
+  },
+  "IS XE20": {
+    "cc": 4969,
+    "fuel": "가솔린",
+    "transmission": "6AT/8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "ES XV40": {
+    "cc": 3456,
+    "fuel": "가솔린/HEV",
+    "transmission": "6AT/CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "ES XV60": {
+    "cc": 3456,
+    "fuel": "가솔린/HEV",
+    "transmission": "6AT/CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "LS XF40": {
+    "cc": 4969,
+    "fuel": "가솔린/HEV",
+    "transmission": "8AT/CVT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "UX": {
+    "cc": 1986,
+    "fuel": "가솔린/HEV/EV",
+    "transmission": "CVT/전기",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "LBX": {
+    "cc": 1490,
+    "fuel": "HEV",
+    "transmission": "CVT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "NX AZ10": {
+    "cc": 2494,
+    "fuel": "가솔린 터보/HEV",
+    "transmission": "6AT/CVT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "RX AL20": {
+    "cc": 3456,
+    "fuel": "가솔린/HEV",
+    "transmission": "6AT/CVT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "LC": {
+    "cc": 4969,
+    "fuel": "가솔린/HEV",
+    "transmission": "10AT/CVT",
+    "drivetrain": "FR",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "스포츠"
+  },
+  "어코드": {
+    "cc": 2356,
+    "fuel": "가솔린",
+    "transmission": "CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "시빅 FL/FE": {
+    "cc": 1993,
+    "fuel": "가솔린/HEV",
+    "transmission": "CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "준중형"
+  },
+  "HR-V(베젤)": {
+    "cc": 1498,
+    "fuel": "HEV",
+    "transmission": "CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "CR-V RW": {
+    "cc": 1498,
+    "fuel": "가솔린 터보",
+    "transmission": "CVT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "CR-V": {
+    "cc": 1993,
+    "fuel": "가솔린 터보/HEV/PHEV",
+    "transmission": "CVT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "e:Ny1(프롤로그)": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "전기"
+  },
+  "911 991": {
+    "cc": 3800,
+    "fuel": "가솔린",
+    "transmission": "7PDK/7MT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "쿠페",
+    "seats": 5,
+    "segment": "쿠페"
+  },
+  "718 박스터/카이맨 982": {
+    "cc": 3995,
+    "fuel": "가솔린",
+    "transmission": "6MT/7PDK",
+    "drivetrain": "MR",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "쿠페",
+    "seats": 5,
+    "segment": "쿠페"
+  },
+  "파나메라 970": {
+    "cc": 4806,
+    "fuel": "가솔린/디젤/HEV",
+    "transmission": "7PDK/8AT",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "파나메라 971": {
+    "cc": 3996,
+    "fuel": "가솔린 터보/HEV/PHEV",
+    "transmission": "8PDK",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "파나메라 972": {
+    "cc": 4000,
+    "fuel": "가솔린 터보/HEV",
+    "transmission": "8PDK",
+    "drivetrain": "FR/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "카이엔 92A": {
+    "cc": 4806,
+    "fuel": "가솔린/디젤/HEV",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "카이엔 E3": {
+    "cc": 3996,
+    "fuel": "가솔린 터보/HEV/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "마칸 95B": {
+    "cc": 2894,
+    "fuel": "가솔린/디젤",
+    "transmission": "7PDK",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "마칸": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단/2단",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "이보크 L538": {
+    "cc": 2179,
+    "fuel": "가솔린/디젤",
+    "transmission": "6AT/9AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "이보크 L551": {
+    "cc": 1999,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "9AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "레인지로버 스포츠 L461": {
+    "cc": 4999,
+    "fuel": "가솔린/디젤",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "레인지로버 L405": {
+    "cc": 5000,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
+  },
+  "레인지로버 L460": {
+    "cc": 4395,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
+  },
+  "레인지로버 벨라 L560": {
+    "cc": 2996,
+    "fuel": "가솔린/디젤",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "MINI 해치백 F56": {
+    "cc": 1998,
+    "fuel": "가솔린/디젤",
+    "transmission": "6MT/7DCT/8AT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "MINI 해치백 J01": {
+    "cc": 1998,
+    "fuel": "가솔린/전기",
+    "transmission": "7DCT/전기",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "MINI 컨버터블 F57": {
+    "cc": 1998,
+    "fuel": "가솔린",
+    "transmission": "7DCT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "MINI 클럽맨 F54": {
+    "cc": 1998,
+    "fuel": "가솔린/디젤",
+    "transmission": "7DCT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "왜건",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "MINI 컨트리맨 F60": {
+    "cc": 1998,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "7DCT/8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "MINI 컨트리맨 U25": {
+    "cc": 1998,
+    "fuel": "가솔린/전기",
+    "transmission": "7DCT/전기",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "MINI Electric": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "전기"
+  },
+  "MINI 에이스맨 U10": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
+  },
+  "캠리 XV40": {
+    "cc": 2362,
+    "fuel": "가솔린",
+    "transmission": "5AT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "캠리 XV50": {
+    "cc": 2494,
+    "fuel": "가솔린/HEV",
+    "transmission": "6AT/CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "캠리 XV70": {
+    "cc": 3456,
+    "fuel": "가솔린/HEV",
+    "transmission": "8AT/CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "캠리": {
+    "cc": 2487,
+    "fuel": "HEV",
+    "transmission": "CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "프리우스": {
+    "cc": 1797,
+    "fuel": "HEV/PHEV",
+    "transmission": "CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "C-HR": {
+    "cc": 1797,
+    "fuel": "HEV",
+    "transmission": "CVT",
+    "drivetrain": "FF",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "RAV4": {
+    "cc": 2487,
+    "fuel": "가솔린/HEV/PHEV",
+    "transmission": "8AT/CVT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "하이랜더": {
+    "cc": 2487,
+    "fuel": "HEV",
+    "transmission": "CVT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "랜드크루저 J300": {
+    "cc": 3346,
+    "fuel": "가솔린 터보/디젤",
+    "transmission": "10AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "S60": {
+    "cc": 1969,
+    "fuel": "가솔린/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "세단",
+    "seats": 5,
+    "segment": "소형"
+  },
+  "XC60": {
+    "cc": 1969,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "중형"
+  },
+  "XC90": {
+    "cc": 1969,
+    "fuel": "가솔린/디젤/PHEV",
+    "transmission": "8AT",
+    "drivetrain": "AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "대형"
+  },
+  "EX40": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
+  },
+  "EC40": {
+    "cc": 0,
+    "fuel": "전기",
+    "transmission": "전기1단",
+    "drivetrain": "FF/AWD",
+    "zeroToHundred": "",
+    "topSpeed": 0,
+    "weight": 0,
+    "length": 0,
+    "width": 0,
+    "height": 0,
+    "wheelbase": 0,
+    "bodyType": "SUV",
+    "seats": 5,
+    "segment": "SUV"
   }
 } as const;
 
@@ -14688,6 +16777,2220 @@ export const CAR_GRADES = {
       "torque": "",
       "efficiency": ""
     }
+  ],
+  "A-Class W177": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6800,
+      "engine": "가솔린",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "C-Class W204": [
+    {
+      "grade": "기본",
+      "price": 4500,
+      "engine": "가솔린/디젤",
+      "power": "487",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12000,
+      "engine": "가솔린/디젤",
+      "power": "487",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "C-Class W205": [
+    {
+      "grade": "기본",
+      "price": 4900,
+      "engine": "가솔린/디젤",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12500,
+      "engine": "가솔린/디젤",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "C-Class W206": [
+    {
+      "grade": "기본",
+      "price": 6160,
+      "engine": "가솔린(MHEV)",
+      "power": "408",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9500,
+      "engine": "가솔린(MHEV)",
+      "power": "408",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "E-Class W211": [
+    {
+      "grade": "기본",
+      "price": 5500,
+      "engine": "가솔린/디젤",
+      "power": "514",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 15000,
+      "engine": "가솔린/디젤",
+      "power": "514",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "E-Class W212": [
+    {
+      "grade": "기본",
+      "price": 5800,
+      "engine": "가솔린/디젤",
+      "power": "585",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 16000,
+      "engine": "가솔린/디젤",
+      "power": "585",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "E-Class W213": [
+    {
+      "grade": "기본",
+      "price": 6200,
+      "engine": "가솔린/디젤",
+      "power": "612",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 18000,
+      "engine": "가솔린/디젤",
+      "power": "612",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "E-Class W214": [
+    {
+      "grade": "기본",
+      "price": 7340,
+      "engine": "가솔린(MHEV)/PHEV",
+      "power": "585",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 19000,
+      "engine": "가솔린(MHEV)/PHEV",
+      "power": "585",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "S-Class W221": [
+    {
+      "grade": "기본",
+      "price": 12000,
+      "engine": "가솔린/디젤",
+      "power": "630",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 28000,
+      "engine": "가솔린/디젤",
+      "power": "630",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "S-Class W222": [
+    {
+      "grade": "기본",
+      "price": 13000,
+      "engine": "가솔린/디젤",
+      "power": "630",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 30000,
+      "engine": "가솔린/디젤",
+      "power": "630",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "S-Class W223": [
+    {
+      "grade": "기본",
+      "price": 15820,
+      "engine": "가솔린(MHEV)/PHEV",
+      "power": "802",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 35000,
+      "engine": "가솔린(MHEV)/PHEV",
+      "power": "802",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "GLC X253": [
+    {
+      "grade": "기본",
+      "price": 5800,
+      "engine": "가솔린/디젤",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12500,
+      "engine": "가솔린/디젤",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "GLE V167": [
+    {
+      "grade": "기본",
+      "price": 9700,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "612",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 22000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "612",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "G-Class W463": [
+    {
+      "grade": "기본",
+      "price": 17800,
+      "engine": "가솔린/디젤",
+      "power": "585",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 28000,
+      "engine": "가솔린/디젤",
+      "power": "585",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "EQE SUV X294": [
+    {
+      "grade": "기본",
+      "price": 10000,
+      "engine": "전기",
+      "power": "687",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 16000,
+      "engine": "전기",
+      "power": "687",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "AMG GT C190/X290": [
+    {
+      "grade": "기본",
+      "price": 17000,
+      "engine": "가솔린 터보",
+      "power": "730",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 30000,
+      "engine": "가솔린 터보",
+      "power": "730",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "CLE C236": [
+    {
+      "grade": "기본",
+      "price": 7500,
+      "engine": "가솔린(MHEV)",
+      "power": "421",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12000,
+      "engine": "가솔린(MHEV)",
+      "power": "421",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "1시리즈 F20": [
+    {
+      "grade": "기본",
+      "price": 3500,
+      "engine": "가솔린/디젤",
+      "power": "340",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6500,
+      "engine": "가솔린/디젤",
+      "power": "340",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "1시리즈 F40": [
+    {
+      "grade": "기본",
+      "price": 3900,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6800,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "2시리즈 GC F44": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7200,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "3시리즈 E90": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린/디젤",
+      "power": "420",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 11000,
+      "engine": "가솔린/디젤",
+      "power": "420",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "3시리즈 F30": [
+    {
+      "grade": "기본",
+      "price": 4500,
+      "engine": "가솔린/디젤",
+      "power": "431",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12000,
+      "engine": "가솔린/디젤",
+      "power": "431",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "3시리즈 G20": [
+    {
+      "grade": "기본",
+      "price": 5270,
+      "engine": "가솔린/디젤",
+      "power": "374",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 8500,
+      "engine": "가솔린/디젤",
+      "power": "374",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "5시리즈 E60": [
+    {
+      "grade": "기본",
+      "price": 5800,
+      "engine": "가솔린/디젤",
+      "power": "507",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 14000,
+      "engine": "가솔린/디젤",
+      "power": "507",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "5시리즈 F10": [
+    {
+      "grade": "기본",
+      "price": 6200,
+      "engine": "가솔린/디젤",
+      "power": "560",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 15000,
+      "engine": "가솔린/디젤",
+      "power": "560",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "5시리즈 G30": [
+    {
+      "grade": "기본",
+      "price": 6500,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 16000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "5시리즈 G60": [
+    {
+      "grade": "기본",
+      "price": 6990,
+      "engine": "가솔린/디젤/PHEV/전기",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 17000,
+      "engine": "가솔린/디젤/PHEV/전기",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "7시리즈 E65": [
+    {
+      "grade": "기본",
+      "price": 10000,
+      "engine": "가솔린/디젤",
+      "power": "445",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 22000,
+      "engine": "가솔린/디젤",
+      "power": "445",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "7시리즈 F01": [
+    {
+      "grade": "기본",
+      "price": 11000,
+      "engine": "가솔린/디젤",
+      "power": "544",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 25000,
+      "engine": "가솔린/디젤",
+      "power": "544",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "7시리즈 G11": [
+    {
+      "grade": "기본",
+      "price": 12000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 28000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "X1 F48": [
+    {
+      "grade": "기본",
+      "price": 4500,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7000,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "X3 F25": [
+    {
+      "grade": "기본",
+      "price": 5500,
+      "engine": "가솔린/디젤",
+      "power": "360",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 8500,
+      "engine": "가솔린/디젤",
+      "power": "360",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "X3 G01": [
+    {
+      "grade": "기본",
+      "price": 6100,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 11000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "X5 E70": [
+    {
+      "grade": "기본",
+      "price": 8000,
+      "engine": "가솔린/디젤",
+      "power": "555",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 16000,
+      "engine": "가솔린/디젤",
+      "power": "555",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "i4 G26": [
+    {
+      "grade": "기본",
+      "price": 6990,
+      "engine": "전기",
+      "power": "544",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 10500,
+      "engine": "전기",
+      "power": "544",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "iX I20": [
+    {
+      "grade": "기본",
+      "price": 10900,
+      "engine": "전기",
+      "power": "619",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 19000,
+      "engine": "전기",
+      "power": "619",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "4시리즈 G22": [
+    {
+      "grade": "기본",
+      "price": 5900,
+      "engine": "가솔린/디젤",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 13000,
+      "engine": "가솔린/디젤",
+      "power": "510",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "8시리즈 G14": [
+    {
+      "grade": "기본",
+      "price": 12900,
+      "engine": "가솔린",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 23000,
+      "engine": "가솔린",
+      "power": "625",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "Z4 G29": [
+    {
+      "grade": "기본",
+      "price": 6290,
+      "engine": "가솔린",
+      "power": "340",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9500,
+      "engine": "가솔린",
+      "power": "340",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "iX3 G08": [
+    {
+      "grade": "기본",
+      "price": 7670,
+      "engine": "전기",
+      "power": "286",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 8000,
+      "engine": "전기",
+      "power": "286",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "iX1 U11": [
+    {
+      "grade": "기본",
+      "price": 5700,
+      "engine": "전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7200,
+      "engine": "전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "A3 8V": [
+    {
+      "grade": "기본",
+      "price": 3500,
+      "engine": "가솔린/디젤",
+      "power": "400",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7500,
+      "engine": "가솔린/디젤",
+      "power": "400",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "A4 B8": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린/디젤",
+      "power": "333",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 8500,
+      "engine": "가솔린/디젤",
+      "power": "333",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "A4 B9": [
+    {
+      "grade": "기본",
+      "price": 4700,
+      "engine": "가솔린/디젤",
+      "power": "450",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12000,
+      "engine": "가솔린/디젤",
+      "power": "450",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "A5 F5": [
+    {
+      "grade": "기본",
+      "price": 5900,
+      "engine": "가솔린/디젤",
+      "power": "450",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 14000,
+      "engine": "가솔린/디젤",
+      "power": "450",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "A6 C7": [
+    {
+      "grade": "기본",
+      "price": 5700,
+      "engine": "가솔린/디젤",
+      "power": "560",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 16000,
+      "engine": "가솔린/디젤",
+      "power": "560",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "Q2 GA": [
+    {
+      "grade": "기본",
+      "price": 3800,
+      "engine": "가솔린/디젤",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5800,
+      "engine": "가솔린/디젤",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "Q5 FY": [
+    {
+      "grade": "기본",
+      "price": 6100,
+      "engine": "가솔린/디젤",
+      "power": "450",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12000,
+      "engine": "가솔린/디젤",
+      "power": "450",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "Q6 e-tron": [
+    {
+      "grade": "기본",
+      "price": 8400,
+      "engine": "전기",
+      "power": "489",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12000,
+      "engine": "전기",
+      "power": "489",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "TT 8S": [
+    {
+      "grade": "기본",
+      "price": 6200,
+      "engine": "가솔린",
+      "power": "400",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 11000,
+      "engine": "가솔린",
+      "power": "400",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "R8 4S": [
+    {
+      "grade": "기본",
+      "price": 23000,
+      "engine": "가솔린",
+      "power": "620",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 30000,
+      "engine": "가솔린",
+      "power": "620",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "골프 Mk7": [
+    {
+      "grade": "기본",
+      "price": 3200,
+      "engine": "가솔린/디젤",
+      "power": "310",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5800,
+      "engine": "가솔린/디젤",
+      "power": "310",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "폴로 AW": [
+    {
+      "grade": "기본",
+      "price": 2500,
+      "engine": "가솔린",
+      "power": "207",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 4200,
+      "engine": "가솔린",
+      "power": "207",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "파사트 B8": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린/디젤",
+      "power": "280",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6500,
+      "engine": "가솔린/디젤",
+      "power": "280",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "아테온": [
+    {
+      "grade": "기본",
+      "price": 4700,
+      "engine": "가솔린",
+      "power": "280",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6300,
+      "engine": "가솔린",
+      "power": "280",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "T-Cross C1": [
+    {
+      "grade": "기본",
+      "price": 2890,
+      "engine": "가솔린",
+      "power": "115",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3300,
+      "engine": "가솔린",
+      "power": "115",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "T-Roc A1": [
+    {
+      "grade": "기본",
+      "price": 3400,
+      "engine": "가솔린",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5800,
+      "engine": "가솔린",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "티구안 AD1": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린/디젤",
+      "power": "245",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6000,
+      "engine": "가솔린/디젤",
+      "power": "245",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "티구안 CT1": [
+    {
+      "grade": "기본",
+      "price": 4690,
+      "engine": "가솔린/PHEV",
+      "power": "272",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6500,
+      "engine": "가솔린/PHEV",
+      "power": "272",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "캘리포니아": [
+    {
+      "grade": "기본",
+      "price": 8900,
+      "engine": "디젤",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9500,
+      "engine": "디젤",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "사이버트럭": [
+    {
+      "grade": "기본",
+      "price": 9000,
+      "engine": "전기",
+      "power": "845",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 14000,
+      "engine": "전기",
+      "power": "845",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "IS XE20": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린",
+      "power": "423",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 8000,
+      "engine": "가솔린",
+      "power": "423",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "IS XE30": [
+    {
+      "grade": "기본",
+      "price": 4900,
+      "engine": "가솔린/HEV",
+      "power": "472",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9000,
+      "engine": "가솔린/HEV",
+      "power": "472",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "ES XV40": [
+    {
+      "grade": "기본",
+      "price": 4200,
+      "engine": "가솔린/HEV",
+      "power": "272",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5800,
+      "engine": "가솔린/HEV",
+      "power": "272",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "ES XV60": [
+    {
+      "grade": "기본",
+      "price": 4500,
+      "engine": "가솔린/HEV",
+      "power": "272",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6200,
+      "engine": "가솔린/HEV",
+      "power": "272",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "LS XF40": [
+    {
+      "grade": "기본",
+      "price": 10000,
+      "engine": "가솔린/HEV",
+      "power": "445",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 16000,
+      "engine": "가솔린/HEV",
+      "power": "445",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "UX": [
+    {
+      "grade": "기본",
+      "price": 4190,
+      "engine": "가솔린/HEV/EV",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5700,
+      "engine": "가솔린/HEV/EV",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "LBX": [
+    {
+      "grade": "기본",
+      "price": 4190,
+      "engine": "HEV",
+      "power": "136",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 4990,
+      "engine": "HEV",
+      "power": "136",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "NX AZ10": [
+    {
+      "grade": "기본",
+      "price": 5100,
+      "engine": "가솔린 터보/HEV",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6800,
+      "engine": "가솔린 터보/HEV",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "RX AL20": [
+    {
+      "grade": "기본",
+      "price": 6800,
+      "engine": "가솔린/HEV",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9500,
+      "engine": "가솔린/HEV",
+      "power": "300",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "LC": [
+    {
+      "grade": "기본",
+      "price": 14500,
+      "engine": "가솔린/HEV",
+      "power": "477",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 18000,
+      "engine": "가솔린/HEV",
+      "power": "477",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "RZ": [
+    {
+      "grade": "기본",
+      "price": 8400,
+      "engine": "전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9500,
+      "engine": "전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "어코드": [
+    {
+      "grade": "기본",
+      "price": 3300,
+      "engine": "가솔린",
+      "power": "185",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3900,
+      "engine": "가솔린",
+      "power": "185",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "시빅 FL/FE": [
+    {
+      "grade": "기본",
+      "price": 3198,
+      "engine": "가솔린/HEV",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3798,
+      "engine": "가솔린/HEV",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "HR-V(베젤)": [
+    {
+      "grade": "기본",
+      "price": 3298,
+      "engine": "HEV",
+      "power": "131",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3498,
+      "engine": "HEV",
+      "power": "131",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "CR-V RW": [
+    {
+      "grade": "기본",
+      "price": 3690,
+      "engine": "가솔린 터보",
+      "power": "193",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 4200,
+      "engine": "가솔린 터보",
+      "power": "193",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "CR-V": [
+    {
+      "grade": "기본",
+      "price": 4198,
+      "engine": "가솔린 터보/HEV/PHEV",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5498,
+      "engine": "가솔린 터보/HEV/PHEV",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "e:Ny1(프롤로그)": [
+    {
+      "grade": "기본",
+      "price": 4790,
+      "engine": "전기",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5290,
+      "engine": "전기",
+      "power": "204",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "911 991": [
+    {
+      "grade": "기본",
+      "price": 14000,
+      "engine": "가솔린",
+      "power": "700",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 35000,
+      "engine": "가솔린",
+      "power": "700",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "718 박스터/카이맨 982": [
+    {
+      "grade": "기본",
+      "price": 7400,
+      "engine": "가솔린",
+      "power": "420",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 13000,
+      "engine": "가솔린",
+      "power": "420",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "파나메라 970": [
+    {
+      "grade": "기본",
+      "price": 12000,
+      "engine": "가솔린/디젤/HEV",
+      "power": "570",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 25000,
+      "engine": "가솔린/디젤/HEV",
+      "power": "570",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "파나메라 971": [
+    {
+      "grade": "기본",
+      "price": 13800,
+      "engine": "가솔린 터보/HEV/PHEV",
+      "power": "700",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 30000,
+      "engine": "가솔린 터보/HEV/PHEV",
+      "power": "700",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "파나메라 972": [
+    {
+      "grade": "기본",
+      "price": 14990,
+      "engine": "가솔린 터보/HEV",
+      "power": "680",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 28000,
+      "engine": "가솔린 터보/HEV",
+      "power": "680",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "카이엔 92A": [
+    {
+      "grade": "기본",
+      "price": 8900,
+      "engine": "가솔린/디젤/HEV",
+      "power": "570",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 22000,
+      "engine": "가솔린/디젤/HEV",
+      "power": "570",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "카이엔 E3": [
+    {
+      "grade": "기본",
+      "price": 10500,
+      "engine": "가솔린 터보/HEV/PHEV",
+      "power": "680",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 25000,
+      "engine": "가솔린 터보/HEV/PHEV",
+      "power": "680",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "마칸 95B": [
+    {
+      "grade": "기본",
+      "price": 7100,
+      "engine": "가솔린/디젤",
+      "power": "440",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 13000,
+      "engine": "가솔린/디젤",
+      "power": "440",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "마칸": [
+    {
+      "grade": "기본",
+      "price": 9290,
+      "engine": "전기",
+      "power": "639",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 14500,
+      "engine": "전기",
+      "power": "639",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "이보크 L538": [
+    {
+      "grade": "기본",
+      "price": 5200,
+      "engine": "가솔린/디젤",
+      "power": "240",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7000,
+      "engine": "가솔린/디젤",
+      "power": "240",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "이보크 L551": [
+    {
+      "grade": "기본",
+      "price": 5800,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "309",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 8500,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "309",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "디스커버리 스포츠 L550": [
+    {
+      "grade": "기본",
+      "price": 5800,
+      "engine": "가솔린/디젤",
+      "power": "249",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7500,
+      "engine": "가솔린/디젤",
+      "power": "249",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "디펜더 L663": [
+    {
+      "grade": "기본",
+      "price": 7720,
+      "engine": "가솔린/디젤",
+      "power": "525",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 18000,
+      "engine": "가솔린/디젤",
+      "power": "525",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "디스커버리 L462": [
+    {
+      "grade": "기본",
+      "price": 9600,
+      "engine": "가솔린/디젤",
+      "power": "360",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 13000,
+      "engine": "가솔린/디젤",
+      "power": "360",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "레인지로버 스포츠 L461": [
+    {
+      "grade": "기본",
+      "price": 10000,
+      "engine": "가솔린/디젤",
+      "power": "575",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 20000,
+      "engine": "가솔린/디젤",
+      "power": "575",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "레인지로버 L405": [
+    {
+      "grade": "기본",
+      "price": 14000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "565",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 28000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "565",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "레인지로버 L460": [
+    {
+      "grade": "기본",
+      "price": 17700,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "530",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 32000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "530",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "레인지로버 벨라 L560": [
+    {
+      "grade": "기본",
+      "price": 7900,
+      "engine": "가솔린/디젤",
+      "power": "400",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 12000,
+      "engine": "가솔린/디젤",
+      "power": "400",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI 해치백 F56": [
+    {
+      "grade": "기본",
+      "price": 2900,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5500,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI 해치백 J01": [
+    {
+      "grade": "기본",
+      "price": 3500,
+      "engine": "가솔린/전기",
+      "power": "218",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5000,
+      "engine": "가솔린/전기",
+      "power": "218",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI 컨버터블 F57": [
+    {
+      "grade": "기본",
+      "price": 3800,
+      "engine": "가솔린",
+      "power": "231",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5600,
+      "engine": "가솔린",
+      "power": "231",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI 클럽맨 F54": [
+    {
+      "grade": "기본",
+      "price": 3600,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6000,
+      "engine": "가솔린/디젤",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI 컨트리맨 F60": [
+    {
+      "grade": "기본",
+      "price": 3700,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6200,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI 컨트리맨 U25": [
+    {
+      "grade": "기본",
+      "price": 4490,
+      "engine": "가솔린/전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6500,
+      "engine": "가솔린/전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI Electric": [
+    {
+      "grade": "기본",
+      "price": 4290,
+      "engine": "전기",
+      "power": "184",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 4590,
+      "engine": "전기",
+      "power": "184",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "MINI 에이스맨 U10": [
+    {
+      "grade": "기본",
+      "price": 4550,
+      "engine": "전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5500,
+      "engine": "전기",
+      "power": "313",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "캠리 XV40": [
+    {
+      "grade": "기본",
+      "price": 2800,
+      "engine": "가솔린",
+      "power": "158",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3400,
+      "engine": "가솔린",
+      "power": "158",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "캠리 XV50": [
+    {
+      "grade": "기본",
+      "price": 3100,
+      "engine": "가솔린/HEV",
+      "power": "200",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3800,
+      "engine": "가솔린/HEV",
+      "power": "200",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "캠리 XV70": [
+    {
+      "grade": "기본",
+      "price": 3340,
+      "engine": "가솔린/HEV",
+      "power": "301",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 4200,
+      "engine": "가솔린/HEV",
+      "power": "301",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "캠리": [
+    {
+      "grade": "기본",
+      "price": 3950,
+      "engine": "HEV",
+      "power": "230",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 4350,
+      "engine": "HEV",
+      "power": "230",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "프리우스": [
+    {
+      "grade": "기본",
+      "price": 3300,
+      "engine": "HEV/PHEV",
+      "power": "122",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 4200,
+      "engine": "HEV/PHEV",
+      "power": "122",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "크라운": [
+    {
+      "grade": "기본",
+      "price": 5700,
+      "engine": "HEV",
+      "power": "234",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6500,
+      "engine": "HEV",
+      "power": "234",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "C-HR": [
+    {
+      "grade": "기본",
+      "price": 3300,
+      "engine": "HEV",
+      "power": "122",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3900,
+      "engine": "HEV",
+      "power": "122",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "RAV4": [
+    {
+      "grade": "기본",
+      "price": 3750,
+      "engine": "가솔린/HEV/PHEV",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5100,
+      "engine": "가솔린/HEV/PHEV",
+      "power": "306",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "하이랜더": [
+    {
+      "grade": "기본",
+      "price": 5100,
+      "engine": "HEV",
+      "power": "244",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 5700,
+      "engine": "HEV",
+      "power": "244",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "랜드크루저 J300": [
+    {
+      "grade": "기본",
+      "price": 10000,
+      "engine": "가솔린 터보/디젤",
+      "power": "415",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 14000,
+      "engine": "가솔린 터보/디젤",
+      "power": "415",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "GR86": [
+    {
+      "grade": "기본",
+      "price": 3590,
+      "engine": "가솔린",
+      "power": "235",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 3990,
+      "engine": "가솔린",
+      "power": "235",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "S60": [
+    {
+      "grade": "기본",
+      "price": 4990,
+      "engine": "가솔린/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7500,
+      "engine": "가솔린/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "S90": [
+    {
+      "grade": "기본",
+      "price": 5990,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9500,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "V60": [
+    {
+      "grade": "기본",
+      "price": 5190,
+      "engine": "가솔린/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 7900,
+      "engine": "가솔린/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "V90": [
+    {
+      "grade": "기본",
+      "price": 6390,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9800,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "455",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "XC60": [
+    {
+      "grade": "기본",
+      "price": 5690,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "462",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 9000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "462",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "XC90": [
+    {
+      "grade": "기본",
+      "price": 7550,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "462",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 11000,
+      "engine": "가솔린/디젤/PHEV",
+      "power": "462",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "EX40": [
+    {
+      "grade": "기본",
+      "price": 5590,
+      "engine": "전기",
+      "power": "408",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6490,
+      "engine": "전기",
+      "power": "408",
+      "torque": "",
+      "efficiency": ""
+    }
+  ],
+  "EC40": [
+    {
+      "grade": "기본",
+      "price": 5890,
+      "engine": "전기",
+      "power": "408",
+      "torque": "",
+      "efficiency": ""
+    },
+    {
+      "grade": "최고",
+      "price": 6790,
+      "engine": "전기",
+      "power": "408",
+      "torque": "",
+      "efficiency": ""
+    }
   ]
 } as const;
 
@@ -15578,20 +19881,6 @@ export const CAR_ISSUES = {
 } as const;
 
 export const CAR_HISTORY = {
-  "911": [
-    {
-      "generation": "992세대 (현재)",
-      "period": "2019~현재",
-      "code": "992",
-      "note": "전기화 예정"
-    },
-    {
-      "generation": "991세대",
-      "period": "2011~2019",
-      "code": "991",
-      "note": "단종"
-    }
-  ],
   "아반떼": [
     {
       "generation": "7세대 (현재)",
@@ -16080,6 +20369,24 @@ export const CAR_HISTORY = {
       "period": "1998~2005",
       "code": "E46",
       "note": "단종"
+    },
+    {
+      "generation": "5세대",
+      "period": "2005~2011",
+      "code": "E90",
+      "note": ""
+    },
+    {
+      "generation": "6세대",
+      "period": "2011~2018",
+      "code": "F30",
+      "note": ""
+    },
+    {
+      "generation": "7세대",
+      "period": "2018~현재",
+      "code": "G20",
+      "note": "MHEV 적용"
     }
   ],
   "5시리즈": [
@@ -16100,6 +20407,30 @@ export const CAR_HISTORY = {
       "period": "2009~2016",
       "code": "F10/F11",
       "note": "단종"
+    },
+    {
+      "generation": "5세대",
+      "period": "2003~2010",
+      "code": "E60",
+      "note": ""
+    },
+    {
+      "generation": "6세대",
+      "period": "2010~2016",
+      "code": "F10",
+      "note": ""
+    },
+    {
+      "generation": "7세대",
+      "period": "2016~2023",
+      "code": "G30",
+      "note": "530e PHEV"
+    },
+    {
+      "generation": "8세대",
+      "period": "2023~현재",
+      "code": "G60",
+      "note": "i5 전기 포함"
     }
   ],
   "7시리즈": [
@@ -16114,6 +20445,24 @@ export const CAR_HISTORY = {
       "period": "2015~2022",
       "code": "G11/G12",
       "note": "단종"
+    },
+    {
+      "generation": "5세대",
+      "period": "2001~2008",
+      "code": "E65",
+      "note": ""
+    },
+    {
+      "generation": "6세대",
+      "period": "2008~2015",
+      "code": "F01",
+      "note": ""
+    },
+    {
+      "generation": "7세대",
+      "period": "2015~2022",
+      "code": "G11",
+      "note": ""
     }
   ],
   "X5": [
@@ -16128,6 +20477,12 @@ export const CAR_HISTORY = {
       "period": "2013~2018",
       "code": "F15",
       "note": "단종"
+    },
+    {
+      "generation": "3세대",
+      "period": "2006~2013",
+      "code": "E70",
+      "note": ""
     }
   ],
   "X3": [
@@ -16142,6 +20497,12 @@ export const CAR_HISTORY = {
       "period": "2017~2024",
       "code": "G01",
       "note": "단종"
+    },
+    {
+      "generation": "2세대",
+      "period": "2010~2017",
+      "code": "F25",
+      "note": ""
     }
   ],
   "C-클래스": [
@@ -16218,6 +20579,12 @@ export const CAR_HISTORY = {
       "period": "2019~현재",
       "code": "W167",
       "note": "쿠페 포함"
+    },
+    {
+      "generation": "4세대",
+      "period": "2018~현재",
+      "code": "V167",
+      "note": "쿠페 포함"
     }
   ],
   "모델 Y": [
@@ -16226,6 +20593,12 @@ export const CAR_HISTORY = {
       "period": "2020~현재",
       "code": "-",
       "note": "2025 주니퍼 F/L"
+    },
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "",
+      "note": "주니퍼 포함"
     }
   ],
   "모델 3": [
@@ -16234,6 +20607,12 @@ export const CAR_HISTORY = {
       "period": "2017~현재",
       "code": "-",
       "note": "2024 하이랜드 F/L"
+    },
+    {
+      "generation": "1세대",
+      "period": "2019~현재",
+      "code": "",
+      "note": "하이랜드 포함"
     }
   ],
   "모델 S": [
@@ -16242,6 +20621,12 @@ export const CAR_HISTORY = {
       "period": "2012~현재",
       "code": "-",
       "note": "2021 리프레시"
+    },
+    {
+      "generation": "1세대",
+      "period": "2014~현재",
+      "code": "",
+      "note": "Plaid 포함"
     }
   ],
   "A6": [
@@ -16280,6 +20665,20 @@ export const CAR_HISTORY = {
       "note": "LCI 완료"
     }
   ],
+  "911": [
+    {
+      "generation": "992세대 (현재)",
+      "period": "2019~현재",
+      "code": "992",
+      "note": "전기화 예정"
+    },
+    {
+      "generation": "991세대",
+      "period": "2011~2019",
+      "code": "991",
+      "note": "단종"
+    }
+  ],
   "카이엔": [
     {
       "generation": "3세대 (현재)",
@@ -16292,6 +20691,12 @@ export const CAR_HISTORY = {
       "period": "2010~2017",
       "code": "92A",
       "note": "단종"
+    },
+    {
+      "generation": "3세대",
+      "period": "2017~현재",
+      "code": "E3",
+      "note": "쿠페 포함"
     }
   ],
   "타이칸": [
@@ -16314,6 +20719,12 @@ export const CAR_HISTORY = {
       "period": "2008~2017",
       "code": "Y20",
       "note": "단종"
+    },
+    {
+      "generation": "2세대",
+      "period": "2017~현재",
+      "code": "",
+      "note": "리차지 PHEV"
     }
   ],
   "XC90": [
@@ -16328,6 +20739,12 @@ export const CAR_HISTORY = {
       "period": "2002~2014",
       "code": "P28",
       "note": "단종"
+    },
+    {
+      "generation": "2세대",
+      "period": "2014~현재",
+      "code": "",
+      "note": "리차지 PHEV"
     }
   ],
   "ES": [
@@ -16342,6 +20759,12 @@ export const CAR_HISTORY = {
       "period": "2012~2018",
       "code": "XV60",
       "note": "단종"
+    },
+    {
+      "generation": "6세대",
+      "period": "2006~2012",
+      "code": "XV40",
+      "note": "ES350/ES300h"
     }
   ],
   "RX": [
@@ -16370,6 +20793,24 @@ export const CAR_HISTORY = {
       "period": "2017~2023",
       "code": "-",
       "note": "단종"
+    },
+    {
+      "generation": "9세대",
+      "period": "2013~2017",
+      "code": "",
+      "note": ""
+    },
+    {
+      "generation": "10세대",
+      "period": "2017~2022",
+      "code": "",
+      "note": ""
+    },
+    {
+      "generation": "11세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "풀HEV 전환"
     }
   ],
   "시빅": [
@@ -16384,6 +20825,12 @@ export const CAR_HISTORY = {
       "period": "2015~2021",
       "code": "-",
       "note": "단종"
+    },
+    {
+      "generation": "11세대",
+      "period": "2021~현재",
+      "code": "FL/FE",
+      "note": "타입R 해외"
     }
   ],
   "CR-V": [
@@ -16398,6 +20845,18 @@ export const CAR_HISTORY = {
       "period": "2017~2022",
       "code": "-",
       "note": "단종"
+    },
+    {
+      "generation": "5세대",
+      "period": "2017~2022",
+      "code": "RW",
+      "note": ""
+    },
+    {
+      "generation": "6세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "PHEV 추가"
     }
   ],
   "아토스": [
@@ -17567,9 +22026,953 @@ export const CAR_HISTORY = {
       "code": "V200L",
       "note": "단종"
     }
+  ],
+  "A-Class": [
+    {
+      "generation": "4세대",
+      "period": "2018~2024",
+      "code": "W177",
+      "note": "A220/AMG A35"
+    }
+  ],
+  "CLA": [
+    {
+      "generation": "2세대",
+      "period": "2019~현재",
+      "code": "C118",
+      "note": "쿠페세단/슈팅브레이크"
+    }
+  ],
+  "C-Class": [
+    {
+      "generation": "3세대",
+      "period": "2007~2014",
+      "code": "W204",
+      "note": "C63 AMG 포함"
+    },
+    {
+      "generation": "4세대",
+      "period": "2014~2021",
+      "code": "W205",
+      "note": ""
+    },
+    {
+      "generation": "5세대",
+      "period": "2021~현재",
+      "code": "W206",
+      "note": "C200/C300/AMG C43"
+    }
+  ],
+  "E-Class": [
+    {
+      "generation": "3세대",
+      "period": "2002~2009",
+      "code": "W211",
+      "note": ""
+    },
+    {
+      "generation": "4세대",
+      "period": "2009~2016",
+      "code": "W212",
+      "note": ""
+    },
+    {
+      "generation": "5세대",
+      "period": "2016~2023",
+      "code": "W213",
+      "note": "한국 베스트셀러"
+    },
+    {
+      "generation": "6세대",
+      "period": "2023~현재",
+      "code": "W214",
+      "note": "풀체인지"
+    }
+  ],
+  "S-Class": [
+    {
+      "generation": "5세대",
+      "period": "2005~2013",
+      "code": "W221",
+      "note": ""
+    },
+    {
+      "generation": "6세대",
+      "period": "2013~2020",
+      "code": "W222",
+      "note": ""
+    },
+    {
+      "generation": "7세대",
+      "period": "2020~현재",
+      "code": "W223",
+      "note": "마이바흐 포함"
+    }
+  ],
+  "GLA": [
+    {
+      "generation": "2세대",
+      "period": "2020~현재",
+      "code": "H247",
+      "note": "AMG GLA35/45"
+    }
+  ],
+  "GLB": [
+    {
+      "generation": "1세대",
+      "period": "2019~현재",
+      "code": "X247",
+      "note": "7인승 옵션"
+    }
+  ],
+  "GLS": [
+    {
+      "generation": "2세대",
+      "period": "2019~현재",
+      "code": "X167",
+      "note": "마이바흐 GLS 포함"
+    }
+  ],
+  "G-Class": [
+    {
+      "generation": "2세대(W463)",
+      "period": "2018~현재",
+      "code": "W463",
+      "note": "G63 AMG 포함"
+    }
+  ],
+  "EQS": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "V297",
+      "note": "전기 S클래스"
+    }
+  ],
+  "EQA": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "H243",
+      "note": "전기 GLA"
+    }
+  ],
+  "EQB": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "X243",
+      "note": "전기 GLB"
+    }
+  ],
+  "EQE SUV": [
+    {
+      "generation": "1세대",
+      "period": "2023~현재",
+      "code": "X294",
+      "note": ""
+    }
+  ],
+  "AMG GT": [
+    {
+      "generation": "1세대",
+      "period": "2014~현재",
+      "code": "C190/X290",
+      "note": "쿠페/4도어"
+    }
+  ],
+  "CLE": [
+    {
+      "generation": "1세대",
+      "period": "2023~현재",
+      "code": "C236",
+      "note": "C/E쿠페 통합"
+    }
+  ],
+  "1시리즈": [
+    {
+      "generation": "2세대",
+      "period": "2011~2019",
+      "code": "F20",
+      "note": "해치백"
+    },
+    {
+      "generation": "3세대",
+      "period": "2019~현재",
+      "code": "F40",
+      "note": "FF 전환"
+    }
+  ],
+  "2시리즈 GC": [
+    {
+      "generation": "1세대",
+      "period": "2019~현재",
+      "code": "F44",
+      "note": "그란쿠페"
+    }
+  ],
+  "X1": [
+    {
+      "generation": "2세대",
+      "period": "2015~2022",
+      "code": "F48",
+      "note": ""
+    },
+    {
+      "generation": "3세대",
+      "period": "2022~현재",
+      "code": "U11",
+      "note": "iX1 전기 포함"
+    }
+  ],
+  "X7": [
+    {
+      "generation": "1세대",
+      "period": "2019~현재",
+      "code": "G07",
+      "note": "풀사이즈"
+    }
+  ],
+  "i4": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "G26",
+      "note": "4도어 그란쿠페"
+    }
+  ],
+  "iX": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "I20",
+      "note": "전기 SAV"
+    }
+  ],
+  "4시리즈": [
+    {
+      "generation": "2세대",
+      "period": "2020~현재",
+      "code": "G22",
+      "note": "쿠페/컨버터블/GC"
+    }
+  ],
+  "8시리즈": [
+    {
+      "generation": "1세대(신)",
+      "period": "2018~현재",
+      "code": "G14",
+      "note": "쿠페/컨버터블/GC"
+    }
+  ],
+  "Z4": [
+    {
+      "generation": "3세대",
+      "period": "2019~현재",
+      "code": "G29",
+      "note": "로드스터"
+    }
+  ],
+  "iX3": [
+    {
+      "generation": "1세대",
+      "period": "2020~2024",
+      "code": "G08",
+      "note": "단종"
+    }
+  ],
+  "iX1": [
+    {
+      "generation": "1세대",
+      "period": "2022~현재",
+      "code": "U11",
+      "note": "전기 X1"
+    }
+  ],
+  "A3": [
+    {
+      "generation": "3세대",
+      "period": "2012~2020",
+      "code": "8V",
+      "note": "S3/RS3 포함"
+    },
+    {
+      "generation": "4세대",
+      "period": "2020~현재",
+      "code": "8Y",
+      "note": "S3/RS3 포함"
+    }
+  ],
+  "A4": [
+    {
+      "generation": "4세대",
+      "period": "2007~2015",
+      "code": "B8",
+      "note": "S4/RS4 포함"
+    },
+    {
+      "generation": "5세대",
+      "period": "2015~2023",
+      "code": "B9",
+      "note": "S4/RS4 포함"
+    }
+  ],
+  "A5": [
+    {
+      "generation": "2세대",
+      "period": "2016~현재",
+      "code": "F5",
+      "note": "A4 후속 통합, 스포츠백/쿠페"
+    }
+  ],
+  "A8": [
+    {
+      "generation": "4세대",
+      "period": "2017~현재",
+      "code": "D5",
+      "note": "S8 포함"
+    }
+  ],
+  "Q2": [
+    {
+      "generation": "1세대",
+      "period": "2016~2024",
+      "code": "GA",
+      "note": "단종 예정"
+    }
+  ],
+  "Q3": [
+    {
+      "generation": "2세대",
+      "period": "2018~현재",
+      "code": "F3",
+      "note": "스포츠백 포함"
+    }
+  ],
+  "Q8": [
+    {
+      "generation": "1세대",
+      "period": "2018~현재",
+      "code": "4M8",
+      "note": "RS Q8 포함"
+    }
+  ],
+  "e-tron GT": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "",
+      "note": "RS e-tron GT 포함"
+    }
+  ],
+  "Q4 e-tron": [
+    {
+      "generation": "1세대",
+      "period": "2022~현재",
+      "code": "",
+      "note": "스포츠백 포함"
+    }
+  ],
+  "Q6 e-tron": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "PPE 플랫폼"
+    }
+  ],
+  "Q8 e-tron": [
+    {
+      "generation": "1세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "e-tron 후속"
+    }
+  ],
+  "TT": [
+    {
+      "generation": "3세대",
+      "period": "2014~2023",
+      "code": "8S",
+      "note": "단종"
+    }
+  ],
+  "R8": [
+    {
+      "generation": "2세대",
+      "period": "2015~2023",
+      "code": "4S",
+      "note": "단종"
+    }
+  ],
+  "골프": [
+    {
+      "generation": "7세대",
+      "period": "2012~2019",
+      "code": "Mk7",
+      "note": "GTI/R 포함"
+    },
+    {
+      "generation": "8세대",
+      "period": "2019~현재",
+      "code": "Mk8",
+      "note": "GTI/R 포함"
+    }
+  ],
+  "폴로": [
+    {
+      "generation": "6세대",
+      "period": "2017~현재",
+      "code": "AW",
+      "note": "GTI 포함"
+    }
+  ],
+  "파사트": [
+    {
+      "generation": "8세대",
+      "period": "2014~2023",
+      "code": "B8",
+      "note": ""
+    }
+  ],
+  "아테온": [
+    {
+      "generation": "1세대",
+      "period": "2017~2024",
+      "code": "",
+      "note": "쿠페형 세단, 단종"
+    }
+  ],
+  "투아렉": [
+    {
+      "generation": "3세대",
+      "period": "2018~현재",
+      "code": "CR",
+      "note": "플래그십"
+    }
+  ],
+  "T-Cross": [
+    {
+      "generation": "1세대",
+      "period": "2019~현재",
+      "code": "C1",
+      "note": ""
+    }
+  ],
+  "T-Roc": [
+    {
+      "generation": "1세대",
+      "period": "2017~현재",
+      "code": "A1",
+      "note": "R 포함"
+    }
+  ],
+  "티구안": [
+    {
+      "generation": "2세대",
+      "period": "2016~2024",
+      "code": "AD1",
+      "note": ""
+    },
+    {
+      "generation": "3세대",
+      "period": "2024~현재",
+      "code": "CT1",
+      "note": "풀체인지"
+    }
+  ],
+  "ID.4": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "",
+      "note": "MEB 플랫폼"
+    }
+  ],
+  "ID.7": [
+    {
+      "generation": "1세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "전기 세단"
+    }
+  ],
+  "캘리포니아": [
+    {
+      "generation": "1세대(한국)",
+      "period": "2024~현재",
+      "code": "",
+      "note": "캠핑 밴"
+    }
+  ],
+  "모델 X": [
+    {
+      "generation": "1세대",
+      "period": "2017~현재",
+      "code": "",
+      "note": "Plaid 포함"
+    }
+  ],
+  "사이버트럭": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "한국 출시 예정"
+    }
+  ],
+  "IS": [
+    {
+      "generation": "2세대",
+      "period": "2005~2013",
+      "code": "XE20",
+      "note": "IS F 포함"
+    },
+    {
+      "generation": "3세대",
+      "period": "2013~현재",
+      "code": "XE30",
+      "note": "IS F SPORT"
+    }
+  ],
+  "LS": [
+    {
+      "generation": "4세대",
+      "period": "2006~2012",
+      "code": "XF40",
+      "note": ""
+    },
+    {
+      "generation": "5세대",
+      "period": "2017~현재",
+      "code": "XF50",
+      "note": "LS500/LS500h"
+    }
+  ],
+  "UX": [
+    {
+      "generation": "1세대",
+      "period": "2018~현재",
+      "code": "",
+      "note": "UX300e EV"
+    }
+  ],
+  "LBX": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "엔트리 SUV"
+    }
+  ],
+  "NX": [
+    {
+      "generation": "1세대",
+      "period": "2014~2021",
+      "code": "AZ10",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2021~현재",
+      "code": "AZ20",
+      "note": "PHEV 추가"
+    }
+  ],
+  "LX": [
+    {
+      "generation": "3세대",
+      "period": "2021~현재",
+      "code": "J300",
+      "note": "LX600"
+    }
+  ],
+  "LC": [
+    {
+      "generation": "1세대",
+      "period": "2017~현재",
+      "code": "",
+      "note": "쿠페/컨버터블"
+    }
+  ],
+  "RZ": [
+    {
+      "generation": "1세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "전용 플랫폼"
+    }
+  ],
+  "HR-V(베젤)": [
+    {
+      "generation": "3세대",
+      "period": "2021~현재",
+      "code": "",
+      "note": "e:HEV"
+    }
+  ],
+  "e:Ny1(프롤로그)": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": ""
+    }
+  ],
+  "718 박스터": [
+    {
+      "generation": "1세대",
+      "period": "2016~현재",
+      "code": "982",
+      "note": ""
+    }
+  ],
+  "파나메라": [
+    {
+      "generation": "1세대",
+      "period": "2009~2016",
+      "code": "970",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2016~2024",
+      "code": "971",
+      "note": ""
+    },
+    {
+      "generation": "3세대",
+      "period": "2024~현재",
+      "code": "972",
+      "note": "풀체인지"
+    }
+  ],
+  "마칸": [
+    {
+      "generation": "1세대",
+      "period": "2014~2024",
+      "code": "95B",
+      "note": ""
+    },
+    {
+      "generation": "2세대(전기)",
+      "period": "2024~현재",
+      "code": "",
+      "note": "풀전기"
+    }
+  ],
+  "이보크": [
+    {
+      "generation": "1세대",
+      "period": "2011~2018",
+      "code": "L538",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2019~현재",
+      "code": "L551",
+      "note": "PHEV 추가"
+    }
+  ],
+  "디스커버리 스포츠": [
+    {
+      "generation": "1세대",
+      "period": "2014~현재",
+      "code": "L550",
+      "note": ""
+    }
+  ],
+  "디펜더": [
+    {
+      "generation": "신형",
+      "period": "2020~현재",
+      "code": "L663",
+      "note": "90/110/130"
+    }
+  ],
+  "디스커버리": [
+    {
+      "generation": "5세대",
+      "period": "2017~현재",
+      "code": "L462",
+      "note": ""
+    }
+  ],
+  "레인지로버 스포츠": [
+    {
+      "generation": "2세대",
+      "period": "2013~2022",
+      "code": "L461",
+      "note": ""
+    }
+  ],
+  "레인지로버": [
+    {
+      "generation": "4세대",
+      "period": "2012~2021",
+      "code": "L405",
+      "note": ""
+    },
+    {
+      "generation": "5세대",
+      "period": "2022~현재",
+      "code": "L460",
+      "note": "EV 예정"
+    }
+  ],
+  "레인지로버 벨라": [
+    {
+      "generation": "1세대",
+      "period": "2017~현재",
+      "code": "L560",
+      "note": ""
+    }
+  ],
+  "MINI 해치백": [
+    {
+      "generation": "3세대",
+      "period": "2013~2023",
+      "code": "F56",
+      "note": "쿠퍼/S/JCW"
+    },
+    {
+      "generation": "4세대",
+      "period": "2023~현재",
+      "code": "J01",
+      "note": "쿠퍼/S, EV추가"
+    }
+  ],
+  "MINI 컨버터블": [
+    {
+      "generation": "3세대",
+      "period": "2015~2024",
+      "code": "F57",
+      "note": "쿠퍼/S"
+    }
+  ],
+  "MINI 클럽맨": [
+    {
+      "generation": "2세대",
+      "period": "2015~2024",
+      "code": "F54",
+      "note": "단종"
+    }
+  ],
+  "MINI 컨트리맨": [
+    {
+      "generation": "2세대",
+      "period": "2017~2024",
+      "code": "F60",
+      "note": ""
+    },
+    {
+      "generation": "3세대",
+      "period": "2024~현재",
+      "code": "U25",
+      "note": "풀체인지, EV추가"
+    }
+  ],
+  "MINI Electric": [
+    {
+      "generation": "1세대",
+      "period": "2020~2023",
+      "code": "",
+      "note": "단종"
+    }
+  ],
+  "MINI 에이스맨": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "U10",
+      "note": "전기 크로스오버"
+    }
+  ],
+  "캠리": [
+    {
+      "generation": "7세대",
+      "period": "2006~2011",
+      "code": "XV40",
+      "note": "한국재출시"
+    },
+    {
+      "generation": "8세대",
+      "period": "2011~2017",
+      "code": "XV50",
+      "note": "HEV 추가"
+    },
+    {
+      "generation": "9세대",
+      "period": "2017~2024",
+      "code": "XV70",
+      "note": ""
+    },
+    {
+      "generation": "10세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "풀HEV 전환"
+    }
+  ],
+  "프리우스": [
+    {
+      "generation": "4세대",
+      "period": "2015~2022",
+      "code": "",
+      "note": ""
+    },
+    {
+      "generation": "5세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "풀체인지"
+    }
+  ],
+  "크라운": [
+    {
+      "generation": "16세대",
+      "period": "2023~현재",
+      "code": "",
+      "note": "크로스오버형"
+    }
+  ],
+  "C-HR": [
+    {
+      "generation": "1세대",
+      "period": "2017~2023",
+      "code": "",
+      "note": ""
+    },
+    {
+      "generation": "2세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "풀체인지"
+    }
+  ],
+  "RAV4": [
+    {
+      "generation": "5세대",
+      "period": "2018~현재",
+      "code": "",
+      "note": ""
+    }
+  ],
+  "하이랜더": [
+    {
+      "generation": "4세대",
+      "period": "2020~현재",
+      "code": "",
+      "note": "7인승"
+    }
+  ],
+  "랜드크루저": [
+    {
+      "generation": "신형",
+      "period": "2021~현재",
+      "code": "J300",
+      "note": ""
+    }
+  ],
+  "GR 수프라": [
+    {
+      "generation": "5세대",
+      "period": "2019~현재",
+      "code": "A90",
+      "note": "BMW Z4 형제차"
+    }
+  ],
+  "GR86": [
+    {
+      "generation": "1세대",
+      "period": "2021~현재",
+      "code": "",
+      "note": "스바루 BRZ 형제차"
+    }
+  ],
+  "bZ4X": [
+    {
+      "generation": "1세대",
+      "period": "2022~현재",
+      "code": "",
+      "note": "e-TNGA"
+    }
+  ],
+  "S60": [
+    {
+      "generation": "3세대",
+      "period": "2019~현재",
+      "code": "",
+      "note": "리차지 PHEV"
+    }
+  ],
+  "S90": [
+    {
+      "generation": "2세대",
+      "period": "2016~현재",
+      "code": "",
+      "note": "리차지 PHEV"
+    }
+  ],
+  "V60": [
+    {
+      "generation": "2세대",
+      "period": "2018~현재",
+      "code": "",
+      "note": "크로스컨트리 포함"
+    }
+  ],
+  "V90": [
+    {
+      "generation": "2세대",
+      "period": "2016~현재",
+      "code": "",
+      "note": "크로스컨트리 포함"
+    }
+  ],
+  "XC40": [
+    {
+      "generation": "1세대",
+      "period": "2018~현재",
+      "code": "",
+      "note": "리차지 EV포함"
+    }
+  ],
+  "EX30": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "소형 전기SUV"
+    }
+  ],
+  "EX40": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "XC40 전기 후속"
+    }
+  ],
+  "EX90": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "XC90 전기 후속"
+    }
+  ],
+  "EC40": [
+    {
+      "generation": "1세대",
+      "period": "2024~현재",
+      "code": "",
+      "note": "쿠페형"
+    }
   ]
 } as const;
 
-export const DOMESTIC_BRANDS = ["현대","기아","제네시스","KG모빌리티","르노코리아","쉐보레"];
-export const IMPORT_BRANDS = ["BMW","메르세데스-벤츠","아우디","폭스바겐","포르쉐","MINI","볼보","테슬라","토요타","렉서스","혼다","랜드로버","재규어","지프","포드","링컨","폴스타","마세라티","벤틀리","롤스로이스","페라리","람보르기니","푸조","시트로엥","DS","BYD","캐딜락","GMC","맥라렌","애스턴마틴","알파로메오","로터스","스마트","닛산/인피니티","스바루","크라이슬러/닷지","피아트"];
+export const DOMESTIC_BRANDS = ["현대", "기아", "제네시스", "KG모빌리티", "르노코리아", "쉐보레"];
+export const IMPORT_BRANDS = ["BMW", "메르세데스-벤츠", "아우디", "폭스바겐", "포르쉐", "MINI", "볼보", "테슬라", "토요타", "렉서스", "혼다", "랜드로버", "재규어", "지프", "포드", "링컨", "폴스타", "마세라티", "벤틀리", "롤스로이스", "페라리", "람보르기니", "푸조", "시트로엥", "DS", "BYD", "캐딜락", "GMC", "맥라렌", "애스턴마틴", "알파로메오", "로터스", "스마트", "닛산/인피니티", "스바루", "크라이슬러/닷지", "피아트", "벤츠"];
 export const ALL_BRANDS = [...DOMESTIC_BRANDS, ...IMPORT_BRANDS];
