@@ -110,6 +110,11 @@ export default function Navbar() {
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {/* 알림 + 설정 (PC) */}
+            <div className="nav-pc-menu" style={{ display:"flex", alignItems:"center", gap:4 }}>
+              <Link href="/notifications" style={{ padding:6, borderRadius:8, color:"#AAA", display:"flex", alignItems:"center" }} title="알림">🔔</Link>
+              <Link href="/settings" style={{ padding:6, borderRadius:8, color:"#AAA", display:"flex", alignItems:"center" }} title="설정">⚙️</Link>
+            </div>
             {user ? (
               <div ref={userMenuRef} style={{ position: "relative" }}>
                 <button onClick={() => setShowUserMenu(!showUserMenu)} style={{
@@ -188,16 +193,58 @@ export default function Navbar() {
         </div>
 
         {menuOpen && (
-          <div className="nav-mobile-menu" style={{ padding: "8px 16px 16px", borderTop: "1px solid #F0EEE9", display: "flex", flexDirection: "column", gap: 2 }}>
-            {[...NAV_LINKS, { label: "블로그", href: "/blog" }].map(link => (
-              <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} style={{
-                padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 700,
-                color: pathname === link.href ? accent : "#555",
-                background: pathname === link.href ? "#FFF0ED" : "transparent", textDecoration: "none",
-              }}>{link.label}</Link>
-            ))}
-            {isDealerUser && <Link href="/dealer" onClick={() => setMenuOpen(false)} style={{ padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 800, color: "#0066FF", background: "#EEF5FF", textDecoration: "none" }}>🏪 딜러</Link>}
-            {isAdminUser && <Link href="/admin" onClick={() => setMenuOpen(false)} style={{ padding: "12px 14px", borderRadius: 10, fontSize: 15, fontWeight: 800, color: "#FF3B1E", background: "#FFF0ED", textDecoration: "none" }}>⚙️ 관리자</Link>}
+          <div style={{ position:"fixed", top:60, left:0, right:0, bottom:0, background:"rgba(0,0,0,0.3)", zIndex:9998 }} onClick={()=>setMenuOpen(false)} />
+        )}
+        {menuOpen && (
+          <div style={{ position:"fixed", top:60, left:0, right:0, background:"white", zIndex:9999, borderRadius:"0 0 20px 20px", boxShadow:"0 12px 40px rgba(0,0,0,0.15)", maxHeight:"80vh", overflowY:"auto" }}>
+            <div style={{ padding:"20px 24px" }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+                <span style={{ fontSize:16, fontWeight:800 }}>전체 메뉴</span>
+                <button onClick={()=>setMenuOpen(false)} style={{ border:"none", background:"transparent", fontSize:20, cursor:"pointer", color:"#AAA" }}>✕</button>
+              </div>
+
+              {/* 메뉴 그리드 */}
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:0, borderTop:"1px solid #F0EEE9" }}>
+                {[
+                  { label:"전체 매물", href:"/cars" },
+                  { label:"내차 찾기", href:"/quiz-select" },
+                  { label:"차량 MBTI", href:"/mbti" },
+                  { label:"카탈로그", href:"/catalog" },
+                  { label:"자동차 랭킹", href:"/ranking" },
+                  { label:"자동차 배틀", href:"/battle" },
+                  { label:"공개 경매", href:"/auction" },
+                  { label:"블로그", href:"/blog" },
+                  { label:"커뮤니티", href:"/community" },
+                  { label:"딜러 모집", href:"/dealer/apply" },
+                  { label:"클린픽스카", href:"/clean" },
+                  { label:"고객센터", href:"/contact" },
+                ].map(item => (
+                  <Link key={item.href} href={item.href} onClick={()=>setMenuOpen(false)} style={{
+                    padding:"16px 12px", fontSize:14, fontWeight:600, color:"#333",
+                    textDecoration:"none", borderBottom:"1px solid #F0EEE9",
+                    borderRight:"1px solid #F0EEE9",
+                  }}>{item.label}</Link>
+                ))}
+              </div>
+
+              {/* 알림 + 설정 */}
+              <div style={{ display:"flex", gap:10, marginTop:16 }}>
+                <Link href="/notifications" onClick={()=>setMenuOpen(false)} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:6, padding:"14px", background:"#F8F7F4", borderRadius:12, textDecoration:"none", fontSize:14, fontWeight:700, color:"#555" }}>
+                  🔔 알림
+                </Link>
+                <Link href="/settings" onClick={()=>setMenuOpen(false)} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:6, padding:"14px", background:"#F8F7F4", borderRadius:12, textDecoration:"none", fontSize:14, fontWeight:700, color:"#555" }}>
+                  ⚙️ 설정
+                </Link>
+              </div>
+
+              {/* 딜러/관리자 바로가기 */}
+              {(isDealerUser || isAdminUser) && (
+                <div style={{ display:"flex", gap:10, marginTop:10 }}>
+                  {isDealerUser && <Link href="/dealer" onClick={()=>setMenuOpen(false)} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:6, padding:"14px", background:"#EEF5FF", borderRadius:12, textDecoration:"none", fontSize:14, fontWeight:800, color:"#0066FF" }}>🏪 딜러</Link>}
+                  {isAdminUser && <Link href="/admin" onClick={()=>setMenuOpen(false)} style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:6, padding:"14px", background:"#FFF0ED", borderRadius:12, textDecoration:"none", fontSize:14, fontWeight:800, color:"#FF3B1E" }}>⚙️ 관리자</Link>}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </nav>
