@@ -1,94 +1,131 @@
 "use client";
 import { useState, useEffect } from "react";
-import { MessageCircle, CheckCircle, Clock } from "lucide-react";
-import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
+import { MessageSquare, Send, CheckCircle, Clock } from "lucide-react";
 
-interface Inquiry { id:number; message:string; reply:string|null; status:string; createdAt:string; car:{name:string;price:number}; user:{name:string;phone?:string}; }
+interface Inquiry {
+  id:number; message:string; reply?:string; status:string; createdAt:string;
+  user:{name?:string; email?:string; phone?:string};
+  car:{name:string; brand:string; price:number};
+}
 
 export default function DealerInquiriesPage() {
+  const router = useRouter();
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
-  const [selected, setSelected] = useState<Inquiry|null>(null);
-  const [reply, setReply] = useState("");
-  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [replyId, setReplyId] = useState<number|null>(null);
+  const [replyText, setReplyText] = useState("");
+  const [sending, setSending] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/dealer/inquiries").then(r=>r.json()).then(d=>{ if(d.success) setInquiries(d.data); })
-      .catch(()=>setInquiries([
-        {id:1,message:"이 차 아직 있나요? 내일 방문 가능한지요",reply:null,status:"PENDING",createdAt:"2026-03-19",car:{name:"2021 아반떼 CN7",price:1450},user:{name:"김○○",phone:"010-****-1234"}},
-        {id:2,message:"할부 가능한가요? 36개월로 하면 얼마인지",reply:"네 할부 가능합니다! 36개월 기준 월 42만원 정도 예상돼요.",status:"REPLIED",createdAt:"2026-03-18",car:{name:"2020 기아 K5",price:1980},user:{name:"이○○",phone:"010-****-5678"}},
-      ]));
-  }, []);
+  useEffect(()=>{
+    fetch("/api/auth/session").then(r=>r.json()).then(d=>{
+      if(!d?.user?.id || (d.user.role!=="DEALER"&&d.user.role!=="ADMIN")) { router.push("/"); return; }
+      loadInquiries();
+    }).catch(()=>router.push("/"));
+  },[router]);
 
-  const handleReply = async () => {
-    if(!reply.trim()||!selected) return;
-    setSaving(true);
-    await fetch(`/api/inquiries/${selected.id}/reply`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({reply})}).catch(()=>{});
-    setInquiries(p=>p.map(i=>i.id===selected.id?{...i,reply,status:"REPLIED"}:i));
-    setSelected(p=>p?{...p,reply,status:"REPLIED"}:null);
-    setReply(""); setSaving(false);
+  const loadInquiries = async () => {
+    try {
+      const res = await fetch("/api/dealer/inquiries");
+      const data = await res.json();
+      setInquiries(Array.isArray(data)?data:[]);
+    } catch {}
+    setLoading(false);
   };
 
-  const NAV = [["대시보드","/dealer"],["매물","/dealer/cars"],["문의","/dealer/inquiries"],["거래","/dealer/transactions"],["분석","/dealer/analytics"]];
-  const DEALER_STYLE = { bg:"#F0F6FF", border:"#DDEEFF", accent:"#0066FF" };
+  const handleReply = async (inquiryId:number) => {
+    if(!replyText.trim()) return;
+    setSending(true);
+    try {
+      const res = await fetch("/api/dealer/inquiries",{
+        method:"PATCH",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({inquiryId, reply:replyText}),
+      });
+      const data = await res.json();
+      if(data.success) {
+        setInquiries(inquiries.map(i=>i.id===inquiryId?{...i,reply:replyText,status:"REPLIED"}:i));
+        setReplyId(null);
+        setReplyText("");
+      }
+    } catch {}
+    setSending(false);
+  };
+
+  const pending = inquiries.filter(i=>i.status==="PENDING");
+  const replied = inquiries.filter(i=>i.status==="REPLIED");
 
   return (
     <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:${DEALER_STYLE.bg};} a{text-decoration:none;color:inherit;} button,textarea{font-family:'NanumSquareRound',sans-serif;cursor:pointer;} textarea:focus{outline:none;border-color:${DEALER_STYLE.accent}!important;} .row:hover{background:#F0F8FF!important;} @media(max-width:900px){.split{grid-template-columns:1fr!important;}}`}</style>
-      <div style={{minHeight:"100vh",background:DEALER_STYLE.bg}}>
-        <div style={{background:"white",borderBottom:`1.5px solid ${DEALER_STYLE.border}`,padding:"0 32px",height:"68px",display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100,boxShadow:"0 2px 12px rgba(0,100,255,0.06)"}}>
-          <Link href="/" style={{fontFamily:"'Bebas Neue',serif",fontSize:"24px",letterSpacing:"3px",display:"flex",alignItems:"center",gap:"8px"}}><span style={{color:"#FF3B1E"}}>FIX</span><span style={{color:"#1A1A1A"}}>CAR</span><span style={{fontSize:"11px",fontFamily:"'NanumSquareRound',sans-serif",fontWeight:800,color:DEALER_STYLE.accent,background:"#EEF5FF",padding:"3px 10px",borderRadius:"100px",marginLeft:"4px"}}>DEALER</span></Link>
-          <div style={{display:"flex",gap:"4px"}}>{NAV.map(([l,h])=>(<Link key={l} href={h} style={{fontSize:"13px",fontWeight:700,color:h==="/dealer/inquiries"?DEALER_STYLE.accent:"#888",padding:"7px 12px",borderRadius:"9px",background:h==="/dealer/inquiries"?"#EEF5FF":"transparent"}}>{l}</Link>))}</div>
-          <Link href="/dealer"><button style={{background:DEALER_STYLE.bg,color:DEALER_STYLE.accent,border:`1.5px solid ${DEALER_STYLE.border}`,padding:"7px 16px",borderRadius:"100px",fontSize:"12px",fontWeight:700,cursor:"pointer"}}>← 대시보드</button></Link>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} textarea:focus{outline:none;border-color:#0066FF!important;}`}</style>
+      <Navbar/>
+      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
+        <div style={{background:"white",borderBottom:"1px solid #DDEEFF",padding:"20px 24px"}}>
+          <div style={{maxWidth:800,margin:"0 auto",display:"flex",alignItems:"center",gap:10}}>
+            <MessageSquare size={20} color="#0066FF"/>
+            <h1 style={{fontSize:20,fontWeight:800}}>고객 문의 관리</h1>
+            <span style={{fontSize:12,background:"#FF3B1E",color:"white",padding:"2px 10px",borderRadius:100,fontWeight:800,marginLeft:8}}>{pending.length}건 대기</span>
+          </div>
         </div>
-        <div style={{maxWidth:"1000px",margin:"0 auto",padding:"24px 28px 60px"}}>
-          <h1 style={{fontSize:"22px",fontWeight:800,marginBottom:"20px",color:DEALER_STYLE.accent}}>문의 관리</h1>
-          <div className="split" style={{display:"grid",gridTemplateColumns:"300px 1fr",gap:"14px",alignItems:"start"}}>
-            <div style={{background:"white",border:`1.5px solid ${DEALER_STYLE.border}`,borderRadius:"16px",overflow:"hidden"}}>
-              <div style={{padding:"12px 16px",borderBottom:"1px solid #F0EEE9",fontSize:"13px",fontWeight:800,color:DEALER_STYLE.accent}}>전체 {inquiries.length}건 · 미답변 {inquiries.filter(i=>i.status==="PENDING").length}건</div>
-              {inquiries.map(i=>(
-                <div key={i.id} className="row" onClick={()=>setSelected(i)} style={{padding:"14px 16px",borderBottom:"1px solid #F0EEE9",background:selected?.id===i.id?"#EEF5FF":"white",cursor:"pointer",transition:"background 0.1s"}}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"4px"}}>
-                    <span style={{fontSize:"14px",fontWeight:800}}>{i.user.name}</span>
-                    <span style={{background:i.status==="PENDING"?"#FFF8EC":"#EAF6EF",color:i.status==="PENDING"?"#E8A020":"#2D8A52",padding:"2px 8px",borderRadius:"100px",fontSize:"11px",fontWeight:800}}>{i.status==="PENDING"?"미답변":"답변완료"}</span>
+
+        <div style={{maxWidth:800,margin:"0 auto",padding:"20px 16px 80px"}}>
+          {loading?<div style={{textAlign:"center",padding:60,color:"#CCC"}}>로딩 중...</div>:(
+            <>
+              {/* 대기 중 */}
+              {pending.length>0&&(
+                <div style={{marginBottom:24}}>
+                  <h2 style={{fontSize:16,fontWeight:800,color:"#FF3B1E",marginBottom:12}}>
+                    <Clock size={16} style={{verticalAlign:"middle",marginRight:6}}/>답변 대기 ({pending.length})
+                  </h2>
+                  {pending.map(inq=>(
+                    <div key={inq.id} style={{background:"white",borderRadius:16,padding:"20px 22px",marginBottom:10,border:"2px solid #FFE4DE"}}>
+                      <div style={{display:"flex",justifyContent:"space-between",marginBottom:10}}>
+                        <div>
+                          <span style={{fontSize:14,fontWeight:800}}>{inq.car.brand} {inq.car.name}</span>
+                          <span style={{fontSize:12,color:"#AAA",marginLeft:8}}>{inq.car.price?.toLocaleString()}만원</span>
+                        </div>
+                        <span style={{fontSize:11,color:"#CCC"}}>{new Date(inq.createdAt).toLocaleDateString("ko-KR")}</span>
+                      </div>
+                      <div style={{fontSize:12,color:"#888",marginBottom:8}}>
+                        👤 {inq.user.name||"고객"} {inq.user.phone?`· ${inq.user.phone}`:""}
+                      </div>
+                      <div style={{background:"#F8F7F4",borderRadius:10,padding:"12px 14px",fontSize:14,color:"#555",lineHeight:1.7,marginBottom:12}}>{inq.message}</div>
+                      {replyId===inq.id?(
+                        <div>
+                          <textarea rows={3} value={replyText} onChange={e=>setReplyText(e.target.value)} placeholder="답변을 입력하세요" style={{width:"100%",padding:"12px 14px",border:"1.5px solid #DDEEFF",borderRadius:10,fontSize:14,fontFamily:"'NanumSquareRound',sans-serif",resize:"none",marginBottom:8}}/>
+                          <div style={{display:"flex",gap:8}}>
+                            <button onClick={()=>handleReply(inq.id)} disabled={sending} style={{padding:"10px 20px",background:"#0066FF",color:"white",border:"none",borderRadius:10,fontSize:13,fontWeight:800,cursor:"pointer",display:"flex",alignItems:"center",gap:6,fontFamily:"'NanumSquareRound',sans-serif"}}>
+                              <Send size={14}/>{sending?"전송중...":"답변 보내기"}
+                            </button>
+                            <button onClick={()=>{setReplyId(null);setReplyText("");}} style={{padding:"10px 16px",background:"#F0EEE9",color:"#888",border:"none",borderRadius:10,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>취소</button>
+                          </div>
+                        </div>
+                      ):(
+                        <button onClick={()=>setReplyId(inq.id)} style={{padding:"10px 20px",background:"#0066FF",color:"white",border:"none",borderRadius:10,fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>답변하기</button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* 답변 완료 */}
+              <h2 style={{fontSize:16,fontWeight:800,color:"#2D8A52",marginBottom:12}}>
+                <CheckCircle size={16} style={{verticalAlign:"middle",marginRight:6}}/>답변 완료 ({replied.length})
+              </h2>
+              {replied.length===0?<div style={{background:"white",borderRadius:16,padding:"40px",textAlign:"center",color:"#CCC"}}>답변한 문의가 없어요</div>:
+              replied.map(inq=>(
+                <div key={inq.id} style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:8}}>
+                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+                    <span style={{fontSize:14,fontWeight:700}}>{inq.car.brand} {inq.car.name}</span>
+                    <span style={{fontSize:11,color:"#2D8A52",fontWeight:700}}>✓ 답변완료</span>
                   </div>
-                  <div style={{fontSize:"12px",color:"#888",fontWeight:400,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",marginBottom:"2px"}}>{i.car.name}</div>
-                  <div style={{fontSize:"12px",color:"#BBB",fontWeight:400,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{i.message}</div>
+                  <div style={{fontSize:13,color:"#888",marginBottom:6}}>{inq.message}</div>
+                  <div style={{background:"#EEF5FF",borderRadius:8,padding:"10px 12px",fontSize:13,color:"#0066FF",fontWeight:500}}>{inq.reply}</div>
                 </div>
               ))}
-            </div>
-            {selected ? (
-              <div style={{background:"white",border:`1.5px solid ${DEALER_STYLE.border}`,borderRadius:"16px",padding:"20px 22px"}}>
-                <div style={{marginBottom:"14px",paddingBottom:"12px",borderBottom:"1px solid #F0EEE9"}}>
-                  <div style={{fontSize:"16px",fontWeight:800,marginBottom:"3px"}}>{selected.user.name}</div>
-                  <div style={{fontSize:"13px",color:"#888",fontWeight:400}}>{selected.car.name} · {selected.car.price.toLocaleString()}만원</div>
-                  {selected.user.phone&&<div style={{fontSize:"13px",color:DEALER_STYLE.accent,fontWeight:700,marginTop:"4px"}}>{selected.user.phone}</div>}
-                </div>
-                <div style={{background:"#F8FBFF",borderRadius:"12px",padding:"14px 16px",marginBottom:"12px"}}>
-                  <div style={{fontSize:"11px",color:"#AAA",marginBottom:"6px",fontWeight:400,display:"flex",alignItems:"center",gap:"4px"}}><Clock size={11}/> {selected.createdAt}</div>
-                  <div style={{fontSize:"14px",color:"#333",lineHeight:1.75,fontWeight:400}}>{selected.message}</div>
-                </div>
-                {selected.reply&&(
-                  <div style={{background:"#EEF5FF",borderRadius:"12px",padding:"14px 16px",marginBottom:"12px"}}>
-                    <div style={{fontSize:"11px",color:DEALER_STYLE.accent,fontWeight:800,marginBottom:"6px",display:"flex",alignItems:"center",gap:"4px"}}><CheckCircle size={11}/> 내 답변</div>
-                    <div style={{fontSize:"14px",color:"#333",lineHeight:1.75,fontWeight:400}}>{selected.reply}</div>
-                  </div>
-                )}
-                {selected.status==="PENDING"&&(
-                  <>
-                    <textarea rows={4} value={reply} onChange={e=>setReply(e.target.value)} placeholder="답변을 입력해주세요..." style={{width:"100%",border:`1.5px solid ${DEALER_STYLE.border}`,borderRadius:"10px",padding:"12px",fontSize:"14px",resize:"none",marginBottom:"10px",background:"#FAFCFF"}}/>
-                    <button onClick={handleReply} disabled={!reply.trim()||saving} style={{width:"100%",background:!reply.trim()?"#E0DDD7":DEALER_STYLE.accent,color:!reply.trim()?"#AAA":"white",border:"none",padding:"12px",borderRadius:"10px",fontSize:"14px",fontWeight:800,cursor:!reply.trim()?"default":"pointer"}}>
-                      {saving?"전송 중...":"답변 전송"}
-                    </button>
-                  </>
-                )}
-              </div>
-            ) : (
-              <div style={{background:"white",border:`1.5px solid ${DEALER_STYLE.border}`,borderRadius:"16px",padding:"60px",textAlign:"center",color:"#AAA"}}>
-                <MessageCircle size={40} color="#DDEEFF" style={{margin:"0 auto 12px"}}/>
-                <div style={{fontSize:"14px",fontWeight:700}}>문의를 선택하세요</div>
-              </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </>

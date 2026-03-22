@@ -194,7 +194,7 @@ export default async function Home() {
             {[
               { emoji:"", bgImg:"/icon/main_ranking_button.png", title:"자동차 랭킹", subtitle:"궁금하지 않아? 세상 모든 차량 순위가", desc:"최고가·최저가·깡통·풀옵·저주행·초보추천 랭킹표 전체", href:"/ranking", color:"#FF3B1E", bg:"#FFF0ED" },
               { emoji:"", bgImg:"/icon/main_catalog_button.png", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
-              { emoji:"⚔️", bgImg:"", title:"자동차 지식배틀", subtitle:"스포츠카 vs 럭셔리카 64강 토너먼트", desc:"당신의 드림카는? 64대 자동차 월드컵 지금 시작!", href:"/battle", color:"#9B30FF", bg:"#F5EEFF" },
+              { emoji:"⚔️", bgImg:"", title:"자동차 32강 토너먼트", subtitle:"32대 랜덤 대진 · 가격·마력 비교 선택", desc:"당신의 드림카는? 32강 자동차 토너먼트 지금 시작!", href:"/battle", color:"#9B30FF", bg:"#F5EEFF" },
               { emoji:"", bgImg:"/icon/main_auction_button.png", title:"공개 경매", subtitle:"실시간 입찰, 투명한 가격 경쟁", desc:"직접 검수한 차량을 경매로! 뒷자리 숨김 입찰 시스템", href:"/auction", color:"#E8A020", bg:"#FFF8EC" },
               { emoji:"", bgImg:"/icon/main_blog_button.png", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"모아놓는 중! 딜러 추천 꿀템부터 관리 노하우까지", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
               { emoji:"", bgImg:"/icon/main_community_button.png", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#CC6633", bg:"#FFF5ED" },
@@ -202,7 +202,7 @@ export default async function Home() {
               <a key={item.title} href={item.href}>
                 <div className="content-banner-card" style={{
                   background: item.bgImg ? `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.55))` : "white",
-                  borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%", minHeight:"220px",
+                  borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%",
                   position:"relative", overflow:"hidden",
                 }}>
                   {item.bgImg && (

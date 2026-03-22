@@ -1,51 +1,49 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import RoleGuard from "@/components/RoleGuard";
+import BlogEditor from "@/components/BlogEditor";
 import { useRouter } from "next/navigation";
-import { Upload, X, Image as ImageIcon } from "lucide-react";
+import { ChevronLeft, Upload, Send } from "lucide-react";
+import Link from "next/link";
 
-function BlogWriteContent() {
+const CATEGORIES = ["구매 가이드","차량 관리","소모품/꿀템","보험/금융","초보 운전","뉴스/이벤트"];
+
+export default function BlogWritePage() {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("구매 가이드");
   const [thumbnail, setThumbnail] = useState("");
-  const [images, setImages] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const CATEGORIES = ["구매팁","로드테스트","리뷰","정비/관리","뉴스","자유"];
+  useEffect(() => {
+    fetch("/api/auth/session").then(r=>r.json()).then(d=>{
+      if (d?.user?.role === "ADMIN") setIsAdmin(true);
+      else router.push("/blog");
+    }).catch(()=>router.push("/blog"));
+  }, [router]);
 
-  /* 서버 API로 이미지 업로드 */
-  const uploadImage = async (file: File): Promise<string | null> => {
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      return data.url || null;
-    } catch { return null; }
+  const handleThumbnailUpload = async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append("file", file);
+      try {
+        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        const data = await res.json();
+        if (data.url) setThumbnail(data.url);
+        else alert("업로드 실패");
+      } catch { alert("업로드 오류"); }
+    };
+    input.click();
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, isThumbnail = false) => {
-    const files = e.target.files;
-    if (!files) return;
-    setUploading(true);
-    for (const file of Array.from(files)) {
-      const url = await uploadImage(file);
-      if (url) {
-        if (isThumbnail) { setThumbnail(url); }
-        else {
-          setImages(prev => [...prev, url]);
-          setContent(prev => prev + `\n[이미지: ${url}]\n`);
-        }
-      } else { alert("이미지 업로드에 실패했어요. Cloudinary 설정을 확인해주세요."); }
-    }
-    setUploading(false);
-  };
-
-  const handleSave = async () => {
+  const handleSubmit = async () => {
     if (!title.trim()) { alert("제목을 입력해주세요"); return; }
     if (!content.trim()) { alert("내용을 입력해주세요"); return; }
     setSaving(true);
@@ -57,109 +55,82 @@ function BlogWriteContent() {
       });
       const data = await res.json();
       if (data.success) {
-        alert("글이 등록됐어요!");
+        alert("글이 작성됐어요!");
         router.push("/blog");
-      } else { alert("저장 실패: " + (data.error || "다시 시도해주세요")); }
+      } else {
+        alert("작성 실패: " + (data.error || "다시 시도해주세요"));
+      }
     } catch { alert("네트워크 오류"); }
     setSaving(false);
   };
 
+  if (!isAdmin) return <><Navbar/><div style={{textAlign:"center",padding:100,color:"#CCC"}}>권한 확인 중...</div></>;
+
   return (
     <>
-      <style>{`
-        @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
-        input:focus,textarea:focus,select:focus{outline:none;border-color:#FF3B1E!important;}
-      `}</style>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} input:focus,select:focus{outline:none;border-color:#FF3B1E!important;}`}</style>
       <Navbar/>
       <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <div style={{background:"#1A1A1A",padding:"36px 24px 28px"}}>
-          <div style={{maxWidth:800,margin:"0 auto"}}>
-            <h1 style={{fontSize:26,fontWeight:800,color:"white"}}>✏️ 블로그 글쓰기</h1>
-            <p style={{fontSize:13,color:"rgba(255,255,255,0.4)",marginTop:4}}>관리자 전용</p>
-          </div>
-        </div>
-        <div style={{maxWidth:800,margin:"0 auto",padding:"24px 16px 100px"}}>
-          {/* 카테고리 */}
-          <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
-            {CATEGORIES.map(c=>(
-              <button key={c} onClick={()=>setCategory(c)} style={{
-                padding:"8px 16px",borderRadius:100,border:category===c?"2px solid #FF3B1E":"1.5px solid #E0DDD7",
-                background:category===c?"#FFF0ED":"white",color:category===c?"#FF3B1E":"#888",
-                fontSize:13,fontWeight:category===c?800:600,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",
-              }}>{c}</button>
-            ))}
-          </div>
+        <div style={{maxWidth:800,margin:"0 auto",padding:"28px 24px 100px"}}>
+          <Link href="/blog" style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:13,fontWeight:700,color:"#888",marginBottom:20,textDecoration:"none"}}><ChevronLeft size={14}/>블로그 목록</Link>
 
-          {/* 제목 */}
-          <input type="text" value={title} onChange={e=>setTitle(e.target.value)} placeholder="제목을 입력하세요"
-            style={{width:"100%",padding:"18px 22px",border:"none",borderRadius:16,fontSize:22,fontWeight:800,fontFamily:"'NanumSquareRound',sans-serif",marginBottom:14,background:"white"}}/>
+          <div style={{background:"white",borderRadius:20,padding:"32px 30px"}}>
+            <h1 style={{fontSize:24,fontWeight:800,marginBottom:24}}>블로그 글쓰기</h1>
 
-          {/* 대표 이미지 */}
-          <div style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:14}}>
-            <div style={{fontSize:13,fontWeight:800,marginBottom:10}}>대표 이미지 (썸네일)</div>
-            {thumbnail ? (
-              <div style={{position:"relative",borderRadius:12,overflow:"hidden",marginBottom:10}}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={thumbnail} alt="" style={{width:"100%",maxHeight:300,objectFit:"cover"}}/>
-                <button onClick={()=>setThumbnail("")} style={{position:"absolute",top:8,right:8,width:28,height:28,borderRadius:"50%",background:"rgba(0,0,0,0.6)",border:"none",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}><X size={14} color="white"/></button>
-              </div>
-            ) : (
-              <label style={{display:"flex",alignItems:"center",justifyContent:"center",height:120,border:"2px dashed #E0DDD7",borderRadius:12,cursor:"pointer",background:"#FAFAF8"}}>
-                <div style={{textAlign:"center"}}>
-                  <Upload size={24} color="#CCC" style={{marginBottom:4}}/>
-                  <div style={{fontSize:13,color:"#AAA"}}>{uploading?"업로드 중...":"클릭하여 대표 이미지 선택"}</div>
+            {/* 썸네일 */}
+            <div style={{marginBottom:20}}>
+              <label style={{fontSize:13,fontWeight:800,display:"block",marginBottom:8}}>대표 이미지</label>
+              {thumbnail ? (
+                <div style={{position:"relative",borderRadius:12,overflow:"hidden",marginBottom:8}}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={thumbnail} alt="" style={{width:"100%",maxHeight:250,objectFit:"cover"}}/>
+                  <button onClick={()=>setThumbnail("")} style={{position:"absolute",top:8,right:8,background:"rgba(0,0,0,0.6)",color:"white",border:"none",borderRadius:"50%",width:28,height:28,cursor:"pointer",fontSize:14}}>✕</button>
                 </div>
-                <input type="file" accept="image/*" onChange={e=>handleImageUpload(e,true)} style={{display:"none"}} disabled={uploading}/>
-              </label>
-            )}
-          </div>
-
-          {/* 본문 */}
-          <div style={{background:"white",borderRadius:16,overflow:"hidden",marginBottom:14}}>
-            <div style={{display:"flex",gap:4,padding:"10px 16px",borderBottom:"1px solid #F0EEE9",flexWrap:"wrap",alignItems:"center"}}>
-              <label style={{display:"flex",alignItems:"center",gap:4,padding:"6px 12px",borderRadius:8,background:"#EEF2FF",color:"#1847FF",fontSize:12,fontWeight:700,cursor:uploading?"wait":"pointer"}}>
-                <ImageIcon size={14}/>{uploading?"업로드 중...":"📷 사진 추가"}
-                <input type="file" accept="image/*" multiple onChange={e=>handleImageUpload(e,false)} style={{display:"none"}} disabled={uploading}/>
-              </label>
-              <span style={{fontSize:11,color:"#CCC",marginLeft:8}}>본문에 사진을 여러 장 삽입할 수 있어요</span>
+              ) : (
+                <button onClick={handleThumbnailUpload} style={{width:"100%",padding:"28px",border:"2px dashed #E0DDD7",borderRadius:12,background:"#F8F7F4",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8,fontSize:14,fontWeight:600,color:"#AAA",fontFamily:"'NanumSquareRound',sans-serif"}}>
+                  <Upload size={18}/> 대표 이미지 업로드
+                </button>
+              )}
             </div>
-            <textarea value={content} onChange={e=>setContent(e.target.value)} placeholder="내용을 입력하세요... 사진은 위 '사진 추가' 버튼으로 삽입할 수 있어요."
-              style={{width:"100%",minHeight:400,padding:"20px 22px",border:"none",fontSize:15,fontFamily:"'NanumSquareRound',sans-serif",lineHeight:1.8,resize:"vertical"}}/>
-          </div>
 
-          {/* 삽입된 이미지 미리보기 */}
-          {images.length > 0 && (
-            <div style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:14}}>
-              <div style={{fontSize:13,fontWeight:800,marginBottom:10}}>삽입된 이미지 ({images.length}장)</div>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}}>
-                {images.map((img,i)=>(
-                  <div key={i} style={{position:"relative",borderRadius:8,overflow:"hidden",aspectRatio:"4/3"}}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-                    <button onClick={()=>setImages(prev=>prev.filter((_,j)=>j!==i))} style={{position:"absolute",top:4,right:4,width:20,height:20,borderRadius:"50%",background:"rgba(0,0,0,0.6)",border:"none",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}><X size={10} color="white"/></button>
-                  </div>
+            {/* 카테고리 */}
+            <div style={{marginBottom:16}}>
+              <label style={{fontSize:13,fontWeight:800,display:"block",marginBottom:8}}>카테고리</label>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                {CATEGORIES.map(c=>(
+                  <button key={c} onClick={()=>setCategory(c)} style={{
+                    padding:"8px 16px",borderRadius:100,border:category===c?"2px solid #FF3B1E":"1.5px solid #E0DDD7",
+                    background:category===c?"#FFF0ED":"white",color:category===c?"#FF3B1E":"#888",
+                    fontSize:13,fontWeight:category===c?800:500,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",
+                  }}>{c}</button>
                 ))}
               </div>
             </div>
-          )}
 
-          <button onClick={handleSave} disabled={saving} style={{
-            width:"100%",padding:"18px",background:saving?"#CCC":"#FF3B1E",color:"white",border:"none",
-            borderRadius:14,fontSize:16,fontWeight:800,cursor:saving?"wait":"pointer",fontFamily:"'NanumSquareRound',sans-serif",
-          }}>{saving?"저장 중...":"📝 글 등록하기"}</button>
+            {/* 제목 */}
+            <div style={{marginBottom:16}}>
+              <label style={{fontSize:13,fontWeight:800,display:"block",marginBottom:8}}>제목</label>
+              <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="글 제목을 입력하세요" maxLength={200} style={{width:"100%",padding:"14px 16px",border:"1.5px solid #E0DDD7",borderRadius:12,fontSize:16,fontWeight:700,fontFamily:"'NanumSquareRound',sans-serif"}}/>
+            </div>
+
+            {/* 리치 에디터 */}
+            <div style={{marginBottom:24}}>
+              <label style={{fontSize:13,fontWeight:800,display:"block",marginBottom:8}}>내용</label>
+              <BlogEditor value={content} onChange={setContent} />
+            </div>
+
+            {/* 발행 */}
+            <button onClick={handleSubmit} disabled={saving} style={{
+              width:"100%",padding:"16px",background:saving?"#CCC":"#FF3B1E",color:"white",
+              border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:saving?"wait":"pointer",
+              display:"flex",alignItems:"center",justifyContent:"center",gap:8,
+              fontFamily:"'NanumSquareRound',sans-serif",
+            }}>
+              <Send size={18}/> {saving?"발행 중...":"블로그 발행하기"}
+            </button>
+          </div>
         </div>
       </div>
     </>
-  );
-}
-
-/* ★ 관리자만 접근 가능 */
-export default function BlogWritePage() {
-  return (
-    <RoleGuard allowedRoles={["ADMIN"]}>
-      <BlogWriteContent />
-    </RoleGuard>
   );
 }

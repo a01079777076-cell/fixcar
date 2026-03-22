@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import BottomTabBar from "@/components/BottomTabBar";
 import PortOneScript from "@/components/PortOneScript";
+import WelcomePopup from "@/components/WelcomePopup";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX";
 const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || "";
@@ -14,7 +15,6 @@ export const metadata: Metadata = {
   authors: [{ name:"픽스카 FIXCAR", url:"https://www.fixcar.kr" }],
   creator: "픽스카 FIXCAR",
   publisher: "픽스카 FIXCAR",
-  /* ★ 검색엔진 노출 차단 (오픈 시 index:true, follow:true 로 원복) */
   robots: { index:false, follow:false, googleBot:{ index:false, follow:false } },
   openGraph: { type:"website", locale:"ko_KR", url:"https://www.fixcar.kr", siteName:"픽스카 FIXCAR", title:"픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다", description:"광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차.", images:[{ url:"/og-image.png", width:1200, height:630, alt:"픽스카 FIXCAR - 광주 중고차 정찰제 플랫폼" }] },
   twitter: { card:"summary_large_image", title:"픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다", description:"광주 1위 중고차 정찰제 플랫폼.", images:["/og-image.png"] },
@@ -27,7 +27,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ko">
       <head>
-        {/* 구글 애널리틱스 */}
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer = window.dataLayer || [];
@@ -35,8 +34,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           gtag('js', new Date());
           gtag('config', '${GA_ID}', { page_path: window.location.pathname });
         `}} />
-
-        {/* 카카오 JS SDK (카카오톡 채널 + 공유 버튼용) */}
         {KAKAO_JS_KEY && <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossOrigin="anonymous" />}
         {KAKAO_JS_KEY && <script dangerouslySetInnerHTML={{ __html: `
           window.kakaoInited = false;
@@ -47,14 +44,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             }
           });
         `}} />}
-
-        {/* 지역 SEO */}
         <meta name="geo.region" content="KR-29" />
         <meta name="geo.placename" content="광주광역시" />
         <meta name="geo.position" content="35.1595;126.8526" />
         <meta name="ICBM" content="35.1595, 126.8526" />
-
-        {/* 구조화 데이터 (JSON-LD) */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "AutoDealer",
@@ -69,10 +62,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           "sameAs": ["https://www.fixcar.kr"],
         })}} />
       </head>
-      
-      <body>{children}
+      <body>
+        {children}
         <BottomTabBar />
         <PortOneScript />
+        <WelcomePopup />
       </body>
     </html>
   );

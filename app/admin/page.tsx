@@ -2,69 +2,153 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Shield, Car, Users, FileText, BarChart3, MessageSquare, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
 export default function AdminPage() {
-  const [stats, setStats] = useState({ totalUsers:0, totalCars:0, totalVisitors:0, totalInquiries:0, totalErrors:0, pendingDealers:0 });
+  const router = useRouter();
+  const [user, setUser] = useState<{role?:string}|null>(null);
+  const [tab, setTab] = useState("dashboard");
+  const [cars, setCars] = useState<any[]>([]);
+  const [stats, setStats] = useState({totalCars:0,pendingCars:0,totalUsers:0,totalInquiries:0,todayVisitors:0});
 
-  useEffect(() => {
-    fetch("/api/admin/stats").then(r=>r.json()).then(d=>setStats({...stats,...d})).catch(()=>{});
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(()=>{
+    fetch("/api/auth/session").then(r=>r.json()).then(d=>{
+      if(d?.user?.role!=="ADMIN") { router.push("/"); return; }
+      setUser(d.user);
+      loadData();
+    }).catch(()=>router.push("/"));
+  },[router]);
 
-  const MENUS = [
-    { icon:"👥", title:"회원 관리", desc:"전체 회원 목록 · 연락처 · 가입일", href:"/admin/users", color:"#1847FF", bg:"#EEF2FF" },
-    { icon:"📊", title:"방문자 통계", desc:"일별·페이지별 방문 로그", href:"/admin/visitors", color:"#00C471", bg:"#E8F8EF" },
-    { icon:"🚗", title:"딜러 관리", desc:`대기 ${stats.pendingDealers}명 · 승인·거부 · 딜러 정보`, href:"/admin/dealers", color:"#E8A020", bg:"#FFF8EC" },
-    { icon:"⚙️", title:"사이트 설정", desc:"기본 설정 · 공지 · 배너", href:"/admin/settings", color:"#9B30FF", bg:"#F5EEFF" },
-    { icon:"🚨", title:"오류 신고 접수", desc:"사용자 오류 신고 확인 · 처리", href:"/admin/errors", color:"#E24B4A", bg:"#FFF0ED" },
+  const loadData = async () => {
+    try {
+      const [cRes] = await Promise.all([
+        fetch("/api/admin/cars").then(r=>r.json()).catch(()=>[]),
+      ]);
+      if(Array.isArray(cRes)) setCars(cRes);
+    } catch {}
+  };
+
+  const updateCarStatus = async (carId:number, status:string) => {
+    try {
+      await fetch("/api/admin/cars", {
+        method:"PATCH",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({carId, status}),
+      });
+      setCars(cars.map(c=>c.id===carId?{...c,status}:c));
+    } catch {}
+  };
+
+  if(!user) return <><Navbar/><div style={{textAlign:"center",padding:100,color:"#CCC"}}>권한 확인 중...</div></>;
+
+  const TABS = [
+    {id:"dashboard",label:"대시보드",icon:BarChart3},
+    {id:"cars",label:"매물 관리",icon:Car},
+    {id:"inquiries",label:"문의 관리",icon:MessageSquare},
+    {id:"reports",label:"신고 관리",icon:AlertTriangle},
   ];
+
+  const pendingCars = cars.filter(c=>c.status==="REVIEWING");
+  const activeCars = cars.filter(c=>c.status==="AVAILABLE");
 
   return (
     <>
-      <style>{`
-        @import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css');
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
-        .admin-card{transition:all 0.2s;cursor:pointer;} .admin-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)!important;}
-      `}</style>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F8F7F4;}`}</style>
       <Navbar/>
-      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <div style={{background:"#1A1A1A",padding:"36px 24px 28px"}}>
-          <div style={{maxWidth:900,margin:"0 auto"}}>
-            <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:12,letterSpacing:4,color:"#FF3B1E",marginBottom:6}}>ADMIN PANEL</div>
-            <h1 style={{fontSize:28,fontWeight:800,color:"white"}}>관리자 대시보드</h1>
+      <div style={{minHeight:"100vh",background:"#F8F7F4"}}>
+        <div style={{background:"#0A0A0A",padding:"20px 24px"}}>
+          <div style={{maxWidth:1200,margin:"0 auto",display:"flex",alignItems:"center",gap:12}}>
+            <Shield size={20} color="#FF3B1E"/>
+            <span style={{fontSize:18,fontWeight:800,color:"white"}}>관리자 패널</span>
           </div>
         </div>
 
-        <div style={{maxWidth:900,margin:"0 auto",padding:"24px 16px 100px"}}>
-          {/* KPI */}
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(140px, 1fr))",gap:12,marginBottom:24}}>
-            {[
-              {label:"전체 회원",value:stats.totalUsers,color:"#1847FF"},
-              {label:"등록 매물",value:stats.totalCars,color:"#FF3B1E"},
-              {label:"총 방문자",value:stats.totalVisitors,color:"#00C471"},
-              {label:"문의",value:stats.totalInquiries,color:"#E8A020"},
-              {label:"오류신고",value:stats.totalErrors,color:"#E24B4A"},
-            ].map((k,i)=>(
-              <div key={i} style={{background:"white",borderRadius:16,padding:"20px 18px",textAlign:"center"}}>
-                <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:28,color:k.color}}>{k.value}</div>
-                <div style={{fontSize:12,color:"#AAA",fontWeight:400,marginTop:4}}>{k.label}</div>
-              </div>
-            ))}
+        <div style={{maxWidth:1200,margin:"0 auto",padding:"20px 16px 80px",display:"flex",gap:20}}>
+          {/* 사이드바 */}
+          <div style={{width:200,flexShrink:0}}>
+            {TABS.map(t=>{
+              const Icon = t.icon;
+              return (
+                <button key={t.id} onClick={()=>setTab(t.id)} style={{
+                  width:"100%",padding:"14px 16px",borderRadius:12,border:"none",marginBottom:4,
+                  background:tab===t.id?"white":"transparent",color:tab===t.id?"#FF3B1E":"#888",
+                  fontSize:14,fontWeight:tab===t.id?800:600,textAlign:"left",cursor:"pointer",
+                  display:"flex",alignItems:"center",gap:10,fontFamily:"'NanumSquareRound',sans-serif",
+                  boxShadow:tab===t.id?"0 2px 8px rgba(0,0,0,0.06)":"none",
+                }}>
+                  <Icon size={18}/>{t.label}
+                </button>
+              );
+            })}
           </div>
 
-          {/* 메뉴 */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-            {MENUS.map(m=>(
-              <Link key={m.href} href={m.href} style={{textDecoration:"none"}}>
-                <div className="admin-card" style={{background:"white",borderRadius:18,padding:"24px",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}>
-                  <div style={{width:48,height:48,borderRadius:14,background:m.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,marginBottom:14}}>{m.icon}</div>
-                  <div style={{fontSize:16,fontWeight:800,color:"#1A1A1A",marginBottom:4}}>{m.title}</div>
-                  <div style={{fontSize:13,color:"#AAA",fontWeight:400}}>{m.desc}</div>
+          {/* 컨텐츠 */}
+          <div style={{flex:1}}>
+            {tab==="dashboard"&&(
+              <>
+                <h2 style={{fontSize:22,fontWeight:800,marginBottom:16}}>대시보드</h2>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:24}}>
+                  {[
+                    {label:"전체 매물",value:cars.length,color:"#1847FF"},
+                    {label:"검수 대기",value:pendingCars.length,color:"#E8A020"},
+                    {label:"판매 중",value:activeCars.length,color:"#2D8A52"},
+                    {label:"판매 완료",value:cars.filter(c=>c.status==="SOLD").length,color:"#888"},
+                  ].map(s=>(
+                    <div key={s.label} style={{background:"white",borderRadius:16,padding:"22px 20px"}}>
+                      <div style={{fontSize:11,color:"#AAA",marginBottom:6}}>{s.label}</div>
+                      <div style={{fontSize:28,fontWeight:800,color:s.color}}>{s.value}</div>
+                    </div>
+                  ))}
                 </div>
-              </Link>
-            ))}
+                {pendingCars.length>0&&(
+                  <div style={{background:"#FFF0ED",borderRadius:16,padding:"18px 22px",border:"1px solid #FFB8A8"}}>
+                    <div style={{fontSize:14,fontWeight:800,color:"#FF3B1E",marginBottom:4}}>⚠️ 검수 대기 매물 {pendingCars.length}건</div>
+                    <button onClick={()=>setTab("cars")} style={{border:"none",background:"transparent",fontSize:13,fontWeight:700,color:"#FF3B1E",cursor:"pointer",padding:0}}>매물 관리로 이동 →</button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {tab==="cars"&&(
+              <>
+                <h2 style={{fontSize:22,fontWeight:800,marginBottom:16}}>매물 관리 ({cars.length})</h2>
+                <div style={{background:"white",borderRadius:18,overflow:"hidden"}}>
+                  {/* 헤더 */}
+                  <div style={{display:"grid",gridTemplateColumns:"60px 1fr 100px 100px 120px",padding:"14px 20px",background:"#F8F7F4",fontSize:12,fontWeight:800,color:"#AAA"}}>
+                    <span>ID</span><span>차량명</span><span>가격</span><span>상태</span><span>액션</span>
+                  </div>
+                  {cars.length===0?<div style={{padding:"40px",textAlign:"center",color:"#CCC"}}>등록된 매물이 없어요</div>:
+                  cars.map(car=>(
+                    <div key={car.id} style={{display:"grid",gridTemplateColumns:"60px 1fr 100px 100px 120px",padding:"14px 20px",borderBottom:"1px solid #F0EEE9",alignItems:"center",fontSize:13}}>
+                      <span style={{color:"#CCC"}}>#{car.id}</span>
+                      <span style={{fontWeight:700}}>{car.brand} {car.name}</span>
+                      <span>{car.price?.toLocaleString()}만</span>
+                      <span style={{
+                        fontSize:11,fontWeight:700,padding:"3px 8px",borderRadius:100,display:"inline-block",
+                        background:car.status==="AVAILABLE"?"#EAF6EF":car.status==="REVIEWING"?"#FFF0ED":"#F0EEE9",
+                        color:car.status==="AVAILABLE"?"#2D8A52":car.status==="REVIEWING"?"#FF3B1E":"#888",
+                      }}>{car.status==="AVAILABLE"?"판매중":car.status==="REVIEWING"?"검수대기":car.status==="SOLD"?"판매완료":"예약"}</span>
+                      <div style={{display:"flex",gap:4}}>
+                        {car.status==="REVIEWING"&&(
+                          <>
+                            <button onClick={()=>updateCarStatus(car.id,"AVAILABLE")} style={{border:"none",background:"#2D8A52",color:"white",borderRadius:6,padding:"4px 10px",fontSize:11,fontWeight:700,cursor:"pointer"}}><CheckCircle size={12}/> 승인</button>
+                            <button onClick={()=>updateCarStatus(car.id,"SOLD")} style={{border:"none",background:"#E24B4A",color:"white",borderRadius:6,padding:"4px 10px",fontSize:11,fontWeight:700,cursor:"pointer"}}><XCircle size={12}/> 반려</button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {(tab==="inquiries"||tab==="reports")&&(
+              <div style={{background:"white",borderRadius:18,padding:"48px",textAlign:"center",color:"#CCC"}}>
+                <div style={{fontSize:36,marginBottom:12}}>{tab==="inquiries"?"💬":"⚠️"}</div>
+                <p>{tab==="inquiries"?"문의 관리":"신고 관리"} — 연동 준비 중</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
