@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import { CAR_SPECS, CAR_GRADES, BRAND_MODELS } from "@/data/catalog_data";
+import { CAR_SPECS, CAR_GRADES, BRAND_MODELS, CAR_HISTORY } from "@/data/catalog_data";
 import { Trophy, Zap, Fuel, DollarSign, Gauge, ArrowRight, ChevronDown } from "lucide-react";
 
 /* 타입 */
@@ -18,6 +18,9 @@ interface RankCar {
   zeroToHundred: number;
   fuel: string;
   weight: number;
+  status: string; /* 현행 / 단종 */
+  yearStart: number; /* 판매 시작 연도 */
+  yearEnd: number; /* 판매 종료 연도 (현행이면 2026) */
 }
 
 /* 카탈로그에서 랭킹 데이터 추출 */
@@ -30,12 +33,37 @@ function buildRankData(): RankCar[] {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const brands = BRAND_MODELS as any;
 
-  /* 브랜드 매핑 */
+  /* 브랜드 + 상태 매핑 */
   const nameToBrand: Record<string,string> = {};
+  const nameToStatus: Record<string,string> = {};
   for (const [brand, info] of Object.entries(brands)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     for (const m of (info as any).models || []) {
       nameToBrand[m.name] = brand;
+      nameToStatus[m.name] = m.status || "";
+    }
+  }
+
+  /* 히스토리에서 연도 추출 */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const history = CAR_HISTORY as any;
+  const nameToYears: Record<string,{start:number;end:number}> = {};
+  for (const [hName, hList] of Object.entries(history)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    for (const h of (hList as any[])) {
+      const period = String(h.period || "");
+      const years = period.match(/\d{4}/g);
+      if (years) {
+        const nums = years.map(Number);
+        const isCurrentStr = period.includes("현재");
+        for (const modelName of Object.keys(specs)) {
+          if (modelName.includes(hName) || hName.includes(modelName.split(" ")[0])) {
+            if (!nameToYears[modelName]) nameToYears[modelName] = { start: 9999, end: 0 };
+            nameToYears[modelName].start = Math.min(nameToYears[modelName].start, Math.min(...nums));
+            nameToYears[modelName].end = Math.max(nameToYears[modelName].end, isCurrentStr ? 2026 : Math.max(...nums));
+          }
+        }
+      }
     }
   }
 
@@ -52,6 +80,9 @@ function buildRankData(): RankCar[] {
     const zStr = String(s.zeroToHundred || "").replace("초","").trim();
     const z = parseFloat(zStr) || 99;
 
+    const yInfo = nameToYears[name];
+    const st = nameToStatus[name] || (yInfo && yInfo.end >= 2025 ? "현행" : "단종");
+
     result.push({
       name,
       brand: nameToBrand[name] || "",
@@ -64,6 +95,9 @@ function buildRankData(): RankCar[] {
       zeroToHundred: z,
       fuel: s.fuel || "",
       weight: s.weight || 0,
+      status: st,
+      yearStart: yInfo?.start || 0,
+      yearEnd: yInfo?.end || 0,
     });
   }
   return result;
@@ -84,6 +118,9 @@ export default function RankingPage() {
   const [category, setCategory] = useState("cheapest");
   const [segment, setSegment] = useState("전체");
   const [showAll, setShowAll] = useState(false);
+  const [excludeDiscontinued, setExcludeDiscontinued] = useState(false);
+  const [minYear, setMinYear] = useState(2000);
+  const [maxYear, setMaxYear] = useState(2026);
 
   const allCars = useMemo(() => buildRankData(), []);
 
@@ -92,8 +129,16 @@ export default function RankingPage() {
     if (segment !== "전체") {
       list = list.filter(c => c.segment === segment || c.bodyType === segment);
     }
+    if (excludeDiscontinued) {
+      list = list.filter(c => c.status !== "단종");
+    }
+    /* 연식 필터: yearStart~yearEnd 범위가 minYear~maxYear와 겹치는 것만 */
+    list = list.filter(c => {
+      if (c.yearStart === 0 && c.yearEnd === 0) return true; /* 연도 정보 없으면 포함 */
+      return c.yearEnd >= minYear && c.yearStart <= maxYear;
+    });
     return list;
-  }, [allCars, segment]);
+  }, [allCars, segment, excludeDiscontinued, minYear, maxYear]);
 
   const ranked = useMemo(() => {
     const sorted = [...filtered];
@@ -173,6 +218,40 @@ export default function RankingPage() {
             ))}
           </div>
 
+          {/* 단종 제외 + 연식 필터 */}
+          <div style={{display:"flex",gap:12,marginBottom:20,flexWrap:"wrap",alignItems:"center"}}>
+            <button onClick={()=>setExcludeDiscontinued(!excludeDiscontinued)} style={{
+              padding:"8px 16px",borderRadius:100,fontSize:13,fontWeight:700,
+              border:excludeDiscontinued?"2px solid #FF3B1E":"1.5px solid #E0DDD7",
+              background:excludeDiscontinued?"#FFF0ED":"white",
+              color:excludeDiscontinued?"#FF3B1E":"#888",cursor:"pointer",
+              fontFamily:"'NanumSquareRound',sans-serif",
+            }}>
+              {excludeDiscontinued?"✓ ":""}단종 제외
+            </button>
+
+            <div style={{display:"flex",alignItems:"center",gap:8,background:"white",borderRadius:12,padding:"6px 14px",border:"1.5px solid #E0DDD7"}}>
+              <span style={{fontSize:12,fontWeight:700,color:"#888"}}>연식</span>
+              <select value={minYear} onChange={e=>setMinYear(Number(e.target.value))} style={{
+                border:"none",fontSize:13,fontWeight:700,color:"#333",fontFamily:"'NanumSquareRound',sans-serif",
+                background:"transparent",cursor:"pointer",
+              }}>
+                {Array.from({length:27},(_,i)=>2000+i).map(y=>(
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+              <span style={{fontSize:12,color:"#CCC"}}>~</span>
+              <select value={maxYear} onChange={e=>setMaxYear(Number(e.target.value))} style={{
+                border:"none",fontSize:13,fontWeight:700,color:"#333",fontFamily:"'NanumSquareRound',sans-serif",
+                background:"transparent",cursor:"pointer",
+              }}>
+                {Array.from({length:27},(_,i)=>2000+i).map(y=>(
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* 결과 수 */}
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
             <div style={{fontSize:13,color:"#AAA"}}>총 {ranked.length}대</div>
@@ -194,6 +273,7 @@ export default function RankingPage() {
                     <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
                       <span style={{fontSize:16,fontWeight:800}}>{car.name}</span>
                       <span style={{fontSize:11,color:"#AAA",fontWeight:400}}>{car.brand}</span>
+                      {car.status==="단종"&&<span style={{fontSize:9,background:"#F0EEE9",color:"#AAA",padding:"2px 6px",borderRadius:4,fontWeight:700}}>단종</span>}
                     </div>
                     <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                       {car.segment&&<span style={{fontSize:10,background:"#F0EEE9",padding:"2px 8px",borderRadius:100,color:"#888"}}>{car.segment}</span>}
@@ -220,6 +300,7 @@ export default function RankingPage() {
                     <div style={{display:"flex",alignItems:"center",gap:8}}>
                       <span style={{fontSize:14,fontWeight:700}}>{car.name}</span>
                       <span style={{fontSize:11,color:"#CCC"}}>{car.brand}</span>
+                      {car.status==="단종"&&<span style={{fontSize:9,background:"#F0EEE9",color:"#AAA",padding:"2px 6px",borderRadius:4,fontWeight:700}}>단종</span>}
                     </div>
                   </div>
                   <div style={{fontSize:14,fontWeight:800,color:"#555"}}>{getValue(car)}</div>
