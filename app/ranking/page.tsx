@@ -21,6 +21,7 @@ interface RankCar {
   status: string; /* 현행 / 단종 */
   yearStart: number; /* 판매 시작 연도 */
   yearEnd: number; /* 판매 종료 연도 (현행이면 2026) */
+  origin: string; /* 국산 / 수입 */
 }
 
 /* 카탈로그에서 랭킹 데이터 추출 */
@@ -36,11 +37,13 @@ function buildRankData(): RankCar[] {
   /* 브랜드 + 상태 매핑 */
   const nameToBrand: Record<string,string> = {};
   const nameToStatus: Record<string,string> = {};
+  const nameToOrigin: Record<string,string> = {};
   for (const [brand, info] of Object.entries(brands)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     for (const m of (info as any).models || []) {
       nameToBrand[m.name] = brand;
       nameToStatus[m.name] = m.status || "";
+      nameToOrigin[m.name] = (info as any).category || "국산";
     }
   }
 
@@ -98,6 +101,7 @@ function buildRankData(): RankCar[] {
       status: st,
       yearStart: yInfo?.start || 0,
       yearEnd: yInfo?.end || 0,
+      origin: nameToOrigin[name] || "국산",
     });
   }
   return result;
@@ -121,6 +125,7 @@ export default function RankingPage() {
   const [excludeDiscontinued, setExcludeDiscontinued] = useState(false);
   const [minYear, setMinYear] = useState(2000);
   const [maxYear, setMaxYear] = useState(2026);
+  const [origin, setOrigin] = useState("전체");
 
   const allCars = useMemo(() => buildRankData(), []);
 
@@ -129,16 +134,18 @@ export default function RankingPage() {
     if (segment !== "전체") {
       list = list.filter(c => c.segment === segment || c.bodyType === segment);
     }
+    if (origin !== "전체") {
+      list = list.filter(c => c.origin === origin);
+    }
     if (excludeDiscontinued) {
       list = list.filter(c => c.status !== "단종");
     }
-    /* 연식 필터: yearStart~yearEnd 범위가 minYear~maxYear와 겹치는 것만 */
     list = list.filter(c => {
-      if (c.yearStart === 0 && c.yearEnd === 0) return true; /* 연도 정보 없으면 포함 */
+      if (c.yearStart === 0 && c.yearEnd === 0) return true;
       return c.yearEnd >= minYear && c.yearStart <= maxYear;
     });
     return list;
-  }, [allCars, segment, excludeDiscontinued, minYear, maxYear]);
+  }, [allCars, segment, origin, excludeDiscontinued, minYear, maxYear]);
 
   const ranked = useMemo(() => {
     const sorted = [...filtered];
@@ -218,8 +225,23 @@ export default function RankingPage() {
             ))}
           </div>
 
-          {/* 단종 제외 + 연식 필터 */}
-          <div style={{display:"flex",gap:12,marginBottom:20,flexWrap:"wrap",alignItems:"center"}}>
+          {/* 국산/수입 + 단종 제외 + 연식 필터 */}
+          <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap",alignItems:"center"}}>
+            {/* 국산/수입 */}
+            {(["전체","국산","수입"] as const).map(o=>(
+              <button key={o} onClick={()=>setOrigin(o)} style={{
+                padding:"8px 16px",borderRadius:100,fontSize:13,fontWeight:origin===o?800:600,
+                border:origin===o?"2px solid #1847FF":"1.5px solid #E0DDD7",
+                background:origin===o?"#EEF2FF":"white",
+                color:origin===o?"#1847FF":"#888",cursor:"pointer",
+                fontFamily:"'NanumSquareRound',sans-serif",
+              }}>
+                {o==="국산"?"🇰🇷 국산":o==="수입"?"🌍 수입":"전체"}
+              </button>
+            ))}
+
+            <div style={{width:1,height:20,background:"#E0DDD7"}}/>
+
             <button onClick={()=>setExcludeDiscontinued(!excludeDiscontinued)} style={{
               padding:"8px 16px",borderRadius:100,fontSize:13,fontWeight:700,
               border:excludeDiscontinued?"2px solid #FF3B1E":"1.5px solid #E0DDD7",

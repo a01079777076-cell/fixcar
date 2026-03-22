@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { QUESTIONS, MBTI_TYPES, AXIS_INFO, MbtiType } from "@/data/car_mbti_data";
-import { ArrowRight, ChevronRight, ChevronLeft, RotateCcw, Save, ChevronUp, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronLeft, RotateCcw, Save, ChevronUp, ChevronDown, Lock } from "lucide-react";
 import Link from "next/link";
 
 function calcResult(scores: Record<string,number>): string {
@@ -24,13 +24,20 @@ function getAxisPercentages(scores: Record<string,number>) {
 }
 
 export default function CarMbtiPage() {
-  const [step, setStep] = useState(-1); /* -1=인트로, 0~19=질문, 20=결과 */
+  const [step, setStep] = useState(-1); /* -1=인트로, 0~20=질문, 21=결과 */
   const [scores, setScores] = useState<Record<string,number>>({ DC:0, SL:0, EP:0, HT:0 });
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<MbtiType|null>(null);
   const [priorities, setPriorities] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [loggedIn, setLoggedIn] = useState<boolean|null>(null); /* null=확인중 */
+
+  useEffect(() => {
+    fetch("/api/auth/session").then(r=>r.json()).then(d=>{
+      setLoggedIn(!!d?.user?.id);
+    }).catch(()=>setLoggedIn(false));
+  }, []);
 
   const totalQ = QUESTIONS.length; /* 21문항 */
 
@@ -137,10 +144,29 @@ export default function CarMbtiPage() {
                   );
                 })}
               </div>
-              <button onClick={()=>setStep(0)} style={{width:"100%",padding:"18px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:18,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
-                테스트 시작하기 <ArrowRight size={20}/>
-              </button>
-              <p style={{textAlign:"center",fontSize:12,color:"#CCC",marginTop:12}}>약 3~4분 소요 · 총 21문항</p>
+              {loggedIn === null ? (
+                <div style={{textAlign:"center",padding:"20px",color:"#CCC"}}>확인 중...</div>
+              ) : loggedIn ? (
+                <>
+                  <button onClick={()=>setStep(0)} style={{width:"100%",padding:"18px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:18,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                    테스트 시작하기 <ArrowRight size={20}/>
+                  </button>
+                  <p style={{textAlign:"center",fontSize:12,color:"#CCC",marginTop:12}}>약 3~4분 소요 · 총 21문항</p>
+                </>
+              ) : (
+                <div style={{textAlign:"center"}}>
+                  <div style={{background:"#F8F7F4",borderRadius:16,padding:"28px 24px",marginBottom:14}}>
+                    <Lock size={32} color="#CCC" style={{marginBottom:12}} />
+                    <div style={{fontSize:16,fontWeight:800,marginBottom:6}}>로그인 후 이용할 수 있어요</div>
+                    <p style={{fontSize:13,color:"#AAA"}}>결과를 저장하고 맞춤 차량 추천을 받으려면<br/>로그인이 필요합니다</p>
+                  </div>
+                  <Link href="/login">
+                    <button style={{width:"100%",padding:"18px",background:"#1A1A1A",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>
+                      로그인하고 시작하기
+                    </button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}

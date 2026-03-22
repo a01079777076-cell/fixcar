@@ -115,32 +115,32 @@ export const QUESTIONS: MbtiQuestion[] = [
   { id:16, axis:"HT", question:"새 차에 꼭 있어야 하는 기능은?", options:[
     { text:"자율주행 보조, OTA 업데이트, 차량용 AI", score:2 },
     { text:"최신 ADAS + 큰 디스플레이면 충분", score:1 },
-    { text:"네비 + 후방카메라 정도면 OK", score:-1 },
-    { text:"복잡한 기능 싫어, 단순할수록 좋아", score:-2 },
+    { text:"안전옵션만 확실하면 돼, 나머진 고장 원인", score:-1 },
+    { text:"기능 많으면 수리비만 올라가, 핵심만 있으면 됨", score:-2 },
   ]},
   { id:17, axis:"HT", question:"전기차에 대한 생각은?", options:[
-    { text:"무조건 전기차! 미래는 EV", score:2 },
-    { text:"하이브리드 정도면 좋을 듯", score:1 },
-    { text:"아직은 내연기관이 편하고 안심", score:-1 },
-    { text:"전기차는 충전 불편하고 불안해. 디젤/가솔린이 최고", score:-2 },
+    { text:"전기차 시대는 이미 왔다, 당연히 EV", score:2 },
+    { text:"하이브리드로 장점만 취하는 게 현명해", score:1 },
+    { text:"충전 인프라가 더 깔리면 그때 갈아탈 예정", score:-1 },
+    { text:"어디서든 주유 가능한 내연기관이 현실적으로 편해", score:-2 },
   ]},
-  { id:18, axis:"HT", question:"차 안에서 스마트폰 연동은?", options:[
-    { text:"무선 카플레이/안드로이드오토 필수, 없으면 안 삼", score:2 },
-    { text:"블루투스 연결은 기본이지", score:1 },
-    { text:"라디오랑 USB면 충분해", score:-1 },
-    { text:"CD플레이어가 있던 시절이 좋았어", score:-2 },
+  { id:18, axis:"HT", question:"차량 고장이 났을 때?", options:[
+    { text:"원격 진단으로 서비스센터 예약까지 자동이면 좋겠어", score:2 },
+    { text:"앱으로 고장 코드 확인하고 예약하면 되지", score:1 },
+    { text:"동네 정비소에서 바로 고칠 수 있는 차가 좋아", score:-1 },
+    { text:"구조가 단순해서 어디서든 수리되는 게 최고", score:-2 },
   ]},
-  { id:19, axis:"HT", question:"계기판 스타일 선호는?", options:[
-    { text:"풀 디지털 + 커스텀 테마 + HUD", score:2 },
-    { text:"디지털 계기판이면 좋겠어", score:1 },
-    { text:"아날로그 + 작은 LCD 조합이 보기 편해", score:-1 },
-    { text:"바늘 게이지가 진짜 RPM을 느끼게 해줘", score:-2 },
+  { id:19, axis:"HT", question:"10년 후에도 잘 굴러갈 차는?", options:[
+    { text:"소프트웨어 업데이트로 계속 진화하는 전기차", score:2 },
+    { text:"배터리 기술이 좋아지고 있으니 전기차 쪽이 유리", score:1 },
+    { text:"검증된 엔진은 20만km도 거뜬해, 내구성이 답", score:-1 },
+    { text:"부품 수급 쉽고 정비 인프라 많은 내연기관이 현실적", score:-2 },
   ]},
-  { id:20, axis:"HT", question:"차량 업데이트 방식은?", options:[
-    { text:"OTA(무선) 업데이트로 계속 진화하는 차!", score:2 },
-    { text:"가끔 서비스센터에서 소프트웨어 업데이트 정도", score:1 },
-    { text:"기계적으로 튼튼하면 업데이트 필요 없어", score:-1 },
-    { text:"10년 전 차도 잘 굴러가는데 뭘 업데이트해", score:-2 },
+  { id:20, axis:"HT", question:"차를 고를 때 '기술'에 대한 기준은?", options:[
+    { text:"최신 기술 다 들어간 차가 미래 가치도 높아", score:2 },
+    { text:"핵심 신기술만 있으면 OK, 전부 다 필요하진 않아", score:1 },
+    { text:"검증 안 된 신기술보다 오래 쓰인 기술이 믿음직해", score:-1 },
+    { text:"단순하고 튼튼한 게 결국 돈 아끼는 길이야", score:-2 },
   ]},
 
   /* ═══ 보너스: 선호 가격대 (EP축 추가 반영) ═══ */
