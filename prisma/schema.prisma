@@ -28,6 +28,7 @@ model User {
   wishAlerts        WishAlert[]        @relation("WishAlerts")
   catalogReports    CatalogReport[]    @relation("CatalogReports")
   carScores         CarScore[]         @relation("CarScores")
+  mbti              UserMbti?          @relation("UserMbti")
 }
 
 enum Role {
@@ -233,4 +234,17 @@ model CarScore {
   updatedAt DateTime @updatedAt
 
   @@unique([carId, userId, category])
+}
+
+// 차량 MBTI 결과
+model UserMbti {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @unique
+  user       User     @relation("UserMbti", fields: [userId], references: [id], onDelete: Cascade)
+  type       String
+  priorities String   @default("[]")
+  scores     String   @default("{}")
+  budget     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
