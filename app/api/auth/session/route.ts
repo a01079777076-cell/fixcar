@@ -7,10 +7,9 @@ export async function GET(req: NextRequest) {
     const payload = verifyToken(req);
     if (!payload) return NextResponse.json({ user: null });
 
-    /* DB에서 최신 유저 정보 가져오기 */
     const user = await prisma.user.findUnique({
       where: { id: payload.id },
-      select: { id: true, email: true, provider: true, name: true, role: true, phone: true },
+      select: { id: true, email: true, name: true, role: true, phone: true, provider: true, nickname: true },
     });
 
     if (!user) return NextResponse.json({ user: null });

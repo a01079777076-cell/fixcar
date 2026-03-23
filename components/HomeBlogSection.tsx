@@ -8,6 +8,7 @@ interface BlogPost {
   summary?: string;
   category?: string;
   content?: string;
+  tags?: string[];
   createdAt: string;
   author?: { name?: string };
 }
@@ -40,7 +41,12 @@ export default function HomeBlogSection() {
       .then(r => r.json())
       .then(d => {
         const arr = Array.isArray(d) ? d : d.posts || d.data || [];
-        setPosts(arr.slice(0, 4));
+        /* 대표글(pinned)은 메인 블로그 섹션에서 제외 */
+        const nonPinned = arr.filter((p: BlogPost) => {
+          const tags = Array.isArray(p.tags) ? p.tags : [];
+          return !tags.includes("대표글");
+        });
+        setPosts(nonPinned.slice(0, 4));
       })
       .catch(() => {});
   }, []);

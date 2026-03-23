@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
 
-/* GET: 블로그 개별 글 조회 */
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
@@ -17,7 +16,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   }
 }
 
-/* PATCH: 블로그 수정 (ADMIN 전용) */
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = verifyToken(req);
@@ -32,6 +30,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         ...(body.content !== undefined && { content: body.content }),
         ...(body.category && { category: body.category }),
         ...(body.summary !== undefined && { summary: body.summary }),
+        ...(body.tags !== undefined && { tags: body.tags }),
       },
     });
     return NextResponse.json({ success: true, post });
@@ -40,7 +39,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 }
 
-/* DELETE: 블로그 삭제 (ADMIN 전용) */
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = verifyToken(req);

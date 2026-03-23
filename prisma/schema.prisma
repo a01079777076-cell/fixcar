@@ -7,17 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 회원
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  phone     String?
-  role      Role     @default(USER)
-  provider  String   @default("email")
-  password  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                Int      @id @default(autoincrement())
+  email             String   @unique
+  name              String
+  nickname          String?
+  nicknameChangedAt DateTime?
+  phone             String?
+  role              Role     @default(USER)
+  provider          String   @default("email")
+  password          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   favorites         Favorite[]
   inquiries         Inquiry[]
@@ -37,7 +38,6 @@ enum Role {
   ADMIN
 }
 
-// 딜러
 model Dealer {
   id        Int      @id @default(autoincrement())
   userId    Int      @unique
@@ -46,11 +46,9 @@ model Dealer {
   dealCount Int      @default(0)
   verified  Boolean  @default(false)
   createdAt DateTime @default(now())
-
   cars      Car[]
 }
 
-// 차량 매물
 model Car {
   id           Int       @id @default(autoincrement())
   dealerId     Int
@@ -75,11 +73,10 @@ model Car {
   images       String[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-
-  favorites  Favorite[]
-  inquiries  Inquiry[]
-  purchases  Purchase[]
-  scores     CarScore[]
+  favorites    Favorite[]
+  inquiries    Inquiry[]
+  purchases    Purchase[]
+  scores       CarScore[]
 }
 
 enum CarStatus {
@@ -89,7 +86,6 @@ enum CarStatus {
   REVIEWING
 }
 
-// 찜
 model Favorite {
   id        Int      @id @default(autoincrement())
   userId    Int
@@ -97,11 +93,9 @@ model Favorite {
   user      User     @relation(fields: [userId], references: [id])
   car       Car      @relation(fields: [carId], references: [id])
   createdAt DateTime @default(now())
-
   @@unique([userId, carId])
 }
 
-// 문의
 model Inquiry {
   id        Int           @id @default(autoincrement())
   userId    Int
@@ -120,7 +114,6 @@ enum InquiryStatus {
   REPLIED
 }
 
-// 구매
 model Purchase {
   id          Int            @id @default(autoincrement())
   userId      Int
@@ -141,7 +134,6 @@ enum PurchaseStatus {
   CANCELLED
 }
 
-// 블로그
 model BlogPost {
   id        Int      @id @default(autoincrement())
   title     String
@@ -157,13 +149,13 @@ model BlogPost {
   updatedAt DateTime @updatedAt
 }
 
-// 커뮤니티
 model CommunityPost {
   id        Int                @id @default(autoincrement())
   title     String
   content   String             @db.Text
   category  String             @default("자유게시판")
   views     Int                @default(0)
+  likes     Int                @default(0)
   authorId  Int
   author    User               @relation("CommunityPosts", fields: [authorId], references: [id])
   comments  CommunityComment[]
@@ -171,7 +163,6 @@ model CommunityPost {
   updatedAt DateTime           @updatedAt
 }
 
-// 커뮤니티 댓글
 model CommunityComment {
   id        Int           @id @default(autoincrement())
   content   String        @db.Text
@@ -182,7 +173,6 @@ model CommunityComment {
   createdAt DateTime      @default(now())
 }
 
-// 매물 알림
 model WishAlert {
   id        Int      @id @default(autoincrement())
   userId    Int
@@ -199,7 +189,6 @@ model WishAlert {
   updatedAt DateTime @updatedAt
 }
 
-// 카탈로그 정정 신고
 model CatalogReport {
   id          Int      @id @default(autoincrement())
   userId      Int
@@ -211,7 +200,6 @@ model CatalogReport {
   createdAt   DateTime @default(now())
 }
 
-// 방문자 로그
 model VisitorLog {
   id        Int      @id @default(autoincrement())
   ip        String
@@ -221,7 +209,6 @@ model VisitorLog {
   createdAt DateTime @default(now())
 }
 
-// 차량 선호도 점수
 model CarScore {
   id        Int      @id @default(autoincrement())
   carId     Int
@@ -232,11 +219,9 @@ model CarScore {
   score     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   @@unique([carId, userId, category])
 }
 
-// 차량 MBTI 결과
 model UserMbti {
   id         Int      @id @default(autoincrement())
   userId     Int      @unique
