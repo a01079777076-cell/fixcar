@@ -72,9 +72,19 @@ export default function DealerCarsNewPage() {
   const [description, setDescription] = useState("");
   const [options, setOptions] = useState<string[]>([]);
 
-  /* 사진 */
-  const [images, setImages] = useState<string[]>([]);
-  const [uploading, setUploading] = useState(false);
+  /* 사진 (카테고리별) */
+  const PHOTO_SLOTS = [
+    { key:"main", label:"① 메인 사진", desc:"정면 또는 전측면 (대표 사진)", required:true },
+    { key:"rear_angle", label:"② 후면 대각선", desc:"뒷쪽 45도 각도" },
+    { key:"front", label:"③ 전면", desc:"정면 앞모습" },
+    { key:"rear", label:"④ 후면", desc:"정면 뒷모습" },
+    { key:"exterior1", label:"⑤ 외부 디테일 1", desc:"휠, 옵션 등" },
+    { key:"exterior2", label:"⑥ 외부 디테일 2", desc:"추가 외부 사진" },
+    { key:"interior1", label:"⑦ 실내 디테일 1", desc:"운전석, 계기판" },
+    { key:"interior2", label:"⑧ 실내 디테일 2", desc:"뒷좌석, 트렁크 등" },
+  ] as const;
+  const [photos, setPhotos] = useState<Record<string, string>>({});
+  const [uploadingSlot, setUploadingSlot] = useState<string|null>(null);
 
   /* 브랜드 목록 */
   const brandList = useMemo(() => Object.keys(brands).sort((a, b) => {
@@ -116,22 +126,26 @@ export default function DealerCarsNewPage() {
     setOptions(prev => prev.includes(opt) ? prev.filter(o => o !== opt) : [...prev, opt]);
   };
 
-  const handleImageUpload = async () => {
+  const handleSlotUpload = async (slotKey: string) => {
     const input = document.createElement("input");
-    input.type = "file"; input.accept = "image/*"; input.multiple = true;
+    input.type = "file"; input.accept = "image/*";
     input.onchange = async (e) => {
-      const files = (e.target as HTMLInputElement).files;
-      if (!files) return;
-      setUploading(true);
-      for (const file of Array.from(files)) {
-        const fd = new FormData(); fd.append("file", file);
-        try {
-          const res = await fetch("/api/upload", { method: "POST", body: fd });
-          const data = await res.json();
-          if (data.url) setImages(prev => [...prev, data.url]);
-        } catch {}
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      setUploadingSlot(slotKey);
+      const fd = new FormData(); fd.append("file", file);
+      try {
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        const data = await res.json();
+        if (data.success && data.url) {
+          setPhotos(prev => ({ ...prev, [slotKey]: data.url }));
+        } else {
+          alert("업로드 실패: " + (data.error || "Cloudinary 환경변수를 확인해주세요"));
+        }
+      } catch (err) {
+        alert("업로드 중 오류가 발생했어요. 네트워크를 확인해주세요.");
       }
-      setUploading(false);
+      setUploadingSlot(null);
     };
     input.click();
   };
@@ -162,6 +176,8 @@ export default function DealerCarsNewPage() {
     setSaving(true);
     try {
       const carName = `${selectedModel}${grade ? ` ${grade}` : ""}`;
+      /* photos 객체를 순서대로 배열로 변환 */
+      const orderedImages = PHOTO_SLOTS.map(s => photos[s.key]).filter(Boolean);
       const res = await fetch("/api/dealer/cars", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -173,7 +189,7 @@ export default function DealerCarsNewPage() {
           region, price: Number(price),
           cc: Number(cc) || 0,
           transmission, owners: Number(owners),
-          accident, tags, options, images,
+          accident, tags, options, images: orderedImages,
           description,
         }),
       });
@@ -418,19 +434,58 @@ export default function DealerCarsNewPage() {
           {/* ═══ STEP 3: 사진 ═══ */}
           {step===3&&(
             <div style={{background:"white",borderRadius:20,padding:"28px 26px"}}>
-              <h2 style={{fontSize:18,fontWeight:800,marginBottom:20}}>📷 사진 업로드</h2>
-              <p style={{fontSize:13,color:"#AAA",marginBottom:16}}>차량 사진을 올려주세요. 번호판 노출 사진 1장 필수!</p>
-              <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:16}}>
-                {images.map((img,i)=>(
-                  <div key={i} style={{position:"relative",borderRadius:12,overflow:"hidden",aspectRatio:"4/3"}}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-                    <button onClick={()=>setImages(images.filter((_,j)=>j!==i))} style={{position:"absolute",top:6,right:6,width:24,height:24,borderRadius:"50%",background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={12}/></button>
-                  </div>
-                ))}
-                <button onClick={handleImageUpload} disabled={uploading} style={{aspectRatio:"4/3",border:"2px dashed #DDEEFF",borderRadius:12,background:"#F0F6FF",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:6,fontSize:12,color:"#0066FF",fontWeight:700}}>
-                  <Upload size={24} color="#0066FF"/>{uploading?"업로드중...":"사진 추가"}
-                </button>
+              <h2 style={{fontSize:18,fontWeight:800,marginBottom:6}}>📷 사진 업로드</h2>
+              <p style={{fontSize:13,color:"#AAA",marginBottom:20}}>순서대로 사진을 등록해주세요. 메인 사진은 필수!</p>
+
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+                {PHOTO_SLOTS.map((slot) => {
+                  const url = photos[slot.key];
+                  const isUploading = uploadingSlot === slot.key;
+                  return (
+                    <div key={slot.key} style={{
+                      border: url ? "2px solid #0066FF" : slot.required ? "2px dashed #FFB8A8" : "2px dashed #DDEEFF",
+                      borderRadius: 14, overflow: "hidden", background: url ? "white" : "#F8FAFF",
+                    }}>
+                      {url ? (
+                        <div style={{ position: "relative" }}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={url} alt={slot.label} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
+                          <div style={{ position: "absolute", top: 0, left: 0, right: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)", padding: "8px 12px" }}>
+                            <span style={{ fontSize: 11, fontWeight: 800, color: "white" }}>{slot.label}</span>
+                          </div>
+                          <div style={{ position: "absolute", top: 6, right: 6, display: "flex", gap: 4 }}>
+                            <button onClick={() => handleSlotUpload(slot.key)} style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(0,0,0,0.6)", color: "white", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>↺</button>
+                            <button onClick={() => setPhotos(prev => { const n = { ...prev }; delete n[slot.key]; return n; })} style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(0,0,0,0.6)", color: "white", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><X size={12} /></button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button onClick={() => handleSlotUpload(slot.key)} disabled={isUploading} style={{
+                          width: "100%", aspectRatio: "4/3", border: "none", background: "transparent",
+                          cursor: isUploading ? "wait" : "pointer", display: "flex", flexDirection: "column",
+                          alignItems: "center", justifyContent: "center", gap: 6, padding: 16,
+                          fontFamily: "'NanumSquareRound',sans-serif",
+                        }}>
+                          {isUploading ? (
+                            <div style={{ fontSize: 13, fontWeight: 700, color: "#0066FF" }}>업로드 중...</div>
+                          ) : (
+                            <>
+                              <Upload size={22} color={slot.required ? "#FF3B1E" : "#0066FF"} />
+                              <div style={{ fontSize: 12, fontWeight: 800, color: slot.required ? "#FF3B1E" : "#0066FF" }}>{slot.label}</div>
+                              <div style={{ fontSize: 10, color: "#AAA" }}>{slot.desc}</div>
+                              {slot.required && <div style={{ fontSize: 9, color: "#FF3B1E", fontWeight: 700, marginTop: 2 }}>필수</div>}
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 업로드 현황 */}
+              <div style={{ marginTop: 16, fontSize: 13, color: "#888", textAlign: "center" }}>
+                {Object.keys(photos).length} / {PHOTO_SLOTS.length}장 등록됨
+                {!photos.main && <span style={{ color: "#FF3B1E", fontWeight: 700, marginLeft: 8 }}>⚠️ 메인 사진 필수</span>}
               </div>
             </div>
           )}
