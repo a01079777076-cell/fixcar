@@ -279,20 +279,22 @@ export default function DealerCarsNewPage() {
               {selectedBase && modelVariants.length > 1 && (
                 <div style={{marginBottom:16}}>
                   <label style={labelStyle}>세대/상세 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
-                    {modelVariants.map(v=>(
-                      <button key={v.name} onClick={()=>setSelectedModel(v.name)} style={{
-                        padding:"10px 16px",borderRadius:10,fontSize:13,fontWeight:selectedModel===v.name?800:500,
-                        border:selectedModel===v.name?"2px solid #0066FF":"1.5px solid #E0DDD7",
-                        background:selectedModel===v.name?"#EEF5FF":"white",
-                        color:selectedModel===v.name?"#0066FF":"#555",cursor:"pointer",
-                        fontFamily:"'NanumSquareRound',sans-serif",
-                      }}>
-                        {v.name}
-                        <span style={{fontSize:10,color:v.status==="현행"?"#2D8A52":"#CCC",marginLeft:6}}>{v.status}</span>
-                      </button>
-                    ))}
-                  </div>
+                  <select value={selectedModel} onChange={e=>setSelectedModel(e.target.value)} style={inputStyle}>
+                    <option value="">세대를 선택해주세요</option>
+                    {[...modelVariants]
+                      .sort((a,b) => {
+                        /* 현행 먼저, 그 다음 이름 역순 (최신순) */
+                        if (a.status === "현행" && b.status !== "현행") return -1;
+                        if (a.status !== "현행" && b.status === "현행") return 1;
+                        return b.name.localeCompare(a.name);
+                      })
+                      .map(v=>(
+                        <option key={v.name} value={v.name}>
+                          {v.name} {v.status === "현행" ? "✦ 현행" : "(단종)"}
+                        </option>
+                      ))
+                    }
+                  </select>
                 </div>
               )}
 
