@@ -75,15 +75,15 @@ export default function DealerCarsNewPage() {
   /* 사진 (카테고리별) */
   const PHOTO_SLOTS = [
     { key:"main", label:"① 메인 사진", desc:"정면 또는 전측면 (대표 사진)", required:true },
-    { key:"rear_angle", label:"② 후면 대각선", desc:"뒷쪽 45도 각도" },
-    { key:"front", label:"③ 전면", desc:"정면 앞모습" },
-    { key:"rear", label:"④ 후면", desc:"정면 뒷모습" },
-    { key:"exterior1", label:"⑤ 외부 디테일 1", desc:"휠, 옵션 등" },
-    { key:"exterior2", label:"⑥ 외부 디테일 2", desc:"추가 외부 사진" },
-    { key:"interior1", label:"⑦ 실내 디테일 1", desc:"운전석, 계기판" },
-    { key:"interior2", label:"⑧ 실내 디테일 2", desc:"뒷좌석, 트렁크 등" },
+    { key:"rear_angle", label:"② 후면 대각선", desc:"뒷쪽 45도 각도", required:false },
+    { key:"front", label:"③ 전면", desc:"정면 앞모습", required:false },
+    { key:"rear", label:"④ 후면", desc:"정면 뒷모습", required:false },
+    { key:"exterior1", label:"⑤ 외부 디테일 1", desc:"휠, 옵션 등", required:false },
+    { key:"exterior2", label:"⑥ 외부 디테일 2", desc:"추가 외부 사진", required:false },
+    { key:"interior1", label:"⑦ 실내 디테일 1", desc:"운전석, 계기판", required:false },
+    { key:"interior2", label:"⑧ 실내 디테일 2", desc:"뒷좌석, 트렁크 등", required:false },
   ] as const;
-  const [photos, setPhotos] = useState<Record<string, string>>({});
+    const [photos, setPhotos] = useState<Record<string, string>>({});
   const [uploadingSlot, setUploadingSlot] = useState<string|null>(null);
 
   /* 브랜드 목록 */
