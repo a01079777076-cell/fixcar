@@ -56,8 +56,7 @@ export default function CarsPage(){
 
   useEffect(()=>{
     fetch("/api/cars?limit=200").then(r=>r.json()).then(d=>{setCars(Array.isArray(d)?d:d.cars||[]);setLoading(false);}).catch(()=>{setCars([]);setLoading(false);});
-    fetch("/api/favorites/list").then(r=>r.json()).then(d=>{if(Array.isArray(d)){const ids=new Set(d.map((f:{carId?:string;car?:{id:string}})=>f.carId||f.car?.id).filter(Boolean) as string[]);setFavs(ids);}}).catch(()=>{});
-  },[]);
+fetch("/api/cars?limit=200").then(r=>r.json()).then(d=>{setCars(Array.isArray(d)?d:d.data||d.cars||[]);  },[]);
 
   const filtered=cars.filter(c=>{
     const cn=(c.title||c.name||"").toLowerCase();
