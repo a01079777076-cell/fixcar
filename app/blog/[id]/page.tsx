@@ -6,8 +6,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import BlogContent from "@/components/BlogContent";
 import BlogViewCount from "@/components/BlogViewCount";
-// ... 본문 어딘가에
-<BlogViewCount postId={Number(id)} />
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -34,7 +32,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
   const category = post.category || "";
   const authorName = post.author?.name || "픽스카";
   const tags = (post.tags as string[]) || [];
-  const thumbnail = post.summary || ""; /* summary에 썸네일 URL 저장됨 */
+  const thumbnail = post.summary || "";
 
   return (
     <>
@@ -44,7 +42,6 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
         <div style={{maxWidth:"760px",margin:"0 auto",padding:"28px 32px 80px"}}>
           <Link href="/blog" style={{display:"inline-flex",alignItems:"center",gap:"6px",fontSize:"14px",fontWeight:700,color:"#888",marginBottom:"20px"}}><ChevronLeft size={16}/>블로그 목록</Link>
           <div style={{background:"white",borderRadius:"20px",overflow:"hidden"}}>
-            {/* 썸네일 이미지 */}
             {thumbnail && thumbnail.startsWith("http") && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={thumbnail} alt={title} style={{width:"100%",maxHeight:400,objectFit:"cover",display:"block"}} />
@@ -54,10 +51,10 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
                 <span style={{background:"#EEF2FF",color:"#1847FF",padding:"4px 12px",borderRadius:"100px",fontSize:"12px",fontWeight:800}}>{category}</span>
                 <span style={{fontSize:"12px",color:"#AAA",fontWeight:400,display:"flex",alignItems:"center",gap:"4px"}}><Calendar size={11}/>{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span>
                 <span style={{fontSize:"12px",color:"#AAA",fontWeight:400}}>by {authorName}</span>
+                <BlogViewCount postId={postId} />
               </div>
               <h1 style={{fontSize:"clamp(22px,3vw,30px)",fontWeight:800,letterSpacing:"-1px",lineHeight:1.3,marginBottom:"24px"}}>{title}</h1>
               
-              {/* ★ BlogContent로 이미지 렌더링 */}
               <BlogContent content={content} />
 
               {tags.length>0&&(
