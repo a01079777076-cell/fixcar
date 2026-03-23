@@ -54,6 +54,7 @@ export default function DealerCarsNewPage() {
   const [selectedBase, setSelectedBase] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [grade, setGrade] = useState("");
+  const [customGrade, setCustomGrade] = useState("");
   const [year, setYear] = useState(new Date().getFullYear());
   const [mileage, setMileage] = useState("");
   const [fuel, setFuel] = useState("가솔린");
@@ -83,7 +84,7 @@ export default function DealerCarsNewPage() {
     { key:"interior1", label:"⑦ 실내 디테일 1", desc:"운전석, 계기판", required:false },
     { key:"interior2", label:"⑧ 실내 디테일 2", desc:"뒷좌석, 트렁크 등", required:false },
   ] as const;
-    const [photos, setPhotos] = useState<Record<string, string>>({});
+  const [photos, setPhotos] = useState<Record<string, string>>({});
   const [uploadingSlot, setUploadingSlot] = useState<string|null>(null);
 
   /* 브랜드 목록 */
@@ -175,7 +176,8 @@ export default function DealerCarsNewPage() {
   const handleSubmit = async () => {
     setSaving(true);
     try {
-      const carName = `${selectedModel}${grade ? ` ${grade}` : ""}`;
+      const finalGrade = grade === "직접입력" ? customGrade : grade;
+      const carName = `${selectedModel}${finalGrade ? ` ${finalGrade}` : ""}`;
       /* photos 객체를 순서대로 배열로 변환 */
       const orderedImages = PHOTO_SLOTS.map(s => photos[s.key]).filter(Boolean);
       const res = await fetch("/api/dealer/cars", {
@@ -283,10 +285,10 @@ export default function DealerCarsNewPage() {
                     <option value="">세대를 선택해주세요</option>
                     {[...modelVariants]
                       .sort((a,b) => {
-                        /* 현행 먼저, 그 다음 이름 역순 (최신순) */
+                        /* 현행 먼저, 나머지는 원본 순서 유지 (카탈로그 등록순 = 최신순) */
                         if (a.status === "현행" && b.status !== "현행") return -1;
                         if (a.status !== "현행" && b.status === "현행") return 1;
-                        return b.name.localeCompare(a.name);
+                        return modelVariants.indexOf(a) - modelVariants.indexOf(b);
                       })
                       .map(v=>(
                         <option key={v.name} value={v.name}>
@@ -308,7 +310,21 @@ export default function DealerCarsNewPage() {
               {/* 등급/트림 */}
               <div style={{marginBottom:16}}>
                 <label style={labelStyle}>등급/트림</label>
-                <input value={grade} onChange={e=>setGrade(e.target.value)} placeholder="예: 프리미엄, 인스퍼레이션" style={inputStyle}/>
+                <select value={grade} onChange={e=>setGrade(e.target.value)} style={inputStyle}>
+                  <option value="">선택 (없으면 비워두세요)</option>
+                  <option value="직접입력">✎ 직접 입력</option>
+                  <optgroup label="일반 등급">
+                    {["스마트","모던","프리미엄","인스퍼레이션","캘리그래피","시그니처","노블레스","프레스티지","럭셔리","엘리트","트렌디","익스클루시브","그래비티","어반"].map(g=>
+                      <option key={g} value={g}>{g}</option>
+                    )}
+                  </optgroup>
+                  <optgroup label="스포츠/고성능">
+                    {["N Line","GT","GT-Line","R-Line","M Sport","AMG Line","S-Line","R-Design","F Sport"].map(g=>
+                      <option key={g} value={g}>{g}</option>
+                    )}
+                  </optgroup>
+                </select>
+                {grade==="직접입력"&&<input value={customGrade} onChange={e=>setCustomGrade(e.target.value)} placeholder="등급/트림 직접 입력" style={{...inputStyle,marginTop:8}}/>}
               </div>
 
               {/* 연식 + 주행거리 */}
@@ -344,16 +360,10 @@ export default function DealerCarsNewPage() {
               {/* 색상 */}
               <div style={{marginBottom:16}}>
                 <label style={labelStyle}>색상 <span style={{color:"#FF3B1E"}}>*</span></label>
-                <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                  {COLORS.map(c=>(
-                    <button key={c} onClick={()=>setColor(c)} style={{
-                      padding:"8px 14px",borderRadius:100,fontSize:12,fontWeight:color===c?800:500,
-                      border:color===c?"2px solid #0066FF":"1.5px solid #E0DDD7",
-                      background:color===c?"#EEF5FF":"white",color:color===c?"#0066FF":"#888",
-                      cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",
-                    }}>{c}</button>
-                  ))}
-                </div>
+                <select value={color} onChange={e=>setColor(e.target.value)} style={inputStyle}>
+                  <option value="">선택</option>
+                  {COLORS.map(c=><option key={c} value={c}>{c}</option>)}
+                </select>
                 {color==="기타"&&<input value={customColor} onChange={e=>setCustomColor(e.target.value)} placeholder="색상 직접 입력" style={{...inputStyle,marginTop:8}}/>}
               </div>
 
@@ -371,18 +381,23 @@ export default function DealerCarsNewPage() {
                 </div>
               </div>
 
-              {/* 차량번호 + 사고이력 */}
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
-                <div>
-                  <label style={labelStyle}>차량번호 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <input value={plateNumber} onChange={e=>setPlateNumber(e.target.value)} placeholder="12가1234" style={inputStyle}/>
+              {/* 차량번호 + 국토부 인증 */}
+              <div style={{marginBottom:16}}>
+                <label style={labelStyle}>차량번호 <span style={{color:"#FF3B1E"}}>*</span></label>
+                <div style={{display:"flex",gap:8}}>
+                  <input value={plateNumber} onChange={e=>setPlateNumber(e.target.value)} placeholder="12가1234" style={{...inputStyle,flex:1}}/>
+                  <button onClick={()=>alert("국토교통부 차량 조회 기능은 준비 중입니다.\n공공데이터포털 API 연동 후 사용 가능합니다.")} style={{padding:"13px 18px",background:"#1847FF",color:"white",border:"none",borderRadius:10,fontSize:13,fontWeight:800,whiteSpace:"nowrap",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>
+                    🏛️ 국토부 조회
+                  </button>
                 </div>
-                <div>
-                  <label style={labelStyle}>사고이력</label>
-                  <div style={{display:"flex",gap:8,marginTop:6}}>
-                    <button onClick={()=>setAccident(false)} style={{flex:1,padding:"12px",borderRadius:10,border:!accident?"2px solid #2D8A52":"1.5px solid #E0DDD7",background:!accident?"#EAF6EF":"white",color:!accident?"#2D8A52":"#888",fontWeight:!accident?800:500,fontSize:14,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>무사고</button>
-                    <button onClick={()=>setAccident(true)} style={{flex:1,padding:"12px",borderRadius:10,border:accident?"2px solid #E24B4A":"1.5px solid #E0DDD7",background:accident?"#FFF0ED":"white",color:accident?"#E24B4A":"#888",fontWeight:accident?800:500,fontSize:14,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>사고 있음</button>
-                  </div>
+              </div>
+
+              {/* 사고이력 */}
+              <div style={{marginBottom:16}}>
+                <label style={labelStyle}>사고이력</label>
+                <div style={{display:"flex",gap:8}}>
+                  <button onClick={()=>setAccident(false)} style={{flex:1,padding:"12px",borderRadius:10,border:!accident?"2px solid #2D8A52":"1.5px solid #E0DDD7",background:!accident?"#EAF6EF":"white",color:!accident?"#2D8A52":"#888",fontWeight:!accident?800:500,fontSize:14,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>무사고</button>
+                  <button onClick={()=>setAccident(true)} style={{flex:1,padding:"12px",borderRadius:10,border:accident?"2px solid #E24B4A":"1.5px solid #E0DDD7",background:accident?"#FFF0ED":"white",color:accident?"#E24B4A":"#888",fontWeight:accident?800:500,fontSize:14,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>사고 있음</button>
                 </div>
               </div>
             </div>
