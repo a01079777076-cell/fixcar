@@ -5,6 +5,9 @@ import { ChevronLeft, Calendar, Tag } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import BlogContent from "@/components/BlogContent";
+import BlogViewCount from "@/components/BlogViewCount";
+// ... 본문 어딘가에
+<BlogViewCount postId={Number(id)} />
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;

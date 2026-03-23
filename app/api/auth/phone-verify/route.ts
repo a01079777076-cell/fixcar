@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-/**
- * 휴대폰 본인인증 API
- * 
- * 개발 모드: 인증번호를 콘솔에 출력 (실제 SMS 미발송)
- * 운영 모드: CoolSMS / NHN Cloud 등 SMS API 연동 필요
- */
-
-/* 메모리 저장소 (서버 재시작 시 초기화 — 운영 시 Redis 사용 권장) */
 const verifyStore = new Map<string, { code: string; expires: number }>();
 
 export async function POST(req: NextRequest) {
@@ -20,22 +12,25 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "send") {
-      /* 인증번호 생성 (6자리) */
       const verifyCode = String(Math.floor(100000 + Math.random() * 900000));
-      verifyStore.set(cleaned, { code: verifyCode, expires: Date.now() + 3 * 60 * 1000 /* 3분 */ });
+      verifyStore.set(cleaned, { code: verifyCode, expires: Date.now() + 3 * 60 * 1000 });
 
-      /* ★ 개발 모드: 콘솔 출력 (운영 시 SMS API로 교체) */
       console.log(`\n📱 [픽스카 본인인증] ${cleaned} → 인증번호: ${verifyCode}\n`);
 
-      /* TODO: 운영 모드 SMS 발송 예시
-       * await fetch("https://api.coolsms.co.kr/messages/v4/send", {
-       *   method: "POST",
-       *   headers: { "Content-Type": "application/json", "Authorization": `HMAC-SHA256 ...` },
-       *   body: JSON.stringify({ message: { to: cleaned, from: "발신번호", text: `[픽스카] 인증번호: ${verifyCode}` } }),
-       * });
-       */
+      /* SMS 서비스 연동 여부 확인 */
+      const smsApiKey = process.env.NHN_SMS_APPKEY || process.env.COOLSMS_API_KEY;
 
-      return NextResponse.json({ success: true, message: "인증번호가 발송되었습니다" });
+      if (smsApiKey) {
+        /* TODO: 실제 SMS 발송 (NHN Cloud / CoolSMS) */
+        return NextResponse.json({ success: true, message: "인증번호가 발송되었습니다" });
+      } else {
+        /* 개발 모드: 인증번호를 응답에 포함 (테스트용) */
+        return NextResponse.json({
+          success: true,
+          message: "인증번호가 발송되었습니다",
+          devCode: verifyCode, /* ★ 프론트에서 표시 */
+        });
+      }
     }
 
     if (action === "verify") {
@@ -54,6 +49,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ error: "잘못된 요청" }, { status: 400 });
   } catch (e) {
-    return NextResponse.json({ error: "처리 실패", detail: String(e) }, { status: 500 });
+    return NextResponse.json({ error: "처리 실패" }, { status: 500 });
   }
 }

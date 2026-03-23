@@ -3,6 +3,7 @@ import "./globals.css";
 import BottomTabBar from "@/components/BottomTabBar";
 import PortOneScript from "@/components/PortOneScript";
 import WelcomePopup from "@/components/WelcomePopup";
+import Providers from "@/components/Providers";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX";
 const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || "";
@@ -63,10 +64,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         })}} />
       </head>
       <body>
-        {children}
-        <BottomTabBar />
-        <PortOneScript />
-        <WelcomePopup />
+        <Providers>
+          {children}
+          <BottomTabBar />
+          <PortOneScript />
+          <WelcomePopup />
+        </Providers>
       </body>
     </html>
   );

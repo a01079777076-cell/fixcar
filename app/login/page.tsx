@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   /* 아이디 유효성 */
   const idValid = /^[a-zA-Z0-9_]{6,20}$/.test(signupId);
-  const pwValid = signupPw.length >= 8;
+  const pwValid = signupPw.length >= 8 && /[a-zA-Z]/.test(signupPw) && /[0-9]/.test(signupPw);
   const pwMatch = signupPw === signupPwCheck && signupPwCheck.length > 0;
 
   /* 아이디 중복 체크 */
@@ -54,6 +54,8 @@ export default function LoginPage() {
   };
 
   /* 휴대폰 인증 발송 */
+  const [devCode, setDevCode] = useState("");
+
   const sendPhoneCode = async () => {
     const cleaned = signupPhone.replace(/[^0-9]/g, "");
     if (!/^01[016789]\d{7,8}$/.test(cleaned)) { setSignupError("올바른 휴대폰 번호를 입력해주세요"); return; }
@@ -66,6 +68,8 @@ export default function LoginPage() {
       if (data.success) {
         setPhoneSent(true);
         setSignupError("");
+        /* 개발모드: 인증번호 직접 표시 */
+        if (data.devCode) setDevCode(data.devCode);
         /* 3분 타이머 */
         setPhoneTimer(180);
         const interval = setInterval(() => {
@@ -111,7 +115,7 @@ export default function LoginPage() {
     setSignupError("");
     if (!idValid) { setSignupError("아이디는 영문/숫자/밑줄 6~20자"); return; }
     if (idChecked !== true) { setSignupError("아이디 중복 확인을 해주세요"); return; }
-    if (!pwValid) { setSignupError("비밀번호 8자 이상"); return; }
+    if (!pwValid) { setSignupError("비밀번호는 영문+숫자 조합 8자 이상이어야 합니다"); return; }
     if (!pwMatch) { setSignupError("비밀번호가 일치하지 않습니다"); return; }
     if (!signupName.trim()) { setSignupError("이름을 입력해주세요"); return; }
     if (!phoneVerified) { setSignupError("휴대폰 본인인증을 완료해주세요"); return; }
@@ -204,9 +208,16 @@ export default function LoginPage() {
                 {/* 비밀번호 */}
                 <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:6}}>비밀번호 <span style={{color:"#FF3B1E"}}>*</span></label>
                 <div style={{position:"relative",marginBottom:8}}>
-                  <input value={signupPw} onChange={e=>setSignupPw(e.target.value)} type={showPw?"text":"password"} placeholder="8자 이상" style={inputStyle}/>
+                  <input value={signupPw} onChange={e=>setSignupPw(e.target.value)} type={showPw?"text":"password"} placeholder="영문+숫자 조합 8자 이상" style={inputStyle}/>
                   <button onClick={()=>setShowPw(!showPw)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",border:"none",background:"transparent",cursor:"pointer",color:"#CCC"}}>{showPw?<EyeOff size={18}/>:<Eye size={18}/>}</button>
                 </div>
+                {signupPw.length>0&&(
+                  <div style={{fontSize:11,marginBottom:8,display:"flex",gap:12}}>
+                    <span style={{color:signupPw.length>=8?"#2D8A52":"#E24B4A"}}>{signupPw.length>=8?"✓":"✗"} 8자 이상</span>
+                    <span style={{color:/[a-zA-Z]/.test(signupPw)?"#2D8A52":"#E24B4A"}}>{/[a-zA-Z]/.test(signupPw)?"✓":"✗"} 영문 포함</span>
+                    <span style={{color:/[0-9]/.test(signupPw)?"#2D8A52":"#E24B4A"}}>{/[0-9]/.test(signupPw)?"✓":"✗"} 숫자 포함</span>
+                  </div>
+                )}
                 <input value={signupPwCheck} onChange={e=>setSignupPwCheck(e.target.value)} type="password" placeholder="비밀번호 확인" style={{...inputStyle,marginBottom:4}}/>
                 <div style={{fontSize:11,color:signupPwCheck.length>0?(pwMatch?"#2D8A52":"#E24B4A"):"transparent",marginBottom:12,display:"flex",alignItems:"center",gap:4}}>
                   {signupPwCheck.length>0&&(pwMatch?<><CheckCircle size={12}/> 비밀번호 일치</>:<><XCircle size={12}/> 비밀번호 불일치</>)}
@@ -233,10 +244,17 @@ export default function LoginPage() {
                       </button>
                     </div>
                     {phoneSent&&(
-                      <div style={{display:"flex",gap:8,marginBottom:12}}>
-                        <input value={phoneCode} onChange={e=>setPhoneCode(e.target.value.replace(/[^0-9]/g,""))} placeholder="인증번호 6자리" maxLength={6} style={{...inputStyle,flex:1,letterSpacing:4,textAlign:"center"}}/>
-                        <button onClick={verifyPhoneCode} style={{padding:"14px 18px",background:"#FF3B1E",color:"white",border:"none",borderRadius:12,fontSize:13,fontWeight:800,whiteSpace:"nowrap",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>확인</button>
-                      </div>
+                      <>
+                        {devCode&&(
+                          <div style={{background:"#FFF8EC",border:"1px solid #F0D88A",borderRadius:10,padding:"10px 14px",marginBottom:8,fontSize:12,color:"#B8860B"}}>
+                            🔧 <b>테스트 모드</b> — 인증번호: <b style={{fontSize:16,letterSpacing:3}}>{devCode}</b>
+                          </div>
+                        )}
+                        <div style={{display:"flex",gap:8,marginBottom:12}}>
+                          <input value={phoneCode} onChange={e=>setPhoneCode(e.target.value.replace(/[^0-9]/g,""))} placeholder="인증번호 6자리" maxLength={6} style={{...inputStyle,flex:1,letterSpacing:4,textAlign:"center"}}/>
+                          <button onClick={verifyPhoneCode} style={{padding:"14px 18px",background:"#FF3B1E",color:"white",border:"none",borderRadius:12,fontSize:13,fontWeight:800,whiteSpace:"nowrap",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>확인</button>
+                        </div>
+                      </>
                     )}
                   </>
                 )}

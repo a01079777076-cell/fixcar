@@ -1,0 +1,8 @@
+# 픽스카 FIXCAR - 검색엔진 차단 (서비스 오픈 전)
+# 오픈 시 아래 내용으로 교체:
+# User-agent: *
+# Allow: /
+# Sitemap: https://www.fixcar.kr/api/sitemap
+
+User-agent: *
+Disallow: /

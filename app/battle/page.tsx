@@ -4,38 +4,38 @@ import Navbar from "@/components/Navbar";
 import { Trophy, RotateCcw, Share2, Flame } from "lucide-react";
 
 const CARS = [
-  {name:"아반떼 CN7",brand:"현대",price:"1,870만~",power:"123PS",fuel:"가솔린",monthly:"37만",img:"🚗",color:"#1847FF"},
-  {name:"쏘나타 DN8",brand:"현대",price:"2,780만~",power:"160PS",fuel:"가솔린",monthly:"55만",img:"🚙",color:"#1847FF"},
-  {name:"그랜저 GN7",brand:"현대",price:"3,885만~",power:"198PS",fuel:"가솔린",monthly:"77만",img:"🏎️",color:"#1847FF"},
-  {name:"팰리세이드",brand:"현대",price:"3,696만~",power:"202PS",fuel:"디젤",monthly:"73만",img:"🚙",color:"#1847FF"},
-  {name:"투싼 NX4",brand:"현대",price:"2,685만~",power:"180PS",fuel:"가솔린",monthly:"53만",img:"🚙",color:"#1847FF"},
-  {name:"싼타페 MX5",brand:"현대",price:"3,380만~",power:"198PS",fuel:"가솔린",monthly:"67만",img:"🚙",color:"#1847FF"},
-  {name:"캐스퍼",brand:"현대",price:"1,385만~",power:"76PS",fuel:"가솔린",monthly:"27만",img:"🚗",color:"#1847FF"},
-  {name:"아이오닉5 N",brand:"현대",price:"7,380만~",power:"650PS",fuel:"전기",monthly:"146만",img:"⚡",color:"#1847FF"},
-  {name:"K3",brand:"기아",price:"1,895만~",power:"147PS",fuel:"가솔린",monthly:"38만",img:"🚗",color:"#E8290F"},
-  {name:"K5 DL3",brand:"기아",price:"2,635만~",power:"160PS",fuel:"가솔린",monthly:"52만",img:"🚙",color:"#E8290F"},
-  {name:"K8",brand:"기아",price:"3,440만~",power:"202PS",fuel:"가솔린",monthly:"68만",img:"🏎️",color:"#E8290F"},
-  {name:"스포티지 NQ5",brand:"기아",price:"2,677만~",power:"180PS",fuel:"가솔린",monthly:"53만",img:"🚙",color:"#E8290F"},
-  {name:"쏘렌토 MQ4",brand:"기아",price:"3,305만~",power:"202PS",fuel:"디젤",monthly:"65만",img:"🚙",color:"#E8290F"},
-  {name:"카니발 KA4",brand:"기아",price:"3,462만~",power:"202PS",fuel:"디젤",monthly:"69만",img:"🚐",color:"#E8290F"},
-  {name:"EV6",brand:"기아",price:"4,870만~",power:"229PS",fuel:"전기",monthly:"97만",img:"⚡",color:"#E8290F"},
-  {name:"EV9",brand:"기아",price:"7,348만~",power:"204PS",fuel:"전기",monthly:"146만",img:"⚡",color:"#E8290F"},
-  {name:"G70",brand:"제네시스",price:"4,197만~",power:"252PS",fuel:"가솔린",monthly:"83만",img:"🏎️",color:"#886B3D"},
-  {name:"G80",brand:"제네시스",price:"5,897만~",power:"304PS",fuel:"가솔린",monthly:"117만",img:"🏎️",color:"#886B3D"},
-  {name:"GV70",brand:"제네시스",price:"4,757만~",power:"252PS",fuel:"가솔린",monthly:"94만",img:"🚙",color:"#886B3D"},
-  {name:"GV80",brand:"제네시스",price:"6,297만~",power:"304PS",fuel:"가솔린",monthly:"125만",img:"🚙",color:"#886B3D"},
-  {name:"벤츠 E클래스",brand:"벤츠",price:"7,250만~",power:"258PS",fuel:"가솔린",monthly:"144만",img:"🏎️",color:"#333"},
-  {name:"벤츠 GLC",brand:"벤츠",price:"6,690만~",power:"258PS",fuel:"가솔린",monthly:"133만",img:"🚙",color:"#333"},
-  {name:"BMW 3시리즈",brand:"BMW",price:"5,560만~",power:"184PS",fuel:"가솔린",monthly:"110만",img:"🏎️",color:"#1C69D4"},
-  {name:"BMW 5시리즈",brand:"BMW",price:"7,090만~",power:"258PS",fuel:"가솔린",monthly:"141만",img:"🏎️",color:"#1C69D4"},
-  {name:"BMW X5",brand:"BMW",price:"10,290만~",power:"286PS",fuel:"가솔린",monthly:"204만",img:"🚙",color:"#1C69D4"},
-  {name:"테슬라 모델3",brand:"테슬라",price:"4,990만~",power:"283PS",fuel:"전기",monthly:"99만",img:"⚡",color:"#E82127"},
-  {name:"테슬라 모델Y",brand:"테슬라",price:"5,699만~",power:"299PS",fuel:"전기",monthly:"113만",img:"⚡",color:"#E82127"},
-  {name:"포르쉐 911",brand:"포르쉐",price:"15,700만~",power:"385PS",fuel:"가솔린",monthly:"312만",img:"🏎️",color:"#B12B28"},
-  {name:"아우디 A6",brand:"아우디",price:"6,680만~",power:"245PS",fuel:"가솔린",monthly:"133만",img:"🏎️",color:"#BB0A30"},
-  {name:"볼보 XC60",brand:"볼보",price:"6,090만~",power:"250PS",fuel:"가솔린",monthly:"121만",img:"🚙",color:"#003366"},
-  {name:"렉서스 ES",brand:"렉서스",price:"5,790만~",power:"218PS",fuel:"HEV",monthly:"115만",img:"🏎️",color:"#1A1A1A"},
-  {name:"토요타 캠리",brand:"토요타",price:"3,990만~",power:"215PS",fuel:"HEV",monthly:"79만",img:"🚙",color:"#EB0A1E"},
+  {name:"아반떼 CN7",brand:"현대",origin:"국산",price:"1,870만~",power:"123PS",fuel:"가솔린",monthly:"37만",img:"🚗",color:"#1847FF"},
+  {name:"쏘나타 DN8",brand:"현대",origin:"국산",price:"2,780만~",power:"160PS",fuel:"가솔린",monthly:"55만",img:"🚙",color:"#1847FF"},
+  {name:"그랜저 GN7",brand:"현대",origin:"국산",price:"3,885만~",power:"198PS",fuel:"가솔린",monthly:"77만",img:"🏎️",color:"#1847FF"},
+  {name:"팰리세이드",brand:"현대",origin:"국산",price:"3,696만~",power:"202PS",fuel:"디젤",monthly:"73만",img:"🚙",color:"#1847FF"},
+  {name:"투싼 NX4",brand:"현대",origin:"국산",price:"2,685만~",power:"180PS",fuel:"가솔린",monthly:"53만",img:"🚙",color:"#1847FF"},
+  {name:"싼타페 MX5",brand:"현대",origin:"국산",price:"3,380만~",power:"198PS",fuel:"가솔린",monthly:"67만",img:"🚙",color:"#1847FF"},
+  {name:"캐스퍼",brand:"현대",origin:"국산",price:"1,385만~",power:"76PS",fuel:"가솔린",monthly:"27만",img:"🚗",color:"#1847FF"},
+  {name:"아이오닉5 N",brand:"현대",origin:"국산",price:"7,380만~",power:"650PS",fuel:"전기",monthly:"146만",img:"⚡",color:"#1847FF"},
+  {name:"K3",brand:"기아",origin:"국산",price:"1,895만~",power:"147PS",fuel:"가솔린",monthly:"38만",img:"🚗",color:"#E8290F"},
+  {name:"K5 DL3",brand:"기아",origin:"국산",price:"2,635만~",power:"160PS",fuel:"가솔린",monthly:"52만",img:"🚙",color:"#E8290F"},
+  {name:"K8",brand:"기아",origin:"국산",price:"3,440만~",power:"202PS",fuel:"가솔린",monthly:"68만",img:"🏎️",color:"#E8290F"},
+  {name:"스포티지 NQ5",brand:"기아",origin:"국산",price:"2,677만~",power:"180PS",fuel:"가솔린",monthly:"53만",img:"🚙",color:"#E8290F"},
+  {name:"쏘렌토 MQ4",brand:"기아",origin:"국산",price:"3,305만~",power:"202PS",fuel:"디젤",monthly:"65만",img:"🚙",color:"#E8290F"},
+  {name:"카니발 KA4",brand:"기아",origin:"국산",price:"3,462만~",power:"202PS",fuel:"디젤",monthly:"69만",img:"🚐",color:"#E8290F"},
+  {name:"EV6",brand:"기아",origin:"국산",price:"4,870만~",power:"229PS",fuel:"전기",monthly:"97만",img:"⚡",color:"#E8290F"},
+  {name:"EV9",brand:"기아",origin:"국산",price:"7,348만~",power:"204PS",fuel:"전기",monthly:"146만",img:"⚡",color:"#E8290F"},
+  {name:"G70",brand:"제네시스",origin:"국산",price:"4,197만~",power:"252PS",fuel:"가솔린",monthly:"83만",img:"🏎️",color:"#886B3D"},
+  {name:"G80",brand:"제네시스",origin:"국산",price:"5,897만~",power:"304PS",fuel:"가솔린",monthly:"117만",img:"🏎️",color:"#886B3D"},
+  {name:"GV70",brand:"제네시스",origin:"국산",price:"4,757만~",power:"252PS",fuel:"가솔린",monthly:"94만",img:"🚙",color:"#886B3D"},
+  {name:"GV80",brand:"제네시스",origin:"국산",price:"6,297만~",power:"304PS",fuel:"가솔린",monthly:"125만",img:"🚙",color:"#886B3D"},
+  {name:"벤츠 E클래스",brand:"벤츠",origin:"수입",price:"7,250만~",power:"258PS",fuel:"가솔린",monthly:"144만",img:"🏎️",color:"#333"},
+  {name:"벤츠 GLC",brand:"벤츠",origin:"수입",price:"6,690만~",power:"258PS",fuel:"가솔린",monthly:"133만",img:"🚙",color:"#333"},
+  {name:"BMW 3시리즈",brand:"BMW",origin:"수입",price:"5,560만~",power:"184PS",fuel:"가솔린",monthly:"110만",img:"🏎️",color:"#1C69D4"},
+  {name:"BMW 5시리즈",brand:"BMW",origin:"수입",price:"7,090만~",power:"258PS",fuel:"가솔린",monthly:"141만",img:"🏎️",color:"#1C69D4"},
+  {name:"BMW X5",brand:"BMW",origin:"수입",price:"10,290만~",power:"286PS",fuel:"가솔린",monthly:"204만",img:"🚙",color:"#1C69D4"},
+  {name:"테슬라 모델3",brand:"테슬라",origin:"수입",price:"4,990만~",power:"283PS",fuel:"전기",monthly:"99만",img:"⚡",color:"#E82127"},
+  {name:"테슬라 모델Y",brand:"테슬라",origin:"수입",price:"5,699만~",power:"299PS",fuel:"전기",monthly:"113만",img:"⚡",color:"#E82127"},
+  {name:"포르쉐 911",brand:"포르쉐",origin:"수입",price:"15,700만~",power:"385PS",fuel:"가솔린",monthly:"312만",img:"🏎️",color:"#B12B28"},
+  {name:"아우디 A6",brand:"아우디",origin:"수입",price:"6,680만~",power:"245PS",fuel:"가솔린",monthly:"133만",img:"🏎️",color:"#BB0A30"},
+  {name:"볼보 XC60",brand:"볼보",origin:"수입",price:"6,090만~",power:"250PS",fuel:"가솔린",monthly:"121만",img:"🚙",color:"#003366"},
+  {name:"렉서스 ES",brand:"렉서스",origin:"수입",price:"5,790만~",power:"218PS",fuel:"HEV",monthly:"115만",img:"🏎️",color:"#1A1A1A"},
+  {name:"토요타 캠리",brand:"토요타",origin:"수입",price:"3,990만~",power:"215PS",fuel:"HEV",monthly:"79만",img:"🚙",color:"#EB0A1E"},
 ];
 
 type Round = 32|16|8|4|2|1;
@@ -45,6 +45,7 @@ function shuffle<T>(arr:T[]):T[] { const a=[...arr]; for(let i=a.length-1;i>0;i-
 
 export default function BattlePage() {
   const [stage, setStage] = useState<"select"|"playing"|"result">("select");
+  const [battleFilter, setBattleFilter] = useState<"전체"|"국산"|"수입">("전체");
   const [candidates, setCandidates] = useState<typeof CARS>([]);
   const [matchIdx, setMatchIdx] = useState(0);
   const [winners, setWinners] = useState<typeof CARS>([]);
@@ -59,8 +60,12 @@ export default function BattlePage() {
   },[]);
 
   const startBattle = () => {
-    setCurrentRound(32);
-    setCandidates(shuffle(CARS));
+    let pool = [...CARS];
+    if (battleFilter !== "전체") pool = pool.filter(c => c.origin === battleFilter);
+    if (pool.length < 8) { alert(`${battleFilter} 차량이 부족합니다. 전체로 진행해요!`); pool = [...CARS]; }
+    const size = pool.length >= 32 ? 32 : pool.length >= 16 ? 16 : 8;
+    setCurrentRound(size as Round);
+    setCandidates(shuffle(pool).slice(0, size));
     setMatchIdx(0);
     setWinners([]);
     setChampion(null);
@@ -119,12 +124,29 @@ export default function BattlePage() {
             </div>
             <div style={{maxWidth:600,margin:"0 auto",padding:"32px 24px 80px"}}>
 
+              {/* 국산/수입 필터 */}
+              <div style={{display:"flex",gap:8,marginBottom:16}}>
+                {(["전체","국산","수입"] as const).map(f=>(
+                  <button key={f} onClick={()=>setBattleFilter(f)} style={{
+                    flex:1,padding:"14px",borderRadius:14,border:battleFilter===f?"2px solid #9B30FF":"1.5px solid #E0DDD7",
+                    background:battleFilter===f?"#F5EEFF":"white",color:battleFilter===f?"#9B30FF":"#888",
+                    fontSize:15,fontWeight:battleFilter===f?800:600,
+                    fontFamily:"'NanumSquareRound',sans-serif",
+                  }}>
+                    {f==="국산"?"🇰🇷 국산":f==="수입"?"🌍 수입":"⚔️ 전체"}
+                    <div style={{fontSize:11,fontWeight:400,marginTop:2,color:battleFilter===f?"#9B30FF":"#CCC"}}>
+                      {f==="전체"?`${CARS.length}대`:f==="국산"?`${CARS.filter(c=>c.origin==="국산").length}대`:`${CARS.filter(c=>c.origin==="수입").length}대`}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
               <button onClick={startBattle} style={{
                 width:"100%",padding:"22px",background:"linear-gradient(135deg,#9B30FF,#6B00CC)",color:"white",
                 border:"none",borderRadius:18,fontSize:20,fontWeight:800,marginBottom:16,
                 display:"flex",alignItems:"center",justifyContent:"center",gap:10,
               }}>
-                ⚔️ 32강 토너먼트 시작
+                ⚔️ {battleFilter==="전체"?"32강":battleFilter==="국산"?"🇰🇷 국산":"🌍 수입"} 토너먼트 시작
               </button>
 
               <div style={{background:"#F8F7F4",borderRadius:14,padding:"16px 20px",marginBottom:28,fontSize:13,color:"#888",lineHeight:1.8,textAlign:"center"}}>
@@ -171,7 +193,9 @@ export default function BattlePage() {
                   minHeight:320,display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",
                 }}>
                   <div style={{fontSize:56,marginBottom:12}}>{car.img}</div>
-                  <div style={{fontSize:11,opacity:0.7,fontWeight:600,marginBottom:2}}>{car.brand}</div>
+                  <div style={{fontSize:11,opacity:0.7,fontWeight:600,marginBottom:2}}>
+                    {car.origin==="수입"?"🌍":"🇰🇷"} {car.brand}
+                  </div>
                   <div style={{fontSize:18,fontWeight:800,marginBottom:14,wordBreak:"keep-all"}}>{car.name}</div>
                   {/* 스펙 표시 */}
                   <div style={{width:"100%",display:"flex",flexDirection:"column",gap:6,fontSize:12}}>

@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import HomeMbtiSection from "@/components/HomeMbtiSection";
+import DailyCounter from "@/components/DailyCounter";
 import HomeCarousel from "@/components/HomeCarousel";
 import HomeBlogSection from "@/components/HomeBlogSection";
 import HomeDealerRanking from "@/components/HomeDealerRanking";
@@ -154,10 +154,11 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 통계 스트립 */}
+        {/* 실시간 통계 스트립 */}
         <section style={{ maxWidth:"1360px", margin:"24px auto 0", padding:"0 52px" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", background:"white", borderRadius:"18px", overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.04)" }}>
-            {[["2,418+","현재 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", background:"white", borderRadius:"18px", overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.04)" }}>
+            <DailyCounter />
+            {[["2,418+","등록 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
               <div key={String(label)} style={{ padding:"24px", textAlign:"center", borderRight:"1px solid #F0EEE9" }}>
                 <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:String(color), letterSpacing:"-1px" }}>{num}</div>
                 <div style={{ fontSize:"13px", color:"#AAA", marginTop:"3px", fontWeight:400 }}>{label}</div>
@@ -174,8 +175,8 @@ export default async function Home() {
               <div style={{ width:"48px", height:"48px", background:"rgba(255,255,255,0.15)", borderRadius:"14px", display:"flex", alignItems:"center", justifyContent:"center", marginBottom:"18px" }}><Zap size={24} color="white" /></div>
               <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"clamp(32px,5vw,48px)", color:"#fff", letterSpacing:"3px", marginBottom:"10px" }}>PICK</div>
               <div style={{ fontSize:"clamp(16px,2.5vw,24px)", fontWeight:600, color:"rgba(255,255,255,0.95)", marginBottom:"14px", wordBreak:"keep-all" }}>나에게 딱 맞는 차 찾기</div>
-              <p style={{ fontSize:"clamp(13px,1.5vw,15px)", color:"rgba(255,255,255,0.78)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>AI 추천 · 3분 퀴즈<br/>조건 맞춤 검색</p>
-              <a href="/quiz" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"18px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>내 차 PICK 하러 가기 <ArrowRight size={14}/></a>
+              <p style={{ fontSize:"clamp(13px,1.5vw,15px)", color:"rgba(255,255,255,0.78)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>차량 MBTI 테스트 · 21문항<br/>나에게 맞는 차 유형 찾기</p>
+              <a href="/mbti" style={{ display:"inline-flex", alignItems:"center", gap:"6px", marginTop:"18px", background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:"100px", fontSize:"13px", fontWeight:800 }}>나한테 맞는 차 MBTI 하러가기 <ArrowRight size={14}/></a>
             </div>
             <div className="pickfix-inner" style={{ background:"linear-gradient(135deg, #3060FF 0%, #1338E0 60%, #0A25B8 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
               <div style={{ position:"absolute", right:"-10px", bottom:"-30px", fontFamily:"'Bebas Neue',serif", fontSize:"clamp(120px,18vw,200px)", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:"-5px" }}>FIX</div>
@@ -226,7 +227,7 @@ export default async function Home() {
 
         {/* 차량 MBTI */}
         <section style={{ maxWidth:"1360px", margin:"0 auto 80px", padding:"0 52px" }}>
-          <HomeMbtiSection />
+          {/* MBTI 섹션은 PICK 카드로 통합됨 */}
         </section>
 
         {/* 블로그 최신글 */}
@@ -349,7 +350,7 @@ export default async function Home() {
                 나, 이 차로<br />픽했어
               </h2>
               <p style={{ fontSize:"clamp(14px,2vw,17px)", color:"rgba(255,255,255,0.8)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>
-                3분 퀴즈로 내 차를 픽(PICK)하고<br />픽스(FIX) 정찰가로 스트레스 없이 구매하세요.
+                차량 MBTI로 나에게 맞는 차를 찾고<br />FIX 정찰가로 스트레스 없이 구매하세요.
               </p>
             </div>
 

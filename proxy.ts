@@ -17,7 +17,6 @@ export function middleware(req: NextRequest) {
     if (!token) {
       return NextResponse.json({ error: "인증 필요" }, { status: 401 });
     }
-    /* 세부 권한은 각 API route에서 verifyToken으로 검증 */
   }
 
   /* ═══ 페이지 보호: 딜러/관리자 페이지 ═══ */
@@ -44,9 +43,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/api/:path*",
-    "/dealer/:path*",
-    "/admin/:path*",
-  ],
+  matcher: ["/api/:path*", "/dealer/:path*", "/admin/:path*"],
 };
