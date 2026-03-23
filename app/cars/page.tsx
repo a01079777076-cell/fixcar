@@ -458,5 +458,3 @@ fetch("/api/cars?limit=200").then(r=>r.json()).then(d=>{setCars(Array.isArray(d)
     </>
   );
 }
-}}  
- 
