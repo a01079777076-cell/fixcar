@@ -4,7 +4,7 @@ import Script from "next/script";
 export default function PortOneScript() {
   return (
     <Script
-      src="https://cdn.iamport.kr/v1/iamport.js"
+      src="https://cdn.portone.io/v2/browser-sdk.js"
       strategy="lazyOnload"
     />
   );

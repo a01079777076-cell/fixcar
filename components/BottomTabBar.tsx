@@ -19,7 +19,7 @@ export default function BottomTabBar() {
   return (
     <>
       <div style={{ height: 72 }} /> {/* 탭바 높이만큼 여백 */}
-      <nav style={{
+      <nav className="fixcar-bottom-tab" style={{
         position: "fixed", bottom: 0, left: 0, right: 0, background: "white",
         borderTop: "1px solid #E8E6E1", zIndex: 9999,
         display: "flex", justifyContent: "space-around", padding: "8px 0 12px",
@@ -36,7 +36,7 @@ export default function BottomTabBar() {
           );
         })}
       </nav>
-      <style>{`@media(min-width:769px){nav[style]{display:none!important;}div[style*="height: 72px"]{display:none!important;}}`}</style>
+      <style>{`@media(min-width:769px){.fixcar-bottom-tab{display:none!important;}div[style*="height: 72px"]{display:none!important;}}`}</style>
     </>
   );
 }
