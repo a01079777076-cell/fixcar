@@ -7,9 +7,9 @@ export default function BlogViewCount({ postId }: { postId: number }) {
 
   useEffect(() => {
     if (!postId) return;
-    /* 조회수 증가 + 가져오기 */
-    fetch(`/api/blog/${postId}/views`, { method: "POST" })
-      .then(r => r.json())
+    /* /view 와 /views 양쪽 시도 */
+    fetch(`/api/blog/${postId}/view`, { method: "POST" })
+      .then(r => r.ok ? r.json() : fetch(`/api/blog/${postId}/views`, { method: "POST" }).then(r2 => r2.json()))
       .then(d => setViews(d.views || 0))
       .catch(() => {});
   }, [postId]);

@@ -85,7 +85,7 @@ export default function SettingsPage() {
             <div style={{background:"white",borderRadius:20,padding:"28px 26px"}}>
               <button onClick={()=>setTab("main")} style={{border:"none",background:"transparent",fontSize:13,color:"#888",cursor:"pointer",marginBottom:16}}>← 돌아가기</button>
               <h2 style={{fontSize:20,fontWeight:800,marginBottom:16}}>🏷️ 닉네임 변경</h2>
-              {!nickInfo.canChange&&<div style={{background:"#FFF8EC",borderRadius:12,padding:"14px 16px",marginBottom:16,fontSize:13,color:"#B8860B"}}>⏰ {nickInfo.daysLeft}일 후에 변경 가능합니다</div>}
+              {!nickInfo.canChange&&<div style={{background:"#FFF8EC",borderRadius:12,padding:"14px 16px",marginBottom:16,fontSize:13,color:"#B8860B"}}>⏰ {nickInfo.daysLeft}일 후 변경 가능 ({new Date(Date.now()+nickInfo.daysLeft*86400000).toLocaleDateString("ko-KR")}부터)</div>}
               <input value={nickname} onChange={e=>setNickname(e.target.value)} maxLength={12} placeholder="2~12자 닉네임" style={inputS} disabled={!nickInfo.canChange}/>
               <div style={{fontSize:11,color:"#CCC",marginTop:6,marginBottom:12}}>{nickname.length}/12자</div>
               {msg&&<div style={{fontSize:13,color:msg.startsWith("✅")?"#2D8A52":"#E24B4A",marginBottom:12}}>{msg}</div>}

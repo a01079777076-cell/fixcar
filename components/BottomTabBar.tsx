@@ -13,15 +13,14 @@ const TABS = [
 export default function BottomTabBar() {
   const pathname = usePathname();
 
-  /* 딜러/관리자 페이지에서는 숨김 */
   if (pathname?.startsWith("/dealer") || pathname?.startsWith("/admin")) return null;
 
   return (
     <>
-      <div style={{ height: 72 }} /> {/* 탭바 높이만큼 여백 */}
+      <div className="fixcar-bottom-spacer" style={{ height: 72 }} />
       <nav className="fixcar-bottom-tab" style={{
         position: "fixed", bottom: 0, left: 0, right: 0, background: "white",
-        borderTop: "1px solid #E8E6E1", zIndex: 9999,
+        borderTop: "1px solid #E8E6E1", zIndex: 9998,
         display: "flex", justifyContent: "space-around", padding: "8px 0 12px",
         fontFamily: "'NanumSquareRound',sans-serif",
       }}>
@@ -36,7 +35,12 @@ export default function BottomTabBar() {
           );
         })}
       </nav>
-      <style>{`@media(min-width:769px){.fixcar-bottom-tab{display:none!important;}div[style*="height: 72px"]{display:none!important;}}`}</style>
+      <style>{`
+        @media(min-width:769px){
+          .fixcar-bottom-tab{display:none!important;}
+          .fixcar-bottom-spacer{display:none!important;}
+        }
+      `}</style>
     </>
   );
 }

@@ -67,6 +67,8 @@ export default function Navbar() {
     { label: "랭킹", href: "/ranking" },
     { label: "배틀", href: "/battle" },
     { label: "경매", href: "/auction" },
+    { label: "비교", href: "/compare" },
+    { label: "시세", href: "/price" },
   ];
 
   return (

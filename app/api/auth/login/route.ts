@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
     const { username, password } = await req.json();
     if (!username || !password) return NextResponse.json({ error: "아이디와 비밀번호를 입력해주세요" }, { status: 400 });
 
-    /* email 필드에 username 저장 (email 또는 username 둘 다 지원) */
     const user = await prisma.user.findFirst({
       where: { OR: [{ email: username }, { email: `${username}@fixcar.local` }] },
     });
@@ -23,10 +22,15 @@ export async function POST(req: NextRequest) {
     if (user.password !== hashed) return NextResponse.json({ error: "아이디 또는 비밀번호가 틀렸습니다" }, { status: 401 });
 
     const token = await signToken({ id: user.id, email: user.email, name: user.name, role: user.role });
+    const isProd = process.env.NODE_ENV === "production";
 
     const res = NextResponse.json({ success: true, user: { id: user.id, name: user.name, role: user.role } });
     res.cookies.set("fixcar-token", token, {
-      httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 7,
+      httpOnly: false,  /* 클라이언트에서도 읽기 가능 (세션 체크용) */
+      secure: isProd,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
     });
     return res;
   } catch (e) {

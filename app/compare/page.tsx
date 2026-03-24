@@ -39,7 +39,7 @@ export default function ComparePage() {
     { label: "배기량", key: "cc", format: v => v ? `${v.toLocaleString()}cc` : "-" },
     { label: "변속기", key: "transmission" },
     { label: "구동방식", key: "drivetrain" },
-    { label: "0→100km/h", key: "zeroToHundred", format: v => v ? `${v}초` : "-" },
+    { label: "0→100km/h", key: "zeroToHundred", format: v => v ? `${String(v).replace(/초/g,"")}초` : "-" },
     { label: "공차중량", key: "weight", format: v => v ? `${v.toLocaleString()}kg` : "-" },
     { label: "전장", key: "length", format: v => v ? `${v.toLocaleString()}mm` : "-" },
     { label: "전폭", key: "width", format: v => v ? `${v.toLocaleString()}mm` : "-" },

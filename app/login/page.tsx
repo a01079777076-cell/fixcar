@@ -31,6 +31,9 @@ export default function LoginPage() {
   const [phoneTimer, setPhoneTimer] = useState(0);
   const [signupError, setSignupError] = useState("");
   const [signupLoading, setSignupLoading] = useState(false);
+  const [findMode, setFindMode] = useState<null|"id"|"pw">(null);
+  const [findPhone, setFindPhone] = useState("");
+  const [findResult, setFindResult] = useState("");
 
   /* 아이디 유효성 */
   const idValid = /^[a-zA-Z0-9_]{6,20}$/.test(signupId);
@@ -188,6 +191,13 @@ export default function LoginPage() {
                     💬 카카오로 로그인
                   </button>
                 </a>
+
+                {/* 아이디/비번 찾기 */}
+                <div style={{display:"flex",justifyContent:"center",gap:16,marginTop:16,fontSize:13,color:"#AAA"}}>
+                  <button onClick={()=>setFindMode("id")} style={{border:"none",background:"transparent",color:"#888",fontSize:13,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",fontWeight:600,textDecoration:"underline"}}>아이디 찾기</button>
+                  <span style={{color:"#E0DDD7"}}>|</span>
+                  <button onClick={()=>setFindMode("pw")} style={{border:"none",background:"transparent",color:"#888",fontSize:13,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",fontWeight:600,textDecoration:"underline"}}>비밀번호 찾기</button>
+                </div>
               </div>
             )}
 
@@ -271,6 +281,29 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+    {/* ═══ 아이디/비밀번호 찾기 모달 ═══ */}
+    {findMode&&(<>
+      <div onClick={()=>{setFindMode(null);setFindResult("");setFindPhone("");}} style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.4)",zIndex:10000}}/>
+      <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",background:"white",borderRadius:24,padding:"32px 28px",width:"min(400px,90vw)",zIndex:10001,boxShadow:"0 20px 60px rgba(0,0,0,0.2)"}}>
+        <h2 style={{fontSize:20,fontWeight:800,marginBottom:16}}>{findMode==="id"?"🔍 아이디 찾기":"🔒 비밀번호 찾기"}</h2>
+        <p style={{fontSize:13,color:"#AAA",marginBottom:16,lineHeight:1.7}}>
+          {findMode==="id"?"가입 시 등록한 휴대폰 번호로 아이디를 찾습니다":"가입 시 등록한 휴대폰 번호로 임시 비밀번호를 발급합니다"}
+        </p>
+        <input value={findPhone} onChange={e=>setFindPhone(e.target.value)} placeholder="01012345678" maxLength={11} style={{...inputStyle,marginBottom:12,textAlign:"center"}}/>
+        {findResult&&<div style={{fontSize:13,color:findResult.startsWith("✅")?"#2D8A52":"#E24B4A",marginBottom:12,textAlign:"center",lineHeight:1.7}} dangerouslySetInnerHTML={{__html:findResult}}/>}
+        <button onClick={async()=>{
+          const cleaned=findPhone.replace(/[^0-9]/g,"");
+          if(!/^01[016789]\d{7,8}$/.test(cleaned)){setFindResult("올바른 휴대폰 번호를 입력해주세요");return;}
+          try{const res=await fetch(`/api/auth/${findMode==="id"?"find-id":"find-pw"}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({phone:cleaned})});
+          const data=await res.json();
+          if(data.success){if(findMode==="id")setFindResult(`✅ 아이디: <b>${data.username}</b>`);else setFindResult(`✅ 임시 비밀번호: <b>${data.tempPassword}</b><br/>로그인 후 변경해주세요`);}
+          else setFindResult(data.error||"찾을 수 없습니다");}catch{setFindResult("네트워크 오류");}
+        }} style={{width:"100%",padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",marginBottom:10}}>
+          {findMode==="id"?"아이디 찾기":"임시 비밀번호 발급"}
+        </button>
+        <button onClick={()=>{setFindMode(null);setFindResult("");setFindPhone("");}} style={{width:"100%",padding:"12px",background:"#F0EEE9",color:"#888",border:"none",borderRadius:12,fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>닫기</button>
+      </div>
+    </>)}
     </>
   );
 }
