@@ -206,7 +206,6 @@ export default function LoginPage() {
                   {signupId.length>0?(idValid?`${signupId.length}자 (사용 가능한 형식)`:`영문/숫자/밑줄만, ${signupId.length}/6~20자`):"영문/숫자/밑줄 6~20자"}
                 </div>
                 {idError&&<div style={{fontSize:12,color:"#E24B4A",fontWeight:700,marginBottom:12}}>⚠️ {idError}</div>}
-                </div>
 
                 {/* 비밀번호 */}
                 <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:6}}>비밀번호 <span style={{color:"#FF3B1E"}}>*</span></label>
