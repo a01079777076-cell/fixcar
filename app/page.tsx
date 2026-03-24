@@ -49,10 +49,10 @@ export default async function Home() {
   ];
 
   const promises = [
-    { icon:<Shield size={28} color="white"/>, num:"100", label:"항목 직접 검수", desc:"전문 정비사가 100개 항목을 직접 점검한 차만 등록돼요" },
-    { icon:<DollarSign size={28} color="white"/>, num:"0원", label:"숨은 비용", desc:"표시 가격이 곧 최종 가격. 계약서 쓰다가 추가금 없어요" },
-    { icon:<RotateCcw size={28} color="white"/>, num:"3일", label:"환불 보장", desc:"구매 후 3일 이내 마음이 바뀌면 100% 환불해드려요" },
-    { icon:<Truck size={28} color="white"/>, num:"전국", label:"탁송 서비스", desc:"계약 후 집 앞까지 차를 배달해드려요" },
+    { icon:<Shield size={28} color="white"/>, num:"ZERO", label:"허위 매물 제로", desc:"직접 검수된 전남, 광주광역시 차량만 등록돼요. 허위 매물은 즉시 삭제됩니다" },
+    { icon:<Lock size={28} color="white"/>, num:"FIX", label:"흥정 없는 정찰가", desc:"표시 가격 = 최종 가격. 딜러 흥정, 숨은 수수료 없이 투명하게 거래해요" },
+    { icon:<CheckCircle size={28} color="white"/>, num:"AI", label:"맞춤 차량 추천", desc:"MBTI 테스트와 AI가 나에게 딱 맞는 차를 골라줘요. 발품 팔 필요 없어요" },
+    { icon:<Zap size={28} color="white"/>, num:"FREE", label:"6개월 무료 등록", desc:"딜러님도 부담 없이! 지금 입점하면 6개월 등록비 무료 + 프리미엄 3건 무료" },
   ];
 
   const reviews = [
@@ -63,7 +63,7 @@ export default async function Home() {
 
   const FOOTER_COLS = [
     { title:"차량 찾기", links:[["전체 매물","/cars"],["내차 찾기","/quiz-select"],["차량 MBTI","/mbti"],["차량 카탈로그","/catalog"],["자동차 랭킹","/ranking"]] },
-    { title:"정보·커뮤니티", links:[["초보 가이드","/guide"],["픽스카 블로그","/blog"],["커뮤니티","/community"],["자동차 배틀","/battle"],["공개 경매","/auction"],["자주 묻는 질문","/faq"]] },
+    { title:"정보·커뮤니티", links:[["초보 가이드","/guide"],["픽스카 블로그","/blog"],["커뮤니티","/community"],["자동차 배틀","/battle"],["내 차 경매","/auction"],["자주 묻는 질문","/faq"]] },
     { title:"거래하기", links:[["내 차 팔기","/sell"],["서비스 결제","/payment"],["딜러 신청","/dealer/apply"]] },
     { title:"픽스카", links:[["회사 소개","/about"],["고객센터","/contact"],["개인정보처리방침","/privacy"],["이용약관","/terms"]] },
   ];
@@ -156,12 +156,12 @@ export default async function Home() {
 
         {/* 실시간 통계 스트립 */}
         <section style={{ maxWidth:"1360px", margin:"24px auto 0", padding:"0 52px" }}>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", background:"white", borderRadius:"18px", overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.04)" }}>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", background:"white", borderRadius:"18px", overflow:"hidden", boxShadow:"0 2px 12px rgba(0,0,0,0.04)" }}>
             <DailyCounter />
             {[["2,418+","등록 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
-              <div key={String(label)} style={{ padding:"24px", textAlign:"center", borderRight:"1px solid #F0EEE9" }}>
-                <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"32px", color:String(color), letterSpacing:"-1px" }}>{num}</div>
-                <div style={{ fontSize:"13px", color:"#AAA", marginTop:"3px", fontWeight:400 }}>{label}</div>
+              <div key={String(label)} style={{ padding:"20px 16px", textAlign:"center", borderRight:"1px solid #F0EEE9" }}>
+                <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"28px", color:String(color), letterSpacing:"-1px" }}>{num}</div>
+                <div style={{ fontSize:"12px", color:"#AAA", marginTop:"3px", fontWeight:400 }}>{label}</div>
               </div>
             ))}
           </div>
@@ -194,16 +194,16 @@ export default async function Home() {
           <div className="content-banners" style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:"16px" }}>
             {[
               { emoji:"", bgImg:"/icon/main_ranking_button.png", title:"자동차 랭킹", subtitle:"궁금하지 않아? 세상 모든 차량 순위가", desc:"최고가·최저가·깡통·풀옵·저주행·초보추천 랭킹표 전체", href:"/ranking", color:"#FF3B1E", bg:"#FFF0ED" },
-              { emoji:"", bgImg:"/icon/main_catalog_button.png", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
+              { emoji:"", bgImg:"/icon/main_auction_button.png", title:"내 차 경매로 팔기!", subtitle:"딜러에게 공개 입찰 경매", desc:"내 차량을 딜러에게 공개 입찰 경매로 투명하게", href:"/auction", color:"#E8A020", bg:"#FFF8EC" },
               { emoji:"⚔️", bgImg:"", title:"자동차 32강 토너먼트", subtitle:"32대 랜덤 대진 · 가격·마력 비교 선택", desc:"당신의 드림카는? 32강 자동차 토너먼트 지금 시작!", href:"/battle", color:"#9B30FF", bg:"#F5EEFF" },
-              { emoji:"", bgImg:"/icon/main_auction_button.png", title:"공개 경매", subtitle:"실시간 입찰, 투명한 가격 경쟁", desc:"직접 검수한 차량을 경매로! 뒷자리 숨김 입찰 시스템", href:"/auction", color:"#E8A020", bg:"#FFF8EC" },
-              { emoji:"", bgImg:"/icon/main_blog_button.png", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"모아놓는 중! 딜러 추천 꿀템부터 관리 노하우까지", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
               { emoji:"", bgImg:"/icon/main_community_button.png", title:"커뮤니티", subtitle:"서로 궁금한 소식들 올릴 수 있는 곳", desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판", href:"/community", color:"#CC6633", bg:"#FFF5ED" },
+              { emoji:"", bgImg:"/icon/main_blog_button.png", title:"픽스카 블로그", subtitle:"차량관리, 소모품, 필수꿀템까지", desc:"차량 필수템부터, 관리 등 노하우 모음", href:"/blog", color:"#2D8A52", bg:"#EAF6EF" },
+              { emoji:"", bgImg:"/icon/main_catalog_button.png", title:"차량 카탈로그", subtitle:"전세계 모든 차량을 연도별로", desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog", color:"#1847FF", bg:"#EEF2FF" },
             ].map(item=>(
               <a key={item.title} href={item.href}>
                 <div className="content-banner-card" style={{
                   background: item.bgImg ? `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.55))` : "white",
-                  borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%",
+                  borderRadius:"20px", padding:"28px 30px", cursor:"pointer", height:"100%", minHeight:"220px",
                   position:"relative", overflow:"hidden",
                 }}>
                   {item.bgImg && (
