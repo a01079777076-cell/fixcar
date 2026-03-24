@@ -1,32 +1,25 @@
-"use client";
 import Navbar from "@/components/Navbar";
 
 export default function TermsPage() {
   return (
     <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}`}</style>
       <Navbar/>
-      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <div style={{maxWidth:800,margin:"0 auto",padding:"40px 24px 100px"}}>
-          <h1 style={{fontSize:28,fontWeight:800,marginBottom:8}}>이용약관</h1>
-          <p style={{fontSize:13,color:"#AAA",marginBottom:28}}>최종 수정일: 2025년 3월 1일</p>
-          <div style={{background:"white",borderRadius:20,padding:"32px 30px"}}>
-            {[
-              {title:"제1조 (목적)",content:"이 약관은 픽스카(이하 '회사')가 제공하는 중고자동차 정보 서비스 및 관련 제반 서비스의 이용조건 및 절차에 관한 사항을 규정함을 목적으로 합니다."},
-              {title:"제2조 (정의)",content:"'서비스'란 회사가 운영하는 웹사이트(fixcar.kr) 및 모바일 애플리케이션을 통해 제공하는 중고차 매물 정보, 딜러 정보, 차량 카탈로그, 랭킹, MBTI 등 일체의 서비스를 말합니다."},
-              {title:"제3조 (약관의 효력)",content:"이 약관은 서비스를 이용하고자 하는 모든 이용자에게 적용됩니다. 약관의 내용은 서비스 화면에 게시하거나 기타의 방법으로 이용자에게 공지합니다."},
-              {title:"제4조 (서비스 이용)",content:"서비스는 연중무휴 1일 24시간 제공함을 원칙으로 합니다. 다만, 시스템 점검 등의 사유로 일시 중단될 수 있으며, 이 경우 사전 공지합니다."},
-              {title:"제5조 (회원가입)",content:"이용자는 카카오 계정을 통해 회원가입할 수 있으며, 가입 시 본 약관에 동의한 것으로 간주합니다."},
-              {title:"제6조 (차량 정보의 정확성)",content:"회사는 차량 정보의 정확성을 위해 최선을 다하나, 실제 차량 상태는 현장 확인을 권장합니다. FIX 정찰가는 등록 시점의 가격이며 변동될 수 있습니다."},
-              {title:"제7조 (허위매물 제재)",content:"클린픽스카 정책에 따라 허위매물을 등록한 딜러는 이용이 제한되며, 상세 규정은 클린픽스카 페이지에서 확인할 수 있습니다."},
-              {title:"제8조 (면책조항)",content:"회사는 이용자 간 또는 이용자와 딜러 간의 거래에 대해 직접적인 책임을 지지 않습니다. 차량 매매 계약은 당사자 간의 책임하에 이루어집니다."},
-              {title:"제9조 (분쟁해결)",content:"서비스 이용과 관련한 분쟁은 대한민국 법령에 따르며, 관할 법원은 광주지방법원으로 합니다."},
-            ].map((s,i)=>(
-              <div key={i} style={{marginBottom:24}}>
-                <h3 style={{fontSize:16,fontWeight:800,marginBottom:8,color:"#1A1A1A"}}>{s.title}</h3>
-                <p style={{fontSize:14,color:"#666",lineHeight:1.9,fontWeight:400}}>{s.content}</p>
-              </div>
-            ))}
+      <div style={{minHeight:"100vh",background:"#F0EEE9",fontFamily:"'NanumSquareRound',sans-serif"}}>
+        <div style={{background:"#1A1A1A",padding:"44px 24px 36px"}}><div style={{maxWidth:800,margin:"0 auto"}}><h1 style={{fontSize:28,fontWeight:800,color:"white"}}>📋 이용약관</h1></div></div>
+        <div style={{maxWidth:800,margin:"0 auto",padding:"32px 24px 100px"}}>
+          <div style={{background:"white",borderRadius:20,padding:"36px 32px",fontSize:14,color:"#555",lineHeight:2.2}}>
+            <p style={{fontSize:12,color:"#AAA",marginBottom:16}}>시행일: 2025년 1월 1일</p>
+            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",marginBottom:8}}>제1조 (목적)</h2>
+            <p>이 약관은 픽스카 FIXCAR(이하 &quot;서비스&quot;)가 제공하는 중고차 거래 중개 플랫폼의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
+            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제2조 (정의)</h2>
+            <p>1. &quot;서비스&quot;란 픽스카가 운영하는 웹사이트(fixcar.kr) 및 관련 서비스를 말합니다.<br/>2. &quot;회원&quot;이란 서비스에 가입하여 이용하는 자를 말합니다.<br/>3. &quot;딜러&quot;란 서비스에 중고차 매물을 등록하는 자동차매매업 종사자를 말합니다.<br/>4. &quot;FIX 가격&quot;이란 흥정 없이 고정된 판매 가격을 말합니다.</p>
+            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제3조 (서비스 이용)</h2>
+            <p>1. 서비스 이용을 위해 회원가입이 필요합니다.<br/>2. 허위 정보로 가입한 경우 서비스 이용이 제한될 수 있습니다.<br/>3. 매물 정보는 딜러가 등록하며, 픽스카는 검수를 통해 허위 매물을 차단합니다.</p>
+            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제4조 (FIX 가격 정책)</h2>
+            <p>1. 모든 매물은 FIX 정찰가로 등록됩니다.<br/>2. 등록된 가격은 딜러가 변경하기 전까지 유효합니다.<br/>3. 별도 흥정이나 추가 비용 요구는 금지됩니다.</p>
+            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제5조 (면책)</h2>
+            <p>1. 픽스카는 중개 플랫폼으로서, 실제 거래에 대한 책임은 당사자 간에 있습니다.<br/>2. 천재지변, 시스템 장애 등 불가항력으로 인한 서비스 중단에 대해 책임지지 않습니다.</p>
+            <div style={{background:"#F8F7F4",borderRadius:12,padding:"16px 20px",marginTop:24,fontSize:12,color:"#AAA"}}>문의: help@fixcar.kr</div>
           </div>
         </div>
       </div>

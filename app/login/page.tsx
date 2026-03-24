@@ -23,6 +23,7 @@ export default function LoginPage() {
   const [signupPhone, setSignupPhone] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [idChecked, setIdChecked] = useState<null|boolean>(null);
+  const [idError, setIdError] = useState("");
   const [idChecking, setIdChecking] = useState(false);
   const [phoneVerified, setPhoneVerified] = useState(false);
   const [phoneCode, setPhoneCode] = useState("");
@@ -38,7 +39,7 @@ export default function LoginPage() {
 
   /* 아이디 중복 체크 */
   const checkId = async () => {
-    if (!idValid) { setSignupError("아이디는 영문/숫자/밑줄 6~20자여야 합니다"); return; }
+    if (!idValid) { setIdError("아이디는 영문/숫자/밑줄 6~20자여야 합니다"); return; }
     setIdChecking(true);
     try {
       const res = await fetch("/api/auth/check-id", {
@@ -47,8 +48,8 @@ export default function LoginPage() {
       });
       const data = await res.json();
       setIdChecked(data.available);
-      if (!data.available) setSignupError("이미 사용 중인 아이디입니다");
-      else setSignupError("");
+      if (!data.available) setIdError("이미 사용 중인 아이디입니다");
+      else { setIdError(""); }
     } catch { setSignupError("확인 실패"); }
     setIdChecking(false);
   };
@@ -196,13 +197,15 @@ export default function LoginPage() {
                 {/* 아이디 */}
                 <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:6}}>아이디 <span style={{color:"#FF3B1E"}}>*</span></label>
                 <div style={{display:"flex",gap:8,marginBottom:4}}>
-                  <input value={signupId} onChange={e=>{setSignupId(e.target.value.replace(/[^a-zA-Z0-9_]/g,""));setIdChecked(null);}} placeholder="영문/숫자/밑줄 6~20자" maxLength={20} style={{...inputStyle,flex:1}}/>
+                  <input value={signupId} onChange={e=>{setSignupId(e.target.value.replace(/[^a-zA-Z0-9_]/g,""));setIdChecked(null);setIdError("");}} placeholder="영문/숫자/밑줄 6~20자" maxLength={20} style={{...inputStyle,flex:1}}/>
                   <button onClick={checkId} disabled={idChecking||!idValid} style={{padding:"14px 18px",background:idChecked===true?"#2D8A52":"#1A1A1A",color:"white",border:"none",borderRadius:12,fontSize:13,fontWeight:800,whiteSpace:"nowrap",cursor:"pointer",opacity:idValid?1:0.4,fontFamily:"'NanumSquareRound',sans-serif"}}>
                     {idChecking?"확인중":idChecked===true?"✓ 확인":"중복확인"}
                   </button>
                 </div>
-                <div style={{fontSize:11,color:signupId.length>0?(idValid?"#2D8A52":"#E24B4A"):"#CCC",marginBottom:12}}>
+                <div style={{fontSize:11,color:signupId.length>0?(idValid?"#2D8A52":"#E24B4A"):"#CCC",marginBottom:idError?4:12}}>
                   {signupId.length>0?(idValid?`${signupId.length}자 (사용 가능한 형식)`:`영문/숫자/밑줄만, ${signupId.length}/6~20자`):"영문/숫자/밑줄 6~20자"}
+                </div>
+                {idError&&<div style={{fontSize:12,color:"#E24B4A",fontWeight:700,marginBottom:12}}>⚠️ {idError}</div>}
                 </div>
 
                 {/* 비밀번호 */}
