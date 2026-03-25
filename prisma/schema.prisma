@@ -26,6 +26,7 @@ model User {
   blogPosts         BlogPost[]         @relation("BlogPosts")
   communityPosts    CommunityPost[]    @relation("CommunityPosts")
   communityComments CommunityComment[] @relation("CommunityComments")
+  communityReports  CommunityReport[]  @relation("CommunityReports")
   wishAlerts        WishAlert[]        @relation("WishAlerts")
   catalogReports    CatalogReport[]    @relation("CatalogReports")
   carScores         CarScore[]         @relation("CarScores")
@@ -42,6 +43,10 @@ model Dealer {
   id        Int      @id @default(autoincrement())
   userId    Int      @unique
   shopName  String
+  shopDesc  String?  @db.Text
+  shopPhone String?
+  shopAddr  String?
+  complexName String?
   rating    Float    @default(0)
   dealCount Int      @default(0)
   verified  Boolean  @default(false)
@@ -159,6 +164,7 @@ model CommunityPost {
   authorId  Int
   author    User               @relation("CommunityPosts", fields: [authorId], references: [id])
   comments  CommunityComment[]
+  reports   CommunityReport[]
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
 }
@@ -171,6 +177,40 @@ model CommunityComment {
   authorId  Int
   author    User          @relation("CommunityComments", fields: [authorId], references: [id])
   createdAt DateTime      @default(now())
+}
+
+model CommunityReport {
+  id        Int           @id @default(autoincrement())
+  postId    Int
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User          @relation("CommunityReports", fields: [userId], references: [id])
+  category  String
+  reason    String?       @db.Text
+  status    String        @default("PENDING")
+  createdAt DateTime      @default(now())
+  @@unique([postId, userId])
+}
+
+model Notice {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  pinned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  image     String?
+  startDate DateTime
+  endDate   DateTime
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model WishAlert {
