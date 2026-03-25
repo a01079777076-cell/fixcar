@@ -1,5 +1,5 @@
-/* 픽스카 카탈로그 데이터 - 국산+수입 통합 */
-/* 44개 브랜드 · 759개 모델 · 509개 스펙 · 424개 등급 */
+/* 픽스카 카탈로그 데이터 - 엑셀에서 자동 변환 */
+/* 44개 브랜드 · 759개 모델 · 509개 스펙 · 425개 등급 */
 
 export const BRAND_MODELS = {
   "현대": {
@@ -11468,32 +11468,6 @@ export const CAR_GRADES = {
       "efficiency": "20.1"
     }
   ],
-  "그랜저 GN7": [
-    {
-      "grade": "프리미엄",
-      "price": 3964,
-      "engine": "2.5 GDi",
-      "power": "198",
-      "torque": "25.3",
-      "efficiency": "11.4"
-    },
-    {
-      "grade": "캘리그래피",
-      "price": 4855,
-      "engine": "3.5 GDi",
-      "power": "300",
-      "torque": "36.2",
-      "efficiency": "9.8"
-    },
-    {
-      "grade": "하이브리드",
-      "price": 4250,
-      "engine": "1.6 T-HEV",
-      "power": "230",
-      "torque": "35",
-      "efficiency": "17.8"
-    }
-  ],
   "투싼 NX4": [
     {
       "grade": "스마트",
@@ -11854,32 +11828,6 @@ export const CAR_GRADES = {
       "efficiency": "16.8"
     }
   ],
-  "쏘렌토 MQ4": [
-    {
-      "grade": "트렌디",
-      "price": 3368,
-      "engine": "2.0 T-GDi",
-      "power": "237",
-      "torque": "35.7",
-      "efficiency": "11.5"
-    },
-    {
-      "grade": "시그니처",
-      "price": 4150,
-      "engine": "1.6 T-HEV",
-      "power": "230",
-      "torque": "35",
-      "efficiency": "16.0"
-    },
-    {
-      "grade": "PHEV",
-      "price": 4790,
-      "engine": "1.6 T-PHEV",
-      "power": "265",
-      "torque": "35",
-      "efficiency": "54.7km"
-    }
-  ],
   "모하비": [
     {
       "grade": "프레스티지",
@@ -12000,24 +11948,6 @@ export const CAR_GRADES = {
       "power": "385",
       "torque": "60",
       "efficiency": "4.5km/kWh"
-    }
-  ],
-  "EV3": [
-    {
-      "grade": "스탠다드",
-      "price": 3980,
-      "engine": "전기 58.3kWh",
-      "power": "204",
-      "torque": "28.6",
-      "efficiency": "5.9km/kWh"
-    },
-    {
-      "grade": "롱레인지",
-      "price": 4480,
-      "engine": "전기 81.4kWh",
-      "power": "204",
-      "torque": "28.6",
-      "efficiency": "5.5km/kWh"
     }
   ],
   "니로 2세대": [
@@ -12390,16 +12320,6 @@ export const CAR_GRADES = {
       "efficiency": "8.5"
     }
   ],
-  "콜로라도": [
-    {
-      "grade": "LT",
-      "price": 4590,
-      "engine": "2.8 디젤",
-      "power": "200",
-      "torque": "51",
-      "efficiency": "10.2"
-    }
-  ],
   "1시리즈 F70 (4세대)": [
     {
       "grade": "118i",
@@ -12506,24 +12426,6 @@ export const CAR_GRADES = {
       "efficiency": "55.6km/ℓ"
     }
   ],
-  "7시리즈 G70": [
-    {
-      "grade": "740i",
-      "price": 14990,
-      "engine": "3.0 직6 터보",
-      "power": "380",
-      "torque": "54",
-      "efficiency": "10.5"
-    },
-    {
-      "grade": "i7 xDrive60",
-      "price": 17990,
-      "engine": "전기",
-      "power": "544",
-      "torque": "75.5",
-      "efficiency": "4.4km/kWh"
-    }
-  ],
   "X1 U11": [
     {
       "grade": "sDrive18i",
@@ -12560,24 +12462,6 @@ export const CAR_GRADES = {
       "efficiency": "11.2"
     }
   ],
-  "X5 G05": [
-    {
-      "grade": "xDrive40i",
-      "price": 10390,
-      "engine": "3.0 직6 터보",
-      "power": "380",
-      "torque": "54",
-      "efficiency": "9.8"
-    },
-    {
-      "grade": "xDrive45e",
-      "price": 10990,
-      "engine": "3.0 터보 PHEV",
-      "power": "394",
-      "torque": "60",
-      "efficiency": "42.0km/ℓ"
-    }
-  ],
   "X6 G06": [
     {
       "grade": "xDrive40i",
@@ -12586,16 +12470,6 @@ export const CAR_GRADES = {
       "power": "380",
       "torque": "54",
       "efficiency": "9.5"
-    }
-  ],
-  "X7 G07": [
-    {
-      "grade": "xDrive40i",
-      "price": 14790,
-      "engine": "3.0 직6 터보",
-      "power": "380",
-      "torque": "54",
-      "efficiency": "9.2"
     }
   ],
   "i4": [
@@ -12940,24 +12814,6 @@ export const CAR_GRADES = {
       "efficiency": "10.2"
     }
   ],
-  "A6 C8": [
-    {
-      "grade": "A6 40 TDI",
-      "price": 6890,
-      "engine": "2.0 디젤",
-      "power": "204",
-      "torque": "40.8",
-      "efficiency": "16.5"
-    },
-    {
-      "grade": "A6 45 TFSI",
-      "price": 7990,
-      "engine": "2.0 터보",
-      "power": "265",
-      "torque": "37.7",
-      "efficiency": "12.8"
-    }
-  ],
   "A7 4K": [
     {
       "grade": "A7 55 TFSI",
@@ -13014,24 +12870,6 @@ export const CAR_GRADES = {
       "power": "204",
       "torque": "32.6",
       "efficiency": "12.5"
-    }
-  ],
-  "Q7 4M": [
-    {
-      "grade": "Q7 45 TDI",
-      "price": 9990,
-      "engine": "3.0 V6 디젤",
-      "power": "231",
-      "torque": "51",
-      "efficiency": "12.0"
-    },
-    {
-      "grade": "Q7 55 TFSI",
-      "price": 10990,
-      "engine": "3.0 V6 터보",
-      "power": "340",
-      "torque": "51",
-      "efficiency": "9.8"
     }
   ],
   "Q8 4M8": [
@@ -13092,24 +12930,6 @@ export const CAR_GRADES = {
       "efficiency": "8.8"
     }
   ],
-  "골프 Mk8": [
-    {
-      "grade": "골프 1.5 TSI",
-      "price": 3890,
-      "engine": "1.5 터보",
-      "power": "150",
-      "torque": "25.5",
-      "efficiency": "15.3"
-    },
-    {
-      "grade": "GTI",
-      "price": 4690,
-      "engine": "2.0 터보",
-      "power": "245",
-      "torque": "37.7",
-      "efficiency": "11.8"
-    }
-  ],
   "티구안 3세대": [
     {
       "grade": "1.5 TSI",
@@ -13138,24 +12958,6 @@ export const CAR_GRADES = {
       "efficiency": "9.8"
     }
   ],
-  "ID.4": [
-    {
-      "grade": "Pro",
-      "price": 5990,
-      "engine": "전기",
-      "power": "204",
-      "torque": "31.6",
-      "efficiency": "5.3km/kWh"
-    },
-    {
-      "grade": "Pro 4MOTION",
-      "price": 6590,
-      "engine": "전기",
-      "power": "299",
-      "torque": "31.6",
-      "efficiency": "4.8km/kWh"
-    }
-  ],
   "ID.7": [
     {
       "grade": "Pro S",
@@ -13164,32 +12966,6 @@ export const CAR_GRADES = {
       "power": "286",
       "torque": "56.1",
       "efficiency": "5.5km/kWh"
-    }
-  ],
-  "911 992": [
-    {
-      "grade": "카레라",
-      "price": 16990,
-      "engine": "3.0 터보",
-      "power": "385",
-      "torque": "45.9",
-      "efficiency": "10.2"
-    },
-    {
-      "grade": "카레라 S",
-      "price": 19990,
-      "engine": "3.0 터보",
-      "power": "450",
-      "torque": "54",
-      "efficiency": "9.5"
-    },
-    {
-      "grade": "터보 S",
-      "price": 27990,
-      "engine": "3.8 터보",
-      "power": "650",
-      "torque": "81.6",
-      "efficiency": "8.5"
     }
   ],
   "718 박스터/카이맨": [
@@ -13264,24 +13040,6 @@ export const CAR_GRADES = {
       "efficiency": "7.5"
     }
   ],
-  "타이칸 J1": [
-    {
-      "grade": "타이칸",
-      "price": 12890,
-      "engine": "전기",
-      "power": "408",
-      "torque": "41.3",
-      "efficiency": "4.5km/kWh"
-    },
-    {
-      "grade": "타이칸 터보 S",
-      "price": 24990,
-      "engine": "전기",
-      "power": "761",
-      "torque": "107.1",
-      "efficiency": "3.8km/kWh"
-    }
-  ],
   "XC60 2세대": [
     {
       "grade": "B5 AWD",
@@ -13348,24 +13106,6 @@ export const CAR_GRADES = {
       "efficiency": "4.3km/kWh"
     }
   ],
-  "EX30": [
-    {
-      "grade": "Single Motor",
-      "price": 4490,
-      "engine": "전기",
-      "power": "272",
-      "torque": "35.7",
-      "efficiency": "5.8km/kWh"
-    },
-    {
-      "grade": "Twin Motor",
-      "price": 5490,
-      "engine": "전기",
-      "power": "428",
-      "torque": "54",
-      "efficiency": "5.0km/kWh"
-    }
-  ],
   "EX90": [
     {
       "grade": "Twin Motor",
@@ -13374,78 +13114,6 @@ export const CAR_GRADES = {
       "power": "408",
       "torque": "78.5",
       "efficiency": "4.6km/kWh"
-    }
-  ],
-  "모델 S": [
-    {
-      "grade": "듀얼모터 AWD",
-      "price": 12999,
-      "engine": "전기",
-      "power": "670",
-      "torque": "75.5",
-      "efficiency": "5.0km/kWh"
-    },
-    {
-      "grade": "플레이드",
-      "price": 15999,
-      "engine": "전기",
-      "power": "1020",
-      "torque": "107.1",
-      "efficiency": "4.5km/kWh"
-    }
-  ],
-  "모델 3": [
-    {
-      "grade": "스탠다드 RWD",
-      "price": 4999,
-      "engine": "전기",
-      "power": "283",
-      "torque": "42",
-      "efficiency": "6.5km/kWh"
-    },
-    {
-      "grade": "롱레인지 AWD",
-      "price": 5999,
-      "engine": "전기",
-      "power": "351",
-      "torque": "49",
-      "efficiency": "6.1km/kWh"
-    }
-  ],
-  "모델 X": [
-    {
-      "grade": "듀얼모터 AWD",
-      "price": 13999,
-      "engine": "전기",
-      "power": "670",
-      "torque": "75.5",
-      "efficiency": "4.5km/kWh"
-    }
-  ],
-  "모델 Y": [
-    {
-      "grade": "스탠다드 RWD",
-      "price": 5699,
-      "engine": "전기",
-      "power": "255",
-      "torque": "42",
-      "efficiency": "6.1km/kWh"
-    },
-    {
-      "grade": "롱레인지 AWD",
-      "price": 6999,
-      "engine": "전기",
-      "power": "358",
-      "torque": "53",
-      "efficiency": "5.6km/kWh"
-    },
-    {
-      "grade": "퍼포먼스",
-      "price": 7999,
-      "engine": "전기",
-      "power": "430",
-      "torque": "66",
-      "efficiency": "5.2km/kWh"
     }
   ],
   "캠리 9세대": [
@@ -13464,24 +13132,6 @@ export const CAR_GRADES = {
       "power": "225",
       "torque": "22.4",
       "efficiency": "23.0"
-    }
-  ],
-  "GR 수프라 A90": [
-    {
-      "grade": "2.0",
-      "price": 5990,
-      "engine": "2.0 터보",
-      "power": "258",
-      "torque": "40.8",
-      "efficiency": "12.0"
-    },
-    {
-      "grade": "3.0",
-      "price": 7490,
-      "engine": "3.0 직6 터보",
-      "power": "387",
-      "torque": "51",
-      "efficiency": "9.8"
     }
   ],
   "RAV4 XA50": [
@@ -13522,52 +13172,6 @@ export const CAR_GRADES = {
       "efficiency": "8.0"
     }
   ],
-  "ES XV70": [
-    {
-      "grade": "ES 300h",
-      "price": 5990,
-      "engine": "2.5 HEV",
-      "power": "218",
-      "torque": "22.4",
-      "efficiency": "20.4"
-    }
-  ],
-  "NX AZ20": [
-    {
-      "grade": "NX 350h",
-      "price": 6590,
-      "engine": "2.5 HEV",
-      "power": "244",
-      "torque": "27.3",
-      "efficiency": "17.5"
-    },
-    {
-      "grade": "NX 450h+",
-      "price": 7890,
-      "engine": "2.5 PHEV",
-      "power": "309",
-      "torque": "27.3",
-      "efficiency": "60km/ℓ"
-    }
-  ],
-  "RX AL30": [
-    {
-      "grade": "RX 350h",
-      "price": 8790,
-      "engine": "2.5 HEV",
-      "power": "250",
-      "torque": "27.5",
-      "efficiency": "16.5"
-    },
-    {
-      "grade": "RX 500h",
-      "price": 9890,
-      "engine": "2.4 터보 HEV",
-      "power": "371",
-      "torque": "47.9",
-      "efficiency": "12.8"
-    }
-  ],
   "LS XF50": [
     {
       "grade": "LS 500h",
@@ -13576,34 +13180,6 @@ export const CAR_GRADES = {
       "power": "359",
       "torque": "35.7",
       "efficiency": "12.5"
-    }
-  ],
-  "LX J300": [
-    {
-      "grade": "LX 600",
-      "price": 22490,
-      "engine": "3.5 V6 터보",
-      "power": "415",
-      "torque": "66.3",
-      "efficiency": "7.5"
-    }
-  ],
-  "어코드 11세대": [
-    {
-      "grade": "1.5T EX",
-      "price": 3990,
-      "engine": "1.5 터보",
-      "power": "192",
-      "torque": "26.5",
-      "efficiency": "15.2"
-    },
-    {
-      "grade": "e:HEV EX-L",
-      "price": 4490,
-      "engine": "2.0 HEV",
-      "power": "204",
-      "torque": "34.2",
-      "efficiency": "22.4"
     }
   ],
   "시빅 11세대": [
@@ -13700,3102 +13276,6 @@ export const CAR_GRADES = {
       "efficiency": "4.5km/kWh"
     }
   ],
-  "아토스 MX": [
-    {
-      "grade": "기본",
-      "price": 550,
-      "engine": "가솔린",
-      "power": "58",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 750,
-      "engine": "가솔린",
-      "power": "58",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "클릭/겟츠 TB": [
-    {
-      "grade": "기본",
-      "price": 800,
-      "engine": "가솔린",
-      "power": "97",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1200,
-      "engine": "가솔린",
-      "power": "97",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "캐스퍼 AX1": [
-    {
-      "grade": "기본",
-      "price": 1385,
-      "engine": "가솔린/터보",
-      "power": "100",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2145,
-      "engine": "가솔린/터보",
-      "power": "100",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "베르나 LC": [
-    {
-      "grade": "기본",
-      "price": 900,
-      "engine": "가솔린/디젤",
-      "power": "114",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1400,
-      "engine": "가솔린/디젤",
-      "power": "114",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "베르나 MC": [
-    {
-      "grade": "기본",
-      "price": 1000,
-      "engine": "가솔린/디젤",
-      "power": "112",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1600,
-      "engine": "가솔린/디젤",
-      "power": "112",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "액센트 RB": [
-    {
-      "grade": "기본",
-      "price": 1200,
-      "engine": "가솔린/디젤",
-      "power": "128",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1900,
-      "engine": "가솔린/디젤",
-      "power": "128",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "액센트 HC": [
-    {
-      "grade": "기본",
-      "price": 1400,
-      "engine": "가솔린",
-      "power": "123",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2100,
-      "engine": "가솔린",
-      "power": "123",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아반떼 XD": [
-    {
-      "grade": "기본",
-      "price": 1100,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1800,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아반떼 HD": [
-    {
-      "grade": "기본",
-      "price": 1300,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2100,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아반떼 MD": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린/디젤",
-      "power": "150",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2300,
-      "engine": "가솔린/디젤",
-      "power": "150",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아반떼 AD": [
-    {
-      "grade": "기본",
-      "price": 1600,
-      "engine": "가솔린/디젤",
-      "power": "154",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2500,
-      "engine": "가솔린/디젤",
-      "power": "154",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "i30 FD": [
-    {
-      "grade": "기본",
-      "price": 1400,
-      "engine": "가솔린/디젤",
-      "power": "150",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2200,
-      "engine": "가솔린/디젤",
-      "power": "150",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "i30 GD": [
-    {
-      "grade": "기본",
-      "price": 1600,
-      "engine": "가솔린/디젤",
-      "power": "150",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2400,
-      "engine": "가솔린/디젤",
-      "power": "150",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "i30 PD": [
-    {
-      "grade": "기본",
-      "price": 1800,
-      "engine": "가솔린/디젤",
-      "power": "275",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/디젤",
-      "power": "275",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘나타 EF": [
-    {
-      "grade": "기본",
-      "price": 1400,
-      "engine": "가솔린/디젤/LPG",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2500,
-      "engine": "가솔린/디젤/LPG",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘나타 NF": [
-    {
-      "grade": "기본",
-      "price": 1700,
-      "engine": "가솔린/디젤/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2800,
-      "engine": "가솔린/디젤/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘나타 YF": [
-    {
-      "grade": "기본",
-      "price": 2000,
-      "engine": "가솔린/LPG/HEV",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린/LPG/HEV",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘나타 LF": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "180",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "180",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘나타 MX5": [
-    {
-      "grade": "기본",
-      "price": 2800,
-      "engine": "가솔린/HEV",
-      "power": "195",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4100,
-      "engine": "가솔린/HEV",
-      "power": "195",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "i40 VF": [
-    {
-      "grade": "기본",
-      "price": 2300,
-      "engine": "가솔린/디젤",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린/디젤",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "그랜저 XG": [
-    {
-      "grade": "기본",
-      "price": 2000,
-      "engine": "가솔린/LPG",
-      "power": "218",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/LPG",
-      "power": "218",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "그랜저 TG": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "가솔린/디젤/LPG",
-      "power": "240",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4200,
-      "engine": "가솔린/디젤/LPG",
-      "power": "240",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "그랜저 HG": [
-    {
-      "grade": "기본",
-      "price": 2800,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4500,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "그랜저 IG": [
-    {
-      "grade": "기본",
-      "price": 3200,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5200,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "에쿠스 LZ": [
-    {
-      "grade": "기본",
-      "price": 4000,
-      "engine": "가솔린/LPG",
-      "power": "310",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8000,
-      "engine": "가솔린/LPG",
-      "power": "310",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "에쿠스 VI": [
-    {
-      "grade": "기본",
-      "price": 6500,
-      "engine": "가솔린/LPG",
-      "power": "366",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 12000,
-      "engine": "가솔린/LPG",
-      "power": "366",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "투스카니 RD": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2400,
-      "engine": "가솔린",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "제네시스 쿠페 BK": [
-    {
-      "grade": "기본",
-      "price": 2700,
-      "engine": "가솔린 터보",
-      "power": "348",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4200,
-      "engine": "가솔린 터보",
-      "power": "348",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "벨로스터 FS": [
-    {
-      "grade": "기본",
-      "price": 1800,
-      "engine": "가솔린/터보",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2800,
-      "engine": "가솔린/터보",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "벨로스터 JS": [
-    {
-      "grade": "기본",
-      "price": 2000,
-      "engine": "가솔린 터보",
-      "power": "275",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린 터보",
-      "power": "275",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "코나 OS": [
-    {
-      "grade": "기본",
-      "price": 1900,
-      "engine": "가솔린/디젤/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4800,
-      "engine": "가솔린/디젤/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "코나 SX2": [
-    {
-      "grade": "기본",
-      "price": 2400,
-      "engine": "가솔린/HEV/EV",
-      "power": "218",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4800,
-      "engine": "가솔린/HEV/EV",
-      "power": "218",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "베뉴 QX": [
-    {
-      "grade": "기본",
-      "price": 2000,
-      "engine": "가솔린",
-      "power": "123",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2600,
-      "engine": "가솔린",
-      "power": "123",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "투싼 JM": [
-    {
-      "grade": "기본",
-      "price": 1800,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2800,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "투싼 LM": [
-    {
-      "grade": "기본",
-      "price": 2100,
-      "engine": "가솔린/디젤",
-      "power": "184",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3100,
-      "engine": "가솔린/디젤",
-      "power": "184",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "투싼 TL": [
-    {
-      "grade": "기본",
-      "price": 2300,
-      "engine": "가솔린/디젤",
-      "power": "185",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/디젤",
-      "power": "185",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "싼타페 SM": [
-    {
-      "grade": "기본",
-      "price": 2000,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "싼타페 CM": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "가솔린/디젤",
-      "power": "197",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3800,
-      "engine": "가솔린/디젤",
-      "power": "197",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "싼타페 DM": [
-    {
-      "grade": "기본",
-      "price": 2800,
-      "engine": "가솔린/디젤",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4200,
-      "engine": "가솔린/디젤",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "싼타페 TM": [
-    {
-      "grade": "기본",
-      "price": 3100,
-      "engine": "가솔린/디젤/HEV",
-      "power": "233",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4700,
-      "engine": "가솔린/디젤/HEV",
-      "power": "233",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "테라칸 HP": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "가솔린/디젤",
-      "power": "225",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3800,
-      "engine": "가솔린/디젤",
-      "power": "225",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "베라크루즈 EN": [
-    {
-      "grade": "기본",
-      "price": 3500,
-      "engine": "가솔린/디젤",
-      "power": "260",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5000,
-      "engine": "가솔린/디젤",
-      "power": "260",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "팰리세이드 LX2": [
-    {
-      "grade": "기본",
-      "price": 3800,
-      "engine": "가솔린/디젤",
-      "power": "295",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5600,
-      "engine": "가솔린/디젤",
-      "power": "295",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "트라제XG FO": [
-    {
-      "grade": "기본",
-      "price": 1700,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2600,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스타렉스(그랜드) A1": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "디젤",
-      "power": "175",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4500,
-      "engine": "디젤",
-      "power": "175",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스타리아 US4": [
-    {
-      "grade": "기본",
-      "price": 3300,
-      "engine": "디젤/가솔린 터보",
-      "power": "233",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5400,
-      "engine": "디젤/가솔린 터보",
-      "power": "233",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아이오닉 AE": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "HEV/PHEV/EV",
-      "power": "141",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4300,
-      "engine": "HEV/PHEV/EV",
-      "power": "141",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아이오닉 5 NE": [
-    {
-      "grade": "기본",
-      "price": 4200,
-      "engine": "전기",
-      "power": "325",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 6500,
-      "engine": "전기",
-      "power": "325",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아이오닉 6 CE": [
-    {
-      "grade": "기본",
-      "price": 4695,
-      "engine": "전기",
-      "power": "325",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 6800,
-      "engine": "전기",
-      "power": "325",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아이오닉 9": [
-    {
-      "grade": "기본",
-      "price": 6500,
-      "engine": "전기",
-      "power": "401",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8500,
-      "engine": "전기",
-      "power": "401",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "넥쏘 FE": [
-    {
-      "grade": "기본",
-      "price": 6890,
-      "engine": "수소",
-      "power": "154",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7220,
-      "engine": "수소",
-      "power": "154",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "포터 HR": [
-    {
-      "grade": "기본",
-      "price": 1800,
-      "engine": "디젤/EV",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5000,
-      "engine": "디젤/EV",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "비스토/모닝 SA": [
-    {
-      "grade": "기본",
-      "price": 500,
-      "engine": "가솔린",
-      "power": "62",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 800,
-      "engine": "가솔린",
-      "power": "62",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "모닝 BA": [
-    {
-      "grade": "기본",
-      "price": 600,
-      "engine": "가솔린",
-      "power": "73",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1000,
-      "engine": "가솔린",
-      "power": "73",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "모닝 TA": [
-    {
-      "grade": "기본",
-      "price": 850,
-      "engine": "가솔린",
-      "power": "87",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1350,
-      "engine": "가솔린",
-      "power": "87",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "모닝 JA": [
-    {
-      "grade": "기본",
-      "price": 1195,
-      "engine": "가솔린/터보",
-      "power": "100",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1605,
-      "engine": "가솔린/터보",
-      "power": "100",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "레이 TAM": [
-    {
-      "grade": "기본",
-      "price": 1400,
-      "engine": "가솔린/EV",
-      "power": "100",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3650,
-      "engine": "가솔린/EV",
-      "power": "100",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "프라이드(리오) DC": [
-    {
-      "grade": "기본",
-      "price": 800,
-      "engine": "가솔린",
-      "power": "97",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1200,
-      "engine": "가솔린",
-      "power": "97",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "프라이드 JB": [
-    {
-      "grade": "기본",
-      "price": 950,
-      "engine": "가솔린",
-      "power": "112",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1500,
-      "engine": "가솔린",
-      "power": "112",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "프라이드 UB": [
-    {
-      "grade": "기본",
-      "price": 1200,
-      "engine": "가솔린/디젤",
-      "power": "128",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1900,
-      "engine": "가솔린/디젤",
-      "power": "128",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "프라이드 YB": [
-    {
-      "grade": "기본",
-      "price": 1400,
-      "engine": "가솔린",
-      "power": "123",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2100,
-      "engine": "가솔린",
-      "power": "123",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스펙트라/쎄라토 LD": [
-    {
-      "grade": "기본",
-      "price": 1200,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1900,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "포르테/쎄라토 TD": [
-    {
-      "grade": "기본",
-      "price": 1400,
-      "engine": "가솔린/디젤/LPG",
-      "power": "156",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2200,
-      "engine": "가솔린/디젤/LPG",
-      "power": "156",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K3 YD": [
-    {
-      "grade": "기본",
-      "price": 1550,
-      "engine": "가솔린/디젤",
-      "power": "175",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2400,
-      "engine": "가솔린/디젤",
-      "power": "175",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K3 BD": [
-    {
-      "grade": "기본",
-      "price": 1775,
-      "engine": "가솔린",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2700,
-      "engine": "가솔린",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "EV4": [
-    {
-      "grade": "기본",
-      "price": 3500,
-      "engine": "전기",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5000,
-      "engine": "전기",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "옵티마/매그넨티스 MS": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린/디젤/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2500,
-      "engine": "가솔린/디젤/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "로체(옵티마) MG": [
-    {
-      "grade": "기본",
-      "price": 1700,
-      "engine": "가솔린/디젤/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2800,
-      "engine": "가솔린/디젤/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K5 TF": [
-    {
-      "grade": "기본",
-      "price": 2100,
-      "engine": "가솔린/LPG/HEV",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린/LPG/HEV",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K5 JF": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "180",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "180",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K5 DL3": [
-    {
-      "grade": "기본",
-      "price": 2535,
-      "engine": "가솔린/LPG/HEV",
-      "power": "195",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3800,
-      "engine": "가솔린/LPG/HEV",
-      "power": "195",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "오피러스 GH": [
-    {
-      "grade": "기본",
-      "price": 2800,
-      "engine": "가솔린/LPG",
-      "power": "225",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4200,
-      "engine": "가솔린/LPG",
-      "power": "225",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K7 VG": [
-    {
-      "grade": "기본",
-      "price": 2700,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4500,
-      "engine": "가솔린/디젤/LPG/HEV",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K7 YG": [
-    {
-      "grade": "기본",
-      "price": 2900,
-      "engine": "가솔린/디젤/LPG",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4800,
-      "engine": "가솔린/디젤/LPG",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K8 GL3": [
-    {
-      "grade": "기본",
-      "price": 3310,
-      "engine": "가솔린/LPG/HEV",
-      "power": "230",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5400,
-      "engine": "가솔린/LPG/HEV",
-      "power": "230",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K9 KH": [
-    {
-      "grade": "기본",
-      "price": 4600,
-      "engine": "가솔린/LPG",
-      "power": "315",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7200,
-      "engine": "가솔린/LPG",
-      "power": "315",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "K9 RJ": [
-    {
-      "grade": "기본",
-      "price": 5070,
-      "engine": "가솔린/LPG",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8100,
-      "engine": "가솔린/LPG",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스팅어 CK": [
-    {
-      "grade": "기본",
-      "price": 3990,
-      "engine": "가솔린 터보",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5430,
-      "engine": "가솔린 터보",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "셀토스 SP2": [
-    {
-      "grade": "기본",
-      "price": 2159,
-      "engine": "가솔린",
-      "power": "152",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3000,
-      "engine": "가솔린",
-      "power": "152",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "니로 DE": [
-    {
-      "grade": "기본",
-      "price": 2450,
-      "engine": "HEV/PHEV/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4380,
-      "engine": "HEV/PHEV/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "니로 SG2": [
-    {
-      "grade": "기본",
-      "price": 2750,
-      "engine": "HEV/PHEV/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4790,
-      "engine": "HEV/PHEV/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스포티지 KM": [
-    {
-      "grade": "기본",
-      "price": 1800,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2800,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스포티지 SL": [
-    {
-      "grade": "기본",
-      "price": 2100,
-      "engine": "가솔린/디젤",
-      "power": "184",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린/디젤",
-      "power": "184",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스포티지 QL": [
-    {
-      "grade": "기본",
-      "price": 2300,
-      "engine": "가솔린/디젤",
-      "power": "185",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/디젤",
-      "power": "185",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스포티지 NQ5": [
-    {
-      "grade": "기본",
-      "price": 2847,
-      "engine": "가솔린/디젤/HEV",
-      "power": "195",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4300,
-      "engine": "가솔린/디젤/HEV",
-      "power": "195",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘렌토 BL": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "가솔린/디젤",
-      "power": "247",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3600,
-      "engine": "가솔린/디젤",
-      "power": "247",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘렌토 XM": [
-    {
-      "grade": "기본",
-      "price": 2700,
-      "engine": "가솔린/디젤",
-      "power": "197",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3900,
-      "engine": "가솔린/디젤",
-      "power": "197",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘렌토 UM": [
-    {
-      "grade": "기본",
-      "price": 2900,
-      "engine": "가솔린/디젤",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4300,
-      "engine": "가솔린/디젤",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "모하비 HM": [
-    {
-      "grade": "기본",
-      "price": 3700,
-      "engine": "디젤",
-      "power": "260",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5200,
-      "engine": "디젤",
-      "power": "260",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "모하비 HM2": [
-    {
-      "grade": "기본",
-      "price": 4720,
-      "engine": "디젤",
-      "power": "202",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 6000,
-      "engine": "디젤",
-      "power": "202",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "EV9 MV": [
-    {
-      "grade": "기본",
-      "price": 7354,
-      "engine": "전기",
-      "power": "384",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8463,
-      "engine": "전기",
-      "power": "384",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "카렌스 UN": [
-    {
-      "grade": "기본",
-      "price": 1600,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2600,
-      "engine": "가솔린/디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "카니발 VQ": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "가솔린/디젤",
-      "power": "194",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3700,
-      "engine": "가솔린/디젤",
-      "power": "194",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "카니발 YP": [
-    {
-      "grade": "기본",
-      "price": 2800,
-      "engine": "가솔린/디젤",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4400,
-      "engine": "가솔린/디젤",
-      "power": "266",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "카니발 KA4": [
-    {
-      "grade": "기본",
-      "price": 3288,
-      "engine": "가솔린/디젤/HEV",
-      "power": "233",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5200,
-      "engine": "가솔린/디젤/HEV",
-      "power": "233",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "EV6 CV": [
-    {
-      "grade": "기본",
-      "price": 4830,
-      "engine": "전기",
-      "power": "585",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7300,
-      "engine": "전기",
-      "power": "585",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘울 AM": [
-    {
-      "grade": "기본",
-      "price": 1600,
-      "engine": "가솔린",
-      "power": "165",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2300,
-      "engine": "가솔린",
-      "power": "165",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘울 PS": [
-    {
-      "grade": "기본",
-      "price": 1700,
-      "engine": "가솔린/디젤/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3900,
-      "engine": "가솔린/디젤/EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "쏘울 SK3": [
-    {
-      "grade": "기본",
-      "price": 3710,
-      "engine": "EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4490,
-      "engine": "EV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "타스만": [
-    {
-      "grade": "기본",
-      "price": 3680,
-      "engine": "디젤",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4800,
-      "engine": "디젤",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "봉고 PU": [
-    {
-      "grade": "기본",
-      "price": 1700,
-      "engine": "디젤/EV",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5000,
-      "engine": "디젤/EV",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "G90 HI": [
-    {
-      "grade": "기본",
-      "price": 7070,
-      "engine": "가솔린/LPG",
-      "power": "425",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 12690,
-      "engine": "가솔린/LPG",
-      "power": "425",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "G90 RS4": [
-    {
-      "grade": "기본",
-      "price": 8564,
-      "engine": "가솔린 터보",
-      "power": "380",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 13890,
-      "engine": "가솔린 터보",
-      "power": "380",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "G80 DH": [
-    {
-      "grade": "기본",
-      "price": 4320,
-      "engine": "가솔린/디젤",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7130,
-      "engine": "가솔린/디젤",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "G80 RG3": [
-    {
-      "grade": "기본",
-      "price": 5176,
-      "engine": "가솔린 터보/EV",
-      "power": "304",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7800,
-      "engine": "가솔린 터보/EV",
-      "power": "304",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "G70 IK": [
-    {
-      "grade": "기본",
-      "price": 3990,
-      "engine": "가솔린 터보",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5800,
-      "engine": "가솔린 터보",
-      "power": "370",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "GV70 JK1": [
-    {
-      "grade": "기본",
-      "price": 4780,
-      "engine": "가솔린 터보/디젤/EV",
-      "power": "320",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7500,
-      "engine": "가솔린 터보/디젤/EV",
-      "power": "320",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "GV80 JX1": [
-    {
-      "grade": "기본",
-      "price": 5847,
-      "engine": "가솔린 터보/디젤",
-      "power": "380",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8900,
-      "engine": "가솔린 터보/디젤",
-      "power": "380",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "GV80 쿠페 JX1C": [
-    {
-      "grade": "기본",
-      "price": 7280,
-      "engine": "가솔린 터보",
-      "power": "380",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 9500,
-      "engine": "가솔린 터보",
-      "power": "380",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "GV60 JW": [
-    {
-      "grade": "기본",
-      "price": 5990,
-      "engine": "전기",
-      "power": "320",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7290,
-      "engine": "전기",
-      "power": "320",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "G80e RG3e": [
-    {
-      "grade": "기본",
-      "price": 7937,
-      "engine": "전기",
-      "power": "272",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8000,
-      "engine": "전기",
-      "power": "272",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "GV70e JK1e": [
-    {
-      "grade": "기본",
-      "price": 6490,
-      "engine": "전기",
-      "power": "320",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7300,
-      "engine": "전기",
-      "power": "320",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "GV90": [
-    {
-      "grade": "기본",
-      "price": 9000,
-      "engine": "전기",
-      "power": "0",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 12000,
-      "engine": "전기",
-      "power": "0",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "체어맨 W100": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "가솔린",
-      "power": "216",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4500,
-      "engine": "가솔린",
-      "power": "216",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "체어맨 W W140": [
-    {
-      "grade": "기본",
-      "price": 3500,
-      "engine": "가솔린/LPG",
-      "power": "362",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7500,
-      "engine": "가솔린/LPG",
-      "power": "362",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "체어맨 H W140": [
-    {
-      "grade": "기본",
-      "price": 4000,
-      "engine": "가솔린",
-      "power": "362",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8000,
-      "engine": "가솔린",
-      "power": "362",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "티볼리 X100": [
-    {
-      "grade": "기본",
-      "price": 1850,
-      "engine": "가솔린/디젤",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3000,
-      "engine": "가솔린/디젤",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "뉴코란도 KJ": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "디젤",
-      "power": "120",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2200,
-      "engine": "디젤",
-      "power": "120",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "코란도C C200": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "코란도 C300": [
-    {
-      "grade": "기본",
-      "price": 2300,
-      "engine": "가솔린/디젤/EV",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3800,
-      "engine": "가솔린/디젤/EV",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "토레스 KR10": [
-    {
-      "grade": "기본",
-      "price": 2525,
-      "engine": "가솔린 터보",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3300,
-      "engine": "가솔린 터보",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "액티언": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "가솔린 터보",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린 터보",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "토레스 EVX": [
-    {
-      "grade": "기본",
-      "price": 3990,
-      "engine": "전기",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4790,
-      "engine": "전기",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "렉스턴 Y200~Y296": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "디젤/가솔린",
-      "power": "220",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4500,
-      "engine": "디젤/가솔린",
-      "power": "220",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "렉스턴(G4) Y400": [
-    {
-      "grade": "기본",
-      "price": 3300,
-      "engine": "디젤",
-      "power": "202",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5000,
-      "engine": "디젤",
-      "power": "202",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "카이런 D100": [
-    {
-      "grade": "기본",
-      "price": 2100,
-      "engine": "디젤",
-      "power": "186",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "디젤",
-      "power": "186",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "액티언(구) A100": [
-    {
-      "grade": "기본",
-      "price": 1900,
-      "engine": "디젤",
-      "power": "175",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2700,
-      "engine": "디젤",
-      "power": "175",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "무쏘(렉스턴 스포츠) Q200": [
-    {
-      "grade": "기본",
-      "price": 2700,
-      "engine": "디젤",
-      "power": "202",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4200,
-      "engine": "디젤",
-      "power": "202",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "무쏘 EV": [
-    {
-      "grade": "기본",
-      "price": 4500,
-      "engine": "전기",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5500,
-      "engine": "전기",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "로디우스/투리스모 R100": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "디젤",
-      "power": "165",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3000,
-      "engine": "디젤",
-      "power": "165",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "투리스모 R200": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "디젤",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM3 N16": [
-    {
-      "grade": "기본",
-      "price": 1200,
-      "engine": "가솔린",
-      "power": "114",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1800,
-      "engine": "가솔린",
-      "power": "114",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM3 L38": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2300,
-      "engine": "가솔린/디젤",
-      "power": "143",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "XM3 HJB": [
-    {
-      "grade": "기본",
-      "price": 2030,
-      "engine": "가솔린/LPG",
-      "power": "156",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2900,
-      "engine": "가솔린/LPG",
-      "power": "156",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM5 KPQ": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2700,
-      "engine": "가솔린",
-      "power": "178",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM5 L43": [
-    {
-      "grade": "기본",
-      "price": 1800,
-      "engine": "가솔린/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2800,
-      "engine": "가솔린/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM6 LFD": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "가솔린/디젤/LPG",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/디젤/LPG",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM7 EX2": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "가솔린/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/LPG",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM7 L47": [
-    {
-      "grade": "기본",
-      "price": 2700,
-      "engine": "가솔린/디젤/LPG",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4200,
-      "engine": "가솔린/디젤/LPG",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "QM3 H5F": [
-    {
-      "grade": "기본",
-      "price": 2100,
-      "engine": "디젤",
-      "power": "90",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2600,
-      "engine": "디젤",
-      "power": "90",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "QM5 J72": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "디젤",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "디젤",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "QM6 D2": [
-    {
-      "grade": "기본",
-      "price": 2600,
-      "engine": "가솔린/디젤/LPG",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3800,
-      "engine": "가솔린/디젤/LPG",
-      "power": "190",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "SM3 Z.E.": [
-    {
-      "grade": "기본",
-      "price": 3300,
-      "engine": "전기",
-      "power": "95",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "전기",
-      "power": "95",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "마티즈 M150": [
-    {
-      "grade": "기본",
-      "price": 500,
-      "engine": "가솔린",
-      "power": "51",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 850,
-      "engine": "가솔린",
-      "power": "51",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "마티즈 M200": [
-    {
-      "grade": "기본",
-      "price": 600,
-      "engine": "가솔린",
-      "power": "82",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1100,
-      "engine": "가솔린",
-      "power": "82",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스파크(마티즈) M300": [
-    {
-      "grade": "기본",
-      "price": 700,
-      "engine": "가솔린/LPG",
-      "power": "82",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1200,
-      "engine": "가솔린/LPG",
-      "power": "82",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스파크 M400": [
-    {
-      "grade": "기본",
-      "price": 1200,
-      "engine": "가솔린",
-      "power": "75",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1550,
-      "engine": "가솔린",
-      "power": "75",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "다마스": [
-    {
-      "grade": "기본",
-      "price": 500,
-      "engine": "가솔린/LPG",
-      "power": "52",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 750,
-      "engine": "가솔린/LPG",
-      "power": "52",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "라보": [
-    {
-      "grade": "기본",
-      "price": 450,
-      "engine": "가솔린/LPG",
-      "power": "52",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 650,
-      "engine": "가솔린/LPG",
-      "power": "52",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "칼로스(아베오) T200": [
-    {
-      "grade": "기본",
-      "price": 850,
-      "engine": "가솔린",
-      "power": "105",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1400,
-      "engine": "가솔린",
-      "power": "105",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "젠트라(아베오) T250": [
-    {
-      "grade": "기본",
-      "price": 1000,
-      "engine": "가솔린",
-      "power": "109",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1600,
-      "engine": "가솔린",
-      "power": "109",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "아베오 T300": [
-    {
-      "grade": "기본",
-      "price": 1300,
-      "engine": "가솔린",
-      "power": "141",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1900,
-      "engine": "가솔린",
-      "power": "141",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "라세티 J200": [
-    {
-      "grade": "기본",
-      "price": 1200,
-      "engine": "가솔린/디젤",
-      "power": "121",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 1900,
-      "engine": "가솔린/디젤",
-      "power": "121",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "크루즈(라세티P) J300": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린/디젤",
-      "power": "164",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2400,
-      "engine": "가솔린/디젤",
-      "power": "164",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "크루즈 D2XX": [
-    {
-      "grade": "기본",
-      "price": 1880,
-      "engine": "가솔린",
-      "power": "153",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2400,
-      "engine": "가솔린",
-      "power": "153",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "매그너스 V200": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린/LPG",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2500,
-      "engine": "가솔린/LPG",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "토스카 V250": [
-    {
-      "grade": "기본",
-      "price": 1800,
-      "engine": "가솔린/LPG",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2800,
-      "engine": "가솔린/LPG",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "말리부 V300": [
-    {
-      "grade": "기본",
-      "price": 2450,
-      "engine": "가솔린",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3100,
-      "engine": "가솔린",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "말리부 D2UL": [
-    {
-      "grade": "기본",
-      "price": 2400,
-      "engine": "가솔린/디젤",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3200,
-      "engine": "가솔린/디젤",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "매그너스L/베리타스 V200L": [
-    {
-      "grade": "기본",
-      "price": 2000,
-      "engine": "가솔린",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2700,
-      "engine": "가솔린",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "스테이츠맨 WM": [
-    {
-      "grade": "기본",
-      "price": 2500,
-      "engine": "가솔린/LPG",
-      "power": "245",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4000,
-      "engine": "가솔린/LPG",
-      "power": "245",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "알페온 WM": [
-    {
-      "grade": "기본",
-      "price": 3000,
-      "engine": "가솔린/LPG",
-      "power": "258",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4500,
-      "engine": "가솔린/LPG",
-      "power": "258",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "윈스톰(캡티바) C100": [
-    {
-      "grade": "기본",
-      "price": 2200,
-      "engine": "가솔린/디젤",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3500,
-      "engine": "가솔린/디젤",
-      "power": "167",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "트랙스": [
-    {
-      "grade": "기본",
-      "price": 1900,
-      "engine": "가솔린/디젤",
-      "power": "141",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2700,
-      "engine": "가솔린/디젤",
-      "power": "141",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "이쿼녹스": [
-    {
-      "grade": "기본",
-      "price": 3360,
-      "engine": "가솔린 터보",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3800,
-      "engine": "가솔린 터보",
-      "power": "170",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "이쿼녹스 EV": [
-    {
-      "grade": "기본",
-      "price": 5000,
-      "engine": "전기",
-      "power": "340",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5900,
-      "engine": "전기",
-      "power": "340",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "레조 U100": [
-    {
-      "grade": "기본",
-      "price": 1500,
-      "engine": "가솔린/디젤",
-      "power": "148",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 2200,
-      "engine": "가솔린/디젤",
-      "power": "148",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "올란도 J309": [
-    {
-      "grade": "기본",
-      "price": 2100,
-      "engine": "가솔린/디젤",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3000,
-      "engine": "가솔린/디젤",
-      "power": "163",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "볼트 EV": [
-    {
-      "grade": "기본",
-      "price": 3800,
-      "engine": "전기",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4600,
-      "engine": "전기",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "볼트 EUV": [
-    {
-      "grade": "기본",
-      "price": 4293,
-      "engine": "전기",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4693,
-      "engine": "전기",
-      "power": "200",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "실버라도 EV": [
-    {
-      "grade": "기본",
-      "price": 8600,
-      "engine": "전기",
-      "power": "754",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 11000,
-      "engine": "전기",
-      "power": "754",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "A-Class W177": [
-    {
-      "grade": "기본",
-      "price": 4200,
-      "engine": "가솔린",
-      "power": "306",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 6800,
-      "engine": "가솔린",
-      "power": "306",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "C-Class W204": [
     {
       "grade": "기본",
@@ -16832,24 +13312,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "C-Class W206": [
-    {
-      "grade": "기본",
-      "price": 6160,
-      "engine": "가솔린(MHEV)",
-      "power": "408",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 9500,
-      "engine": "가솔린(MHEV)",
-      "power": "408",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "E-Class W211": [
     {
       "grade": "기본",
@@ -16881,42 +13343,6 @@ export const CAR_GRADES = {
       "grade": "최고",
       "price": 16000,
       "engine": "가솔린/디젤",
-      "power": "585",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "E-Class W213": [
-    {
-      "grade": "기본",
-      "price": 6200,
-      "engine": "가솔린/디젤",
-      "power": "612",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 18000,
-      "engine": "가솔린/디젤",
-      "power": "612",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "E-Class W214": [
-    {
-      "grade": "기본",
-      "price": 7340,
-      "engine": "가솔린(MHEV)/PHEV",
-      "power": "585",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 19000,
-      "engine": "가솔린(MHEV)/PHEV",
       "power": "585",
       "torque": "",
       "efficiency": ""
@@ -17048,24 +13474,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "AMG GT C190/X290": [
-    {
-      "grade": "기본",
-      "price": 17000,
-      "engine": "가솔린 터보",
-      "power": "730",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 30000,
-      "engine": "가솔린 터보",
-      "power": "730",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "CLE C236": [
     {
       "grade": "기본",
@@ -17174,24 +13582,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "3시리즈 G20": [
-    {
-      "grade": "기본",
-      "price": 5270,
-      "engine": "가솔린/디젤",
-      "power": "374",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 8500,
-      "engine": "가솔린/디젤",
-      "power": "374",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "5시리즈 E60": [
     {
       "grade": "기본",
@@ -17241,24 +13631,6 @@ export const CAR_GRADES = {
       "grade": "최고",
       "price": 16000,
       "engine": "가솔린/디젤/PHEV",
-      "power": "625",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "5시리즈 G60": [
-    {
-      "grade": "기본",
-      "price": 6990,
-      "engine": "가솔린/디젤/PHEV/전기",
-      "power": "625",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 17000,
-      "engine": "가솔린/디젤/PHEV/전기",
       "power": "625",
       "torque": "",
       "efficiency": ""
@@ -17350,24 +13722,6 @@ export const CAR_GRADES = {
       "price": 8500,
       "engine": "가솔린/디젤",
       "power": "360",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "X3 G01": [
-    {
-      "grade": "기본",
-      "price": 6100,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "510",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 11000,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "510",
       "torque": "",
       "efficiency": ""
     }
@@ -17624,24 +13978,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "Q5 FY": [
-    {
-      "grade": "기본",
-      "price": 6100,
-      "engine": "가솔린/디젤",
-      "power": "450",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 12000,
-      "engine": "가솔린/디젤",
-      "power": "450",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "Q6 e-tron": [
     {
       "grade": "기본",
@@ -17822,24 +14158,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "티구안 CT1": [
-    {
-      "grade": "기본",
-      "price": 4690,
-      "engine": "가솔린/PHEV",
-      "power": "272",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 6500,
-      "engine": "가솔린/PHEV",
-      "power": "272",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "캘리포니아": [
     {
       "grade": "기본",
@@ -17890,24 +14208,6 @@ export const CAR_GRADES = {
       "price": 8000,
       "engine": "가솔린",
       "power": "423",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "IS XE30": [
-    {
-      "grade": "기본",
-      "price": 4900,
-      "engine": "가솔린/HEV",
-      "power": "472",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 9000,
-      "engine": "가솔린/HEV",
-      "power": "472",
       "torque": "",
       "efficiency": ""
     }
@@ -18092,42 +14392,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "시빅 FL/FE": [
-    {
-      "grade": "기본",
-      "price": 3198,
-      "engine": "가솔린/HEV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3798,
-      "engine": "가솔린/HEV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "HR-V(베젤)": [
-    {
-      "grade": "기본",
-      "price": 3298,
-      "engine": "HEV",
-      "power": "131",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 3498,
-      "engine": "HEV",
-      "power": "131",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "CR-V RW": [
     {
       "grade": "기본",
@@ -18142,24 +14406,6 @@ export const CAR_GRADES = {
       "price": 4200,
       "engine": "가솔린 터보",
       "power": "193",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "CR-V": [
-    {
-      "grade": "기본",
-      "price": 4198,
-      "engine": "가솔린 터보/HEV/PHEV",
-      "power": "204",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5498,
-      "engine": "가솔린 터보/HEV/PHEV",
-      "power": "204",
       "torque": "",
       "efficiency": ""
     }
@@ -18290,24 +14536,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "카이엔 E3": [
-    {
-      "grade": "기본",
-      "price": 10500,
-      "engine": "가솔린 터보/HEV/PHEV",
-      "power": "680",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 25000,
-      "engine": "가솔린 터보/HEV/PHEV",
-      "power": "680",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "마칸 95B": [
     {
       "grade": "기본",
@@ -18398,24 +14626,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "디펜더 L663": [
-    {
-      "grade": "기본",
-      "price": 7720,
-      "engine": "가솔린/디젤",
-      "power": "525",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 18000,
-      "engine": "가솔린/디젤",
-      "power": "525",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "디스커버리 L462": [
     {
       "grade": "기본",
@@ -18470,24 +14680,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "레인지로버 L460": [
-    {
-      "grade": "기본",
-      "price": 17700,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "530",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 32000,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "530",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "레인지로버 벨라 L560": [
     {
       "grade": "기본",
@@ -18520,24 +14712,6 @@ export const CAR_GRADES = {
       "price": 5500,
       "engine": "가솔린/디젤",
       "power": "306",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "MINI 해치백 J01": [
-    {
-      "grade": "기본",
-      "price": 3500,
-      "engine": "가솔린/전기",
-      "power": "218",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5000,
-      "engine": "가솔린/전기",
-      "power": "218",
       "torque": "",
       "efficiency": ""
     }
@@ -18592,24 +14766,6 @@ export const CAR_GRADES = {
       "price": 6200,
       "engine": "가솔린/디젤/PHEV",
       "power": "306",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "MINI 컨트리맨 U25": [
-    {
-      "grade": "기본",
-      "price": 4490,
-      "engine": "가솔린/전기",
-      "power": "313",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 6500,
-      "engine": "가솔린/전기",
-      "power": "313",
       "torque": "",
       "efficiency": ""
     }
@@ -18704,42 +14860,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "캠리": [
-    {
-      "grade": "기본",
-      "price": 3950,
-      "engine": "HEV",
-      "power": "230",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4350,
-      "engine": "HEV",
-      "power": "230",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "프리우스": [
-    {
-      "grade": "기본",
-      "price": 3300,
-      "engine": "HEV/PHEV",
-      "power": "122",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 4200,
-      "engine": "HEV/PHEV",
-      "power": "122",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "크라운": [
     {
       "grade": "기본",
@@ -18776,24 +14896,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "RAV4": [
-    {
-      "grade": "기본",
-      "price": 3750,
-      "engine": "가솔린/HEV/PHEV",
-      "power": "306",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 5100,
-      "engine": "가솔린/HEV/PHEV",
-      "power": "306",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "하이랜더": [
     {
       "grade": "기본",
@@ -18812,24 +14914,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "랜드크루저 J300": [
-    {
-      "grade": "기본",
-      "price": 10000,
-      "engine": "가솔린 터보/디젤",
-      "power": "415",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 14000,
-      "engine": "가솔린 터보/디젤",
-      "power": "415",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "GR86": [
     {
       "grade": "기본",
@@ -18844,24 +14928,6 @@ export const CAR_GRADES = {
       "price": 3990,
       "engine": "가솔린",
       "power": "235",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "S60": [
-    {
-      "grade": "기본",
-      "price": 4990,
-      "engine": "가솔린/PHEV",
-      "power": "455",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 7500,
-      "engine": "가솔린/PHEV",
-      "power": "455",
       "torque": "",
       "efficiency": ""
     }
@@ -18920,42 +14986,6 @@ export const CAR_GRADES = {
       "efficiency": ""
     }
   ],
-  "XC60": [
-    {
-      "grade": "기본",
-      "price": 5690,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "462",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 9000,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "462",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
-  "XC90": [
-    {
-      "grade": "기본",
-      "price": 7550,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "462",
-      "torque": "",
-      "efficiency": ""
-    },
-    {
-      "grade": "최고",
-      "price": 11000,
-      "engine": "가솔린/디젤/PHEV",
-      "power": "462",
-      "torque": "",
-      "efficiency": ""
-    }
-  ],
   "EX40": [
     {
       "grade": "기본",
@@ -18990,6 +15020,6346 @@ export const CAR_GRADES = {
       "power": "408",
       "torque": "",
       "efficiency": ""
+    }
+  ],
+  "K5 DL3": [
+    {
+      "grade": "2.0 가솔린 스마트",
+      "price": 2766,
+      "engine": "2.0 MPI",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "13.7"
+    },
+    {
+      "grade": "2.0 가솔린 프레스티지",
+      "price": 2999,
+      "engine": "2.0 MPI",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "13.7"
+    },
+    {
+      "grade": "2.0 가솔린 노블레스",
+      "price": 3244,
+      "engine": "2.0 MPI",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "13.4"
+    },
+    {
+      "grade": "2.0 가솔린 시그니처",
+      "price": 3522,
+      "engine": "2.0 MPI",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "13.4"
+    },
+    {
+      "grade": "1.6T 가솔린 스마트",
+      "price": 2932,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.4"
+    },
+    {
+      "grade": "1.6T 가솔린 프레스티지",
+      "price": 3168,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.4"
+    },
+    {
+      "grade": "1.6T 가솔린 노블레스",
+      "price": 3393,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.2"
+    },
+    {
+      "grade": "1.6T 가솔린 시그니처",
+      "price": 3601,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.2"
+    },
+    {
+      "grade": "2.0 LPG 스마트",
+      "price": 2596,
+      "engine": "2.0 LPi",
+      "power": "146",
+      "torque": "19.5",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "2.0 LPG 프레스티지",
+      "price": 2756,
+      "engine": "2.0 LPi",
+      "power": "146",
+      "torque": "19.5",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "2.0 HEV 스마트",
+      "price": 3250,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "20.0"
+    },
+    {
+      "grade": "2.0 HEV 프레스티지",
+      "price": 3475,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "20.0"
+    },
+    {
+      "grade": "2.0 HEV 노블레스",
+      "price": 3695,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "19.3"
+    },
+    {
+      "grade": "2.0 HEV 시그니처",
+      "price": 3886,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "19.3"
+    }
+  ],
+  "셀토스 SP2": [
+    {
+      "grade": "1.6 가솔린 트렌디",
+      "price": 2159,
+      "engine": "1.6 MPI",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "1.6 가솔린 프레스티지",
+      "price": 2479,
+      "engine": "1.6 MPI",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "1.6 가솔린 시그니처",
+      "price": 2749,
+      "engine": "1.6 MPI",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "12.6"
+    },
+    {
+      "grade": "1.6T 가솔린 트렌디",
+      "price": 2489,
+      "engine": "1.6 T-GDi",
+      "power": "198",
+      "torque": "27.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "1.6T 가솔린 프레스티지",
+      "price": 2779,
+      "engine": "1.6 T-GDi",
+      "power": "198",
+      "torque": "27.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "1.6T 가솔린 시그니처",
+      "price": 3019,
+      "engine": "1.6 T-GDi",
+      "power": "198",
+      "torque": "27.0",
+      "efficiency": "11.2"
+    }
+  ],
+  "팰리세이드 LX2": [
+    {
+      "grade": "3.5 가솔린 르블랑",
+      "price": 3994,
+      "engine": "3.5 GDi",
+      "power": "272",
+      "torque": "33.5",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "3.5 가솔린 캘리그래피",
+      "price": 4720,
+      "engine": "3.5 GDi",
+      "power": "272",
+      "torque": "33.5",
+      "efficiency": "8.6"
+    },
+    {
+      "grade": "2.2 디젤 르블랑",
+      "price": 4099,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "12.4"
+    },
+    {
+      "grade": "2.2 디젤 캘리그래피",
+      "price": 4828,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "12.1"
+    },
+    {
+      "grade": "3.5 가솔린 4WD 르블랑",
+      "price": 4260,
+      "engine": "3.5 GDi",
+      "power": "272",
+      "torque": "33.5",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "3.5 가솔린 4WD 캘리그래피",
+      "price": 4986,
+      "engine": "3.5 GDi",
+      "power": "272",
+      "torque": "33.5",
+      "efficiency": "8.3"
+    },
+    {
+      "grade": "2.2 디젤 4WD 르블랑",
+      "price": 4365,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "11.6"
+    },
+    {
+      "grade": "2.2 디젤 4WD 캘리그래피",
+      "price": 5094,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "11.3"
+    }
+  ],
+  "카니발 KA4": [
+    {
+      "grade": "2.2 디젤 7인승 프레스티지",
+      "price": 3525,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "12.9"
+    },
+    {
+      "grade": "2.2 디젤 7인승 시그니처",
+      "price": 3925,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "12.9"
+    },
+    {
+      "grade": "2.2 디젤 9인승 프레스티지",
+      "price": 3288,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "13.2"
+    },
+    {
+      "grade": "2.2 디젤 9인승 노블레스",
+      "price": 3688,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "12.9"
+    },
+    {
+      "grade": "2.2 디젤 11인승 프레스티지",
+      "price": 3288,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "13.2"
+    },
+    {
+      "grade": "3.5 가솔린 7인승 프레스티지",
+      "price": 3576,
+      "engine": "3.5 GDi",
+      "power": "272",
+      "torque": "33.5",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "3.5 가솔린 7인승 시그니처",
+      "price": 3976,
+      "engine": "3.5 GDi",
+      "power": "272",
+      "torque": "33.5",
+      "efficiency": "8.3"
+    },
+    {
+      "grade": "1.6T HEV 7인승 프레스티지",
+      "price": 3798,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "15.2"
+    },
+    {
+      "grade": "1.6T HEV 7인승 시그니처",
+      "price": 4198,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "14.8"
+    },
+    {
+      "grade": "1.6T HEV 9인승 프레스티지",
+      "price": 3558,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "15.5"
+    },
+    {
+      "grade": "1.6T HEV 9인승 노블레스",
+      "price": 3958,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "15.2"
+    }
+  ],
+  "아이오닉 5 NE": [
+    {
+      "grade": "롱레인지 2WD 익스클루시브",
+      "price": 4695,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "35.7",
+      "efficiency": "5.2"
+    },
+    {
+      "grade": "롱레인지 2WD 프레스티지",
+      "price": 5195,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "35.7",
+      "efficiency": "5.2"
+    },
+    {
+      "grade": "롱레인지 AWD 프레스티지",
+      "price": 5595,
+      "engine": "전기모터",
+      "power": "325",
+      "torque": "61.0",
+      "efficiency": "4.7"
+    },
+    {
+      "grade": "롱레인지 AWD 캘리그래피",
+      "price": 5995,
+      "engine": "전기모터",
+      "power": "325",
+      "torque": "61.0",
+      "efficiency": "4.7"
+    },
+    {
+      "grade": "N",
+      "price": 6980,
+      "engine": "전기모터",
+      "power": "650",
+      "torque": "74.5",
+      "efficiency": "3.6"
+    }
+  ],
+  "캐스퍼 AX1": [
+    {
+      "grade": "스마트",
+      "price": 1385,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "14.3"
+    },
+    {
+      "grade": "모던",
+      "price": 1615,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "14.3"
+    },
+    {
+      "grade": "인스퍼레이션",
+      "price": 1785,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "14.3"
+    },
+    {
+      "grade": "터보 스마트",
+      "price": 1560,
+      "engine": "1.0 T-GDi",
+      "power": "100",
+      "torque": "17.5",
+      "efficiency": "13.2"
+    },
+    {
+      "grade": "터보 인스퍼레이션",
+      "price": 1960,
+      "engine": "1.0 T-GDi",
+      "power": "100",
+      "torque": "17.5",
+      "efficiency": "13.2"
+    },
+    {
+      "grade": "액티브",
+      "price": 2145,
+      "engine": "1.0 T-GDi",
+      "power": "100",
+      "torque": "17.5",
+      "efficiency": "13.0"
+    }
+  ],
+  "스타리아 US4": [
+    {
+      "grade": "2.2 디젤 9인승 투어러",
+      "price": 3495,
+      "engine": "2.2 CRDi",
+      "power": "177",
+      "torque": "43.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "2.2 디젤 9인승 프리미엄",
+      "price": 3875,
+      "engine": "2.2 CRDi",
+      "power": "177",
+      "torque": "43.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "2.2 디젤 9인승 라운지",
+      "price": 4370,
+      "engine": "2.2 CRDi",
+      "power": "177",
+      "torque": "43.0",
+      "efficiency": "12.3"
+    },
+    {
+      "grade": "2.2 디젤 11인승 투어러",
+      "price": 3299,
+      "engine": "2.2 CRDi",
+      "power": "177",
+      "torque": "43.0",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "2.5T 가솔린 7인승 라운지",
+      "price": 4580,
+      "engine": "2.5 T-GDi",
+      "power": "281",
+      "torque": "43.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "2.5T 가솔린 7인승 프레지던트",
+      "price": 5398,
+      "engine": "2.5 T-GDi",
+      "power": "281",
+      "torque": "43.0",
+      "efficiency": "9.3"
+    }
+  ],
+  "G80 RG3": [
+    {
+      "grade": "2.5T 스포트",
+      "price": 5176,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "10.4"
+    },
+    {
+      "grade": "2.5T 럭셔리",
+      "price": 5636,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "10.4"
+    },
+    {
+      "grade": "2.5T 프레스티지",
+      "price": 6416,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "10.1"
+    },
+    {
+      "grade": "3.5T 프레스티지",
+      "price": 7226,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "3.5T 프레스티지 AWD",
+      "price": 7536,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "8.1"
+    },
+    {
+      "grade": "eG80 일렉트리파이드",
+      "price": 7937,
+      "engine": "전기모터",
+      "power": "272",
+      "torque": "35.7",
+      "efficiency": "4.3"
+    }
+  ],
+  "GV70 JK1": [
+    {
+      "grade": "2.0T 스포트",
+      "price": 4780,
+      "engine": "2.0 T-GDi",
+      "power": "252",
+      "torque": "36.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "2.0T 럭셔리",
+      "price": 5325,
+      "engine": "2.0 T-GDi",
+      "power": "252",
+      "torque": "36.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "2.0T 프레스티지",
+      "price": 5955,
+      "engine": "2.0 T-GDi",
+      "power": "252",
+      "torque": "36.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "2.5T 프레스티지",
+      "price": 6695,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "2.5T 프레스티지 AWD",
+      "price": 6995,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "9.1"
+    },
+    {
+      "grade": "2.2D 프레스티지",
+      "price": 6295,
+      "engine": "2.2 CRDi",
+      "power": "210",
+      "torque": "45.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "eGV70 일렉트리파이드",
+      "price": 6490,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "35.7",
+      "efficiency": "4.6"
+    },
+    {
+      "grade": "eGV70 일렉트리파이드 AWD",
+      "price": 7090,
+      "engine": "전기모터",
+      "power": "320",
+      "torque": "61.0",
+      "efficiency": "4.1"
+    }
+  ],
+  "GV80 JX1": [
+    {
+      "grade": "2.5T 스포트",
+      "price": 5847,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "9.6"
+    },
+    {
+      "grade": "2.5T 럭셔리",
+      "price": 6417,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "9.3"
+    },
+    {
+      "grade": "2.5T 프레스티지",
+      "price": 7357,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "9.3"
+    },
+    {
+      "grade": "2.5T 캘리그래피",
+      "price": 7827,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "9.0"
+    },
+    {
+      "grade": "3.5T 캘리그래피",
+      "price": 8867,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "7.8"
+    },
+    {
+      "grade": "2.2D 프레스티지",
+      "price": 7027,
+      "engine": "2.2 CRDi",
+      "power": "210",
+      "torque": "45.0",
+      "efficiency": "11.8"
+    }
+  ],
+  "G90 RS4": [
+    {
+      "grade": "3.5T 럭셔리",
+      "price": 8564,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "8.2"
+    },
+    {
+      "grade": "3.5T 프레스티지",
+      "price": 10364,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "8.0"
+    },
+    {
+      "grade": "3.5T 프레스티지 AWD",
+      "price": 10674,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "7.7"
+    },
+    {
+      "grade": "롱휠베이스 프레스티지",
+      "price": 13074,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "7.7"
+    }
+  ],
+  "GV60 JW": [
+    {
+      "grade": "스탠다드",
+      "price": 5990,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "35.7",
+      "efficiency": "4.8"
+    },
+    {
+      "grade": "퍼포먼스 AWD",
+      "price": 6790,
+      "engine": "전기모터",
+      "power": "320",
+      "torque": "61.0",
+      "efficiency": "4.3"
+    },
+    {
+      "grade": "퍼포먼스 AWD 프레스티지",
+      "price": 7290,
+      "engine": "전기모터",
+      "power": "320",
+      "torque": "61.0",
+      "efficiency": "4.1"
+    }
+  ],
+  "아이오닉 6 CE": [
+    {
+      "grade": "롱레인지 2WD 익스클루시브",
+      "price": 4695,
+      "engine": "전기모터",
+      "power": "228",
+      "torque": "35.7",
+      "efficiency": "5.8"
+    },
+    {
+      "grade": "롱레인지 2WD 프레스티지",
+      "price": 5195,
+      "engine": "전기모터",
+      "power": "228",
+      "torque": "35.7",
+      "efficiency": "5.8"
+    },
+    {
+      "grade": "롱레인지 AWD 프레스티지",
+      "price": 5595,
+      "engine": "전기모터",
+      "power": "325",
+      "torque": "61.0",
+      "efficiency": "5.1"
+    },
+    {
+      "grade": "롱레인지 AWD 캘리그래피",
+      "price": 5995,
+      "engine": "전기모터",
+      "power": "325",
+      "torque": "61.0",
+      "efficiency": "5.0"
+    }
+  ],
+  "넥쏘 FE": [
+    {
+      "grade": "모던",
+      "price": 6890,
+      "engine": "수소전기",
+      "power": "154",
+      "torque": "40.3",
+      "efficiency": "96.2"
+    },
+    {
+      "grade": "프리미엄",
+      "price": 7220,
+      "engine": "수소전기",
+      "power": "154",
+      "torque": "40.3",
+      "efficiency": "96.2"
+    }
+  ],
+  "코나 SX2": [
+    {
+      "grade": "1.6T 가솔린 스마트",
+      "price": 2447,
+      "engine": "1.6 T-GDi",
+      "power": "198",
+      "torque": "27.0",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "1.6T 가솔린 트렌디",
+      "price": 2707,
+      "engine": "1.6 T-GDi",
+      "power": "198",
+      "torque": "27.0",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "1.6T 가솔린 인스퍼레이션",
+      "price": 3027,
+      "engine": "1.6 T-GDi",
+      "power": "198",
+      "torque": "27.0",
+      "efficiency": "11.6"
+    },
+    {
+      "grade": "HEV 스마트",
+      "price": 2802,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "20.2"
+    },
+    {
+      "grade": "HEV 트렌디",
+      "price": 3062,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "20.2"
+    },
+    {
+      "grade": "HEV 인스퍼레이션",
+      "price": 3367,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "19.3"
+    },
+    {
+      "grade": "EV 스탠다드",
+      "price": 3900,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "25.5",
+      "efficiency": "5.3"
+    },
+    {
+      "grade": "EV 롱레인지",
+      "price": 4300,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "25.5",
+      "efficiency": "5.5"
+    }
+  ],
+  "베뉴 QX": [
+    {
+      "grade": "스마트",
+      "price": 2008,
+      "engine": "1.6 MPI",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "13.8"
+    },
+    {
+      "grade": "모던",
+      "price": 2268,
+      "engine": "1.6 MPI",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "13.8"
+    },
+    {
+      "grade": "인스퍼레이션",
+      "price": 2588,
+      "engine": "1.6 MPI",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "13.4"
+    }
+  ],
+  "스포티지 NQ5": [
+    {
+      "grade": "1.6T 가솔린 트렌디",
+      "price": 2847,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.4"
+    },
+    {
+      "grade": "1.6T 가솔린 프레스티지",
+      "price": 3207,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.4"
+    },
+    {
+      "grade": "1.6T 가솔린 시그니처",
+      "price": 3587,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "2.0 디젤 트렌디",
+      "price": 3070,
+      "engine": "2.0 CRDi",
+      "power": "186",
+      "torque": "42.0",
+      "efficiency": "14.2"
+    },
+    {
+      "grade": "2.0 디젤 프레스티지",
+      "price": 3430,
+      "engine": "2.0 CRDi",
+      "power": "186",
+      "torque": "42.0",
+      "efficiency": "14.2"
+    },
+    {
+      "grade": "2.0 디젤 시그니처",
+      "price": 3810,
+      "engine": "2.0 CRDi",
+      "power": "186",
+      "torque": "42.0",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "1.6T HEV 트렌디",
+      "price": 3285,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "16.7"
+    },
+    {
+      "grade": "1.6T HEV 프레스티지",
+      "price": 3645,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "16.7"
+    },
+    {
+      "grade": "1.6T HEV 시그니처",
+      "price": 4025,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "16.0"
+    },
+    {
+      "grade": "1.6T LPG 트렌디",
+      "price": 2756,
+      "engine": "1.6 T-LPi",
+      "power": "153",
+      "torque": "25.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "K8 GL3": [
+    {
+      "grade": "2.5 가솔린 트렌디",
+      "price": 3310,
+      "engine": "2.5 GDi",
+      "power": "198",
+      "torque": "25.3",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "2.5 가솔린 노블레스",
+      "price": 3800,
+      "engine": "2.5 GDi",
+      "power": "198",
+      "torque": "25.3",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "2.5 가솔린 시그니처",
+      "price": 4290,
+      "engine": "2.5 GDi",
+      "power": "198",
+      "torque": "25.3",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "3.5 가솔린 시그니처",
+      "price": 4990,
+      "engine": "3.5 GDi",
+      "power": "300",
+      "torque": "36.2",
+      "efficiency": "9.4"
+    },
+    {
+      "grade": "1.6T HEV 트렌디",
+      "price": 3700,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "17.8"
+    },
+    {
+      "grade": "1.6T HEV 노블레스",
+      "price": 4200,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "17.5"
+    },
+    {
+      "grade": "1.6T HEV 시그니처",
+      "price": 4700,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "17.0"
+    },
+    {
+      "grade": "2.0 LPG 트렌디",
+      "price": 3100,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "9.0"
+    },
+    {
+      "grade": "2.0 LPG 노블레스",
+      "price": 3590,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "8.8"
+    }
+  ],
+  "K9 RJ": [
+    {
+      "grade": "3.8 가솔린 마스터즈",
+      "price": 5070,
+      "engine": "3.8 GDi",
+      "power": "315",
+      "torque": "40.0",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "3.8 가솔린 마스터즈 AWD",
+      "price": 5420,
+      "engine": "3.8 GDi",
+      "power": "315",
+      "torque": "40.0",
+      "efficiency": "8.3"
+    },
+    {
+      "grade": "3.3T 가솔린 마스터즈",
+      "price": 6200,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.4"
+    },
+    {
+      "grade": "3.3T 가솔린 마스터즈 AWD",
+      "price": 6550,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "7.9"
+    },
+    {
+      "grade": "2.5 LPG 마스터즈",
+      "price": 5020,
+      "engine": "2.5 LPi",
+      "power": "202",
+      "torque": "25.0",
+      "efficiency": "7.4"
+    }
+  ],
+  "모하비 HM2": [
+    {
+      "grade": "2.2 디젤 마스터즈",
+      "price": 4720,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "2.2 디젤 그래비티",
+      "price": 5200,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "3.0 디젤 마스터즈",
+      "price": 5300,
+      "engine": "3.0 V6 CRDi",
+      "power": "260",
+      "torque": "57.0",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "3.0 디젤 그래비티",
+      "price": 5800,
+      "engine": "3.0 V6 CRDi",
+      "power": "260",
+      "torque": "57.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "EV6 CV": [
+    {
+      "grade": "스탠다드 2WD",
+      "price": 4830,
+      "engine": "전기모터",
+      "power": "170",
+      "torque": "35.7",
+      "efficiency": "5.8"
+    },
+    {
+      "grade": "롱레인지 2WD",
+      "price": 5230,
+      "engine": "전기모터",
+      "power": "229",
+      "torque": "35.7",
+      "efficiency": "5.6"
+    },
+    {
+      "grade": "롱레인지 AWD",
+      "price": 5630,
+      "engine": "전기모터",
+      "power": "325",
+      "torque": "61.0",
+      "efficiency": "5.0"
+    },
+    {
+      "grade": "GT-line AWD",
+      "price": 6130,
+      "engine": "전기모터",
+      "power": "325",
+      "torque": "61.0",
+      "efficiency": "4.8"
+    },
+    {
+      "grade": "GT AWD",
+      "price": 7300,
+      "engine": "전기모터",
+      "power": "585",
+      "torque": "74.5",
+      "efficiency": "3.5"
+    }
+  ],
+  "EV9 MV": [
+    {
+      "grade": "에어 2WD",
+      "price": 7354,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "35.7",
+      "efficiency": "4.4"
+    },
+    {
+      "grade": "에어 AWD",
+      "price": 7754,
+      "engine": "전기모터",
+      "power": "384",
+      "torque": "71.4",
+      "efficiency": "3.9"
+    },
+    {
+      "grade": "어스 AWD",
+      "price": 8063,
+      "engine": "전기모터",
+      "power": "384",
+      "torque": "71.4",
+      "efficiency": "3.9"
+    },
+    {
+      "grade": "GT-line AWD",
+      "price": 8463,
+      "engine": "전기모터",
+      "power": "384",
+      "torque": "71.4",
+      "efficiency": "3.8"
+    }
+  ],
+  "EV3": [
+    {
+      "grade": "에어 롱레인지",
+      "price": 4292,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "28.6",
+      "efficiency": "5.8"
+    },
+    {
+      "grade": "어스 롱레인지",
+      "price": 4892,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "28.6",
+      "efficiency": "5.6"
+    },
+    {
+      "grade": "GT-line 롱레인지",
+      "price": 5392,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "28.6",
+      "efficiency": "5.4"
+    }
+  ],
+  "포터 HR": [
+    {
+      "grade": "2.5 디젤 슈퍼캡 일반",
+      "price": 1877,
+      "engine": "2.5 CRDi",
+      "power": "133",
+      "torque": "26.5",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "2.5 디젤 슈퍼캡 초장축",
+      "price": 2077,
+      "engine": "2.5 CRDi",
+      "power": "133",
+      "torque": "26.5",
+      "efficiency": "10.0"
+    },
+    {
+      "grade": "2.5 디젤 더블캡",
+      "price": 2277,
+      "engine": "2.5 CRDi",
+      "power": "133",
+      "torque": "26.5",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "EV 슈퍼캡",
+      "price": 4370,
+      "engine": "전기모터",
+      "power": "136",
+      "torque": "30.0",
+      "efficiency": "3.8"
+    },
+    {
+      "grade": "EV 더블캡",
+      "price": 4770,
+      "engine": "전기모터",
+      "power": "136",
+      "torque": "30.0",
+      "efficiency": "3.6"
+    }
+  ],
+  "봉고 PU": [
+    {
+      "grade": "2.5 디젤 표준캡",
+      "price": 1747,
+      "engine": "2.5 CRDi",
+      "power": "130",
+      "torque": "26.5",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "2.5 디젤 슈퍼캡",
+      "price": 1987,
+      "engine": "2.5 CRDi",
+      "power": "130",
+      "torque": "26.5",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "2.5 디젤 더블캡",
+      "price": 2187,
+      "engine": "2.5 CRDi",
+      "power": "130",
+      "torque": "26.5",
+      "efficiency": "9.9"
+    },
+    {
+      "grade": "EV 슈퍼캡",
+      "price": 4345,
+      "engine": "전기모터",
+      "power": "136",
+      "torque": "30.0",
+      "efficiency": "3.6"
+    }
+  ],
+  "레이 TAM": [
+    {
+      "grade": "스마트",
+      "price": 1410,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "프레스티지",
+      "price": 1570,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "시그니처",
+      "price": 1735,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "11.7"
+    },
+    {
+      "grade": "EV 에어",
+      "price": 3100,
+      "engine": "전기모터",
+      "power": "64",
+      "torque": "17.0",
+      "efficiency": "5.0"
+    },
+    {
+      "grade": "EV 어스",
+      "price": 3650,
+      "engine": "전기모터",
+      "power": "64",
+      "torque": "17.0",
+      "efficiency": "5.0"
+    }
+  ],
+  "타스만": [
+    {
+      "grade": "2.2D 2WD HT",
+      "price": 3680,
+      "engine": "2.2 CRDi",
+      "power": "190",
+      "torque": "45.0",
+      "efficiency": "12.2"
+    },
+    {
+      "grade": "2.2D 4WD HT",
+      "price": 3980,
+      "engine": "2.2 CRDi",
+      "power": "190",
+      "torque": "45.0",
+      "efficiency": "11.4"
+    },
+    {
+      "grade": "2.2D 4WD X-Pro",
+      "price": 4300,
+      "engine": "2.2 CRDi",
+      "power": "190",
+      "torque": "45.0",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "2.2D 4WD HT 더블캡",
+      "price": 4480,
+      "engine": "2.2 CRDi",
+      "power": "190",
+      "torque": "45.0",
+      "efficiency": "10.8"
+    }
+  ],
+  "모닝 JA": [
+    {
+      "grade": "스마트",
+      "price": 1195,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "프레스티지",
+      "price": 1395,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "시그니처",
+      "price": 1505,
+      "engine": "1.0 MPI",
+      "power": "76",
+      "torque": "9.7",
+      "efficiency": "13.6"
+    },
+    {
+      "grade": "터보 프레스티지",
+      "price": 1505,
+      "engine": "1.0 T-GDi",
+      "power": "100",
+      "torque": "17.5",
+      "efficiency": "12.8"
+    }
+  ],
+  "쏘나타 MX5": [
+    {
+      "grade": "1.6T 가솔린 스마트",
+      "price": 2876,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.6"
+    },
+    {
+      "grade": "1.6T 가솔린 프리미엄",
+      "price": 3296,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.4"
+    },
+    {
+      "grade": "1.6T 가솔린 인스퍼레이션",
+      "price": 3596,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.2"
+    },
+    {
+      "grade": "1.6T HEV 스마트",
+      "price": 3196,
+      "engine": "1.6 T-HEV",
+      "power": "195",
+      "torque": "27.0",
+      "efficiency": "19.6"
+    },
+    {
+      "grade": "1.6T HEV 프리미엄",
+      "price": 3596,
+      "engine": "1.6 T-HEV",
+      "power": "195",
+      "torque": "27.0",
+      "efficiency": "19.3"
+    },
+    {
+      "grade": "1.6T HEV 인스퍼레이션",
+      "price": 3996,
+      "engine": "1.6 T-HEV",
+      "power": "195",
+      "torque": "27.0",
+      "efficiency": "18.8"
+    },
+    {
+      "grade": "2.0 LPG 스마트",
+      "price": 2676,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "2.0 LPG 프리미엄",
+      "price": 3096,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "10.0"
+    }
+  ],
+  "그랜저 GN7": [
+    {
+      "grade": "2.5 가솔린 르블랑",
+      "price": 3964,
+      "engine": "2.5 GDi",
+      "power": "198",
+      "torque": "25.3",
+      "efficiency": "11.4"
+    },
+    {
+      "grade": "2.5 가솔린 캘리그래피",
+      "price": 4855,
+      "engine": "2.5 GDi",
+      "power": "198",
+      "torque": "25.3",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "1.6T HEV 르블랑",
+      "price": 4250,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "17.8"
+    },
+    {
+      "grade": "1.6T HEV 캘리그래피",
+      "price": 5140,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "17.0"
+    },
+    {
+      "grade": "2.0 LPG 르블랑",
+      "price": 3774,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "2.0 LPG 캘리그래피",
+      "price": 4565,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "3.5 가솔린 캘리그래피",
+      "price": 5480,
+      "engine": "3.5 GDi",
+      "power": "300",
+      "torque": "36.2",
+      "efficiency": "9.8"
+    }
+  ],
+  "쏘렌토 MQ4": [
+    {
+      "grade": "2.0T 가솔린 트렌디",
+      "price": 3368,
+      "engine": "2.0 T-GDi",
+      "power": "237",
+      "torque": "35.7",
+      "efficiency": "10.4"
+    },
+    {
+      "grade": "2.0T 가솔린 프레스티지",
+      "price": 3768,
+      "engine": "2.0 T-GDi",
+      "power": "237",
+      "torque": "35.7",
+      "efficiency": "10.4"
+    },
+    {
+      "grade": "2.0T 가솔린 시그니처",
+      "price": 4168,
+      "engine": "2.0 T-GDi",
+      "power": "237",
+      "torque": "35.7",
+      "efficiency": "10.0"
+    },
+    {
+      "grade": "2.2 디젤 트렌디",
+      "price": 3508,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "2.2 디젤 프레스티지",
+      "price": 3908,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "2.2 디젤 시그니처",
+      "price": 4308,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "1.6T HEV 트렌디",
+      "price": 3728,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "15.3"
+    },
+    {
+      "grade": "1.6T HEV 프레스티지",
+      "price": 4128,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "15.3"
+    },
+    {
+      "grade": "1.6T HEV 시그니처",
+      "price": 4528,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "14.8"
+    },
+    {
+      "grade": "1.6T PHEV 프레스티지",
+      "price": 4790,
+      "engine": "1.6 T-PHEV",
+      "power": "265",
+      "torque": "35.0",
+      "efficiency": "54.7"
+    }
+  ],
+  "C-Class W206": [
+    {
+      "grade": "C200 Avantgarde",
+      "price": 6160,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "204",
+      "torque": "30.6",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "C200 AMG Line",
+      "price": 6460,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "204",
+      "torque": "30.6",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "C300 4MATIC Avantgarde",
+      "price": 6880,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "C300 4MATIC AMG Line",
+      "price": 7600,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "AMG C43 4MATIC",
+      "price": 9500,
+      "engine": "2.0 가솔린 터보 MHEV",
+      "power": "408",
+      "torque": "51.0",
+      "efficiency": "9.2"
+    }
+  ],
+  "E-Class W214": [
+    {
+      "grade": "E200 Exclusive",
+      "price": 7340,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "204",
+      "torque": "32.6",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "E200 Avantgarde",
+      "price": 7800,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "204",
+      "torque": "32.6",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "E200 4MATIC AMG Line",
+      "price": 8650,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "204",
+      "torque": "32.6",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "E300 Exclusive",
+      "price": 8200,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "E300 4MATIC AMG Line",
+      "price": 9600,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "E450 4MATIC AMG Line",
+      "price": 11800,
+      "engine": "3.0 가솔린 MHEV",
+      "power": "381",
+      "torque": "51.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "AMG E53 4MATIC+",
+      "price": 14200,
+      "engine": "3.0 가솔린 MHEV",
+      "power": "585",
+      "torque": "81.6",
+      "efficiency": "8.0"
+    },
+    {
+      "grade": "E350e PHEV",
+      "price": 9800,
+      "engine": "2.0 PHEV",
+      "power": "313",
+      "torque": "56.1",
+      "efficiency": "52.6"
+    }
+  ],
+  "E-Class W213": [
+    {
+      "grade": "E200 Avantgarde",
+      "price": 6200,
+      "engine": "2.0 가솔린",
+      "power": "197",
+      "torque": "32.6",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "E300 AMG Line",
+      "price": 7800,
+      "engine": "2.0 가솔린",
+      "power": "258",
+      "torque": "37.7",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "E350 4MATIC",
+      "price": 8900,
+      "engine": "2.0 가솔린",
+      "power": "299",
+      "torque": "40.8",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "E220d Avantgarde",
+      "price": 6600,
+      "engine": "2.0 디젤",
+      "power": "194",
+      "torque": "40.8",
+      "efficiency": "16.5"
+    },
+    {
+      "grade": "AMG E53 4MATIC+",
+      "price": 12500,
+      "engine": "3.0 가솔린",
+      "power": "435",
+      "torque": "53.0",
+      "efficiency": "9.0"
+    },
+    {
+      "grade": "AMG E63 S 4MATIC+",
+      "price": 18000,
+      "engine": "4.0 V8 트윈터보",
+      "power": "612",
+      "torque": "86.7",
+      "efficiency": "7.8"
+    }
+  ],
+  "A-Class W177": [
+    {
+      "grade": "A220 세단",
+      "price": 4200,
+      "engine": "2.0 가솔린",
+      "power": "190",
+      "torque": "30.6",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "A250 4MATIC",
+      "price": 5200,
+      "engine": "2.0 가솔린",
+      "power": "224",
+      "torque": "35.7",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "AMG A35 4MATIC",
+      "price": 6200,
+      "engine": "2.0 가솔린 터보",
+      "power": "306",
+      "torque": "40.8",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "AMG A45 S 4MATIC+",
+      "price": 8200,
+      "engine": "2.0 가솔린 터보",
+      "power": "421",
+      "torque": "51.0",
+      "efficiency": "8.5"
+    }
+  ],
+  "AMG GT C190/X290": [
+    {
+      "grade": "AMG GT 43 4MATIC+",
+      "price": 14000,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "367",
+      "torque": "51.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "AMG GT 53 4MATIC+",
+      "price": 17500,
+      "engine": "3.0 가솔린 MHEV",
+      "power": "435",
+      "torque": "53.0",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "AMG GT 63 4MATIC+",
+      "price": 22000,
+      "engine": "4.0 V8",
+      "power": "585",
+      "torque": "81.6",
+      "efficiency": "7.2"
+    },
+    {
+      "grade": "AMG GT 63 S E Performance",
+      "price": 30000,
+      "engine": "4.0 V8 PHEV",
+      "power": "843",
+      "torque": "112.2",
+      "efficiency": "6.5"
+    }
+  ],
+  "3시리즈 G20": [
+    {
+      "grade": "320i M Sport",
+      "price": 5270,
+      "engine": "2.0 가솔린",
+      "power": "184",
+      "torque": "30.6",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "320d M Sport",
+      "price": 5570,
+      "engine": "2.0 디젤",
+      "power": "190",
+      "torque": "40.8",
+      "efficiency": "17.5"
+    },
+    {
+      "grade": "330i M Sport",
+      "price": 6290,
+      "engine": "2.0 가솔린",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "M340i xDrive",
+      "price": 7490,
+      "engine": "3.0 가솔린",
+      "power": "374",
+      "torque": "51.0",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "M3 Competition xDrive",
+      "price": 12000,
+      "engine": "3.0 가솔린 트윈터보",
+      "power": "510",
+      "torque": "66.3",
+      "efficiency": "8.5"
+    }
+  ],
+  "5시리즈 G60": [
+    {
+      "grade": "520i M Sport",
+      "price": 6990,
+      "engine": "2.0 가솔린",
+      "power": "208",
+      "torque": "30.6",
+      "efficiency": "12.2"
+    },
+    {
+      "grade": "530i xDrive M Sport",
+      "price": 7990,
+      "engine": "2.0 가솔린",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "530e xDrive M Sport",
+      "price": 8490,
+      "engine": "2.0 PHEV",
+      "power": "299",
+      "torque": "45.9",
+      "efficiency": "47.6"
+    },
+    {
+      "grade": "540i xDrive M Sport",
+      "price": 9490,
+      "engine": "3.0 가솔린",
+      "power": "375",
+      "torque": "54.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "i5 eDrive40 M Sport",
+      "price": 8690,
+      "engine": "전기모터",
+      "power": "340",
+      "torque": "43.4",
+      "efficiency": "5.1"
+    },
+    {
+      "grade": "i5 M60 xDrive",
+      "price": 15000,
+      "engine": "전기모터",
+      "power": "601",
+      "torque": "81.1",
+      "efficiency": "4.2"
+    },
+    {
+      "grade": "M5",
+      "price": 17000,
+      "engine": "4.4 V8 PHEV",
+      "power": "727",
+      "torque": "102.0",
+      "efficiency": "5.5"
+    }
+  ],
+  "7시리즈 G70": [
+    {
+      "grade": "735i xDrive M Sport",
+      "price": 13500,
+      "engine": "3.0 가솔린",
+      "power": "286",
+      "torque": "45.9",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "740i xDrive M Sport",
+      "price": 14800,
+      "engine": "3.0 가솔린",
+      "power": "381",
+      "torque": "54.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "760i xDrive M Sport Pro",
+      "price": 22000,
+      "engine": "4.4 V8",
+      "power": "571",
+      "torque": "81.6",
+      "efficiency": "8.2"
+    },
+    {
+      "grade": "i7 xDrive60 M Sport",
+      "price": 16800,
+      "engine": "전기모터",
+      "power": "544",
+      "torque": "76.5",
+      "efficiency": "4.3"
+    },
+    {
+      "grade": "i7 M70 xDrive",
+      "price": 27000,
+      "engine": "전기모터",
+      "power": "660",
+      "torque": "102.0",
+      "efficiency": "3.7"
+    }
+  ],
+  "X3 G01": [
+    {
+      "grade": "X3 20i M Sport",
+      "price": 6100,
+      "engine": "2.0 가솔린",
+      "power": "184",
+      "torque": "30.6",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "X3 20d M Sport",
+      "price": 6400,
+      "engine": "2.0 디젤",
+      "power": "190",
+      "torque": "40.8",
+      "efficiency": "15.8"
+    },
+    {
+      "grade": "X3 30i M Sport",
+      "price": 7200,
+      "engine": "2.0 가솔린",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "X3 M40i",
+      "price": 8800,
+      "engine": "3.0 가솔린",
+      "power": "360",
+      "torque": "51.0",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "X3 M Competition",
+      "price": 11000,
+      "engine": "3.0 가솔린 트윈터보",
+      "power": "510",
+      "torque": "66.3",
+      "efficiency": "8.5"
+    }
+  ],
+  "X5 G05": [
+    {
+      "grade": "X5 30d xDrive M Sport",
+      "price": 9920,
+      "engine": "3.0 디젤",
+      "power": "286",
+      "torque": "66.3",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "X5 40i xDrive M Sport",
+      "price": 11500,
+      "engine": "3.0 가솔린",
+      "power": "381",
+      "torque": "54.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "X5 45e xDrive M Sport",
+      "price": 12500,
+      "engine": "3.0 PHEV",
+      "power": "394",
+      "torque": "61.2",
+      "efficiency": "38.5"
+    },
+    {
+      "grade": "X5 M60i xDrive",
+      "price": 15000,
+      "engine": "4.4 V8",
+      "power": "530",
+      "torque": "76.5",
+      "efficiency": "8.0"
+    },
+    {
+      "grade": "X5 M Competition",
+      "price": 18000,
+      "engine": "4.4 V8 트윈터보",
+      "power": "625",
+      "torque": "76.5",
+      "efficiency": "7.2"
+    }
+  ],
+  "X7 G07": [
+    {
+      "grade": "X7 40i xDrive",
+      "price": 12700,
+      "engine": "3.0 가솔린",
+      "power": "381",
+      "torque": "54.0",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "X7 40d xDrive",
+      "price": 13200,
+      "engine": "3.0 디젤",
+      "power": "340",
+      "torque": "71.4",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "X7 M60i xDrive",
+      "price": 17500,
+      "engine": "4.4 V8",
+      "power": "530",
+      "torque": "76.5",
+      "efficiency": "7.8"
+    }
+  ],
+  "A6 C8": [
+    {
+      "grade": "A6 40 TDI Quattro",
+      "price": 6500,
+      "engine": "2.0 디젤",
+      "power": "204",
+      "torque": "40.8",
+      "efficiency": "16.2"
+    },
+    {
+      "grade": "A6 45 TFSI Quattro",
+      "price": 7200,
+      "engine": "2.0 가솔린",
+      "power": "265",
+      "torque": "37.7",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "S6 TDI Quattro",
+      "price": 10500,
+      "engine": "3.0 V6 디젤",
+      "power": "349",
+      "torque": "71.4",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "RS6 Avant",
+      "price": 18000,
+      "engine": "4.0 V8 MHEV",
+      "power": "600",
+      "torque": "81.6",
+      "efficiency": "8.8"
+    }
+  ],
+  "Q5 FY": [
+    {
+      "grade": "Q5 40 TDI Quattro",
+      "price": 6100,
+      "engine": "2.0 디젤",
+      "power": "204",
+      "torque": "40.8",
+      "efficiency": "14.5"
+    },
+    {
+      "grade": "Q5 45 TFSI Quattro",
+      "price": 6800,
+      "engine": "2.0 가솔린",
+      "power": "265",
+      "torque": "37.7",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "SQ5 Sportback TDI",
+      "price": 10200,
+      "engine": "3.0 V6 디젤",
+      "power": "341",
+      "torque": "71.4",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "Q5 55 TFSI e Quattro",
+      "price": 7800,
+      "engine": "2.0 PHEV",
+      "power": "367",
+      "torque": "51.0",
+      "efficiency": "42.0"
+    }
+  ],
+  "Q7 4M": [
+    {
+      "grade": "Q7 45 TDI Quattro",
+      "price": 8900,
+      "engine": "3.0 V6 디젤",
+      "power": "231",
+      "torque": "51.0",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "Q7 55 TFSI Quattro",
+      "price": 10800,
+      "engine": "3.0 V6 가솔린",
+      "power": "340",
+      "torque": "51.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "SQ7 TDI",
+      "price": 15000,
+      "engine": "4.0 V8 디젤",
+      "power": "435",
+      "torque": "91.8",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "Q7 55 TFSI e Quattro",
+      "price": 11500,
+      "engine": "3.0 PHEV",
+      "power": "381",
+      "torque": "61.2",
+      "efficiency": "38.0"
+    }
+  ],
+  "골프 Mk8": [
+    {
+      "grade": "골프 1.0 TSI",
+      "price": 3500,
+      "engine": "1.0 가솔린 터보",
+      "power": "110",
+      "torque": "20.4",
+      "efficiency": "15.2"
+    },
+    {
+      "grade": "골프 1.5 TSI",
+      "price": 3900,
+      "engine": "1.5 가솔린 터보",
+      "power": "150",
+      "torque": "25.5",
+      "efficiency": "14.5"
+    },
+    {
+      "grade": "GTI",
+      "price": 5200,
+      "engine": "2.0 가솔린 터보",
+      "power": "245",
+      "torque": "37.7",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "GTI Clubsport",
+      "price": 5800,
+      "engine": "2.0 가솔린 터보",
+      "power": "300",
+      "torque": "40.8",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "R",
+      "price": 6500,
+      "engine": "2.0 가솔린 터보",
+      "power": "333",
+      "torque": "42.8",
+      "efficiency": "9.8"
+    }
+  ],
+  "티구안 CT1": [
+    {
+      "grade": "Tiguan 1.5 TSI Life",
+      "price": 4690,
+      "engine": "1.5 가솔린 터보",
+      "power": "150",
+      "torque": "25.5",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "Tiguan 2.0 TSI R-Line",
+      "price": 5500,
+      "engine": "2.0 가솔린 터보",
+      "power": "204",
+      "torque": "32.6",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "Tiguan 2.0 TSI 4MOTION R-Line",
+      "price": 6000,
+      "engine": "2.0 가솔린 터보",
+      "power": "265",
+      "torque": "41.8",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "Tiguan 1.5 eHybrid PHEV",
+      "price": 5800,
+      "engine": "1.5 PHEV",
+      "power": "272",
+      "torque": "41.8",
+      "efficiency": "55.0"
+    }
+  ],
+  "ID.4": [
+    {
+      "grade": "ID.4 Pro",
+      "price": 5200,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "31.6",
+      "efficiency": "5.2"
+    },
+    {
+      "grade": "ID.4 Pro S",
+      "price": 5700,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "31.6",
+      "efficiency": "5.2"
+    },
+    {
+      "grade": "ID.4 GTX",
+      "price": 6300,
+      "engine": "전기모터 AWD",
+      "power": "299",
+      "torque": "47.9",
+      "efficiency": "4.5"
+    }
+  ],
+  "모델 3": [
+    {
+      "grade": "RWD 스탠다드",
+      "price": 4990,
+      "engine": "전기모터",
+      "power": "283",
+      "torque": "42.3",
+      "efficiency": "6.1"
+    },
+    {
+      "grade": "Long Range AWD",
+      "price": 5790,
+      "engine": "전기모터 듀얼",
+      "power": "346",
+      "torque": "49.0",
+      "efficiency": "5.6"
+    },
+    {
+      "grade": "Performance",
+      "price": 7100,
+      "engine": "전기모터 듀얼",
+      "power": "460",
+      "torque": "66.4",
+      "efficiency": "4.8"
+    }
+  ],
+  "모델 Y": [
+    {
+      "grade": "RWD 스탠다드",
+      "price": 4990,
+      "engine": "전기모터",
+      "power": "283",
+      "torque": "42.3",
+      "efficiency": "5.5"
+    },
+    {
+      "grade": "Long Range AWD",
+      "price": 5990,
+      "engine": "전기모터 듀얼",
+      "power": "346",
+      "torque": "49.0",
+      "efficiency": "5.1"
+    },
+    {
+      "grade": "Performance",
+      "price": 6990,
+      "engine": "전기모터 듀얼",
+      "power": "514",
+      "torque": "66.4",
+      "efficiency": "4.4"
+    }
+  ],
+  "모델 S": [
+    {
+      "grade": "Long Range AWD",
+      "price": 12000,
+      "engine": "전기모터 듀얼",
+      "power": "670",
+      "torque": "96.9",
+      "efficiency": "4.8"
+    },
+    {
+      "grade": "Plaid",
+      "price": 17500,
+      "engine": "전기모터 트리플",
+      "power": "1020",
+      "torque": "140.0",
+      "efficiency": "3.5"
+    }
+  ],
+  "모델 X": [
+    {
+      "grade": "Long Range AWD",
+      "price": 13000,
+      "engine": "전기모터 듀얼",
+      "power": "670",
+      "torque": "96.9",
+      "efficiency": "4.4"
+    },
+    {
+      "grade": "Plaid",
+      "price": 17000,
+      "engine": "전기모터 트리플",
+      "power": "1020",
+      "torque": "140.0",
+      "efficiency": "3.5"
+    }
+  ],
+  "ES XV70": [
+    {
+      "grade": "ES 250",
+      "price": 5360,
+      "engine": "2.5 가솔린",
+      "power": "203",
+      "torque": "25.1",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "ES 300h",
+      "price": 5850,
+      "engine": "2.5 HEV",
+      "power": "218",
+      "torque": "22.4",
+      "efficiency": "19.5"
+    },
+    {
+      "grade": "ES 300h Executive",
+      "price": 6480,
+      "engine": "2.5 HEV",
+      "power": "218",
+      "torque": "22.4",
+      "efficiency": "19.5"
+    },
+    {
+      "grade": "ES 300h Luxury",
+      "price": 7300,
+      "engine": "2.5 HEV",
+      "power": "218",
+      "torque": "22.4",
+      "efficiency": "19.0"
+    }
+  ],
+  "NX AZ20": [
+    {
+      "grade": "NX 250",
+      "price": 5630,
+      "engine": "2.5 가솔린",
+      "power": "203",
+      "torque": "25.1",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "NX 350h AWD",
+      "price": 6280,
+      "engine": "2.5 HEV",
+      "power": "244",
+      "torque": "27.4",
+      "efficiency": "16.5"
+    },
+    {
+      "grade": "NX 350h F Sport",
+      "price": 6980,
+      "engine": "2.5 HEV",
+      "power": "244",
+      "torque": "27.4",
+      "efficiency": "16.0"
+    },
+    {
+      "grade": "NX 450h+ AWD PHEV",
+      "price": 7600,
+      "engine": "2.5 PHEV",
+      "power": "309",
+      "torque": "27.4",
+      "efficiency": "48.5"
+    }
+  ],
+  "RX AL30": [
+    {
+      "grade": "RX 350h AWD",
+      "price": 7300,
+      "engine": "2.5 HEV",
+      "power": "250",
+      "torque": "27.4",
+      "efficiency": "15.0"
+    },
+    {
+      "grade": "RX 350h F Sport",
+      "price": 8500,
+      "engine": "2.5 HEV",
+      "power": "250",
+      "torque": "27.4",
+      "efficiency": "14.5"
+    },
+    {
+      "grade": "RX 500h F Sport Performance",
+      "price": 9800,
+      "engine": "2.4 터보 HEV",
+      "power": "371",
+      "torque": "46.9",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "RX 450h+ PHEV",
+      "price": 9200,
+      "engine": "2.5 PHEV",
+      "power": "309",
+      "torque": "27.4",
+      "efficiency": "44.0"
+    }
+  ],
+  "LX J300": [
+    {
+      "grade": "LX 600",
+      "price": 15000,
+      "engine": "3.5 V6 트윈터보",
+      "power": "415",
+      "torque": "66.3",
+      "efficiency": "7.5"
+    },
+    {
+      "grade": "LX 600 F Sport",
+      "price": 16500,
+      "engine": "3.5 V6 트윈터보",
+      "power": "415",
+      "torque": "66.3",
+      "efficiency": "7.2"
+    },
+    {
+      "grade": "LX 600 Executive",
+      "price": 17500,
+      "engine": "3.5 V6 트윈터보",
+      "power": "415",
+      "torque": "66.3",
+      "efficiency": "7.2"
+    }
+  ],
+  "IS XE30": [
+    {
+      "grade": "IS 300",
+      "price": 4900,
+      "engine": "2.0 가솔린 터보",
+      "power": "245",
+      "torque": "35.7",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "IS 300h",
+      "price": 5300,
+      "engine": "2.5 HEV",
+      "power": "223",
+      "torque": "22.4",
+      "efficiency": "17.0"
+    },
+    {
+      "grade": "IS 350 F Sport",
+      "price": 6500,
+      "engine": "3.5 V6",
+      "power": "311",
+      "torque": "38.7",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "IS 500 F Sport Performance",
+      "price": 9000,
+      "engine": "5.0 V8",
+      "power": "472",
+      "torque": "54.6",
+      "efficiency": "8.0"
+    }
+  ],
+  "어코드 11세대": [
+    {
+      "grade": "e:HEV Premium",
+      "price": 4198,
+      "engine": "2.0 HEV",
+      "power": "204",
+      "torque": "34.2",
+      "efficiency": "19.8"
+    },
+    {
+      "grade": "e:HEV Signature",
+      "price": 4398,
+      "engine": "2.0 HEV",
+      "power": "204",
+      "torque": "34.2",
+      "efficiency": "19.5"
+    }
+  ],
+  "시빅 FL/FE": [
+    {
+      "grade": "1.5T 프리미엄",
+      "price": 3198,
+      "engine": "1.5 가솔린 터보",
+      "power": "182",
+      "torque": "24.5",
+      "efficiency": "14.5"
+    },
+    {
+      "grade": "1.5T 시그니처",
+      "price": 3498,
+      "engine": "1.5 가솔린 터보",
+      "power": "182",
+      "torque": "24.5",
+      "efficiency": "14.5"
+    },
+    {
+      "grade": "e:HEV 프리미엄",
+      "price": 3598,
+      "engine": "2.0 HEV",
+      "power": "184",
+      "torque": "32.1",
+      "efficiency": "22.0"
+    }
+  ],
+  "CR-V": [
+    {
+      "grade": "1.5T 2WD 프리미엄",
+      "price": 4198,
+      "engine": "1.5 가솔린 터보",
+      "power": "190",
+      "torque": "24.5",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "1.5T AWD 프리미엄",
+      "price": 4498,
+      "engine": "1.5 가솔린 터보",
+      "power": "190",
+      "torque": "24.5",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "e:HEV AWD 시그니처",
+      "price": 5198,
+      "engine": "2.0 HEV",
+      "power": "204",
+      "torque": "34.2",
+      "efficiency": "16.5"
+    },
+    {
+      "grade": "e:PHEV AWD 시그니처",
+      "price": 5498,
+      "engine": "2.0 PHEV",
+      "power": "204",
+      "torque": "34.2",
+      "efficiency": "42.0"
+    }
+  ],
+  "HR-V(베젤)": [
+    {
+      "grade": "e:HEV Active",
+      "price": 3298,
+      "engine": "1.5 HEV",
+      "power": "131",
+      "torque": "25.8",
+      "efficiency": "20.2"
+    },
+    {
+      "grade": "e:HEV Premium",
+      "price": 3498,
+      "engine": "1.5 HEV",
+      "power": "131",
+      "torque": "25.8",
+      "efficiency": "19.8"
+    }
+  ],
+  "911 992": [
+    {
+      "grade": "Carrera",
+      "price": 15700,
+      "engine": "3.0 트윈터보",
+      "power": "385",
+      "torque": "45.9",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "Carrera S",
+      "price": 18500,
+      "engine": "3.0 트윈터보",
+      "power": "450",
+      "torque": "54.0",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "Carrera GTS",
+      "price": 21000,
+      "engine": "3.0 트윈터보",
+      "power": "480",
+      "torque": "57.1",
+      "efficiency": "9.0"
+    },
+    {
+      "grade": "Carrera GTS T-Hybrid",
+      "price": 22500,
+      "engine": "3.6 트윈터보 HEV",
+      "power": "541",
+      "torque": "61.2",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "Turbo S",
+      "price": 28000,
+      "engine": "3.7 트윈터보",
+      "power": "650",
+      "torque": "81.6",
+      "efficiency": "7.8"
+    },
+    {
+      "grade": "GT3",
+      "price": 26500,
+      "engine": "4.0 NA",
+      "power": "510",
+      "torque": "47.9",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "GT3 RS",
+      "price": 35000,
+      "engine": "4.0 NA",
+      "power": "525",
+      "torque": "47.9",
+      "efficiency": "8.2"
+    }
+  ],
+  "카이엔 E3": [
+    {
+      "grade": "Cayenne",
+      "price": 10500,
+      "engine": "3.0 V6 터보",
+      "power": "353",
+      "torque": "51.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "Cayenne S",
+      "price": 13500,
+      "engine": "2.9 V6 트윈터보",
+      "power": "474",
+      "torque": "61.2",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "Cayenne E-Hybrid",
+      "price": 12500,
+      "engine": "3.0 PHEV",
+      "power": "470",
+      "torque": "66.3",
+      "efficiency": "42.0"
+    },
+    {
+      "grade": "Cayenne Turbo GT",
+      "price": 22000,
+      "engine": "4.0 V8 트윈터보",
+      "power": "659",
+      "torque": "91.8",
+      "efficiency": "7.5"
+    },
+    {
+      "grade": "Cayenne Coupe S",
+      "price": 14500,
+      "engine": "2.9 V6 트윈터보",
+      "power": "474",
+      "torque": "61.2",
+      "efficiency": "8.5"
+    }
+  ],
+  "타이칸 J1": [
+    {
+      "grade": "Taycan",
+      "price": 12200,
+      "engine": "전기모터",
+      "power": "408",
+      "torque": "35.7",
+      "efficiency": "4.3"
+    },
+    {
+      "grade": "Taycan 4S",
+      "price": 14500,
+      "engine": "전기모터 듀얼",
+      "power": "530",
+      "torque": "66.3",
+      "efficiency": "4.0"
+    },
+    {
+      "grade": "Taycan GTS",
+      "price": 17500,
+      "engine": "전기모터 듀얼",
+      "power": "598",
+      "torque": "86.7",
+      "efficiency": "3.5"
+    },
+    {
+      "grade": "Taycan Turbo",
+      "price": 19000,
+      "engine": "전기모터 듀얼",
+      "power": "680",
+      "torque": "86.7",
+      "efficiency": "3.2"
+    },
+    {
+      "grade": "Taycan Turbo S",
+      "price": 23000,
+      "engine": "전기모터 듀얼",
+      "power": "761",
+      "torque": "107.1",
+      "efficiency": "2.8"
+    },
+    {
+      "grade": "Taycan Turbo GT",
+      "price": 25000,
+      "engine": "전기모터 듀얼",
+      "power": "952",
+      "torque": "112.0",
+      "efficiency": "2.4"
+    }
+  ],
+  "디펜더 L663": [
+    {
+      "grade": "110 D250",
+      "price": 7720,
+      "engine": "2.0 디젤",
+      "power": "250",
+      "torque": "43.8",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "110 D300",
+      "price": 8500,
+      "engine": "3.0 디젤 MHEV",
+      "power": "300",
+      "torque": "66.3",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "110 P400",
+      "price": 9500,
+      "engine": "3.0 가솔린 MHEV",
+      "power": "400",
+      "torque": "56.1",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "110 P400e PHEV",
+      "price": 10500,
+      "engine": "2.0 PHEV",
+      "power": "404",
+      "torque": "65.3",
+      "efficiency": "38.0"
+    },
+    {
+      "grade": "110 V8 P525",
+      "price": 16000,
+      "engine": "5.0 V8 SC",
+      "power": "525",
+      "torque": "63.7",
+      "efficiency": "7.2"
+    },
+    {
+      "grade": "130 D300",
+      "price": 10200,
+      "engine": "3.0 디젤 MHEV",
+      "power": "300",
+      "torque": "66.3",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "OCTA",
+      "price": 18000,
+      "engine": "4.4 V8 트윈터보",
+      "power": "635",
+      "torque": "76.5",
+      "efficiency": "7.0"
+    }
+  ],
+  "레인지로버 L460": [
+    {
+      "grade": "D300 HSE",
+      "price": 17700,
+      "engine": "3.0 디젤 MHEV",
+      "power": "300",
+      "torque": "66.3",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "P400 HSE",
+      "price": 18500,
+      "engine": "3.0 가솔린 MHEV",
+      "power": "400",
+      "torque": "56.1",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "P440e PHEV Autobiography",
+      "price": 22000,
+      "engine": "3.0 PHEV",
+      "power": "440",
+      "torque": "63.3",
+      "efficiency": "44.0"
+    },
+    {
+      "grade": "P530 V8 Autobiography",
+      "price": 28000,
+      "engine": "4.4 V8 트윈터보",
+      "power": "530",
+      "torque": "76.5",
+      "efficiency": "7.5"
+    },
+    {
+      "grade": "SV P530",
+      "price": 35000,
+      "engine": "4.4 V8 트윈터보",
+      "power": "530",
+      "torque": "76.5",
+      "efficiency": "7.2"
+    },
+    {
+      "grade": "LWB P440e PHEV",
+      "price": 24000,
+      "engine": "3.0 PHEV",
+      "power": "440",
+      "torque": "63.3",
+      "efficiency": "42.0"
+    }
+  ],
+  "MINI 해치백 J01": [
+    {
+      "grade": "Cooper C",
+      "price": 3500,
+      "engine": "1.5 가솔린 터보",
+      "power": "156",
+      "torque": "24.5",
+      "efficiency": "14.8"
+    },
+    {
+      "grade": "Cooper S",
+      "price": 4200,
+      "engine": "2.0 가솔린 터보",
+      "power": "204",
+      "torque": "30.6",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "Cooper SE 전기",
+      "price": 3990,
+      "engine": "전기모터",
+      "power": "184",
+      "torque": "29.6",
+      "efficiency": "5.5"
+    },
+    {
+      "grade": "JCW",
+      "price": 5000,
+      "engine": "2.0 가솔린 터보",
+      "power": "231",
+      "torque": "38.7",
+      "efficiency": "10.8"
+    }
+  ],
+  "MINI 컨트리맨 U25": [
+    {
+      "grade": "Cooper C",
+      "price": 4490,
+      "engine": "1.5 가솔린 터보",
+      "power": "170",
+      "torque": "28.6",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "Cooper S ALL4",
+      "price": 5500,
+      "engine": "2.0 가솔린 터보",
+      "power": "218",
+      "torque": "36.7",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "Cooper SE 전기",
+      "price": 5200,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "25.5",
+      "efficiency": "5.2"
+    },
+    {
+      "grade": "Cooper SE ALL4 전기",
+      "price": 5800,
+      "engine": "전기모터 듀얼",
+      "power": "313",
+      "torque": "49.0",
+      "efficiency": "4.5"
+    },
+    {
+      "grade": "JCW ALL4",
+      "price": 6500,
+      "engine": "2.0 가솔린 터보",
+      "power": "300",
+      "torque": "40.8",
+      "efficiency": "9.8"
+    }
+  ],
+  "캠리": [
+    {
+      "grade": "2.5 HEV LE",
+      "price": 3950,
+      "engine": "2.5 HEV",
+      "power": "230",
+      "torque": "22.4",
+      "efficiency": "20.5"
+    },
+    {
+      "grade": "2.5 HEV XLE",
+      "price": 4150,
+      "engine": "2.5 HEV",
+      "power": "230",
+      "torque": "22.4",
+      "efficiency": "20.0"
+    },
+    {
+      "grade": "2.5 HEV XSE",
+      "price": 4350,
+      "engine": "2.5 HEV",
+      "power": "230",
+      "torque": "22.4",
+      "efficiency": "19.8"
+    }
+  ],
+  "RAV4": [
+    {
+      "grade": "2.5 가솔린 LE",
+      "price": 3750,
+      "engine": "2.5 가솔린",
+      "power": "203",
+      "torque": "25.1",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "2.5 HEV XLE",
+      "price": 4200,
+      "engine": "2.5 HEV",
+      "power": "222",
+      "torque": "22.4",
+      "efficiency": "17.5"
+    },
+    {
+      "grade": "2.5 HEV XSE AWD",
+      "price": 4600,
+      "engine": "2.5 HEV AWD",
+      "power": "222",
+      "torque": "22.4",
+      "efficiency": "16.5"
+    },
+    {
+      "grade": "Prime PHEV XSE",
+      "price": 5100,
+      "engine": "2.5 PHEV",
+      "power": "306",
+      "torque": "27.4",
+      "efficiency": "54.0"
+    }
+  ],
+  "GR 수프라 A90": [
+    {
+      "grade": "2.0 Turbo",
+      "price": 5990,
+      "engine": "2.0 가솔린 터보",
+      "power": "258",
+      "torque": "40.8",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "3.0 Turbo",
+      "price": 6990,
+      "engine": "3.0 가솔린 터보",
+      "power": "387",
+      "torque": "51.0",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "3.0 Turbo MT",
+      "price": 6990,
+      "engine": "3.0 가솔린 터보",
+      "power": "387",
+      "torque": "51.0",
+      "efficiency": "9.0"
+    },
+    {
+      "grade": "A90 Final Edition",
+      "price": 7790,
+      "engine": "3.0 가솔린 터보",
+      "power": "387",
+      "torque": "51.0",
+      "efficiency": "9.0"
+    }
+  ],
+  "랜드크루저 J300": [
+    {
+      "grade": "3.5 가솔린 트윈터보",
+      "price": 10000,
+      "engine": "3.5 V6 트윈터보",
+      "power": "415",
+      "torque": "66.3",
+      "efficiency": "7.5"
+    },
+    {
+      "grade": "3.3 디젤 트윈터보",
+      "price": 11000,
+      "engine": "3.3 V6 디젤 트윈터보",
+      "power": "305",
+      "torque": "71.4",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "GR Sport",
+      "price": 13500,
+      "engine": "3.5 V6 트윈터보",
+      "power": "415",
+      "torque": "66.3",
+      "efficiency": "7.2"
+    }
+  ],
+  "프리우스": [
+    {
+      "grade": "1.8 HEV",
+      "price": 3690,
+      "engine": "1.8 HEV",
+      "power": "196",
+      "torque": "19.2",
+      "efficiency": "28.5"
+    },
+    {
+      "grade": "2.0 PHEV",
+      "price": 4650,
+      "engine": "2.0 PHEV",
+      "power": "223",
+      "torque": "21.4",
+      "efficiency": "65.0"
+    }
+  ],
+  "XC60": [
+    {
+      "grade": "B5 Ultimate",
+      "price": 5690,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "250",
+      "torque": "35.7",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "B6 Ultimate AWD",
+      "price": 6490,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "300",
+      "torque": "42.8",
+      "efficiency": "10.0"
+    },
+    {
+      "grade": "T6 Recharge AWD",
+      "price": 7200,
+      "engine": "2.0 PHEV",
+      "power": "350",
+      "torque": "44.9",
+      "efficiency": "45.0"
+    },
+    {
+      "grade": "T8 Recharge AWD Ultimate",
+      "price": 8500,
+      "engine": "2.0 PHEV",
+      "power": "455",
+      "torque": "71.4",
+      "efficiency": "52.0"
+    }
+  ],
+  "XC90": [
+    {
+      "grade": "B5 Ultimate AWD",
+      "price": 7550,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "250",
+      "torque": "35.7",
+      "efficiency": "10.0"
+    },
+    {
+      "grade": "B6 Ultimate AWD",
+      "price": 8200,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "300",
+      "torque": "42.8",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "T8 Recharge AWD Ultimate",
+      "price": 10500,
+      "engine": "2.0 PHEV",
+      "power": "455",
+      "torque": "71.4",
+      "efficiency": "42.0"
+    }
+  ],
+  "S60": [
+    {
+      "grade": "B5 Momentum",
+      "price": 4990,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "250",
+      "torque": "35.7",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "B5 R-Design",
+      "price": 5490,
+      "engine": "2.0 가솔린 MHEV",
+      "power": "250",
+      "torque": "35.7",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "T8 Recharge R-Design",
+      "price": 7500,
+      "engine": "2.0 PHEV",
+      "power": "455",
+      "torque": "71.4",
+      "efficiency": "48.0"
+    }
+  ],
+  "EX30": [
+    {
+      "grade": "Single Motor",
+      "price": 4490,
+      "engine": "전기모터",
+      "power": "272",
+      "torque": "34.7",
+      "efficiency": "5.8"
+    },
+    {
+      "grade": "Single Motor Plus",
+      "price": 4790,
+      "engine": "전기모터",
+      "power": "272",
+      "torque": "34.7",
+      "efficiency": "5.6"
+    },
+    {
+      "grade": "Twin Motor Performance",
+      "price": 5190,
+      "engine": "전기모터 듀얼",
+      "power": "428",
+      "torque": "55.1",
+      "efficiency": "4.8"
+    }
+  ],
+  "아이오닉 9": [
+    {
+      "grade": "롱레인지 2WD",
+      "price": 6500,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "35.7",
+      "efficiency": "4.8"
+    },
+    {
+      "grade": "롱레인지 AWD",
+      "price": 7200,
+      "engine": "전기모터",
+      "power": "325",
+      "torque": "61.0",
+      "efficiency": "4.3"
+    },
+    {
+      "grade": "퍼포먼스 AWD",
+      "price": 7900,
+      "engine": "전기모터",
+      "power": "401",
+      "torque": "71.4",
+      "efficiency": "4.0"
+    },
+    {
+      "grade": "캘리그래피 AWD",
+      "price": 8500,
+      "engine": "전기모터",
+      "power": "401",
+      "torque": "71.4",
+      "efficiency": "3.8"
+    }
+  ],
+  "아반떼 AD": [
+    {
+      "grade": "가솔린 1.6 스마트",
+      "price": 1699,
+      "engine": "1.6 MPI",
+      "power": "128",
+      "torque": "15.7",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "가솔린 1.6 모던",
+      "price": 1899,
+      "engine": "1.6 MPI",
+      "power": "128",
+      "torque": "15.7",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "가솔린 2.0 스포츠",
+      "price": 2150,
+      "engine": "2.0 MPI",
+      "power": "149",
+      "torque": "18.9",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 1.6T 스포츠",
+      "price": 2250,
+      "engine": "1.6 T-GDi",
+      "power": "204",
+      "torque": "27.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 1.6 스마트",
+      "price": 1899,
+      "engine": "1.6 CRDi",
+      "power": "136",
+      "torque": "30.6",
+      "efficiency": "17.5"
+    }
+  ],
+  "아반떼 MD": [
+    {
+      "grade": "가솔린 1.6 스마트",
+      "price": 1550,
+      "engine": "1.6 GDi",
+      "power": "140",
+      "torque": "17.0",
+      "efficiency": "13.2"
+    },
+    {
+      "grade": "가솔린 1.6 프리미엄",
+      "price": 1780,
+      "engine": "1.6 GDi",
+      "power": "140",
+      "torque": "17.0",
+      "efficiency": "13.2"
+    },
+    {
+      "grade": "디젤 1.6 스마트",
+      "price": 1750,
+      "engine": "1.6 VGT",
+      "power": "128",
+      "torque": "26.5",
+      "efficiency": "17.5"
+    },
+    {
+      "grade": "가솔린 1.6T 스포츠",
+      "price": 2100,
+      "engine": "1.6 T-GDi",
+      "power": "204",
+      "torque": "27.0",
+      "efficiency": "11.5"
+    }
+  ],
+  "쏘나타 LF": [
+    {
+      "grade": "가솔린 2.0 스마트",
+      "price": 2350,
+      "engine": "2.0 MPI",
+      "power": "163",
+      "torque": "20.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 2.0 프리미엄",
+      "price": 2650,
+      "engine": "2.0 MPI",
+      "power": "163",
+      "torque": "20.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 1.6T 프리미엄",
+      "price": 2800,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "디젤 2.0 프리미엄",
+      "price": 2750,
+      "engine": "2.0 CRDi",
+      "power": "186",
+      "torque": "41.0",
+      "efficiency": "16.2"
+    },
+    {
+      "grade": "LPG 2.0 스마트",
+      "price": 2200,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "하이브리드 프리미엄",
+      "price": 2950,
+      "engine": "2.0 HEV",
+      "power": "156",
+      "torque": "19.3",
+      "efficiency": "18.8"
+    }
+  ],
+  "그랜저 IG": [
+    {
+      "grade": "가솔린 2.4 르블랑",
+      "price": 3250,
+      "engine": "2.4 GDi",
+      "power": "188",
+      "torque": "24.5",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "가솔린 2.4 캘리그래피",
+      "price": 3900,
+      "engine": "2.4 GDi",
+      "power": "188",
+      "torque": "24.5",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "가솔린 3.0 캘리그래피",
+      "price": 4200,
+      "engine": "3.0 GDi",
+      "power": "266",
+      "torque": "31.4",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "LPG 2.4 르블랑",
+      "price": 3050,
+      "engine": "2.4 LPi",
+      "power": "180",
+      "torque": "23.5",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "하이브리드 르블랑",
+      "price": 3550,
+      "engine": "2.0 HEV",
+      "power": "159",
+      "torque": "20.9",
+      "efficiency": "16.2"
+    },
+    {
+      "grade": "하이브리드 캘리그래피",
+      "price": 4300,
+      "engine": "2.0 HEV",
+      "power": "159",
+      "torque": "20.9",
+      "efficiency": "16.0"
+    }
+  ],
+  "그랜저 HG": [
+    {
+      "grade": "가솔린 2.4 모던",
+      "price": 2800,
+      "engine": "2.4 GDi",
+      "power": "188",
+      "torque": "24.5",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "가솔린 3.0 익스클루시브",
+      "price": 3600,
+      "engine": "3.0 GDi",
+      "power": "266",
+      "torque": "31.4",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "LPG 2.4 모던",
+      "price": 2600,
+      "engine": "2.4 LPi",
+      "power": "180",
+      "torque": "23.5",
+      "efficiency": "8.2"
+    },
+    {
+      "grade": "하이브리드 모던",
+      "price": 3100,
+      "engine": "2.0 HEV",
+      "power": "159",
+      "torque": "20.9",
+      "efficiency": "16.0"
+    }
+  ],
+  "싼타페 TM": [
+    {
+      "grade": "가솔린 2.0T 2WD 프리미엄",
+      "price": 3100,
+      "engine": "2.0 T-GDi",
+      "power": "237",
+      "torque": "35.7",
+      "efficiency": "10.4"
+    },
+    {
+      "grade": "가솔린 2.0T AWD 프리미엄",
+      "price": 3350,
+      "engine": "2.0 T-GDi",
+      "power": "237",
+      "torque": "35.7",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "디젤 2.2 2WD 프리미엄",
+      "price": 3150,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "디젤 2.2 AWD 프리미엄",
+      "price": 3400,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "하이브리드 2WD 프리미엄",
+      "price": 3450,
+      "engine": "1.6 T-HEV",
+      "power": "230",
+      "torque": "35.0",
+      "efficiency": "15.3"
+    }
+  ],
+  "투싼 TL": [
+    {
+      "grade": "가솔린 2.0 모던",
+      "price": 2350,
+      "engine": "2.0 MPI",
+      "power": "155",
+      "torque": "19.6",
+      "efficiency": "12.2"
+    },
+    {
+      "grade": "디젤 2.0 모던",
+      "price": 2550,
+      "engine": "2.0 CRDi",
+      "power": "186",
+      "torque": "41.0",
+      "efficiency": "15.0"
+    },
+    {
+      "grade": "가솔린 1.6T 스포츠",
+      "price": 2700,
+      "engine": "1.6 T-GDi",
+      "power": "177",
+      "torque": "27.0",
+      "efficiency": "11.8"
+    }
+  ],
+  "코나 OS": [
+    {
+      "grade": "가솔린 1.6T 2WD 모던",
+      "price": 2200,
+      "engine": "1.6 T-GDi",
+      "power": "177",
+      "torque": "27.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "디젤 1.6 2WD 모던",
+      "price": 2350,
+      "engine": "1.6 CRDi",
+      "power": "136",
+      "torque": "30.6",
+      "efficiency": "17.0"
+    },
+    {
+      "grade": "가솔린 1.6T AWD 프리미엄",
+      "price": 2600,
+      "engine": "1.6 T-GDi",
+      "power": "177",
+      "torque": "27.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "일렉트릭 스탠다드",
+      "price": 4150,
+      "engine": "전기모터",
+      "power": "136",
+      "torque": "40.3",
+      "efficiency": "5.5"
+    },
+    {
+      "grade": "일렉트릭 롱레인지",
+      "price": 4650,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "40.3",
+      "efficiency": "5.8"
+    }
+  ],
+  "에쿠스 VI": [
+    {
+      "grade": "가솔린 3.3 프리미엄",
+      "price": 6500,
+      "engine": "3.3 GDi",
+      "power": "290",
+      "torque": "34.3",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "가솔린 3.8 VL",
+      "price": 8500,
+      "engine": "3.8 GDi",
+      "power": "334",
+      "torque": "40.5",
+      "efficiency": "8.0"
+    },
+    {
+      "grade": "가솔린 5.0 VL",
+      "price": 10500,
+      "engine": "5.0 T-GDi",
+      "power": "425",
+      "torque": "53.0",
+      "efficiency": "7.2"
+    },
+    {
+      "grade": "LPG 3.8 VL",
+      "price": 7800,
+      "engine": "3.8 LPi",
+      "power": "290",
+      "torque": "36.5",
+      "efficiency": "6.5"
+    }
+  ],
+  "에쿠스 LZ": [
+    {
+      "grade": "가솔린 3.5 로얄",
+      "price": 5000,
+      "engine": "3.5 V6",
+      "power": "200",
+      "torque": "32.5",
+      "efficiency": "8.2"
+    },
+    {
+      "grade": "가솔린 4.5 리무진",
+      "price": 8000,
+      "engine": "4.5 V8",
+      "power": "300",
+      "torque": "42.0",
+      "efficiency": "6.8"
+    }
+  ],
+  "벨로스터 JS": [
+    {
+      "grade": "가솔린 1.4T 스마트",
+      "price": 2050,
+      "engine": "1.4 T-GDi",
+      "power": "140",
+      "torque": "24.5",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 1.6T N Line",
+      "price": 2600,
+      "engine": "1.6 T-GDi",
+      "power": "204",
+      "torque": "27.0",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "N 2.0T",
+      "price": 3200,
+      "engine": "2.0 T-GDi",
+      "power": "275",
+      "torque": "36.0",
+      "efficiency": "9.8"
+    }
+  ],
+  "벨로스터 FS": [
+    {
+      "grade": "가솔린 1.6 스타일",
+      "price": 1800,
+      "engine": "1.6 GDi",
+      "power": "140",
+      "torque": "17.0",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "가솔린 1.6T 터보",
+      "price": 2300,
+      "engine": "1.6 T-GDi",
+      "power": "204",
+      "torque": "27.0",
+      "efficiency": "10.5"
+    }
+  ],
+  "제네시스 쿠페 BK": [
+    {
+      "grade": "가솔린 2.0T",
+      "price": 2700,
+      "engine": "2.0 T",
+      "power": "210",
+      "torque": "30.6",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 3.8 V6",
+      "price": 3300,
+      "engine": "3.8 V6",
+      "power": "303",
+      "torque": "36.8",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "가솔린 3.8 GT",
+      "price": 3800,
+      "engine": "3.8 V6",
+      "power": "348",
+      "torque": "40.5",
+      "efficiency": "8.2"
+    }
+  ],
+  "투스카니 RD": [
+    {
+      "grade": "가솔린 2.0 SE",
+      "price": 1800,
+      "engine": "2.0",
+      "power": "143",
+      "torque": "18.5",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "가솔린 2.7 V6 엘리사",
+      "price": 2200,
+      "engine": "2.7 V6",
+      "power": "175",
+      "torque": "24.5",
+      "efficiency": "9.5"
+    }
+  ],
+  "아이오닉 AE": [
+    {
+      "grade": "하이브리드 스마트",
+      "price": 2290,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "22.4"
+    },
+    {
+      "grade": "하이브리드 프리미엄",
+      "price": 2690,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "22.4"
+    },
+    {
+      "grade": "일렉트릭",
+      "price": 3800,
+      "engine": "전기모터",
+      "power": "120",
+      "torque": "30.0",
+      "efficiency": "6.3"
+    },
+    {
+      "grade": "PHEV 프리미엄",
+      "price": 3200,
+      "engine": "1.6 PHEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "45.0"
+    }
+  ],
+  "스타렉스(그랜드) A1": [
+    {
+      "grade": "디젤 2.5 12인승 스마트",
+      "price": 2800,
+      "engine": "2.5 CRDi",
+      "power": "170",
+      "torque": "39.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "디젤 2.5 11인승 어반",
+      "price": 3200,
+      "engine": "2.5 CRDi",
+      "power": "170",
+      "torque": "39.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "디젤 2.5 9인승 어반",
+      "price": 3500,
+      "engine": "2.5 CRDi",
+      "power": "170",
+      "torque": "39.0",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "디젤 2.5 리무진 3인승",
+      "price": 4200,
+      "engine": "2.5 CRDi",
+      "power": "170",
+      "torque": "39.0",
+      "efficiency": "10.0"
+    }
+  ],
+  "아반떼 HD": [
+    {
+      "grade": "가솔린 1.6 S",
+      "price": 1350,
+      "engine": "1.6",
+      "power": "122",
+      "torque": "15.5",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "가솔린 2.0 스포츠",
+      "price": 1600,
+      "engine": "2.0",
+      "power": "143",
+      "torque": "18.5",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 1.6 VGT",
+      "price": 1500,
+      "engine": "1.6 VGT",
+      "power": "128",
+      "torque": "26.5",
+      "efficiency": "17.0"
+    }
+  ],
+  "아반떼 XD": [
+    {
+      "grade": "가솔린 1.5 GLS",
+      "price": 1200,
+      "engine": "1.5",
+      "power": "105",
+      "torque": "14.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 2.0 GLS",
+      "price": 1400,
+      "engine": "2.0",
+      "power": "143",
+      "torque": "18.5",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "디젤 2.0 VGT",
+      "price": 1350,
+      "engine": "2.0 VGT",
+      "power": "112",
+      "torque": "24.5",
+      "efficiency": "15.0"
+    }
+  ],
+  "쏘나타 EF": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 1600,
+      "engine": "2.0",
+      "power": "137",
+      "torque": "18.5",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "가솔린 2.5 V6 골드",
+      "price": 2000,
+      "engine": "2.5 V6",
+      "power": "170",
+      "torque": "22.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "LPG 2.0",
+      "price": 1400,
+      "engine": "2.0 LPi",
+      "power": "130",
+      "torque": "17.5",
+      "efficiency": "8.5"
+    }
+  ],
+  "쏘나타 NF": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 1800,
+      "engine": "2.0",
+      "power": "150",
+      "torque": "19.6",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "가솔린 2.4 프리미엄",
+      "price": 2200,
+      "engine": "2.4",
+      "power": "167",
+      "torque": "22.5",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "LPG 2.0",
+      "price": 1600,
+      "engine": "2.0 LPi",
+      "power": "142",
+      "torque": "18.5",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "디젤 2.0 VGT",
+      "price": 2100,
+      "engine": "2.0 VGT",
+      "power": "150",
+      "torque": "34.0",
+      "efficiency": "15.5"
+    }
+  ],
+  "쏘나타 YF": [
+    {
+      "grade": "가솔린 2.0 스마트",
+      "price": 2050,
+      "engine": "2.0 MPI",
+      "power": "165",
+      "torque": "20.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 2.4 프리미엄",
+      "price": 2450,
+      "engine": "2.4 GDi",
+      "power": "178",
+      "torque": "23.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "LPG 2.0 스마트",
+      "price": 1850,
+      "engine": "2.0 LPi",
+      "power": "155",
+      "torque": "19.5",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "하이브리드",
+      "price": 2650,
+      "engine": "2.0 HEV",
+      "power": "156",
+      "torque": "19.3",
+      "efficiency": "18.8"
+    }
+  ],
+  "그랜저 XG": [
+    {
+      "grade": "가솔린 2.5 디럭스",
+      "price": 2200,
+      "engine": "2.5 V6",
+      "power": "170",
+      "torque": "22.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "가솔린 3.0 럭셔리",
+      "price": 2800,
+      "engine": "3.0 V6",
+      "power": "200",
+      "torque": "27.0",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "LPG 2.5",
+      "price": 2000,
+      "engine": "2.5 LPi",
+      "power": "160",
+      "torque": "21.0",
+      "efficiency": "7.5"
+    }
+  ],
+  "그랜저 TG": [
+    {
+      "grade": "가솔린 2.4 디럭스",
+      "price": 2600,
+      "engine": "2.4",
+      "power": "175",
+      "torque": "23.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 3.3 V6 프리미엄",
+      "price": 3300,
+      "engine": "3.3 V6",
+      "power": "240",
+      "torque": "31.0",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "LPG 2.4",
+      "price": 2400,
+      "engine": "2.4 LPi",
+      "power": "168",
+      "torque": "22.0",
+      "efficiency": "7.8"
+    },
+    {
+      "grade": "디젤 2.2 CRDi",
+      "price": 2700,
+      "engine": "2.2 CRDi",
+      "power": "155",
+      "torque": "34.0",
+      "efficiency": "13.0"
+    }
+  ],
+  "i40 VF": [
+    {
+      "grade": "가솔린 2.0 스타일",
+      "price": 2500,
+      "engine": "2.0 GDi",
+      "power": "164",
+      "torque": "20.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 1.7 스타일",
+      "price": 2700,
+      "engine": "1.7 VGT",
+      "power": "141",
+      "torque": "34.0",
+      "efficiency": "17.0"
+    }
+  ],
+  "i30 FD": [
+    {
+      "grade": "가솔린 1.6 스타일",
+      "price": 1500,
+      "engine": "1.6",
+      "power": "122",
+      "torque": "15.5",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "디젤 1.6 VGT",
+      "price": 1700,
+      "engine": "1.6 VGT",
+      "power": "128",
+      "torque": "26.5",
+      "efficiency": "16.0"
+    }
+  ],
+  "i30 GD": [
+    {
+      "grade": "가솔린 1.6 스타일",
+      "price": 1700,
+      "engine": "1.6 GDi",
+      "power": "135",
+      "torque": "16.5",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "디젤 1.6 스타일",
+      "price": 1900,
+      "engine": "1.6 VGT",
+      "power": "128",
+      "torque": "26.5",
+      "efficiency": "17.0"
+    }
+  ],
+  "i30 PD": [
+    {
+      "grade": "가솔린 1.4T 스포츠",
+      "price": 2100,
+      "engine": "1.4 T-GDi",
+      "power": "140",
+      "torque": "24.5",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "가솔린 1.6T N Line",
+      "price": 2600,
+      "engine": "1.6 T-GDi",
+      "power": "204",
+      "torque": "27.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "N 퍼포먼스",
+      "price": 3200,
+      "engine": "2.0 T-GDi",
+      "power": "275",
+      "torque": "36.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "아토스 MX": [
+    {
+      "grade": "가솔린 1.0 GLS",
+      "price": 600,
+      "engine": "1.0",
+      "power": "58",
+      "torque": "9.0",
+      "efficiency": "15.5"
+    }
+  ],
+  "클릭/겟츠 TB": [
+    {
+      "grade": "가솔린 1.4 GLS",
+      "price": 950,
+      "engine": "1.4",
+      "power": "97",
+      "torque": "13.5",
+      "efficiency": "13.5"
+    }
+  ],
+  "베르나 LC": [
+    {
+      "grade": "가솔린 1.5 GLS",
+      "price": 1000,
+      "engine": "1.5",
+      "power": "105",
+      "torque": "14.0",
+      "efficiency": "13.0"
+    }
+  ],
+  "베르나 MC": [
+    {
+      "grade": "가솔린 1.4 GLS",
+      "price": 1100,
+      "engine": "1.4",
+      "power": "97",
+      "torque": "13.5",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "디젤 1.5 VGT",
+      "price": 1250,
+      "engine": "1.5 VGT",
+      "power": "110",
+      "torque": "24.5",
+      "efficiency": "17.5"
+    }
+  ],
+  "액센트 RB": [
+    {
+      "grade": "가솔린 1.6 스타일",
+      "price": 1350,
+      "engine": "1.6 VVT",
+      "power": "124",
+      "torque": "15.7",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "디젤 1.6 VGT",
+      "price": 1500,
+      "engine": "1.6 VGT",
+      "power": "128",
+      "torque": "26.5",
+      "efficiency": "17.0"
+    }
+  ],
+  "액센트 HC": [
+    {
+      "grade": "가솔린 1.4 스마트",
+      "price": 1450,
+      "engine": "1.4",
+      "power": "100",
+      "torque": "13.5",
+      "efficiency": "14.5"
+    },
+    {
+      "grade": "가솔린 1.6 스마트",
+      "price": 1550,
+      "engine": "1.6",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "13.8"
+    }
+  ],
+  "투싼 JM": [
+    {
+      "grade": "가솔린 2.0 MX",
+      "price": 1900,
+      "engine": "2.0",
+      "power": "141",
+      "torque": "18.5",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "디젤 2.0 VGT",
+      "price": 2100,
+      "engine": "2.0 VGT",
+      "power": "150",
+      "torque": "34.0",
+      "efficiency": "13.5"
+    }
+  ],
+  "투싼 LM": [
+    {
+      "grade": "가솔린 2.0 모던",
+      "price": 2200,
+      "engine": "2.0 MPI",
+      "power": "166",
+      "torque": "20.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 2.0 모던",
+      "price": 2400,
+      "engine": "2.0 CRDi",
+      "power": "184",
+      "torque": "40.0",
+      "efficiency": "15.0"
+    }
+  ],
+  "싼타페 SM": [
+    {
+      "grade": "가솔린 2.4 GLS",
+      "price": 2200,
+      "engine": "2.4",
+      "power": "149",
+      "torque": "22.5",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "디젤 2.0 VGT",
+      "price": 2400,
+      "engine": "2.0 VGT",
+      "power": "150",
+      "torque": "34.0",
+      "efficiency": "12.0"
+    }
+  ],
+  "싼타페 CM": [
+    {
+      "grade": "가솔린 2.4 프리미엄",
+      "price": 2600,
+      "engine": "2.4",
+      "power": "175",
+      "torque": "23.0",
+      "efficiency": "9.8"
+    },
+    {
+      "grade": "디젤 2.2 프리미엄",
+      "price": 2800,
+      "engine": "2.2 CRDi",
+      "power": "197",
+      "torque": "44.0",
+      "efficiency": "13.5"
+    }
+  ],
+  "싼타페 DM": [
+    {
+      "grade": "가솔린 2.4 프리미엄",
+      "price": 2900,
+      "engine": "2.4 GDi",
+      "power": "188",
+      "torque": "24.5",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "디젤 2.2 프리미엄",
+      "price": 3100,
+      "engine": "2.2 CRDi",
+      "power": "200",
+      "torque": "44.5",
+      "efficiency": "14.0"
+    }
+  ],
+  "테라칸 HP": [
+    {
+      "grade": "디젤 2.9 GL",
+      "price": 2500,
+      "engine": "2.9 CRDi",
+      "power": "150",
+      "torque": "34.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 3.5 V6",
+      "price": 2800,
+      "engine": "3.5 V6",
+      "power": "195",
+      "torque": "30.0",
+      "efficiency": "7.5"
+    }
+  ],
+  "베라크루즈 EN": [
+    {
+      "grade": "가솔린 3.8 V6 럭셔리",
+      "price": 3800,
+      "engine": "3.8 V6",
+      "power": "260",
+      "torque": "35.5",
+      "efficiency": "7.8"
+    },
+    {
+      "grade": "디젤 3.0 V6",
+      "price": 3500,
+      "engine": "3.0 V6 CRDi",
+      "power": "240",
+      "torque": "44.5",
+      "efficiency": "10.2"
+    }
+  ],
+  "트라제XG FO": [
+    {
+      "grade": "가솔린 2.0 GLS",
+      "price": 1800,
+      "engine": "2.0",
+      "power": "140",
+      "torque": "18.5",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "가솔린 2.7 V6",
+      "price": 2200,
+      "engine": "2.7 V6",
+      "power": "175",
+      "torque": "24.5",
+      "efficiency": "8.8"
+    }
+  ],
+  "니로 SG2": [
+    {
+      "grade": "HEV 트렌디",
+      "price": 2870,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "20.8"
+    },
+    {
+      "grade": "HEV 프레스티지",
+      "price": 3290,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "20.5"
+    },
+    {
+      "grade": "HEV 시그니처",
+      "price": 3590,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "20.0"
+    },
+    {
+      "grade": "PHEV 프레스티지",
+      "price": 3790,
+      "engine": "1.6 PHEV",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "42.5"
+    },
+    {
+      "grade": "EV 트렌디",
+      "price": 4280,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "25.5",
+      "efficiency": "5.3"
+    },
+    {
+      "grade": "EV 시그니처",
+      "price": 4880,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "25.5",
+      "efficiency": "5.1"
+    }
+  ],
+  "EV4": [
+    {
+      "grade": "에어 롱레인지",
+      "price": 3500,
+      "engine": "전기모터",
+      "power": "200",
+      "torque": "25.0",
+      "efficiency": "5.8"
+    },
+    {
+      "grade": "어스 롱레인지",
+      "price": 4000,
+      "engine": "전기모터",
+      "power": "200",
+      "torque": "25.0",
+      "efficiency": "5.6"
+    },
+    {
+      "grade": "GT-line",
+      "price": 4500,
+      "engine": "전기모터",
+      "power": "200",
+      "torque": "25.0",
+      "efficiency": "5.4"
+    }
+  ],
+  "쏘울 SK3": [
+    {
+      "grade": "EV 트렌디",
+      "price": 3710,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "40.3",
+      "efficiency": "5.0"
+    },
+    {
+      "grade": "EV 시그니처",
+      "price": 4090,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "40.3",
+      "efficiency": "4.8"
+    },
+    {
+      "grade": "EV 프레스티지",
+      "price": 4490,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "40.3",
+      "efficiency": "4.8"
+    }
+  ],
+  "G70 IK": [
+    {
+      "grade": "가솔린 2.0T 스포트",
+      "price": 3990,
+      "engine": "2.0 T-GDi",
+      "power": "252",
+      "torque": "36.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 2.0T 럭셔리",
+      "price": 4450,
+      "engine": "2.0 T-GDi",
+      "power": "252",
+      "torque": "36.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 2.0T 프레스티지",
+      "price": 4950,
+      "engine": "2.0 T-GDi",
+      "power": "252",
+      "torque": "36.0",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "가솔린 3.3T 프레스티지",
+      "price": 5650,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "가솔린 3.3T 프레스티지 AWD",
+      "price": 5950,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.5"
+    }
+  ],
+  "GV80 쿠페 JX1C": [
+    {
+      "grade": "2.5T 스포트 AWD",
+      "price": 7280,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "2.5T 프레스티지 AWD",
+      "price": 8080,
+      "engine": "2.5 T-GDi",
+      "power": "304",
+      "torque": "43.0",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "3.5T 프레스티지 AWD",
+      "price": 9200,
+      "engine": "3.5 T-GDi",
+      "power": "380",
+      "torque": "54.0",
+      "efficiency": "7.5"
+    }
+  ],
+  "G80e RG3e": [
+    {
+      "grade": "일렉트리파이드 AWD",
+      "price": 7937,
+      "engine": "전기모터",
+      "power": "272",
+      "torque": "35.7",
+      "efficiency": "4.3"
+    },
+    {
+      "grade": "일렉트리파이드 AWD 프레스티지",
+      "price": 8500,
+      "engine": "전기모터",
+      "power": "272",
+      "torque": "35.7",
+      "efficiency": "4.1"
+    }
+  ],
+  "GV70e JK1e": [
+    {
+      "grade": "일렉트리파이드 AWD",
+      "price": 6490,
+      "engine": "전기모터",
+      "power": "218",
+      "torque": "35.7",
+      "efficiency": "4.6"
+    },
+    {
+      "grade": "일렉트리파이드 AWD 프레스티지",
+      "price": 7090,
+      "engine": "전기모터",
+      "power": "320",
+      "torque": "61.0",
+      "efficiency": "4.1"
+    }
+  ],
+  "GV90": [
+    {
+      "grade": "일렉트리파이드 AWD",
+      "price": 9500,
+      "engine": "전기모터",
+      "power": "전기",
+      "torque": "전기",
+      "efficiency": "4.0"
+    },
+    {
+      "grade": "일렉트리파이드 AWD 프레스티지",
+      "price": 11000,
+      "engine": "전기모터",
+      "power": "전기",
+      "torque": "전기",
+      "efficiency": "3.8"
+    }
+  ],
+  "G90 HI": [
+    {
+      "grade": "가솔린 3.3T 프리미엄",
+      "price": 7070,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "가솔린 3.3T AWD 프레스티지",
+      "price": 8800,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.0"
+    },
+    {
+      "grade": "가솔린 5.0 프레스티지",
+      "price": 10500,
+      "engine": "5.0 T-GDi",
+      "power": "425",
+      "torque": "53.0",
+      "efficiency": "7.2"
+    }
+  ],
+  "G80 DH": [
+    {
+      "grade": "가솔린 2.0T 프리미엄",
+      "price": 4320,
+      "engine": "2.0 T-GDi",
+      "power": "252",
+      "torque": "36.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 3.3 프리미엄",
+      "price": 5200,
+      "engine": "3.3 GDi",
+      "power": "290",
+      "torque": "34.3",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "가솔린 3.3T 스포츠",
+      "price": 6500,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.2"
+    },
+    {
+      "grade": "디젤 2.2 프리미엄",
+      "price": 4700,
+      "engine": "2.2 CRDi",
+      "power": "210",
+      "torque": "45.0",
+      "efficiency": "12.5"
+    }
+  ],
+  "토레스 KR10": [
+    {
+      "grade": "가솔린 1.5T 2WD T5",
+      "price": 2525,
+      "engine": "1.5 T-GDi",
+      "power": "163",
+      "torque": "26.5",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "가솔린 1.5T 2WD T7",
+      "price": 2895,
+      "engine": "1.5 T-GDi",
+      "power": "163",
+      "torque": "26.5",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "가솔린 1.5T AWD T7",
+      "price": 3195,
+      "engine": "1.5 T-GDi",
+      "power": "163",
+      "torque": "26.5",
+      "efficiency": "10.8"
+    }
+  ],
+  "액티언": [
+    {
+      "grade": "가솔린 1.5T 2WD A5",
+      "price": 2500,
+      "engine": "1.5 T-GDi",
+      "power": "163",
+      "torque": "26.5",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "가솔린 1.5T 2WD A7",
+      "price": 2850,
+      "engine": "1.5 T-GDi",
+      "power": "163",
+      "torque": "26.5",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "가솔린 1.5T AWD A7",
+      "price": 3150,
+      "engine": "1.5 T-GDi",
+      "power": "163",
+      "torque": "26.5",
+      "efficiency": "10.5"
+    }
+  ],
+  "토레스 EVX": [
+    {
+      "grade": "2WD 베이직",
+      "price": 3990,
+      "engine": "전기모터",
+      "power": "177",
+      "torque": "26.5",
+      "efficiency": "5.2"
+    },
+    {
+      "grade": "2WD 프리미엄",
+      "price": 4390,
+      "engine": "전기모터",
+      "power": "177",
+      "torque": "26.5",
+      "efficiency": "5.0"
+    },
+    {
+      "grade": "AWD 프리미엄",
+      "price": 4790,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "47.0",
+      "efficiency": "4.5"
+    }
+  ],
+  "티볼리 X100": [
+    {
+      "grade": "가솔린 1.5 VX",
+      "price": 1910,
+      "engine": "1.5 GDi",
+      "power": "163",
+      "torque": "25.0",
+      "efficiency": "12.2"
+    },
+    {
+      "grade": "가솔린 1.5 LX",
+      "price": 2190,
+      "engine": "1.5 GDi",
+      "power": "163",
+      "torque": "25.0",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "가솔린 1.5 AWD LX",
+      "price": 2400,
+      "engine": "1.5 GDi",
+      "power": "163",
+      "torque": "25.0",
+      "efficiency": "11.2"
+    }
+  ],
+  "렉스턴(G4) Y400": [
+    {
+      "grade": "디젤 2.2 2WD 프레스티지",
+      "price": 3400,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "디젤 2.2 4WD 프레스티지",
+      "price": 3750,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "디젤 2.2 4WD 노블레스",
+      "price": 4200,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "10.2"
+    }
+  ],
+  "무쏘(렉스턴 스포츠) Q200": [
+    {
+      "grade": "디젤 2.2 2WD 프레스티지",
+      "price": 2800,
+      "engine": "2.2 CRDi",
+      "power": "181",
+      "torque": "42.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "디젤 2.2 4WD 프레스티지",
+      "price": 3150,
+      "engine": "2.2 CRDi",
+      "power": "181",
+      "torque": "42.0",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "디젤 2.2 4WD 칸",
+      "price": 3600,
+      "engine": "2.2 CRDi",
+      "power": "181",
+      "torque": "42.0",
+      "efficiency": "10.0"
+    }
+  ],
+  "무쏘 EV": [
+    {
+      "grade": "2WD 베이직",
+      "price": 4500,
+      "engine": "전기모터",
+      "power": "177",
+      "torque": "26.5",
+      "efficiency": "4.2"
+    },
+    {
+      "grade": "4WD 프리미엄",
+      "price": 5200,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "47.0",
+      "efficiency": "3.8"
+    }
+  ],
+  "체어맨 W100": [
+    {
+      "grade": "가솔린 3.2 VIP",
+      "price": 3000,
+      "engine": "3.2 V6",
+      "power": "216",
+      "torque": "32.0",
+      "efficiency": "7.5"
+    }
+  ],
+  "체어맨 W W140": [
+    {
+      "grade": "가솔린 3.6 VIP",
+      "price": 4500,
+      "engine": "3.6 V6",
+      "power": "258",
+      "torque": "36.0",
+      "efficiency": "7.2"
+    },
+    {
+      "grade": "가솔린 5.0 V8 VIP",
+      "price": 7000,
+      "engine": "5.0 V8",
+      "power": "362",
+      "torque": "53.0",
+      "efficiency": "6.0"
+    }
+  ],
+  "체어맨 H W140": [
+    {
+      "grade": "가솔린 3.6 프리미엄",
+      "price": 5000,
+      "engine": "3.6 V6",
+      "power": "258",
+      "torque": "36.0",
+      "efficiency": "7.0"
+    }
+  ],
+  "코란도C C200": [
+    {
+      "grade": "디젤 2.0 2WD 클래식",
+      "price": 2200,
+      "engine": "2.0 e-XDi",
+      "power": "149",
+      "torque": "36.0",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "디젤 2.0 4WD 럭셔리",
+      "price": 2600,
+      "engine": "2.0 e-XDi",
+      "power": "149",
+      "torque": "36.0",
+      "efficiency": "12.0"
+    }
+  ],
+  "코란도 C300": [
+    {
+      "grade": "가솔린 1.5T 2WD",
+      "price": 2350,
+      "engine": "1.5 T-GDi",
+      "power": "163",
+      "torque": "26.5",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 1.6 4WD",
+      "price": 2700,
+      "engine": "1.6 e-XDi",
+      "power": "136",
+      "torque": "32.0",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "이모션 EV",
+      "price": 3500,
+      "engine": "전기모터",
+      "power": "190",
+      "torque": "36.0",
+      "efficiency": "4.5"
+    }
+  ],
+  "렉스턴 Y200~Y296": [
+    {
+      "grade": "디젤 2.7 4WD",
+      "price": 2800,
+      "engine": "2.7 XDi",
+      "power": "165",
+      "torque": "34.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "디젤 2.7 W 4WD",
+      "price": 3200,
+      "engine": "2.7 XDi",
+      "power": "175",
+      "torque": "39.0",
+      "efficiency": "9.8"
+    }
+  ],
+  "카이런 D100": [
+    {
+      "grade": "디젤 2.0 2WD",
+      "price": 2200,
+      "engine": "2.0 XDi",
+      "power": "141",
+      "torque": "32.0",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "디젤 2.7 4WD",
+      "price": 2800,
+      "engine": "2.7 XDi",
+      "power": "165",
+      "torque": "34.0",
+      "efficiency": "9.2"
+    }
+  ],
+  "액티언(구) A100": [
+    {
+      "grade": "디젤 2.0 2WD",
+      "price": 2000,
+      "engine": "2.0 XDi",
+      "power": "141",
+      "torque": "32.0",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "디젤 2.0 스포츠 4WD",
+      "price": 2400,
+      "engine": "2.0 XDi",
+      "power": "175",
+      "torque": "36.0",
+      "efficiency": "10.5"
+    }
+  ],
+  "뉴코란도 KJ": [
+    {
+      "grade": "디젤 2.9 4WD",
+      "price": 1800,
+      "engine": "2.9 TD",
+      "power": "120",
+      "torque": "28.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "로디우스/투리스모 R100": [
+    {
+      "grade": "디젤 2.7 11인승",
+      "price": 2500,
+      "engine": "2.7 XDi",
+      "power": "165",
+      "torque": "34.0",
+      "efficiency": "8.5"
+    }
+  ],
+  "투리스모 R200": [
+    {
+      "grade": "디젤 2.0 11인승",
+      "price": 2700,
+      "engine": "2.0 e-XDi",
+      "power": "155",
+      "torque": "36.0",
+      "efficiency": "10.0"
+    },
+    {
+      "grade": "디젤 2.2 11인승",
+      "price": 3000,
+      "engine": "2.2 e-XDi",
+      "power": "178",
+      "torque": "40.0",
+      "efficiency": "10.5"
+    }
+  ],
+  "K3 YD": [
+    {
+      "grade": "가솔린 1.6 디럭스",
+      "price": 1600,
+      "engine": "1.6 MPI",
+      "power": "128",
+      "torque": "15.7",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 1.6T 프레스티지",
+      "price": 2100,
+      "engine": "1.6 T-GDi",
+      "power": "204",
+      "torque": "27.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 1.6 디럭스",
+      "price": 1750,
+      "engine": "1.6 VGT",
+      "power": "128",
+      "torque": "26.5",
+      "efficiency": "17.5"
+    }
+  ],
+  "K3 BD": [
+    {
+      "grade": "가솔린 1.6 트렌디",
+      "price": 1775,
+      "engine": "1.6 MPI",
+      "power": "128",
+      "torque": "15.7",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "가솔린 1.6 프레스티지",
+      "price": 2100,
+      "engine": "1.6 MPI",
+      "power": "128",
+      "torque": "15.7",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 1.6T GT",
+      "price": 2550,
+      "engine": "1.6 T-GDi",
+      "power": "204",
+      "torque": "27.0",
+      "efficiency": "11.2"
+    }
+  ],
+  "K5 TF": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 2200,
+      "engine": "2.0 MPI",
+      "power": "163",
+      "torque": "20.0",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "가솔린 2.4 프리미엄",
+      "price": 2600,
+      "engine": "2.4 GDi",
+      "power": "180",
+      "torque": "23.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 2.0T 터보",
+      "price": 2800,
+      "engine": "2.0 T-GDi",
+      "power": "245",
+      "torque": "36.0",
+      "efficiency": "10.0"
+    },
+    {
+      "grade": "LPG 2.0",
+      "price": 2000,
+      "engine": "2.0 LPi",
+      "power": "155",
+      "torque": "19.5",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "하이브리드",
+      "price": 2650,
+      "engine": "2.0 HEV",
+      "power": "156",
+      "torque": "19.3",
+      "efficiency": "16.5"
+    }
+  ],
+  "K5 JF": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 2300,
+      "engine": "2.0 MPI",
+      "power": "160",
+      "torque": "20.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 1.6T 프리미엄",
+      "price": 2650,
+      "engine": "1.6 T-GDi",
+      "power": "180",
+      "torque": "27.0",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "디젤 2.0 프리미엄",
+      "price": 2700,
+      "engine": "2.0 CRDi",
+      "power": "186",
+      "torque": "41.0",
+      "efficiency": "15.5"
+    },
+    {
+      "grade": "LPG 2.0 디럭스",
+      "price": 2100,
+      "engine": "2.0 LPi",
+      "power": "152",
+      "torque": "19.5",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "하이브리드 프리미엄",
+      "price": 2900,
+      "engine": "2.0 HEV",
+      "power": "156",
+      "torque": "19.3",
+      "efficiency": "17.0"
+    }
+  ],
+  "K7 VG": [
+    {
+      "grade": "가솔린 2.4 프레스티지",
+      "price": 2850,
+      "engine": "2.4 GDi",
+      "power": "180",
+      "torque": "23.0",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "가솔린 3.0 V6 프리미엄",
+      "price": 3400,
+      "engine": "3.0 GDi",
+      "power": "266",
+      "torque": "31.4",
+      "efficiency": "9.2"
+    },
+    {
+      "grade": "LPG 2.4 프레스티지",
+      "price": 2650,
+      "engine": "2.4 LPi",
+      "power": "168",
+      "torque": "22.0",
+      "efficiency": "7.8"
+    },
+    {
+      "grade": "하이브리드",
+      "price": 3100,
+      "engine": "2.0 HEV",
+      "power": "159",
+      "torque": "20.9",
+      "efficiency": "16.2"
+    }
+  ],
+  "K7 YG": [
+    {
+      "grade": "가솔린 2.4 노블레스",
+      "price": 3200,
+      "engine": "2.4 GDi",
+      "power": "188",
+      "torque": "24.5",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 3.3 V6 프리미엄",
+      "price": 3800,
+      "engine": "3.3 GDi",
+      "power": "266",
+      "torque": "31.4",
+      "efficiency": "9.0"
+    },
+    {
+      "grade": "LPG 2.4 노블레스",
+      "price": 2900,
+      "engine": "2.4 LPi",
+      "power": "180",
+      "torque": "23.5",
+      "efficiency": "8.0"
+    },
+    {
+      "grade": "디젤 2.2 노블레스",
+      "price": 3300,
+      "engine": "2.2 CRDi",
+      "power": "202",
+      "torque": "45.0",
+      "efficiency": "13.5"
+    }
+  ],
+  "K9 KH": [
+    {
+      "grade": "가솔린 3.3 마스터즈",
+      "price": 4800,
+      "engine": "3.3 GDi",
+      "power": "290",
+      "torque": "34.3",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "가솔린 3.8 VIP",
+      "price": 5500,
+      "engine": "3.8 GDi",
+      "power": "315",
+      "torque": "40.0",
+      "efficiency": "8.2"
+    }
+  ],
+  "오피러스 GH": [
+    {
+      "grade": "가솔린 2.7 V6 럭셔리",
+      "price": 3000,
+      "engine": "2.7 V6",
+      "power": "175",
+      "torque": "24.5",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "가솔린 3.5 V6 프리미엄",
+      "price": 3800,
+      "engine": "3.5 V6",
+      "power": "195",
+      "torque": "30.0",
+      "efficiency": "7.5"
+    }
+  ],
+  "스팅어 CK": [
+    {
+      "grade": "가솔린 2.0T 스포츠",
+      "price": 3990,
+      "engine": "2.0 T-GDi",
+      "power": "255",
+      "torque": "36.0",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "가솔린 3.3T 마이스터",
+      "price": 5200,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.5"
+    },
+    {
+      "grade": "가솔린 3.3T AWD 마이스터",
+      "price": 5430,
+      "engine": "3.3 T-GDi",
+      "power": "370",
+      "torque": "52.0",
+      "efficiency": "8.0"
+    }
+  ],
+  "니로 DE": [
+    {
+      "grade": "HEV 트렌디",
+      "price": 2580,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "19.5"
+    },
+    {
+      "grade": "HEV 프레스티지",
+      "price": 2850,
+      "engine": "1.6 HEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "19.0"
+    },
+    {
+      "grade": "PHEV",
+      "price": 3350,
+      "engine": "1.6 PHEV",
+      "power": "141",
+      "torque": "27.0",
+      "efficiency": "42.0"
+    },
+    {
+      "grade": "EV",
+      "price": 4300,
+      "engine": "전기모터",
+      "power": "204",
+      "torque": "40.3",
+      "efficiency": "5.3"
+    }
+  ],
+  "모닝 TA": [
+    {
+      "grade": "가솔린 1.0 스탠다드",
+      "price": 850,
+      "engine": "1.0",
+      "power": "69",
+      "torque": "9.6",
+      "efficiency": "15.0"
+    },
+    {
+      "grade": "가솔린 1.0 럭셔리",
+      "price": 1100,
+      "engine": "1.0",
+      "power": "69",
+      "torque": "9.6",
+      "efficiency": "15.0"
+    },
+    {
+      "grade": "가솔린 1.2 탑",
+      "price": 1250,
+      "engine": "1.2",
+      "power": "87",
+      "torque": "12.0",
+      "efficiency": "14.0"
+    }
+  ],
+  "비스토/모닝 SA": [
+    {
+      "grade": "가솔린 0.8",
+      "price": 550,
+      "engine": "0.8",
+      "power": "52",
+      "torque": "7.5",
+      "efficiency": "16.0"
+    },
+    {
+      "grade": "가솔린 1.0",
+      "price": 650,
+      "engine": "1.0",
+      "power": "62",
+      "torque": "9.0",
+      "efficiency": "15.0"
+    }
+  ],
+  "모닝 BA": [
+    {
+      "grade": "가솔린 1.0 LX",
+      "price": 680,
+      "engine": "1.0",
+      "power": "62",
+      "torque": "9.0",
+      "efficiency": "15.5"
+    },
+    {
+      "grade": "가솔린 1.1 GX",
+      "price": 800,
+      "engine": "1.1",
+      "power": "73",
+      "torque": "10.5",
+      "efficiency": "14.5"
+    }
+  ],
+  "프라이드(리오) DC": [
+    {
+      "grade": "가솔린 1.5 GLS",
+      "price": 900,
+      "engine": "1.5",
+      "power": "97",
+      "torque": "13.5",
+      "efficiency": "12.8"
+    }
+  ],
+  "프라이드 JB": [
+    {
+      "grade": "가솔린 1.4 GLS",
+      "price": 1050,
+      "engine": "1.4",
+      "power": "97",
+      "torque": "13.5",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 1.6 SX",
+      "price": 1250,
+      "engine": "1.6",
+      "power": "112",
+      "torque": "15.0",
+      "efficiency": "12.5"
+    }
+  ],
+  "프라이드 UB": [
+    {
+      "grade": "가솔린 1.4 디럭스",
+      "price": 1250,
+      "engine": "1.4",
+      "power": "107",
+      "torque": "14.0",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "디젤 1.6 VGT",
+      "price": 1400,
+      "engine": "1.6 VGT",
+      "power": "128",
+      "torque": "26.5",
+      "efficiency": "17.5"
+    }
+  ],
+  "프라이드 YB": [
+    {
+      "grade": "가솔린 1.4 트렌디",
+      "price": 1450,
+      "engine": "1.4",
+      "power": "100",
+      "torque": "13.5",
+      "efficiency": "14.8"
+    },
+    {
+      "grade": "가솔린 1.6 프레스티지",
+      "price": 1750,
+      "engine": "1.6",
+      "power": "123",
+      "torque": "15.7",
+      "efficiency": "13.5"
+    }
+  ],
+  "스펙트라/쎄라토 LD": [
+    {
+      "grade": "가솔린 1.6 디럭스",
+      "price": 1300,
+      "engine": "1.6",
+      "power": "114",
+      "torque": "15.0",
+      "efficiency": "12.5"
+    }
+  ],
+  "포르테/쎄라토 TD": [
+    {
+      "grade": "가솔린 1.6 디럭스",
+      "price": 1450,
+      "engine": "1.6 CVVT",
+      "power": "126",
+      "torque": "16.0",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 2.0 SLX",
+      "price": 1700,
+      "engine": "2.0",
+      "power": "156",
+      "torque": "19.6",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "LPG 1.6",
+      "price": 1300,
+      "engine": "1.6 LPi",
+      "power": "121",
+      "torque": "15.5",
+      "efficiency": "9.5"
+    }
+  ],
+  "옵티마/매그넨티스 MS": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 1600,
+      "engine": "2.0",
+      "power": "140",
+      "torque": "18.5",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "디젤 2.0 VGT",
+      "price": 1800,
+      "engine": "2.0 VGT",
+      "power": "140",
+      "torque": "31.0",
+      "efficiency": "14.0"
+    }
+  ],
+  "로체(옵티마) MG": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 1750,
+      "engine": "2.0",
+      "power": "150",
+      "torque": "19.6",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "LPG 2.0",
+      "price": 1550,
+      "engine": "2.0 LPi",
+      "power": "142",
+      "torque": "18.5",
+      "efficiency": "8.8"
+    }
+  ],
+  "스포티지 KM": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 1900,
+      "engine": "2.0",
+      "power": "141",
+      "torque": "18.5",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "디젤 2.0 VGT",
+      "price": 2100,
+      "engine": "2.0 VGT",
+      "power": "150",
+      "torque": "34.0",
+      "efficiency": "13.0"
+    }
+  ],
+  "스포티지 SL": [
+    {
+      "grade": "가솔린 2.0 럭셔리",
+      "price": 2250,
+      "engine": "2.0 MPI",
+      "power": "166",
+      "torque": "20.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 2.0 프리미엄",
+      "price": 2500,
+      "engine": "2.0 CRDi",
+      "power": "184",
+      "torque": "40.0",
+      "efficiency": "14.5"
+    }
+  ],
+  "스포티지 QL": [
+    {
+      "grade": "가솔린 2.0 디럭스",
+      "price": 2350,
+      "engine": "2.0 MPI",
+      "power": "155",
+      "torque": "19.6",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "디젤 2.0 프레스티지",
+      "price": 2700,
+      "engine": "2.0 CRDi",
+      "power": "186",
+      "torque": "41.0",
+      "efficiency": "15.0"
+    },
+    {
+      "grade": "가솔린 1.6T 프레스티지",
+      "price": 2800,
+      "engine": "1.6 T-GDi",
+      "power": "177",
+      "torque": "27.0",
+      "efficiency": "11.8"
+    }
+  ],
+  "쏘렌토 BL": [
+    {
+      "grade": "가솔린 2.4 LX",
+      "price": 2400,
+      "engine": "2.4",
+      "power": "149",
+      "torque": "22.5",
+      "efficiency": "8.8"
+    },
+    {
+      "grade": "디젤 2.5 VGT EX",
+      "price": 2600,
+      "engine": "2.5 VGT",
+      "power": "170",
+      "torque": "34.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 3.5 V6",
+      "price": 3000,
+      "engine": "3.5 V6",
+      "power": "195",
+      "torque": "30.0",
+      "efficiency": "7.5"
+    }
+  ],
+  "쏘렌토 XM": [
+    {
+      "grade": "가솔린 2.4 프리미엄",
+      "price": 2800,
+      "engine": "2.4 GDi",
+      "power": "175",
+      "torque": "23.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "디젤 2.2 프리미엄",
+      "price": 3000,
+      "engine": "2.2 CRDi",
+      "power": "197",
+      "torque": "44.0",
+      "efficiency": "13.5"
+    }
+  ],
+  "쏘렌토 UM": [
+    {
+      "grade": "가솔린 2.0T 프리미엄",
+      "price": 3000,
+      "engine": "2.0 T-GDi",
+      "power": "237",
+      "torque": "35.7",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "디젤 2.2 프리미엄",
+      "price": 3200,
+      "engine": "2.2 CRDi",
+      "power": "200",
+      "torque": "44.5",
+      "efficiency": "13.8"
+    }
+  ],
+  "모하비 HM": [
+    {
+      "grade": "디젤 3.0 V6 QV300",
+      "price": 3900,
+      "engine": "3.0 V6 CRDi",
+      "power": "260",
+      "torque": "57.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "카렌스 UN": [
+    {
+      "grade": "디젤 2.0 VGT 프리미엄",
+      "price": 2100,
+      "engine": "2.0 VGT",
+      "power": "140",
+      "torque": "31.0",
+      "efficiency": "13.0"
+    }
+  ],
+  "카니발 VQ": [
+    {
+      "grade": "디젤 2.9 7인승 GLS",
+      "price": 2500,
+      "engine": "2.9 CRDi",
+      "power": "185",
+      "torque": "39.0",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "가솔린 2.7 V6 GLS",
+      "price": 2200,
+      "engine": "2.7 V6",
+      "power": "175",
+      "torque": "24.5",
+      "efficiency": "7.8"
+    }
+  ],
+  "카니발 YP": [
+    {
+      "grade": "디젤 2.2 9인승 프레스티지",
+      "price": 2900,
+      "engine": "2.2 CRDi",
+      "power": "200",
+      "torque": "45.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "디젤 2.2 11인승 노블레스",
+      "price": 3300,
+      "engine": "2.2 CRDi",
+      "power": "200",
+      "torque": "45.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 3.3 V6 프레스티지",
+      "price": 3000,
+      "engine": "3.3 GDi",
+      "power": "270",
+      "torque": "32.4",
+      "efficiency": "8.5"
+    }
+  ],
+  "쏘울 AM": [
+    {
+      "grade": "가솔린 1.6 디럭스",
+      "price": 1650,
+      "engine": "1.6",
+      "power": "124",
+      "torque": "16.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 2.0 럭셔리",
+      "price": 1900,
+      "engine": "2.0",
+      "power": "165",
+      "torque": "20.0",
+      "efficiency": "11.5"
+    }
+  ],
+  "쏘울 PS": [
+    {
+      "grade": "가솔린 1.6 디럭스",
+      "price": 1800,
+      "engine": "1.6 GDi",
+      "power": "132",
+      "torque": "16.5",
+      "efficiency": "12.8"
+    },
+    {
+      "grade": "EV",
+      "price": 3500,
+      "engine": "전기모터",
+      "power": "111",
+      "torque": "29.0",
+      "efficiency": "5.2"
+    }
+  ],
+  "XM3 HJB": [
+    {
+      "grade": "가솔린 1.3T 인텐스",
+      "price": 2200,
+      "engine": "1.3 TCe",
+      "power": "156",
+      "torque": "27.0",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 1.3T 이니셜 파리",
+      "price": 2550,
+      "engine": "1.3 TCe",
+      "power": "156",
+      "torque": "27.0",
+      "efficiency": "13.2"
+    },
+    {
+      "grade": "LPG 1.6 인텐스",
+      "price": 2030,
+      "engine": "1.6 LPi",
+      "power": "114",
+      "torque": "15.0",
+      "efficiency": "9.8"
+    }
+  ],
+  "QM6 D2": [
+    {
+      "grade": "가솔린 2.0 RE",
+      "price": 2700,
+      "engine": "2.0 GDi",
+      "power": "170",
+      "torque": "21.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "가솔린 2.0 RE Signature",
+      "price": 3100,
+      "engine": "2.0 GDi",
+      "power": "170",
+      "torque": "21.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "LPG 2.0 RE",
+      "price": 2600,
+      "engine": "2.0 LPi",
+      "power": "147",
+      "torque": "19.5",
+      "efficiency": "8.2"
+    }
+  ],
+  "SM3 N16": [
+    {
+      "grade": "가솔린 1.6 SE",
+      "price": 1350,
+      "engine": "1.6",
+      "power": "107",
+      "torque": "15.0",
+      "efficiency": "13.5"
+    }
+  ],
+  "SM3 L38": [
+    {
+      "grade": "가솔린 1.6 PE",
+      "price": 1600,
+      "engine": "1.6 HR16",
+      "power": "117",
+      "torque": "15.5",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 2.0 RE",
+      "price": 1850,
+      "engine": "2.0 MR20",
+      "power": "143",
+      "torque": "19.5",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 1.5 dCi PE",
+      "price": 1750,
+      "engine": "1.5 dCi",
+      "power": "110",
+      "torque": "24.5",
+      "efficiency": "17.7"
+    }
+  ],
+  "SM5 KPQ": [
+    {
+      "grade": "가솔린 2.0 SM520",
+      "price": 1650,
+      "engine": "2.0 VQ20",
+      "power": "140",
+      "torque": "19.5",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 2.5 V6 SM525V",
+      "price": 2100,
+      "engine": "2.5 VQ25",
+      "power": "170",
+      "torque": "23.0",
+      "efficiency": "9.2"
+    }
+  ],
+  "SM5 L43": [
+    {
+      "grade": "가솔린 2.0 RE",
+      "price": 2050,
+      "engine": "2.0 MR20",
+      "power": "143",
+      "torque": "19.5",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 1.6T TCe",
+      "price": 2400,
+      "engine": "1.6 TCe",
+      "power": "190",
+      "torque": "24.5",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "디젤 1.5 dCi",
+      "price": 2250,
+      "engine": "1.5 dCi",
+      "power": "110",
+      "torque": "24.5",
+      "efficiency": "17.0"
+    },
+    {
+      "grade": "LPG 2.0 RE",
+      "price": 1900,
+      "engine": "2.0 LPi",
+      "power": "140",
+      "torque": "19.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "SM6 LFD": [
+    {
+      "grade": "가솔린 1.6T TCe RE",
+      "price": 2500,
+      "engine": "1.6 TCe",
+      "power": "190",
+      "torque": "24.5",
+      "efficiency": "11.8"
+    },
+    {
+      "grade": "가솔린 2.0 RE",
+      "price": 2200,
+      "engine": "2.0",
+      "power": "143",
+      "torque": "19.5",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "디젤 1.5 dCi",
+      "price": 2400,
+      "engine": "1.5 dCi",
+      "power": "110",
+      "torque": "24.5",
+      "efficiency": "16.5"
+    },
+    {
+      "grade": "LPG 2.0 RE",
+      "price": 2100,
+      "engine": "2.0 LPi",
+      "power": "140",
+      "torque": "19.0",
+      "efficiency": "9.2"
+    }
+  ],
+  "SM7 EX2": [
+    {
+      "grade": "가솔린 2.0 SE",
+      "price": 2350,
+      "engine": "2.0",
+      "power": "143",
+      "torque": "19.5",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 2.3 V6 RE",
+      "price": 2800,
+      "engine": "2.3 VQ23",
+      "power": "165",
+      "torque": "23.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "SM7 L47": [
+    {
+      "grade": "가솔린 2.0 RE",
+      "price": 2800,
+      "engine": "2.0 MR20",
+      "power": "143",
+      "torque": "19.5",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "가솔린 2.5 V6 RE",
+      "price": 3500,
+      "engine": "2.5 VQ25",
+      "power": "190",
+      "torque": "24.5",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "LPG 2.0 RE",
+      "price": 2500,
+      "engine": "2.0 LPi",
+      "power": "140",
+      "torque": "19.0",
+      "efficiency": "8.5"
+    }
+  ],
+  "QM3 H5F": [
+    {
+      "grade": "디젤 1.5 dCi RE",
+      "price": 2200,
+      "engine": "1.5 dCi",
+      "power": "90",
+      "torque": "22.4",
+      "efficiency": "17.0"
+    },
+    {
+      "grade": "디젤 1.5 dCi LE",
+      "price": 2500,
+      "engine": "1.5 dCi",
+      "power": "90",
+      "torque": "22.4",
+      "efficiency": "17.0"
+    }
+  ],
+  "QM5 J72": [
+    {
+      "grade": "디젤 2.0 RE",
+      "price": 2400,
+      "engine": "2.0 dCi",
+      "power": "150",
+      "torque": "32.0",
+      "efficiency": "13.0"
+    },
+    {
+      "grade": "가솔린 2.5 RE",
+      "price": 2600,
+      "engine": "2.5 QR25",
+      "power": "170",
+      "torque": "24.5",
+      "efficiency": "9.5"
+    }
+  ],
+  "SM3 Z.E.": [
+    {
+      "grade": "일렉트릭 SE",
+      "price": 3400,
+      "engine": "전기모터",
+      "power": "95",
+      "torque": "22.0",
+      "efficiency": "5.0"
+    }
+  ],
+  "트랙스": [
+    {
+      "grade": "가솔린 1.4T LT",
+      "price": 2100,
+      "engine": "1.4 T",
+      "power": "140",
+      "torque": "20.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "가솔린 1.4T LTZ",
+      "price": 2400,
+      "engine": "1.4 T",
+      "power": "140",
+      "torque": "20.0",
+      "efficiency": "11.2"
+    },
+    {
+      "grade": "디젤 1.6 LT",
+      "price": 2200,
+      "engine": "1.6 VGT",
+      "power": "136",
+      "torque": "32.0",
+      "efficiency": "15.5"
+    }
+  ],
+  "이쿼녹스": [
+    {
+      "grade": "가솔린 1.5T 프리미어",
+      "price": 3360,
+      "engine": "1.5 터보",
+      "power": "170",
+      "torque": "28.0",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "가솔린 1.5T RS",
+      "price": 3800,
+      "engine": "1.5 터보",
+      "power": "170",
+      "torque": "28.0",
+      "efficiency": "10.2"
+    }
+  ],
+  "이쿼녹스 EV": [
+    {
+      "grade": "2RS 2WD",
+      "price": 5000,
+      "engine": "전기모터",
+      "power": "210",
+      "torque": "33.0",
+      "efficiency": "5.0"
+    },
+    {
+      "grade": "3RS AWD",
+      "price": 5500,
+      "engine": "전기모터",
+      "power": "340",
+      "torque": "56.0",
+      "efficiency": "4.2"
+    }
+  ],
+  "말리부 D2UL": [
+    {
+      "grade": "가솔린 1.5T LT",
+      "price": 2600,
+      "engine": "1.5 터보",
+      "power": "170",
+      "torque": "28.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 2.0T 프리미어",
+      "price": 3000,
+      "engine": "2.0 터보",
+      "power": "252",
+      "torque": "35.7",
+      "efficiency": "10.5"
+    },
+    {
+      "grade": "디젤 1.6 LT",
+      "price": 2700,
+      "engine": "1.6 VGT",
+      "power": "136",
+      "torque": "32.0",
+      "efficiency": "16.0"
+    }
+  ],
+  "말리부 V300": [
+    {
+      "grade": "가솔린 2.0 LT",
+      "price": 2500,
+      "engine": "2.0",
+      "power": "165",
+      "torque": "20.0",
+      "efficiency": "10.8"
+    },
+    {
+      "grade": "가솔린 2.4 LTZ",
+      "price": 2900,
+      "engine": "2.4",
+      "power": "167",
+      "torque": "23.0",
+      "efficiency": "10.2"
+    }
+  ],
+  "크루즈(라세티P) J300": [
+    {
+      "grade": "가솔린 1.6 LS",
+      "price": 1600,
+      "engine": "1.6",
+      "power": "124",
+      "torque": "16.0",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 2.0 LTZ",
+      "price": 2000,
+      "engine": "2.0",
+      "power": "164",
+      "torque": "20.0",
+      "efficiency": "11.5"
+    },
+    {
+      "grade": "디젤 2.0 LTZ",
+      "price": 2100,
+      "engine": "2.0 VGT",
+      "power": "163",
+      "torque": "35.0",
+      "efficiency": "16.0"
+    }
+  ],
+  "크루즈 D2XX": [
+    {
+      "grade": "가솔린 1.4T LT",
+      "price": 1950,
+      "engine": "1.4 터보",
+      "power": "153",
+      "torque": "24.5",
+      "efficiency": "12.5"
+    }
+  ],
+  "라세티 J200": [
+    {
+      "grade": "가솔린 1.6 SX",
+      "price": 1300,
+      "engine": "1.6",
+      "power": "109",
+      "torque": "15.0",
+      "efficiency": "12.0"
+    },
+    {
+      "grade": "가솔린 2.0 CDX",
+      "price": 1600,
+      "engine": "2.0",
+      "power": "121",
+      "torque": "18.0",
+      "efficiency": "10.8"
+    }
+  ],
+  "스파크 M400": [
+    {
+      "grade": "가솔린 1.0 LS",
+      "price": 1200,
+      "engine": "1.0",
+      "power": "75",
+      "torque": "9.4",
+      "efficiency": "14.5"
+    },
+    {
+      "grade": "가솔린 1.0 LT",
+      "price": 1350,
+      "engine": "1.0",
+      "power": "75",
+      "torque": "9.4",
+      "efficiency": "14.5"
+    }
+  ],
+  "스파크(마티즈) M300": [
+    {
+      "grade": "가솔린 0.8 LS",
+      "price": 750,
+      "engine": "0.8",
+      "power": "52",
+      "torque": "7.4",
+      "efficiency": "15.0"
+    },
+    {
+      "grade": "가솔린 1.0 LT",
+      "price": 950,
+      "engine": "1.0",
+      "power": "69",
+      "torque": "9.0",
+      "efficiency": "14.0"
+    }
+  ],
+  "마티즈 M150": [
+    {
+      "grade": "가솔린 0.8 SE",
+      "price": 550,
+      "engine": "0.8",
+      "power": "52",
+      "torque": "7.4",
+      "efficiency": "16.0"
+    }
+  ],
+  "마티즈 M200": [
+    {
+      "grade": "가솔린 0.8 SE",
+      "price": 650,
+      "engine": "0.8",
+      "power": "52",
+      "torque": "7.4",
+      "efficiency": "15.5"
+    },
+    {
+      "grade": "가솔린 1.0 SX",
+      "price": 800,
+      "engine": "1.0",
+      "power": "69",
+      "torque": "9.0",
+      "efficiency": "14.0"
+    }
+  ],
+  "다마스": [
+    {
+      "grade": "LPG 0.8 밴",
+      "price": 500,
+      "engine": "0.8 LPi",
+      "power": "38",
+      "torque": "5.2",
+      "efficiency": "9.5"
+    },
+    {
+      "grade": "LPG 0.8 5인승",
+      "price": 550,
+      "engine": "0.8 LPi",
+      "power": "52",
+      "torque": "7.4",
+      "efficiency": "9.0"
+    }
+  ],
+  "라보": [
+    {
+      "grade": "LPG 0.8",
+      "price": 480,
+      "engine": "0.8 LPi",
+      "power": "38",
+      "torque": "5.2",
+      "efficiency": "9.5"
+    }
+  ],
+  "칼로스(아베오) T200": [
+    {
+      "grade": "가솔린 1.4 SX",
+      "price": 1000,
+      "engine": "1.4",
+      "power": "94",
+      "torque": "13.5",
+      "efficiency": "13.5"
+    }
+  ],
+  "젠트라(아베오) T250": [
+    {
+      "grade": "가솔린 1.5 SX",
+      "price": 1100,
+      "engine": "1.5",
+      "power": "106",
+      "torque": "14.5",
+      "efficiency": "13.0"
+    }
+  ],
+  "아베오 T300": [
+    {
+      "grade": "가솔린 1.4 LT",
+      "price": 1400,
+      "engine": "1.4",
+      "power": "101",
+      "torque": "13.5",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "가솔린 1.6 LTZ",
+      "price": 1700,
+      "engine": "1.6",
+      "power": "141",
+      "torque": "16.0",
+      "efficiency": "12.5"
+    }
+  ],
+  "매그너스 V200": [
+    {
+      "grade": "가솔린 2.0 CDX",
+      "price": 1600,
+      "engine": "2.0",
+      "power": "136",
+      "torque": "18.5",
+      "efficiency": "10.5"
+    }
+  ],
+  "토스카 V250": [
+    {
+      "grade": "가솔린 2.0 LT",
+      "price": 1900,
+      "engine": "2.0",
+      "power": "143",
+      "torque": "19.0",
+      "efficiency": "11.0"
+    },
+    {
+      "grade": "가솔린 2.5 V6 CDX",
+      "price": 2300,
+      "engine": "2.5 V6",
+      "power": "170",
+      "torque": "23.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "알페온 WM": [
+    {
+      "grade": "가솔린 2.4 LTZ",
+      "price": 3200,
+      "engine": "2.4",
+      "power": "167",
+      "torque": "23.0",
+      "efficiency": "10.2"
+    },
+    {
+      "grade": "가솔린 3.0 V6 LTZ",
+      "price": 3800,
+      "engine": "3.0 V6",
+      "power": "258",
+      "torque": "30.0",
+      "efficiency": "8.8"
+    }
+  ],
+  "스테이츠맨 WM": [
+    {
+      "grade": "가솔린 3.6 V6 S",
+      "price": 3200,
+      "engine": "3.6 V6",
+      "power": "245",
+      "torque": "34.0",
+      "efficiency": "8.0"
+    }
+  ],
+  "매그너스L/베리타스 V200L": [
+    {
+      "grade": "가솔린 2.5 V6 CDX",
+      "price": 2200,
+      "engine": "2.5 V6",
+      "power": "170",
+      "torque": "23.0",
+      "efficiency": "9.2"
+    }
+  ],
+  "윈스톰(캡티바) C100": [
+    {
+      "grade": "디젤 2.0 LS",
+      "price": 2400,
+      "engine": "2.0 VGT",
+      "power": "150",
+      "torque": "32.0",
+      "efficiency": "12.5"
+    },
+    {
+      "grade": "가솔린 2.4 LT",
+      "price": 2500,
+      "engine": "2.4",
+      "power": "167",
+      "torque": "23.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "레조 U100": [
+    {
+      "grade": "가솔린 2.0 CDX",
+      "price": 1700,
+      "engine": "2.0",
+      "power": "136",
+      "torque": "18.5",
+      "efficiency": "10.0"
+    }
+  ],
+  "올란도 J309": [
+    {
+      "grade": "디젤 2.0 LT",
+      "price": 2400,
+      "engine": "2.0 VGT",
+      "power": "163",
+      "torque": "35.0",
+      "efficiency": "14.0"
+    },
+    {
+      "grade": "가솔린 1.6T LTZ",
+      "price": 2600,
+      "engine": "1.6 터보",
+      "power": "163",
+      "torque": "24.5",
+      "efficiency": "11.0"
+    }
+  ],
+  "볼트 EV": [
+    {
+      "grade": "프리미어",
+      "price": 4200,
+      "engine": "전기모터",
+      "power": "200",
+      "torque": "36.0",
+      "efficiency": "5.5"
+    }
+  ],
+  "볼트 EUV": [
+    {
+      "grade": "프리미어",
+      "price": 4400,
+      "engine": "전기모터",
+      "power": "200",
+      "torque": "36.0",
+      "efficiency": "5.2"
+    }
+  ],
+  "실버라도 EV": [
+    {
+      "grade": "WT 2WD",
+      "price": 8600,
+      "engine": "전기모터",
+      "power": "510",
+      "torque": "83.6",
+      "efficiency": "3.5"
+    },
+    {
+      "grade": "RST AWD",
+      "price": 11000,
+      "engine": "전기모터",
+      "power": "754",
+      "torque": "107.6",
+      "efficiency": "3.0"
+    }
+  ],
+  "콜로라도": [
+    {
+      "grade": "디젤 2.8 Z71",
+      "price": 4370,
+      "engine": "2.8 터보디젤",
+      "power": "187",
+      "torque": "51.0",
+      "efficiency": "10.0"
+    },
+    {
+      "grade": "디젤 2.8 ZR2",
+      "price": 4780,
+      "engine": "2.8 터보디젤",
+      "power": "187",
+      "torque": "51.0",
+      "efficiency": "9.5"
+    }
+  ],
+  "트랙스 크로스오버": [
+    {
+      "grade": "가솔린 1.2T LT",
+      "price": 2380,
+      "engine": "1.2 터보",
+      "power": "137",
+      "torque": "21.0",
+      "efficiency": "13.5"
+    },
+    {
+      "grade": "가솔린 1.3T RS",
+      "price": 2800,
+      "engine": "1.3 터보",
+      "power": "156",
+      "torque": "25.5",
+      "efficiency": "12.5"
     }
   ]
 } as const;
@@ -19881,6 +22251,20 @@ export const CAR_ISSUES = {
 } as const;
 
 export const CAR_HISTORY = {
+  "911": [
+    {
+      "generation": "992세대 (현재)",
+      "period": "2019~현재",
+      "code": "992",
+      "note": "전기화 예정"
+    },
+    {
+      "generation": "991세대",
+      "period": "2011~2019",
+      "code": "991",
+      "note": "단종"
+    }
+  ],
   "아반떼": [
     {
       "generation": "7세대 (현재)",
@@ -20663,20 +23047,6 @@ export const CAR_HISTORY = {
       "period": "2015~현재",
       "code": "4M",
       "note": "LCI 완료"
-    }
-  ],
-  "911": [
-    {
-      "generation": "992세대 (현재)",
-      "period": "2019~현재",
-      "code": "992",
-      "note": "전기화 예정"
-    },
-    {
-      "generation": "991세대",
-      "period": "2011~2019",
-      "code": "991",
-      "note": "단종"
     }
   ],
   "카이엔": [
@@ -22973,6 +25343,6 @@ export const CAR_HISTORY = {
   ]
 } as const;
 
-export const DOMESTIC_BRANDS = ["현대", "기아", "제네시스", "KG모빌리티", "르노코리아", "쉐보레"];
-export const IMPORT_BRANDS = ["BMW", "메르세데스-벤츠", "아우디", "폭스바겐", "포르쉐", "MINI", "볼보", "테슬라", "토요타", "렉서스", "혼다", "랜드로버", "재규어", "지프", "포드", "링컨", "폴스타", "마세라티", "벤틀리", "롤스로이스", "페라리", "람보르기니", "푸조", "시트로엥", "DS", "BYD", "캐딜락", "GMC", "맥라렌", "애스턴마틴", "알파로메오", "로터스", "스마트", "닛산/인피니티", "스바루", "크라이슬러/닷지", "피아트", "벤츠"];
+export const DOMESTIC_BRANDS = ["현대","기아","제네시스","KG모빌리티","르노코리아","쉐보레"];
+export const IMPORT_BRANDS = ["BMW","메르세데스-벤츠","아우디","폭스바겐","포르쉐","MINI","볼보","테슬라","토요타","렉서스","혼다","랜드로버","재규어","지프","포드","링컨","폴스타","마세라티","벤틀리","롤스로이스","페라리","람보르기니","푸조","시트로엥","DS","BYD","캐딜락","GMC","맥라렌","애스턴마틴","알파로메오","로터스","스마트","닛산/인피니티","스바루","크라이슬러/닷지","피아트","벤츠"];
 export const ALL_BRANDS = [...DOMESTIC_BRANDS, ...IMPORT_BRANDS];
