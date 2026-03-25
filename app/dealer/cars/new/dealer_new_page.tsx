@@ -24,18 +24,6 @@ function getBaseModels(brand: string): { base: string; variants: { name: string;
   return Object.entries(groups).map(([base, variants]) => ({ base, variants }));
 }
 
-/* ═══ engine 문자열 → 연료 타입 매핑 ═══ */
-function detectFuelFromEngine(engine: string): string {
-  if (!engine) return "가솔린";
-  const e = engine.toLowerCase();
-  if (e.includes("ev") || e.includes("모터") || e.includes("motor") || e.includes("전기") || e.includes("kwh")) return "전기";
-  if (e.includes("hev") || e.includes("하이브리드") || e.includes("phev")) return "하이브리드";
-  if (e.includes("crdi") || e.includes("디젤") || e.includes("diesel")) return "디젤";
-  if (e.includes("lpg") || e.includes("lpi")) return "LPG";
-  if (e.includes("수소") || e.includes("fcev")) return "수소";
-  return "가솔린";
-}
-
 const FUEL_TYPES = ["가솔린","디젤","LPG","하이브리드","전기","수소"];
 const COLORS = ["흰색","검정","은색","회색","파랑","빨강","노랑","초록","베이지","갈색","기타"];
 const TRANSMISSIONS = ["자동","수동"];
@@ -46,113 +34,6 @@ const OPTION_CATEGORIES = [
   {name:"멀티미디어",items:["내비게이션","카플레이/AA","블루투스","USB충전","JBL/하만카돈/BOSE","후석모니터"]},
   {name:"외관",items:["LED헤드램프","선루프","파노라마선루프","루프랙","18인치이상휠","프라이버시유리"]},
   {name:"성능",items:["터보차저","AWD(사륜)","에어서스펜션","어댑티브크루즈","전자제어서스펜션","패들시프트"]},
-];
-
-/* ═══ 메인 사진 슬롯 SVG 가이드 ═══ */
-function PhotoGuideSvg({ type }: { type: "front34" | "rear34" | "front" | "rear" }) {
-  const w = 140, h = 105;
-  const bodyColor = "#D6E4F0";
-  const lineColor = "#90A8C0";
-  const accentColor = "#FF3B1E";
-
-  if (type === "front34") {
-    return (
-      <svg width={w} height={h} viewBox="0 0 140 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* 차체 - 전면 3/4 각도 */}
-        <rect x="25" y="42" width="90" height="36" rx="8" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-        <path d="M40 42 L50 24 L95 24 L105 42" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-        {/* 윈도우 */}
-        <path d="M52 41 L57 28 L90 28 L98 41" fill="#B8D4E8" stroke={lineColor} strokeWidth="1"/>
-        {/* 헤드라이트 */}
-        <rect x="27" y="48" width="14" height="6" rx="3" fill="#FFF3B0" stroke={lineColor} strokeWidth="1"/>
-        <rect x="99" y="48" width="14" height="6" rx="3" fill="#FFF3B0" stroke={lineColor} strokeWidth="1"/>
-        {/* 바퀴 */}
-        <circle cx="48" cy="78" r="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-        <circle cx="48" cy="78" r="4" fill="#888"/>
-        <circle cx="102" cy="78" r="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-        <circle cx="102" cy="78" r="4" fill="#888"/>
-        {/* 카메라 앵글 표시 */}
-        <path d="M15 15 L35 35" stroke={accentColor} strokeWidth="1.5" strokeDasharray="3,3" opacity="0.6"/>
-        <circle cx="12" cy="12" r="4" fill={accentColor} opacity="0.6"/>
-      </svg>
-    );
-  }
-
-  if (type === "rear34") {
-    return (
-      <svg width={w} height={h} viewBox="0 0 140 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* 차체 - 후면 3/4 각도 */}
-        <rect x="25" y="42" width="90" height="36" rx="8" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-        <path d="M35 42 L45 24 L90 24 L100 42" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-        {/* 윈도우 */}
-        <path d="M42 41 L50 28 L85 28 L93 41" fill="#B8D4E8" stroke={lineColor} strokeWidth="1"/>
-        {/* 테일라이트 */}
-        <rect x="27" y="50" width="14" height="5" rx="2" fill="#FF6B6B" stroke={lineColor} strokeWidth="1"/>
-        <rect x="99" y="50" width="14" height="5" rx="2" fill="#FF6B6B" stroke={lineColor} strokeWidth="1"/>
-        {/* 바퀴 */}
-        <circle cx="42" cy="78" r="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-        <circle cx="42" cy="78" r="4" fill="#888"/>
-        <circle cx="96" cy="78" r="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-        <circle cx="96" cy="78" r="4" fill="#888"/>
-        {/* 카메라 앵글 표시 */}
-        <path d="M125 15 L105 35" stroke={accentColor} strokeWidth="1.5" strokeDasharray="3,3" opacity="0.6"/>
-        <circle cx="128" cy="12" r="4" fill={accentColor} opacity="0.6"/>
-      </svg>
-    );
-  }
-
-  if (type === "front") {
-    return (
-      <svg width={w} height={h} viewBox="0 0 140 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* 차체 - 정면 */}
-        <rect x="20" y="40" width="100" height="38" rx="10" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-        <path d="M35 40 L45 22 L95 22 L105 40" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-        {/* 윈도우 */}
-        <path d="M48 39 L53 26 L87 26 L92 39" fill="#B8D4E8" stroke={lineColor} strokeWidth="1"/>
-        {/* 그릴 */}
-        <rect x="40" y="58" width="60" height="10" rx="4" fill="#AAC0D0" stroke={lineColor} strokeWidth="1"/>
-        {/* 헤드라이트 */}
-        <rect x="22" y="48" width="16" height="8" rx="4" fill="#FFF3B0" stroke={lineColor} strokeWidth="1"/>
-        <rect x="102" y="48" width="16" height="8" rx="4" fill="#FFF3B0" stroke={lineColor} strokeWidth="1"/>
-        {/* 바퀴 */}
-        <ellipse cx="35" cy="78" rx="13" ry="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-        <ellipse cx="105" cy="78" rx="13" ry="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-        {/* 카메라 앵글 표시 (정면) */}
-        <path d="M70 8 L70 22" stroke={accentColor} strokeWidth="1.5" strokeDasharray="3,3" opacity="0.6"/>
-        <circle cx="70" cy="5" r="4" fill={accentColor} opacity="0.6"/>
-      </svg>
-    );
-  }
-
-  /* rear */
-  return (
-    <svg width={w} height={h} viewBox="0 0 140 105" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* 차체 - 후면 */}
-      <rect x="20" y="40" width="100" height="38" rx="10" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-      <path d="M35 40 L45 22 L95 22 L105 40" fill={bodyColor} stroke={lineColor} strokeWidth="1.5"/>
-      {/* 윈도우 */}
-      <path d="M48 39 L53 26 L87 26 L92 39" fill="#B8D4E8" stroke={lineColor} strokeWidth="1"/>
-      {/* 테일라이트 */}
-      <rect x="22" y="48" width="16" height="7" rx="3" fill="#FF6B6B" stroke={lineColor} strokeWidth="1"/>
-      <rect x="102" y="48" width="16" height="7" rx="3" fill="#FF6B6B" stroke={lineColor} strokeWidth="1"/>
-      {/* 범퍼/번호판 */}
-      <rect x="48" y="58" width="44" height="12" rx="3" fill="white" stroke={lineColor} strokeWidth="1"/>
-      <text x="70" y="67" textAnchor="middle" fontSize="7" fill={lineColor} fontWeight="bold">00가0000</text>
-      {/* 바퀴 */}
-      <ellipse cx="35" cy="78" rx="13" ry="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-      <ellipse cx="105" cy="78" rx="13" ry="11" fill="#555" stroke="#333" strokeWidth="1.5"/>
-      {/* 카메라 앵글 표시 (후면) */}
-      <path d="M70 8 L70 22" stroke={accentColor} strokeWidth="1.5" strokeDasharray="3,3" opacity="0.6"/>
-      <circle cx="70" cy="5" r="4" fill={accentColor} opacity="0.6"/>
-    </svg>
-  );
-}
-
-const MAIN_SLOTS_DATA: { key: string; label: string; guide: string; svgType: "front34"|"rear34"|"front"|"rear" }[] = [
-  { key: "main1", label: "① 전면 3/4", guide: "왼쪽 앞 대각선에서 촬영", svgType: "front34" },
-  { key: "main2", label: "② 후면 3/4", guide: "오른쪽 뒤 대각선에서 촬영", svgType: "rear34" },
-  { key: "main3", label: "③ 전면", guide: "차량 앞에서 정면 촬영", svgType: "front" },
-  { key: "main4", label: "④ 후면", guide: "차량 뒤에서 정면 촬영", svgType: "rear" },
 ];
 
 export default function DealerCarsNewPage() {
@@ -185,6 +66,12 @@ export default function DealerCarsNewPage() {
   const [options, setOptions] = useState<string[]>([]);
 
   /* 사진: 메인 4장 + 디테일 최대 20장 */
+  const MAIN_SLOTS = [
+    {key:"main1",label:"① 전면 메인",required:true},
+    {key:"main2",label:"② 후면 대각선",required:true},
+    {key:"main3",label:"③ 측면",required:true},
+    {key:"main4",label:"④ 후면",required:true},
+  ];
   const [mainPhotos, setMainPhotos] = useState<Record<string,string>>({});
   const [detailPhotos, setDetailPhotos] = useState<string[]>([]);
   const [uploadingSlot, setUploadingSlot] = useState<string|null>(null);
@@ -204,52 +91,18 @@ export default function DealerCarsNewPage() {
     return group?.variants || [];
   }, [selectedBase, baseModels]);
 
-  /* 카탈로그 전체 등급 */
-  const allModelGrades = useMemo(() => {
+  /* 카탈로그 기반 트림/등급 목록 */
+  const modelGrades = useMemo(() => {
     if(!selectedModel) return [];
     const g = grades[selectedModel];
     if(!g || !Array.isArray(g)) return [];
-    return g.map((item: {grade:string;price:number;engine:string;power?:string;torque?:string;efficiency?:string}) => ({
-      ...item,
-      fuelType: detectFuelFromEngine(item.engine),
-    }));
+    return g.map((item: {grade:string;price:number;engine:string}) => item);
   }, [selectedModel]);
-
-  /* 해당 모델에서 사용 가능한 연료 타입 목록 */
-  const availableFuels = useMemo(() => {
-    if (allModelGrades.length === 0) return FUEL_TYPES;
-    const fuels = [...new Set(allModelGrades.map((g: {fuelType:string}) => g.fuelType))];
-    return fuels.length > 0 ? fuels : FUEL_TYPES;
-  }, [allModelGrades]);
-
-  /* 연료 선택 시 해당 등급만 필터 */
-  const filteredGrades = useMemo(() => {
-    if (allModelGrades.length === 0) return [];
-    const filtered = allModelGrades.filter((g: {fuelType:string}) => g.fuelType === fuel);
-    return filtered.length > 0 ? filtered : allModelGrades;
-  }, [allModelGrades, fuel]);
-
-  /* 모델 선택 시 → 첫번째 사용 가능 연료로 자동 설정 */
-  const handleModelSelect = (model: string) => {
-    setSelectedModel(model);
-    setGrade("");
-    /* 해당 모델 등급에서 사용 가능한 연료 감지 */
-    const g = grades[model];
-    if (g && Array.isArray(g) && g.length > 0) {
-      const firstFuel = detectFuelFromEngine(g[0].engine);
-      setFuel(firstFuel);
-    }
-  };
 
   const handleBrandChange = (brand:string) => { setSelectedBrand(brand); setSelectedBase(""); setSelectedModel(""); setGrade(""); };
   const handleBaseChange = (base:string) => { setSelectedBase(base); setSelectedModel(""); setGrade("");
     const group = baseModels.find(g=>g.base===base);
-    if(group&&group.variants.length===1) handleModelSelect(group.variants[0].name);
-  };
-
-  const handleFuelChange = (f: string) => {
-    setFuel(f);
-    setGrade(""); /* 연료 변경 시 등급 리셋 */
+    if(group&&group.variants.length===1) setSelectedModel(group.variants[0].name);
   };
 
   const toggleOption = (opt:string) => setOptions(prev=>prev.includes(opt)?prev.filter(o=>o!==opt):[...prev,opt]);
@@ -321,7 +174,7 @@ export default function DealerCarsNewPage() {
     try {
       const finalGrade = grade==="직접입력"?customGrade:grade;
       const carName = `${selectedModel}${finalGrade?` ${finalGrade}`:""}`;
-      const orderedImages = [...MAIN_SLOTS_DATA.map(s=>mainPhotos[s.key]).filter(Boolean), ...detailPhotos];
+      const orderedImages = [...MAIN_SLOTS.map(s=>mainPhotos[s.key]).filter(Boolean), ...detailPhotos];
       const res = await fetch("/api/dealer/cars",{
         method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({ name:carName, brand:selectedBrand, year, mileage:Number(mileage), fuel,
@@ -399,7 +252,7 @@ export default function DealerCarsNewPage() {
               {selectedBase&&modelVariants.length>1&&(
                 <div style={{marginBottom:16}}>
                   <label style={labelS}>세대/상세 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <select value={selectedModel} onChange={e=>handleModelSelect(e.target.value)} style={{...inputS,border:errBorder("model")}}>
+                  <select value={selectedModel} onChange={e=>{setSelectedModel(e.target.value);setGrade("");}} style={{...inputS,border:errBorder("model")}}>
                     <option value="">세대를 선택해주세요</option>
                     {[...modelVariants].sort((a,b)=>{if(a.status==="현행"&&b.status!=="현행")return -1;if(a.status!=="현행"&&b.status==="현행")return 1;return modelVariants.indexOf(a)-modelVariants.indexOf(b);}).map(v=>(
                       <option key={v.name} value={v.name}>{v.name} {v.status==="현행"?"✦ 현행":"(단종)"}</option>
@@ -410,49 +263,13 @@ export default function DealerCarsNewPage() {
 
               {selectedModel&&<div style={{background:"#EEF5FF",borderRadius:10,padding:"10px 16px",marginBottom:16,fontSize:14,fontWeight:700,color:"#0066FF"}}>✓ {selectedBrand} {selectedModel}</div>}
 
-              {/* ═══ 연료 선택 (카탈로그 기반 버튼) ═══ */}
-              <div style={{marginBottom:16}}>
-                <label style={labelS}>연료 <span style={{color:"#FF3B1E"}}>*</span></label>
-                {allModelGrades.length > 0 ? (
-                  <>
-                    <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
-                      {availableFuels.map((f: string) => {
-                        const count = allModelGrades.filter((g: {fuelType:string}) => g.fuelType === f).length;
-                        return (
-                          <button key={f} onClick={()=>handleFuelChange(f)} style={{
-                            padding:"10px 16px",borderRadius:10,fontSize:14,fontWeight:fuel===f?800:500,
-                            border:fuel===f?"2px solid #0066FF":"1.5px solid #E0DDD7",
-                            background:fuel===f?"#EEF5FF":"white",color:fuel===f?"#0066FF":"#888",
-                            cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",
-                            display:"flex",alignItems:"center",gap:6
-                          }}>
-                            {f==="전기"?"⚡":f==="하이브리드"?"🔋":f==="디젤"?"🛢️":f==="LPG"?"🔥":f==="수소"?"💧":"⛽"} {f}
-                            <span style={{fontSize:11,fontWeight:600,color:fuel===f?"#0066FF":"#CCC"}}>({count})</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {filteredGrades.length > 0 && (
-                      <div style={{fontSize:12,color:"#999",marginTop:6}}>
-                        💡 {fuel} 등급 {filteredGrades.length}개 · 연료 변경 시 등급이 자동 필터됩니다
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  /* 카탈로그 등급 없는 모델 → 기존 select */
-                  <select value={fuel} onChange={e=>setFuel(e.target.value)} style={inputS}>
-                    {FUEL_TYPES.map(f=><option key={f}>{f}</option>)}
-                  </select>
-                )}
-              </div>
-
-              {/* ═══ 등급/트림 — 연료별 필터 적용 ═══ */}
+              {/* 등급/트림 — 카탈로그 기반 */}
               <div style={{marginBottom:16}}>
                 <label style={labelS}>등급/트림</label>
                 <select value={grade} onChange={e=>setGrade(e.target.value)} style={inputS}>
                   <option value="">선택 (없으면 비워두세요)</option>
-                  {filteredGrades.length>0&&<optgroup label={`📋 ${fuel} 등급`}>
-                    {filteredGrades.map((g:{grade:string;price:number;engine:string;fuelType:string})=>(
+                  {modelGrades.length>0&&<optgroup label="📋 카탈로그 등급">
+                    {modelGrades.map((g:{grade:string;price:number;engine:string})=>(
                       <option key={g.grade} value={g.grade}>{g.grade} ({g.price?.toLocaleString()}만 · {g.engine})</option>
                     ))}
                   </optgroup>}
@@ -475,12 +292,14 @@ export default function DealerCarsNewPage() {
               </div>
 
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
+                <div><label style={labelS}>연료</label><select value={fuel} onChange={e=>setFuel(e.target.value)} style={inputS}>{FUEL_TYPES.map(f=><option key={f}>{f}</option>)}</select></div>
                 <div><label style={labelS}>변속기</label><select value={transmission} onChange={e=>setTransmission(e.target.value)} style={inputS}>{TRANSMISSIONS.map(t=><option key={t}>{t}</option>)}</select></div>
-                <div>
-                  <label style={labelS}>색상 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <select value={color} onChange={e=>setColor(e.target.value)} style={{...inputS,border:errBorder("color")}}><option value="">선택</option>{COLORS.map(c=><option key={c} value={c}>{c}</option>)}</select>
-                  {color==="기타"&&<input value={customColor} onChange={e=>setCustomColor(e.target.value)} placeholder="색상 직접 입력" style={{...inputS,border:"1.5px solid #E0DDD7",marginTop:8}}/>}
-                </div>
+              </div>
+
+              <div style={{marginBottom:16}}>
+                <label style={labelS}>색상 <span style={{color:"#FF3B1E"}}>*</span></label>
+                <select value={color} onChange={e=>setColor(e.target.value)} style={{...inputS,border:errBorder("color")}}><option value="">선택</option>{COLORS.map(c=><option key={c} value={c}>{c}</option>)}</select>
+                {color==="기타"&&<input value={customColor} onChange={e=>setCustomColor(e.target.value)} placeholder="색상 직접 입력" style={{...inputS,border:"1.5px solid #E0DDD7",marginTop:8}}/>}
               </div>
 
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
@@ -539,10 +358,10 @@ export default function DealerCarsNewPage() {
               <h2 style={{fontSize:18,fontWeight:800,marginBottom:6}}>📷 사진 업로드</h2>
               <p style={{fontSize:13,color:"#AAA",marginBottom:20}}>메인 사진 4장은 필수! 디테일 사진은 최대 20장까지 등록 가능합니다.</p>
 
-              {/* 메인 사진 4장 필수 — SVG 가이드 포함 */}
+              {/* 메인 사진 4장 필수 */}
               <div style={{fontSize:14,fontWeight:800,marginBottom:10,color:"#FF3B1E"}}>📌 메인 사진 (4장 필수)</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
-                {MAIN_SLOTS_DATA.map(slot=>{
+                {MAIN_SLOTS.map(slot=>{
                   const url = mainPhotos[slot.key];
                   const isUp = uploadingSlot===slot.key;
                   return (
@@ -557,16 +376,8 @@ export default function DealerCarsNewPage() {
                           </div>
                         </div>
                       ):(
-                        <button onClick={()=>handleMainUpload(slot.key)} disabled={isUp} style={{width:"100%",aspectRatio:"4/3",border:"none",background:"transparent",cursor:isUp?"wait":"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,fontFamily:"'NanumSquareRound',sans-serif",padding:"8px"}}>
-                          {isUp?(
-                            <div style={{fontSize:13,fontWeight:700,color:"#FF3B1E"}}>업로드 중...</div>
-                          ):(
-                            <>
-                              <PhotoGuideSvg type={slot.svgType}/>
-                              <div style={{fontSize:12,fontWeight:800,color:"#FF3B1E",marginTop:2}}>{slot.label}</div>
-                              <div style={{fontSize:10,color:"#FF8888"}}>{slot.guide}</div>
-                            </>
-                          )}
+                        <button onClick={()=>handleMainUpload(slot.key)} disabled={isUp} style={{width:"100%",aspectRatio:"4/3",border:"none",background:"transparent",cursor:isUp?"wait":"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:6,fontFamily:"'NanumSquareRound',sans-serif"}}>
+                          {isUp?<div style={{fontSize:13,fontWeight:700,color:"#FF3B1E"}}>업로드 중...</div>:(<><Upload size={22} color="#FF3B1E"/><div style={{fontSize:12,fontWeight:800,color:"#FF3B1E"}}>{slot.label}</div><div style={{fontSize:10,color:"#FF8888"}}>필수</div></>)}
                         </button>
                       )}
                     </div>

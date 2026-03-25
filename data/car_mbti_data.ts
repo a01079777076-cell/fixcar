@@ -1,4 +1,4 @@
-/* 차량 MBTI 데이터 v2 */
+/* 차량 MBTI 데이터 v3 — 15문항 최적화 */
 
 /* ═══ 4축 정의 ═══
  * D(Drive) vs C(Comfort)       — 주행 성향
@@ -15,140 +15,102 @@ export interface MbtiQuestion {
 }
 
 export const QUESTIONS: MbtiQuestion[] = [
-  /* ═══ D vs C (주행 성향) — 5문항 ═══ */
-  { id:1, axis:"DC", question:"운전할 때 가장 즐거운 순간은?", options:[
-    { text:"코너를 빠르게 돌 때 느끼는 짜릿함", score:2 },
-    { text:"신호 없는 한적한 도로에서의 가속", score:1 },
-    { text:"잔잔한 음악과 함께 여유로운 크루징", score:-1 },
-    { text:"목적지까지 흔들림 없이 도착했을 때", score:-2 },
+  /* ═══ D vs C (주행 성향) — 4문항 ═══ */
+  { id:1, axis:"DC", question:"퇴근길, 평소보다 30분 빠르게 끝났어요. 당신의 선택은?", options:[
+    { text: "한적한 외곽 도로 드라이브 한 바퀴", score: 2 },
+    { text: "평소 안 가던 길로 돌아가며 달려볼까", score: 1 },
+    { text: "카페 들러서 여유롭게 쉬다 가기", score: -1 },
+    { text: "집에 빨리 가서 쉬는 게 최고", score: -2 },
   ]},
-  { id:2, axis:"DC", question:"고속도로에서 당신의 스타일은?", options:[
-    { text:"추월차선 위주, 빈 곳 보이면 바로 가속", score:2 },
-    { text:"흐름보다 살짝 빠르게, 적극적 차선변경", score:1 },
-    { text:"흐름에 맞춰서 편하게 주행", score:-1 },
-    { text:"크루즈 컨트롤 걸고 2차선에서 안정적으로", score:-2 },
+  { id:2, axis:"DC", question:"친구가 '이 차 좀 달려봐' 하며 키를 건넸어요. 뭐가 궁금해요?", options:[
+    { text: "코너링 어때? 한번 밟아볼게", score: 2 },
+    { text: "가속 반응은? 살짝 밟아볼게", score: 1 },
+    { text: "승차감 괜찮네, 흔들림이 적다", score: -1 },
+    { text: "시트 편하다... 소음도 거의 없고", score: -2 },
   ]},
-  { id:3, axis:"DC", question:"와인딩(산길 커브) 도로를 만나면?", options:[
-    { text:"신난다! 스포츠 모드 ON", score:2 },
-    { text:"적당히 재미있게 달려볼 만한 구간", score:1 },
-    { text:"천천히 경치 감상하면서 가면 되지", score:-1 },
-    { text:"솔직히 멀미 날까봐 걱정부터...", score:-2 },
+  { id:3, axis:"DC", question:"네비가 '목적지까지 2가지 경로'를 보여줘요", options:[
+    { text: "산길 와인딩 코스 (10분 더 걸림)", score: 2 },
+    { text: "국도 드라이브 코스 (5분 더 걸림)", score: 1 },
+    { text: "고속도로 (편하고 빠른 길)", score: -1 },
+    { text: "최단 거리, 빨리 도착하는 게 장땡", score: -2 },
   ]},
-  { id:4, axis:"DC", question:"서스펜션을 세팅할 수 있다면?", options:[
-    { text:"최대한 단단하게! 도로가 느껴져야 운전 맛", score:2 },
-    { text:"약간 단단한 스포츠 세팅", score:1 },
-    { text:"부드러운 기본 세팅이 좋아", score:-1 },
-    { text:"구름 위를 달리는 것처럼 최대한 부드럽게", score:-2 },
-  ]},
-  { id:5, axis:"DC", question:"차를 사면 가장 먼저 하고 싶은 건?", options:[
-    { text:"서킷 데이 예약하기", score:2 },
-    { text:"해안도로 드라이브 코스 짜기", score:1 },
-    { text:"가족이랑 편하게 근교 나들이", score:-1 },
-    { text:"출퇴근길 편안하게 세팅하기", score:-2 },
+  { id:4, axis:"DC", question:"차를 살 때 '이것만은 꼭' 확인해야 하는 건?", options:[
+    { text: "마력, 토크, 제로백 — 성능 스펙부터", score: 2 },
+    { text: "서스펜션 세팅, 핸들링 느낌", score: 1 },
+    { text: "소음 차단, 시트 편안함", score: -1 },
+    { text: "뒷좌석 공간, 승차감, 진동 없는지", score: -2 },
   ]},
 
-  /* ═══ S vs L (차량 크기) — 5문항 ═══ */
-  { id:6, axis:"SL", question:"주차할 때 당신의 마음은?", options:[
-    { text:"골목이든 어디든 쏙쏙 들어가야 편해", score:2 },
-    { text:"웬만한 곳은 다 되는 적당한 크기가 좋아", score:1 },
-    { text:"주차는 좀 힘들어도 넓은 차가 좋아", score:-1 },
-    { text:"발레파킹 맡기면 되지, 크기는 상관없어", score:-2 },
+  /* ═══ S vs L (차량 크기) — 3문항 ═══ */
+  { id:5, axis:"SL", question:"주말에 마트 가서 장을 보고 왔어요. 트렁크 상황은?", options:[
+    { text: "장바구니 1~2개면 충분, 차는 작을수록 좋아", score: 2 },
+    { text: "적당히 넣을 수 있으면 돼", score: 1 },
+    { text: "코스트코 대량 구매해도 넉넉해야지", score: -1 },
+    { text: "캠핑 장비 + 자전거까지 다 실어야 해", score: -2 },
   ]},
-  { id:7, axis:"SL", question:"평소 차에 타는 사람은?", options:[
-    { text:"거의 혼자, 가끔 1명 더", score:2 },
-    { text:"보통 2~3명", score:1 },
-    { text:"4~5명 가족 단위", score:-1 },
-    { text:"5명 이상, 짐도 많이 싣는 편", score:-2 },
+  { id:6, axis:"SL", question:"당신의 일상에서 차에 타는 사람은 보통 몇 명?", options:[
+    { text: "거의 나 혼자 (가끔 1명)", score: 2 },
+    { text: "2~3명 정도", score: 1 },
+    { text: "4~5명, 가족 단위로 이동", score: -1 },
+    { text: "5명 이상 + 짐도 항상 많아", score: -2 },
   ]},
-  { id:8, axis:"SL", question:"트렁크에 주로 싣는 물건은?", options:[
-    { text:"가방 하나면 충분", score:2 },
-    { text:"장볼 때 쇼핑백 몇 개 정도", score:1 },
-    { text:"유모차 + 짐이 꽤 있는 편", score:-1 },
-    { text:"캠핑 장비, 자전거까지 다 실어야 해", score:-2 },
-  ]},
-  { id:9, axis:"SL", question:"이상적인 차의 모습은?", options:[
-    { text:"도심에서 날렵하게 빠지는 작은 차", score:2 },
-    { text:"적당한 크기의 세단이나 해치백", score:1 },
-    { text:"듬직한 중형 SUV", score:-1 },
-    { text:"어디서든 존재감 있는 대형 SUV/미니밴", score:-2 },
-  ]},
-  { id:10, axis:"SL", question:"여행 갈 때 짐 스타일은?", options:[
-    { text:"백팩 하나로 미니멀하게", score:2 },
-    { text:"캐리어 하나 + 작은 가방", score:1 },
-    { text:"캐리어 2~3개 + 이것저것 많은 편", score:-1 },
-    { text:"차에 가득 채워서 가는 스타일", score:-2 },
+  { id:7, axis:"SL", question:"도심 주차장에 빈자리가 '경차 전용'이에요. 당신의 반응은?", options:[
+    { text: "딱 좋지! 어디든 쏙쏙 들어가는 차가 내 스타일", score: 2 },
+    { text: "아쉽지만 내 차도 작으니까 될 수도?", score: 1 },
+    { text: "에이... 한 바퀴 더 돌아야겠네", score: -1 },
+    { text: "상관없어, 넓은 차가 주는 편안함이 더 중요해", score: -2 },
   ]},
 
-  /* ═══ E vs P (예산 성향) — 5문항 ═══ */
-  { id:11, axis:"EP", question:"차를 고를 때 가장 먼저 보는 건?", options:[
-    { text:"가격 대비 성능, 가성비가 최우선", score:2 },
-    { text:"적당한 가격에 필요한 기능만 있으면 OK", score:1 },
-    { text:"좀 더 내도 좋은 옵션과 품질을 원해", score:-1 },
-    { text:"최고급 사양, 가격은 크게 신경 안 써", score:-2 },
+  /* ═══ E vs P (예산 성향) — 4문항 ═══ */
+  { id:8, axis:"EP", question:"똑같은 성능의 차 2대가 있어요. 하나는 국산 2,000만원, 하나는 수입 3,500만원", options:[
+    { text: "당연히 국산! 1,500만원 아껴서 다른 데 쓸래", score: 2 },
+    { text: "국산으로 가고 남은 돈으로 옵션 추가", score: 1 },
+    { text: "수입차 브랜드 감성이 다르니까 투자할 만해", score: -1 },
+    { text: "1,500만원 더 내도 수입차, 타보면 확실히 달라", score: -2 },
   ]},
-  { id:12, axis:"EP", question:"같은 2000만원이라면?", options:[
-    { text:"국산 풀옵션! 가성비 끝판왕", score:2 },
-    { text:"국산 적당한 옵션 + 여유자금 남기기", score:1 },
-    { text:"수입 중고로 한 단계 높은 브랜드 경험", score:-1 },
-    { text:"더 모아서 진짜 원하는 프리미엄 차 사겠어", score:-2 },
+  { id:9, axis:"EP", question:"차량 유지비에 대한 당신의 기준은?", options:[
+    { text: "보험+주유+정비 월 20만원 이내로 맞출래", score: 2 },
+    { text: "합리적인 선에서, 너무 아끼진 않아", score: 1 },
+    { text: "좋은 타이어·엔진오일엔 투자하는 편", score: -1 },
+    { text: "공식 서비스센터, 순정 부품만 — 차는 관리가 전부야", score: -2 },
   ]},
-  { id:13, axis:"EP", question:"유지비에 대한 생각은?", options:[
-    { text:"유지비가 곧 실력, 최대한 아끼는 게 좋아", score:2 },
-    { text:"합리적인 선에서 관리하면 돼", score:1 },
-    { text:"편하고 좋은 서비스엔 투자할 의향 있어", score:-1 },
-    { text:"돈 쓸 때 쓰자, 좋은 부품과 서비스 우선", score:-2 },
+  { id:10, axis:"EP", question:"옵션을 고를 때 당신의 스타일은?", options:[
+    { text: "기본형이면 충분해, 나머진 가격만 올리는 마케팅", score: 2 },
+    { text: "안전 옵션만 추가, 나머진 있으면 좋고 없어도 OK", score: 1 },
+    { text: "편의 옵션(통풍시트, 헤드업디스플레이 등) 웬만한 건 넣고 싶어", score: -1 },
+    { text: "풀옵션 아니면 의미 없지, 후회하느니 다 넣는 게 낫지", score: -2 },
   ]},
-  { id:14, axis:"EP", question:"옵션을 고를 때 당신은?", options:[
-    { text:"기본형이면 충분해, 나머지는 사치", score:2 },
-    { text:"안전옵션만 추가하고 나머진 패스", score:1 },
-    { text:"편의옵션도 웬만한 건 다 넣고 싶어", score:-1 },
-    { text:"풀옵션 아니면 의미 없지", score:-2 },
-  ]},
-  { id:15, axis:"EP", question:"브랜드에 대한 생각은?", options:[
-    { text:"브랜드보다 실속! 좋으면 어디 차든 OK", score:2 },
-    { text:"검증된 국산 브랜드면 충분", score:1 },
-    { text:"프리미엄 브랜드의 감성이 좋더라", score:-1 },
-    { text:"타면 아는 브랜드 파워, 확실히 다르더라", score:-2 },
+  { id:11, axis:"EP", question:"실구매 예산(중고차 기준)은 어느 정도 생각하고 있어요?", options:[
+    { text: "1,000만원 이하 — 부담 없이 타고 싶어", score: 2 },
+    { text: "1,000~2,500만원 — 합리적인 선에서", score: 1 },
+    { text: "2,500~4,000만원 — 좋은 차 한 대 제대로", score: -1 },
+    { text: "4,000만원 이상 — 프리미엄은 기본이지", score: -2 },
   ]},
 
-  /* ═══ H vs T (기술 선호) — 5문항 ═══ */
-  { id:16, axis:"HT", question:"새 차에 꼭 있어야 하는 기능은?", options:[
-    { text:"자율주행 보조, OTA 업데이트, 차량용 AI", score:2 },
-    { text:"최신 ADAS + 큰 디스플레이면 충분", score:1 },
-    { text:"안전옵션만 확실하면 돼, 나머진 고장 원인", score:-1 },
-    { text:"기능 많으면 수리비만 올라가, 핵심만 있으면 됨", score:-2 },
+  /* ═══ H vs T (기술 선호) — 4문항 ═══ */
+  { id:12, axis:"HT", question:"다음 차를 산다면 파워트레인 선택은?", options:[
+    { text: "전기차 (EV) — 이미 시대는 전기야", score: 2 },
+    { text: "하이브리드 — 양쪽 장점을 다 가져가자", score: 1 },
+    { text: "가솔린/디젤 — 충전 걱정 없이 어디든 갈 수 있어", score: -1 },
+    { text: "검증된 내연기관이 10년 뒤에도 문제없어", score: -2 },
   ]},
-  { id:17, axis:"HT", question:"전기차에 대한 생각은?", options:[
-    { text:"전기차 시대는 이미 왔다, 당연히 EV", score:2 },
-    { text:"하이브리드로 장점만 취하는 게 현명해", score:1 },
-    { text:"충전 인프라가 더 깔리면 그때 갈아탈 예정", score:-1 },
-    { text:"어디서든 주유 가능한 내연기관이 현실적으로 편해", score:-2 },
+  { id:13, axis:"HT", question:"차에 AI 음성비서가 있어요. 당신의 반응은?", options:[
+    { text: "완전 활용! 내비·에어컨·음악 다 음성으로", score: 2 },
+    { text: "가끔 편할 때 쓰는 정도", score: 1 },
+    { text: "몇 번 써봤는데 버튼이 더 빠르더라", score: -1 },
+    { text: "끄는 법부터 찾았어, 오작동이 더 스트레스", score: -2 },
   ]},
-  { id:18, axis:"HT", question:"차량 고장이 났을 때?", options:[
-    { text:"원격 진단으로 서비스센터 예약까지 자동이면 좋겠어", score:2 },
-    { text:"앱으로 고장 코드 확인하고 예약하면 되지", score:1 },
-    { text:"동네 정비소에서 바로 고칠 수 있는 차가 좋아", score:-1 },
-    { text:"구조가 단순해서 어디서든 수리되는 게 최고", score:-2 },
+  { id:14, axis:"HT", question:"차가 고장났어요. 어떤 차가 더 안심이 돼요?", options:[
+    { text: "원격 진단 → 서비스센터 자동 예약되는 최신 시스템", score: 2 },
+    { text: "앱으로 고장 코드 확인하고 예약", score: 1 },
+    { text: "동네 정비소에서 바로 고칠 수 있는 구조", score: -1 },
+    { text: "단순한 구조라 어디서든 수리 가능한 게 최고", score: -2 },
   ]},
-  { id:19, axis:"HT", question:"10년 후에도 잘 굴러갈 차는?", options:[
-    { text:"소프트웨어 업데이트로 계속 진화하는 전기차", score:2 },
-    { text:"배터리 기술이 좋아지고 있으니 전기차 쪽이 유리", score:1 },
-    { text:"검증된 엔진은 20만km도 거뜬해, 내구성이 답", score:-1 },
-    { text:"부품 수급 쉽고 정비 인프라 많은 내연기관이 현실적", score:-2 },
-  ]},
-  { id:20, axis:"HT", question:"차를 고를 때 '기술'에 대한 기준은?", options:[
-    { text:"최신 기술 다 들어간 차가 미래 가치도 높아", score:2 },
-    { text:"핵심 신기술만 있으면 OK, 전부 다 필요하진 않아", score:1 },
-    { text:"검증 안 된 신기술보다 오래 쓰인 기술이 믿음직해", score:-1 },
-    { text:"단순하고 튼튼한 게 결국 돈 아끼는 길이야", score:-2 },
-  ]},
-
-  /* ═══ 보너스: 선호 가격대 (EP축 추가 반영) ═══ */
-  { id:21, axis:"EP", question:"실구매 예산(중고차 기준)은 어느 정도 생각하고 있어요?", options:[
-    { text:"1,000만원 이하 — 부담 없이 타고 싶어", score:2 },
-    { text:"1,000~2,500만원 — 합리적인 선에서", score:1 },
-    { text:"2,500~4,000만원 — 좋은 차 한 대 제대로", score:-1 },
-    { text:"4,000만원 이상 — 프리미엄은 기본이지", score:-2 },
+  { id:15, axis:"HT", question:"10년 뒤에도 잘 굴러갈 차는?", options:[
+    { text: "소프트웨어 업데이트로 계속 진화하는 전기차", score: 2 },
+    { text: "배터리 기술 발전 중이니 전기차 쪽이 유리", score: 1 },
+    { text: "검증된 엔진은 20만km도 거뜬, 내구성이 답", score: -1 },
+    { text: "부품 수급 쉽고 정비소 많은 내연기관이 현실적", score: -2 },
   ]},
 ];
 

@@ -24,7 +24,7 @@ function getAxisPercentages(scores: Record<string,number>) {
 }
 
 export default function CarMbtiPage() {
-  const [step, setStep] = useState(-1); /* -1=인트로, 0~20=질문, 21=결과 */
+  const [step, setStep] = useState(-1); /* -1=인트로, 0~14=질문, 15=결과 */
   const [scores, setScores] = useState<Record<string,number>>({ DC:0, SL:0, EP:0, HT:0 });
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<MbtiType|null>(null);
@@ -39,7 +39,7 @@ export default function CarMbtiPage() {
     }).catch(()=>setLoggedIn(false));
   }, []);
 
-  const totalQ = QUESTIONS.length; /* 21문항 */
+  const totalQ = QUESTIONS.length; /* 15문항 */
 
   const handleAnswer = (qIdx: number, optIdx: number) => {
     const q = QUESTIONS[qIdx];
@@ -127,7 +127,7 @@ export default function CarMbtiPage() {
               <div style={{position:"relative",zIndex:1}}>
                 <div style={{fontSize:48,marginBottom:16}}>🚗</div>
                 <h1 style={{fontSize:"clamp(24px,5vw,40px)",fontWeight:800,color:"white",marginBottom:12,wordBreak:"keep-all"}}>나의 차량 MBTI는?</h1>
-                <p style={{fontSize:15,color:"rgba(255,255,255,0.8)",fontWeight:400,lineHeight:1.8}}>20개 질문으로 알아보는 나만의 차량 유형<br/>16가지 유형 중 당신은 어디?</p>
+                <p style={{fontSize:15,color:"rgba(255,255,255,0.8)",fontWeight:400,lineHeight:1.8}}>15개 질문으로 알아보는 나만의 차량 유형<br/>16가지 유형 중 당신은 어디?</p>
               </div>
             </div>
             <div style={{maxWidth:600,margin:"0 auto",padding:"32px 24px 80px"}}>
@@ -151,7 +151,7 @@ export default function CarMbtiPage() {
                   <button onClick={()=>setStep(0)} style={{width:"100%",padding:"18px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:18,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
                     테스트 시작하기 <ArrowRight size={20}/>
                   </button>
-                  <p style={{textAlign:"center",fontSize:12,color:"#CCC",marginTop:12}}>약 3~4분 소요 · 총 21문항</p>
+                  <p style={{textAlign:"center",fontSize:12,color:"#CCC",marginTop:12}}>약 2~3분 소요 · 총 15문항</p>
                 </>
               ) : (
                 <div style={{textAlign:"center"}}>
