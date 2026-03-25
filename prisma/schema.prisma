@@ -27,6 +27,7 @@ model User {
   communityPosts    CommunityPost[]    @relation("CommunityPosts")
   communityComments CommunityComment[] @relation("CommunityComments")
   communityReports  CommunityReport[]  @relation("CommunityReports")
+  dealerReviews     DealerReview[]     @relation("DealerReviews")
   wishAlerts        WishAlert[]        @relation("WishAlerts")
   catalogReports    CatalogReport[]    @relation("CatalogReports")
   carScores         CarScore[]         @relation("CarScores")
@@ -52,6 +53,7 @@ model Dealer {
   verified  Boolean  @default(false)
   createdAt DateTime @default(now())
   cars      Car[]
+  reviews   DealerReview[]
 }
 
 model Car {
@@ -272,4 +274,16 @@ model UserMbti {
   budget     String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model DealerReview {
+  id        Int      @id @default(autoincrement())
+  dealerId  Int
+  dealer    Dealer   @relation(fields: [dealerId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation("DealerReviews", fields: [userId], references: [id])
+  rating    Int
+  content   String?  @db.Text
+  createdAt DateTime @default(now())
+  @@unique([dealerId, userId])
 }

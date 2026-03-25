@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import { BRAND_MODELS, CAR_SPECS, CAR_GRADES } from "@/data/catalog_data";
-import { Plus, X, ArrowLeftRight } from "lucide-react";
+import { Plus, X, ArrowLeftRight, Share2, Link2, MessageCircle } from "lucide-react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const bm = BRAND_MODELS as any;
@@ -18,6 +18,7 @@ const allModels = Object.entries(bm).flatMap(([brand, info]: [string, any]) =>
 export default function ComparePage() {
   const [selected, setSelected] = useState<string[]>(["", ""]);
   const [search, setSearch] = useState(["", ""]);
+  const [showShareMenu, setShowShareMenu] = useState(false);
 
   const setModel = (idx: number, name: string) => {
     const n = [...selected]; n[idx] = name; setSelected(n);
@@ -32,6 +33,28 @@ export default function ComparePage() {
     return allModels.filter(m => m.name.toLowerCase().includes(q) || m.brand.toLowerCase().includes(q)).slice(0, 10);
   };
 
+  /* ═══ 공유 기능 ═══ */
+  const selectedNames = selected.filter(Boolean);
+  const shareText = selectedNames.length >= 2
+    ? `[픽스카 차량비교] ${selectedNames.join(" vs ")} — 어떤 차가 더 좋을까?`
+    : "";
+  const shareUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/compare?cars=${encodeURIComponent(selectedNames.join(","))}`
+    : "https://www.fixcar.kr/compare";
+
+  const handleShare = (type: "native" | "kakao" | "copy") => {
+    setShowShareMenu(false);
+    if (type === "native" && navigator.share) {
+      navigator.share({ title: shareText, text: shareText, url: shareUrl }).catch(() => {});
+    } else if (type === "kakao") {
+      const kakaoUrl = `https://sharer.kakao.com/talk/friends/picker/link?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+      window.open(kakaoUrl, "_blank", "width=500,height=600");
+    } else {
+      navigator.clipboard?.writeText(`${shareText}\n${shareUrl}`);
+      alert("비교 링크가 복사되었습니다!");
+    }
+  };
+
   const ROWS: { label: string; key: string; format?: (v: any) => string }[] = [
     { label: "세그먼트", key: "segment" },
     { label: "차체", key: "bodyType" },
@@ -39,7 +62,7 @@ export default function ComparePage() {
     { label: "배기량", key: "cc", format: v => v ? `${v.toLocaleString()}cc` : "-" },
     { label: "변속기", key: "transmission" },
     { label: "구동방식", key: "drivetrain" },
-    { label: "0→100km/h", key: "zeroToHundred", format: v => v ? `${String(v).replace(/초/g,"")}초` : "-" },
+    { label: "0→100km/h", key: "zeroToHundred", format: v => v ? `${String(v).replace(/초/g, "")}초` : "-" },
     { label: "공차중량", key: "weight", format: v => v ? `${v.toLocaleString()}kg` : "-" },
     { label: "전장", key: "length", format: v => v ? `${v.toLocaleString()}mm` : "-" },
     { label: "전폭", key: "width", format: v => v ? `${v.toLocaleString()}mm` : "-" },
@@ -54,9 +77,34 @@ export default function ComparePage() {
       <Navbar />
       <div style={{ minHeight: "100vh", background: "#F0EEE9" }}>
         <div style={{ background: "#1A1A1A", padding: "44px 24px 36px" }}>
-          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-            <div style={{ fontFamily: "'Bebas Neue',serif", fontSize: 12, letterSpacing: 4, color: "#FF3B1E", marginBottom: 6 }}>COMPARE</div>
-            <h1 style={{ fontSize: 28, fontWeight: 800, color: "white" }}><ArrowLeftRight size={22} style={{ verticalAlign: "middle", marginRight: 8 }} />차량 비교</h1>
+          <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+            <div>
+              <div style={{ fontFamily: "'Bebas Neue',serif", fontSize: 12, letterSpacing: 4, color: "#FF3B1E", marginBottom: 6 }}>COMPARE</div>
+              <h1 style={{ fontSize: 28, fontWeight: 800, color: "white" }}><ArrowLeftRight size={22} style={{ verticalAlign: "middle", marginRight: 8 }} />차량 비교</h1>
+            </div>
+            {/* 공유 버튼 */}
+            {selectedNames.length >= 2 && (
+              <div style={{ position: "relative" }}>
+                <button onClick={() => setShowShareMenu(!showShareMenu)} style={{ padding: "10px 18px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 10, color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif", display: "flex", alignItems: "center", gap: 6 }}>
+                  <Share2 size={14} /> 비교 공유
+                </button>
+                {showShareMenu && (
+                  <div style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, background: "white", borderRadius: 14, padding: 6, boxShadow: "0 8px 32px rgba(0,0,0,0.15)", minWidth: 180, zIndex: 100 }}>
+                    <button onClick={() => handleShare("kakao")} style={{ width: "100%", padding: "10px 14px", border: "none", background: "transparent", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "'NanumSquareRound',sans-serif" }}>
+                      <MessageCircle size={14} color="#FEE500" /> 카카오톡 공유
+                    </button>
+                    <button onClick={() => handleShare("copy")} style={{ width: "100%", padding: "10px 14px", border: "none", background: "transparent", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "'NanumSquareRound',sans-serif" }}>
+                      <Link2 size={14} color="#888" /> 링크 복사
+                    </button>
+                    {typeof navigator !== "undefined" && navigator.share && (
+                      <button onClick={() => handleShare("native")} style={{ width: "100%", padding: "10px 14px", border: "none", background: "transparent", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "'NanumSquareRound',sans-serif" }}>
+                        <Share2 size={14} color="#0066FF" /> 더보기
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -98,9 +146,8 @@ export default function ComparePage() {
           </div>
 
           {/* 비교 테이블 */}
-          {selected.filter(Boolean).length >= 2 && (
+          {selectedNames.length >= 2 && (
             <div style={{ background: "white", borderRadius: 18, overflow: "hidden" }}>
-              {/* 가격 행 */}
               <div style={{ display: "grid", gridTemplateColumns: `140px repeat(${selected.length},1fr)`, borderBottom: "2px solid #F0EEE9" }}>
                 <div style={{ padding: "16px", fontSize: 13, fontWeight: 800, background: "#F8F7F4" }}>신차 가격</div>
                 {selected.map((name, i) => {
@@ -109,14 +156,12 @@ export default function ComparePage() {
                   return <div key={i} style={{ padding: "16px", fontSize: 15, fontWeight: 800, color: "#FF3B1E", textAlign: "center" }}>{lo ? `${lo.toLocaleString()}${hi && hi !== lo ? `~${hi.toLocaleString()}` : ""}만` : "-"}</div>;
                 })}
               </div>
-              {/* 스펙 행 */}
               {ROWS.map(row => (
                 <div key={row.key} style={{ display: "grid", gridTemplateColumns: `140px repeat(${selected.length},1fr)`, borderBottom: "1px solid #F0EEE9" }}>
                   <div style={{ padding: "12px 16px", fontSize: 12, fontWeight: 700, color: "#888", background: "#FAFAF8" }}>{row.label}</div>
                   {selected.map((name, i) => {
                     const s = specs[name]; const val = s?.[row.key];
                     const display = row.format ? row.format(val) : (val || "-");
-                    /* 최고값 하이라이트 */
                     const numericVals = selected.map(n => { const sp = specs[n]; return Number(sp?.[row.key]) || 0; });
                     const maxVal = Math.max(...numericVals);
                     const isMax = Number(val) > 0 && Number(val) === maxVal && numericVals.filter(v => v === maxVal).length === 1;
