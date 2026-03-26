@@ -63,7 +63,6 @@ const nextConfig: NextConfig = {
 
   /* ── 빌드 설정 ── */
   typescript:   { ignoreBuildErrors: false },
-  eslint:       { ignoreDuringBuilds: false },
 
   /* ── 압축 ── */
   compress: true,
