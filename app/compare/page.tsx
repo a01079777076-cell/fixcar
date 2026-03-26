@@ -96,7 +96,7 @@ export default function ComparePage() {
                     <button onClick={() => handleShare("copy")} style={{ width: "100%", padding: "10px 14px", border: "none", background: "transparent", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "'NanumSquareRound',sans-serif" }}>
                       <Link2 size={14} color="#888" /> 링크 복사
                     </button>
-                    {typeof navigator !== "undefined" && navigator.share && (
+                    {typeof navigator !== "undefined" && typeof navigator.share === "function" && (
                       <button onClick={() => handleShare("native")} style={{ width: "100%", padding: "10px 14px", border: "none", background: "transparent", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#333", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "'NanumSquareRound',sans-serif" }}>
                         <Share2 size={14} color="#0066FF" /> 더보기
                       </button>
