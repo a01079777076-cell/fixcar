@@ -4,9 +4,10 @@ import { prisma } from "@/lib/prisma";
 /* GET /api/cars/[id] — 단건 조회 + 조회수 +1 */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = Number(params.id);
+  const { id: rawId } = await params;
+  const id = Number(rawId);
   if (isNaN(id)) return NextResponse.json({ error: "잘못된 ID" }, { status: 400 });
 
   try {
