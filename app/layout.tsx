@@ -4,6 +4,7 @@ import BottomTabBar from "@/components/BottomTabBar";
 import PortOneScript from "@/components/PortOneScript";
 import WelcomePopup from "@/components/WelcomePopup";
 import Providers from "@/components/Providers";
+import FaqChatbot from "@/components/FaqChatbot";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-XXXXXXXXXX";
 const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || "";
@@ -11,8 +12,8 @@ const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || "";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.fixcar.kr"),
   title: { default:"픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다", template:"%s | 픽스카 FIXCAR" },
-  description: "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차.",
-  keywords: ["광주 중고차","광주 중고차 직거래","픽스카","FIXCAR","중고차 정찰제","광주 자동차","중고차 구매","FIX 가격","무사고 중고차","아반떼 중고차","K3 중고차","투싼 중고차","전기차 중고","광주 딜러","중고차 할부"],
+  description: "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차. 무사고 인증, 허위매물 ZERO.",
+  keywords: ["광주 중고차","광주 중고차 직거래","픽스카","FIXCAR","중고차 정찰제","광주 자동차","중고차 구매","FIX 가격","무사고 중고차","아반떼 중고차","K3 중고차","투싼 중고차","전기차 중고","광주 딜러","중고차 할부","중고차 검수","광주 매매단지"],
   authors: [{ name:"픽스카 FIXCAR", url:"https://www.fixcar.kr" }],
   creator: "픽스카 FIXCAR",
   publisher: "픽스카 FIXCAR",
@@ -53,14 +54,23 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           "@context": "https://schema.org",
           "@type": "AutoDealer",
           "name": "픽스카 FIXCAR",
-          "description": "광주 1위 중고차 정찰제 플랫폼",
+          "description": "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 검수 인증 중고차.",
           "url": "https://www.fixcar.kr",
           "logo": "https://www.fixcar.kr/favicon.svg",
-          "address": { "@type":"PostalAddress", "addressLocality":"광주광역시", "addressCountry":"KR" },
-          "areaServed": "광주광역시",
-          "priceRange": "500만원~",
+          "address": { "@type":"PostalAddress", "addressLocality":"광주광역시", "addressRegion":"광주", "addressCountry":"KR" },
+          "areaServed": { "@type":"City", "name":"광주광역시" },
+          "priceRange": "$$",
           "openingHours": "Mo-Su 00:00-24:00",
+          "telephone": "",
+          "email": "help@fixcar.kr",
           "sameAs": ["https://www.fixcar.kr"],
+        })}} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "픽스카 FIXCAR",
+          "url": "https://www.fixcar.kr",
+          "potentialAction": { "@type":"SearchAction", "target":{ "@type":"EntryPoint", "urlTemplate":"https://www.fixcar.kr/cars?search={search_term_string}" }, "query-input":"required name=search_term_string" },
         })}} />
       </head>
       <body>
@@ -69,6 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <BottomTabBar />
           <PortOneScript />
           <WelcomePopup />
+          <FaqChatbot />
         </Providers>
       </body>
     </html>

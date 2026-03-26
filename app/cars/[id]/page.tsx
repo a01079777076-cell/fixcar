@@ -1,3 +1,4 @@
+import SimilarCars from "@/components/SimilarCars";
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
@@ -46,6 +47,7 @@ export default function CarDetailPage() {
     setSending(false);
   };
 
+{car&&<SimilarCars carId={String(car.id)} brand={car.brand} price={car.price} fuel={car.fuel}/>}
   if(loading) return <><Navbar/><div style={{textAlign:"center",padding:100,color:"#CCC"}}>로딩 중...</div></>;
   if(!car) return <><Navbar/><div style={{textAlign:"center",padding:100}}><div style={{fontSize:48,marginBottom:12}}>🚗</div><h2 style={{fontSize:20,fontWeight:800}}>매물을 찾을 수 없어요</h2><Link href="/cars" style={{color:"#FF3B1E",fontWeight:700,marginTop:12,display:"inline-block"}}>매물 보러가기 →</Link></div></>;
 
