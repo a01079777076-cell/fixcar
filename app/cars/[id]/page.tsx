@@ -1,4 +1,3 @@
-import SimilarCars from "@/components/SimilarCars";
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
@@ -7,6 +6,7 @@ import { useParams } from "next/navigation";
 import { Heart, MessageSquare, Phone, MapPin, Shield, ChevronLeft, Share2, AlertTriangle, Check, Award, Star, Clock } from "lucide-react";
 import ShareButtons from "@/components/ShareButtons";
 import { saveRecentCar } from "@/components/RecentCars";
+import SimilarCars from "@/components/SimilarCars";
 
 export default function CarDetailPage() {
   const { id } = useParams();
@@ -47,7 +47,6 @@ export default function CarDetailPage() {
     setSending(false);
   };
 
-{car&&<SimilarCars carId={String(car.id)} brand={car.brand} price={car.price} fuel={car.fuel}/>}
   if(loading) return <><Navbar/><div style={{textAlign:"center",padding:100,color:"#CCC"}}>로딩 중...</div></>;
   if(!car) return <><Navbar/><div style={{textAlign:"center",padding:100}}><div style={{fontSize:48,marginBottom:12}}>🚗</div><h2 style={{fontSize:20,fontWeight:800}}>매물을 찾을 수 없어요</h2><Link href="/cars" style={{color:"#FF3B1E",fontWeight:700,marginTop:12,display:"inline-block"}}>매물 보러가기 →</Link></div></>;
 
@@ -70,7 +69,6 @@ export default function CarDetailPage() {
             <div>
               <div style={{borderRadius:20,overflow:"hidden",background:"#E8E6E1",aspectRatio:"4/3",marginBottom:12,position:"relative"}}>
                 {images[mainImg]?<img src={images[mainImg]} alt={car.name} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:60,opacity:0.2}}>🚗</div>}
-                {/* 검수 인증 배지 */}
                 {car.inspected&&(
                   <div style={{position:"absolute",top:12,left:12,display:"flex",alignItems:"center",gap:5,background:"rgba(45,138,82,0.9)",borderRadius:100,padding:"6px 12px",backdropFilter:"blur(4px)"}}>
                     <Award size={13} color="white"/>
@@ -102,7 +100,6 @@ export default function CarDetailPage() {
                 <div style={{fontSize:12,color:"#AAA",marginTop:4}}>월 {Math.round(car.price*0.7/36)}만원 (36개월 할부 기준)</div>
               </div>
 
-              {/* ═══ 딜러 정보 카드 (인증 배지 포함) ═══ */}
               {dealer&&(
                 <Link href={`/shops/${dealer.id}`}>
                   <div style={{background:"white",borderRadius:18,padding:"18px 20px",marginBottom:16,display:"flex",alignItems:"center",gap:14,cursor:"pointer",border:"1px solid #E8E6E1",transition:"all 0.15s"}}>
@@ -125,7 +122,6 @@ export default function CarDetailPage() {
                 </Link>
               )}
 
-              {/* 스펙 */}
               <div style={{background:"white",borderRadius:18,padding:"20px",marginBottom:16}}>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
                   {[{l:"연식",v:`${car.year}년`},{l:"주행거리",v:`${car.mileage?.toLocaleString()}km`},{l:"연료",v:car.fuel},{l:"변속기",v:car.transmission},{l:"색상",v:car.color},{l:"소유자",v:`${car.owners||1}인`},{l:"배기량",v:car.cc?`${car.cc}cc`:"-"},{l:"지역",v:car.region}].map(s=>(
@@ -136,7 +132,6 @@ export default function CarDetailPage() {
                 </div>
               </div>
 
-              {/* 옵션 */}
               {options.length>0&&(
                 <div style={{background:"white",borderRadius:18,padding:"20px",marginBottom:16}}>
                   <div style={{fontSize:14,fontWeight:800,marginBottom:10}}>옵션</div>
@@ -146,7 +141,6 @@ export default function CarDetailPage() {
                 </div>
               )}
 
-              {/* 액션 버튼 */}
               <div style={{display:"flex",gap:8,marginBottom:12}}>
                 <button onClick={toggleFav} style={{flex:1,padding:"16px",background:isFav?"#FFF0ED":"white",border:isFav?"2px solid #FF3B1E":"1.5px solid #E0DDD7",borderRadius:14,fontSize:15,fontWeight:800,color:isFav?"#FF3B1E":"#888",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8,fontFamily:"'NanumSquareRound',sans-serif"}}><Heart size={18} fill={isFav?"#FF3B1E":"none"}/>{isFav?"찜 완료":"찜하기"}</button>
                 <button onClick={()=>setShowInquiry(!showInquiry)} style={{flex:1,padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:15,fontWeight:800,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8,fontFamily:"'NanumSquareRound',sans-serif"}}><MessageSquare size={18}/>문의하기</button>
@@ -164,6 +158,9 @@ export default function CarDetailPage() {
               <button onClick={sendInquiry} disabled={sending} style={{width:"100%",padding:"16px",background:sending?"#CCC":"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:sending?"wait":"pointer",marginTop:12,fontFamily:"'NanumSquareRound',sans-serif"}}>{sending?"전송 중...":"문의 보내기"}</button>
             </div>
           )}
+
+          {/* 유사 매물 추천 */}
+          <SimilarCars carId={String(car.id)} brand={car.brand} price={car.price} fuel={car.fuel}/>
         </div>
       </div>
     </>
