@@ -2,216 +2,268 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const SLIDES = [
   {
-    id: 1,
-    type: "image" as const,
-    bg: "",
-    image: "/mainbanner.png",
+    id: 1, type: "image" as const, bg: "", image: "/mainbanner.png",
     badge: "광주 No.1",
     title: "나, 이 차로 픽했어, 픽스카",
     subtitle: "데이터기반 고객맞춤으로 추천부터,",
     desc: <>대기하면 <span style={{background:"rgba(255,203,30,0.3)",padding:"1px 6px",borderRadius:4,color:"rgb(255,230,60)",fontWeight:800}}>💛 카톡 알람으로</span> 안내까지!</>,
-    cta: "매물 보러가기",
-    href: "/cars",
-    overlay: "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.65))",
+    cta: "매물 보러가기", href: "/cars",
   },
   {
-    id: 2,
-    type: "color" as const,
-    bg: "linear-gradient(135deg, #0f3460 0%, #1A1A2E 100%)",
-    image: "",
+    id: 2, type: "color" as const, bg: "linear-gradient(135deg,#0f3460 0%,#1A1A2E 100%)", image: "",
     badge: "NEW AI",
     title: "광주 첫 상륙! 딜러님, 오픈기념 무료로 촬영, 매물 올려드릴게요",
     subtitle: "오픈 프로모션 무료등록 · 광주 AI 1위 플랫폼",
     desc: <>찾아가서 매물등록까지 한번에 다 해드립니다.<br/><span style={{color:"rgba(255,255,255,0.5)"}}>전화주세요! 010-0000-4989</span></>,
-    cta: "딜러 등록하기",
-    href: "/dealer/apply",
-    overlay: "",
+    cta: "딜러 등록하기", href: "/dealer/apply",
   },
   {
-    id: 3,
-    type: "color" as const,
-    bg: "linear-gradient(135deg, #FF3B1E 0%, #C41E08 100%)",
-    image: "",
+    id: 3, type: "color" as const, bg: "linear-gradient(135deg,#FF3B1E 0%,#C41E08 100%)", image: "",
     badge: "FIX",
     title: "FIX 정찰가, 흥정 없이 편하게",
     subtitle: "표시 가격이 곧 최종 가격. 숨은 비용 0원",
     desc: <>모든 매물은 100항목 직접 검수 완료. <span style={{color:"rgba(255,255,255,0.6)"}}>3일 이내 환불 보장.</span></>,
-    cta: "매물 보러가기",
-    href: "/cars",
-    overlay: "",
+    cta: "매물 보러가기", href: "/cars",
   },
   {
-    id: 4,
-    type: "color" as const,
-    bg: "linear-gradient(135deg, #1A1A1A 0%, #2D1A2E 100%)",
-    image: "",
+    id: 4, type: "color" as const, bg: "linear-gradient(135deg,#1A1A1A 0%,#2D1A2E 100%)", image: "",
     badge: "개인거래 대행 서비스",
     title: "개인거래 하시나요? 전문가에게 부탁하세요!",
     subtitle: "매년 직거래 사기 피해 수천 건.",
     desc: <>딜러에게 믿고 맡겨보세요.<br/><span style={{color:"rgba(255,255,255,0.5)"}}>계약서 작성 · 명의이전 · 차량 상태 확인까지</span></>,
-    cta: "거래대행 서비스 구경하기",
-    href: "/agent",
-    overlay: "",
+    cta: "거래대행 서비스 구경하기", href: "/agent",
   },
   {
-    id: 5,
-    type: "color" as const,
-    bg: "linear-gradient(135deg, #0055FF 0%, #0099FF 100%)",
-    image: "",
-    badge: "공개 경매",
-    title: "광주니까, 부르면 바로 가니까,",
-    subtitle: "광주 공개 입찰 경매시스템. 빠르게, 지역경제 활성화",
-    desc: <>비공개 경매, 일반인은 막상 오니 가격 깎여서 속상하고, 정직한 딜러는 일단 비싸게 부르고 깎고보는 비양심 딜러한테 지쳤어요.<br/><span style={{color:"rgba(255,255,255,0.6)"}}>일반인은 터무니 없는 감가 피하고, 정직한 딜러는 합당한 가격에</span></>,
-    cta: "공개 입찰경매 보러가기",
-    href: "/auction",
-    overlay: "",
+    id: 5, type: "color" as const, bg: "linear-gradient(135deg,#0055FF 0%,#0099FF 100%)", image: "",
+    badge: "DEALER",
+    title: "딜러님, 픽스카에서 매물 올려보세요",
+    subtitle: "오픈 프로모션 무료등록 · 광주 1위 플랫폼",
+    desc: <>광주 지역 중고차 딜러라면 지금 바로 신청하세요.<br/><span style={{color:"rgba(255,255,255,0.6)"}}>매물 등록부터 고객 문의까지 한 곳에서!</span></>,
+    cta: "딜러 신청하기", href: "/dealer/apply",
   },
 ];
 
-const INTERVAL = 5000; // 5초
+const INTERVAL  = 5000;
+const SNAP_THRESHOLD = 80; /* px — 이 이상 드래그하면 페이지 전환 */
 
 export default function HomeCarousel() {
   const [current,  setCurrent]  = useState(0);
-  const [paused,   setPaused]   = useState(false);
   const [progress, setProgress] = useState(0);
+  const [paused,   setPaused]   = useState(false);
 
-  /* 마우스 드래그 */
+  /* 트랙 위치 (translateX %) */
+  const [offset,   setOffset]   = useState(0);   /* -100 ~ +100, 드래그 중 실시간 */
+  const [animate,  setAnimate]  = useState(true); /* 트랜지션 ON/OFF */
+
   const dragStartX  = useRef(0);
   const isDragging  = useRef(false);
+  const trackWidth  = useRef(0);
+  const trackRef    = useRef<HTMLDivElement>(null);
 
-  /* 터치 */
-  const touchStartX = useRef(0);
+  const N = SLIDES.length;
 
-  const next = useCallback(() => { setCurrent(p => (p + 1) % SLIDES.length); setProgress(0); }, []);
-  const prev = useCallback(() => { setCurrent(p => (p - 1 + SLIDES.length) % SLIDES.length); setProgress(0); }, []);
-  const goTo = (i: number) => { setCurrent(i); setProgress(0); };
+  /* ── 슬라이드 전환 (모션 포함) ── */
+  const goTo = useCallback((next: number, dir: "left"|"right"|"jump" = "left") => {
+    const target = ((next % N) + N) % N;
+    setAnimate(true);
+    setOffset(dir === "left" ? -100 : dir === "right" ? 100 : 0);
+    /* 트랜지션 후 실제 인덱스 교체 */
+    setTimeout(() => {
+      setAnimate(false);
+      setCurrent(target);
+      setOffset(0);
+      requestAnimationFrame(() => {
+        setAnimate(true);
+      });
+      setProgress(0);
+    }, 320);
+  }, [N]);
 
-  /* 자동 슬라이드 + 게이지 */
+  const next = useCallback(() => goTo(current + 1, "left"),  [current, goTo]);
+  const prev = useCallback(() => goTo(current - 1, "right"), [current, goTo]);
+
+  /* ── 자동 슬라이드 + 게이지 ── */
   useEffect(() => {
     if (paused) return;
     setProgress(0);
-    const step   = 50; // ms
-    const total  = INTERVAL;
-    let elapsed  = 0;
-    const timer  = setInterval(() => {
+    const step = 50;
+    let elapsed = 0;
+    const timer = setInterval(() => {
       elapsed += step;
-      setProgress(Math.min((elapsed / total) * 100, 100));
-      if (elapsed >= total) { next(); }
+      setProgress(Math.min((elapsed / INTERVAL) * 100, 100));
+      if (elapsed >= INTERVAL) next();
     }, step);
     return () => clearInterval(timer);
   }, [paused, current, next]);
 
-  /* 마우스 드래그 핸들러 */
+  /* ── 마우스 드래그 ── */
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
     dragStartX.current = e.clientX;
+    trackWidth.current = trackRef.current?.offsetWidth || window.innerWidth;
+    setAnimate(false);
+    setPaused(true);
   };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    const diff = e.clientX - dragStartX.current;
+    const pct  = (diff / trackWidth.current) * 100;
+    /* 저항감: 양 끝에서 당길 때 절반만 따라오게 */
+    setOffset(Math.max(-60, Math.min(60, pct)));
+  };
+
   const onMouseUp = (e: React.MouseEvent) => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    const diff = dragStartX.current - e.clientX;
-    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
-  };
-  const onMouseLeaveHandler = (e: React.MouseEvent) => {
-    if (isDragging.current) {
-      isDragging.current = false;
-      const diff = dragStartX.current - e.clientX;
-      if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
-    }
+    const diff = e.clientX - dragStartX.current;
+    setAnimate(true);
+    if (diff < -SNAP_THRESHOLD)       { setOffset(0); next(); }
+    else if (diff > SNAP_THRESHOLD)   { setOffset(0); prev(); }
+    else                              { setOffset(0); }
     setPaused(false);
   };
 
-  /* 터치 핸들러 */
-  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
-  const onTouchEnd   = (e: React.TouchEvent) => {
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+  const onMouseLeave = (e: React.MouseEvent) => {
+    if (isDragging.current) onMouseUp(e as React.MouseEvent);
+    setPaused(false);
   };
 
-  const slide = SLIDES[current];
+  /* ── 터치 드래그 ── */
+  const touchStartX = useRef(0);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    trackWidth.current  = trackRef.current?.offsetWidth || window.innerWidth;
+    setAnimate(false);
+    setPaused(true);
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    const diff = e.touches[0].clientX - touchStartX.current;
+    const pct  = (diff / trackWidth.current) * 100;
+    setOffset(Math.max(-60, Math.min(60, pct)));
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const diff = e.changedTouches[0].clientX - touchStartX.current;
+    setAnimate(true);
+    if (diff < -SNAP_THRESHOLD)     { setOffset(0); next(); }
+    else if (diff > SNAP_THRESHOLD) { setOffset(0); prev(); }
+    else                            { setOffset(0); }
+    setPaused(false);
+  };
+
+  /* 이전/다음 슬라이드 인덱스 */
+  const prevIdx = ((current - 1) + N) % N;
+  const nextIdx = (current + 1) % N;
+
+  const BANNER_H = "clamp(340px,45vw,520px)";
 
   return (
     <div style={{ position:"relative", overflow:"hidden" }}>
-      {/* ══ 배너 영역 ══ */}
+      {/* ══ 트랙 (3장 나란히 — 이전/현재/다음) ══ */}
       <div
+        ref={trackRef}
         onMouseEnter={() => setPaused(true)}
-        onMouseLeave={onMouseLeaveHandler}
+        onMouseLeave={onMouseLeave}
         onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         style={{
-          height: "clamp(340px,45vw,520px)",
-          position: "relative", overflow: "hidden",
-          display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column",
-          textAlign: "center", padding: "40px 20px 80px",
-          background: slide.type === "color" ? slide.bg : undefined,
-          transition: "background 0.6s ease",
-          cursor: "grab",
+          display: "flex",
+          width: "300%",  /* 3 슬라이드 너비 */
+          height: BANNER_H,
+          transform: `translateX(calc(-33.333% + ${offset}%))`,
+          transition: animate ? "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)" : "none",
+          cursor: isDragging.current ? "grabbing" : "grab",
           userSelect: "none",
+          willChange: "transform",
         }}
       >
-        {/* 배경 이미지 */}
-        {slide.type === "image" && slide.image && (
-          <Image src={slide.image} alt="픽스카 메인배너" fill priority sizes="100vw" style={{ objectFit:"cover", zIndex:0, pointerEvents:"none" }}/>
-        )}
-        {(slide.overlay || slide.type === "image") && (
-          <div style={{ position:"absolute", inset:0, background:slide.overlay||"linear-gradient(to bottom,rgba(0,0,0,0.35),rgba(0,0,0,0.6))", zIndex:1, pointerEvents:"none" }}/>
-        )}
+        {[prevIdx, current, nextIdx].map((idx, pos) => {
+          const s = SLIDES[idx];
+          return (
+            <div
+              key={`${pos}-${idx}`}
+              style={{
+                width: "33.333%",
+                height: "100%",
+                position: "relative",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexDirection: "column", textAlign: "center",
+                padding: "40px 20px 80px",
+                background: s.type === "color" ? s.bg : undefined,
+                flexShrink: 0,
+              }}
+            >
+              {/* 배경 이미지 */}
+              {s.type === "image" && s.image && (
+                <Image src={s.image} alt={s.title} fill sizes="100vw" style={{ objectFit:"cover", zIndex:0, pointerEvents:"none" }} priority={pos === 1}/>
+              )}
+              {/* 오버레이 */}
+              {s.type === "image" && (
+                <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,rgba(0,0,0,0.3),rgba(0,0,0,0.65))", zIndex:1, pointerEvents:"none" }}/>
+              )}
 
-        {/* 콘텐츠 */}
-        <div style={{ position:"relative", zIndex:2, pointerEvents:"none" }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.15)", backdropFilter:"blur(8px)", borderRadius:100, padding:"6px 18px", marginBottom:16 }}>
-            <span style={{ fontSize:12, fontWeight:800, color:"white", letterSpacing:1 }}>{slide.badge}</span>
-          </div>
-          <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(22px,4vw,46px)", fontWeight:400, color:"white", lineHeight:1.2, letterSpacing:-1, marginBottom:10, maxWidth:700, wordBreak:"keep-all" }}>
-            {slide.title}
-          </h1>
-          <p style={{ fontSize:"clamp(13px,1.8vw,16px)", color:"rgba(255,255,255,0.8)", fontWeight:600, marginBottom:6, wordBreak:"keep-all" }}>
-            {slide.subtitle}
-          </p>
-          <p style={{ fontSize:"clamp(12px,1.4vw,14px)", color:"rgba(255,255,255,0.65)", lineHeight:1.8, marginBottom:24, wordBreak:"keep-all" }}>
-            {slide.desc}
-          </p>
-          <div style={{ pointerEvents:"auto" }}>
-            <Link href={slide.href}>
-              <button style={{ padding:"13px 28px", background:"white", color:"#1A1A1A", border:"none", borderRadius:12, fontSize:"clamp(13px,1.5vw,15px)", fontWeight:800, cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif", display:"inline-flex", alignItems:"center", gap:8 }}>
-                {slide.cta} <ArrowRight size={15}/>
-              </button>
-            </Link>
-          </div>
+              {/* 콘텐츠 */}
+              <div style={{ position:"relative", zIndex:2, pointerEvents: pos === 1 ? "auto" : "none" }}>
+                <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.15)", backdropFilter:"blur(8px)", borderRadius:100, padding:"6px 18px", marginBottom:16 }}>
+                  <span style={{ fontSize:12, fontWeight:800, color:"white", letterSpacing:1 }}>{s.badge}</span>
+                </div>
+                <h1 style={{ fontFamily:"'Black Han Sans',sans-serif", fontSize:"clamp(20px,3.5vw,44px)", fontWeight:400, color:"white", lineHeight:1.2, letterSpacing:-1, marginBottom:10, maxWidth:680, wordBreak:"keep-all" }}>
+                  {s.title}
+                </h1>
+                <p style={{ fontSize:"clamp(12px,1.6vw,15px)", color:"rgba(255,255,255,0.8)", fontWeight:600, marginBottom:6, wordBreak:"keep-all" }}>
+                  {s.subtitle}
+                </p>
+                <p style={{ fontSize:"clamp(11px,1.3vw,13px)", color:"rgba(255,255,255,0.6)", lineHeight:1.8, marginBottom:22, wordBreak:"keep-all" }}>
+                  {s.desc}
+                </p>
+                {pos === 1 && (
+                  <Link href={s.href}>
+                    <button style={{ padding:"12px 26px", background:"white", color:"#1A1A1A", border:"none", borderRadius:12, fontSize:"clamp(13px,1.4vw,15px)", fontWeight:800, cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif", display:"inline-flex", alignItems:"center", gap:8 }}>
+                      {s.cta} <ArrowRight size={14}/>
+                    </button>
+                  </Link>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ══ 좌우 화살표 ══ */}
+      <button
+        onClick={prev}
+        style={{ position:"absolute", left:16, top:"50%", transform:"translateY(-50%)", width:44, height:44, borderRadius:"50%", border:"none", background:"rgba(255,255,255,0.15)", color:"white", fontSize:22, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", zIndex:10, backdropFilter:"blur(4px)" }}
+      >‹</button>
+      <button
+        onClick={next}
+        style={{ position:"absolute", right:16, top:"50%", transform:"translateY(-50%)", width:44, height:44, borderRadius:"50%", border:"none", background:"rgba(255,255,255,0.15)", color:"white", fontSize:22, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", zIndex:10, backdropFilter:"blur(4px)" }}
+      >›</button>
+
+      {/* ══ 인디케이터 + 게이지바 (배너 내부 하단) ══ */}
+      <div style={{ position:"absolute", bottom:16, left:0, right:0, zIndex:10, display:"flex", alignItems:"center", justifyContent:"center", gap:12, padding:"0 60px" }}>
+        <div style={{ display:"flex", gap:6, alignItems:"center" }}>
+          {SLIDES.map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => { setAnimate(true); setCurrent(i); setProgress(0); }}
+              style={{ width:i===current?20:6, height:6, borderRadius:100, border:"none", background:i===current?"white":"rgba(255,255,255,0.4)", cursor:"pointer", transition:"all 0.3s", padding:0, flexShrink:0 }}
+            />
+          ))}
         </div>
-
-        {/* 좌우 화살표 */}
-        <button onClick={prev} style={{ position:"absolute", left:16, top:"50%", transform:"translateY(-50%)", width:44, height:44, borderRadius:"50%", border:"none", background:"rgba(255,255,255,0.15)", color:"white", fontSize:22, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", zIndex:3, backdropFilter:"blur(4px)", pointerEvents:"auto" }}>‹</button>
-        <button onClick={next} style={{ position:"absolute", right:16, top:"50%", transform:"translateY(-50%)", width:44, height:44, borderRadius:"50%", border:"none", background:"rgba(255,255,255,0.15)", color:"white", fontSize:22, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", zIndex:3, backdropFilter:"blur(4px)", pointerEvents:"auto" }}>›</button>
-
-        {/* ══ 인디케이터 + 게이지바 — 배너 내부 하단 ══ */}
-        <div style={{ position:"absolute", bottom:16, left:0, right:0, zIndex:4, display:"flex", alignItems:"center", justifyContent:"center", gap:12, padding:"0 60px", pointerEvents:"auto" }}>
-          {/* 슬라이드 점 */}
-          <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-            {SLIDES.map((s, i) => (
-              <button
-                key={s.id}
-                onClick={() => goTo(i)}
-                style={{ width:i===current?20:6, height:6, borderRadius:100, border:"none", background:i===current?"white":"rgba(255,255,255,0.4)", cursor:"pointer", transition:"all 0.3s", padding:0, flexShrink:0 }}
-              />
-            ))}
-          </div>
-
-          {/* 진행 게이지바 — 오른쪽 하단 */}
-          <div style={{ flex:1, maxWidth:120, height:3, background:"rgba(255,255,255,0.25)", borderRadius:100, overflow:"hidden", marginLeft:"auto" }}>
-            <div style={{ height:"100%", width:`${progress}%`, background:"white", borderRadius:100, transition:"width 0.05s linear" }}/>
-          </div>
-
-          {/* 슬라이드 카운터 */}
-          <div style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.6)", whiteSpace:"nowrap" }}>
-            {current + 1} / {SLIDES.length}
-          </div>
+        {/* 게이지바 */}
+        <div style={{ flex:1, maxWidth:120, height:3, background:"rgba(255,255,255,0.25)", borderRadius:100, overflow:"hidden", marginLeft:"auto" }}>
+          <div style={{ height:"100%", width:`${progress}%`, background:"white", borderRadius:100, transition:"width 0.05s linear" }}/>
+        </div>
+        <div style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.6)", whiteSpace:"nowrap" }}>
+          {current + 1} / {SLIDES.length}
         </div>
       </div>
     </div>
