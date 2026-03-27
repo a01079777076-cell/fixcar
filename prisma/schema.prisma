@@ -12,7 +12,10 @@ model User {
   email             String   @unique
   name              String
   nickname          String?
+  nicknameDealer    String?
+  nicknameAdmin     String?
   nicknameChangedAt DateTime?
+  birthdate         String?
   phone             String?
   role              Role     @default(USER)
   provider          String   @default("email")
