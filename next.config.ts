@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: next.config.ts
+// ═══════════════════════════════════════════════════
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -31,7 +34,7 @@ const nextConfig: NextConfig = {
       {
         source: "/sw.js",
         headers: [
-          { key: "Cache-Control",     value: "public, max-age=0, must-revalidate" },
+          { key: "Cache-Control",          value: "public, max-age=0, must-revalidate" },
           { key: "Service-Worker-Allowed", value: "/" },
         ],
       },
@@ -40,10 +43,7 @@ const nextConfig: NextConfig = {
 
   /* ── 이미지 최적화 ── */
   images: {
-    /* WebP / AVIF 자동 변환 */
     formats: ["image/avif", "image/webp"],
-
-    /* 외부 이미지 도메인 허용 */
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
@@ -51,27 +51,21 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: "k.kakaocdn.net" },
     ],
-
-    /* 반응형 이미지 크기 힌트 */
-    deviceSizes:    [375, 430, 640, 768, 1024, 1280, 1360, 1920],
-    imageSizes:     [16, 32, 48, 64, 96, 128, 256],
-
-    /* 외부 SVG 허용 */
-    dangerouslyAllowSVG: true,
+    deviceSizes:           [375, 430, 640, 768, 1024, 1280, 1360, 1920],
+    imageSizes:            [16, 32, 48, 64, 96, 128, 256],
+    dangerouslyAllowSVG:   true,
     contentDispositionType: "attachment",
   },
 
   /* ── 빌드 설정 ── */
-  typescript:   { ignoreBuildErrors: false },
+  typescript: { ignoreBuildErrors: false },
 
   /* ── 압축 ── */
   compress: true,
 
-  /* ── 실험적 기능 ── */
-  experimental: {
-    /* 서버 컴포넌트 외부 패키지 (Prisma) */
-    serverComponentsExternalPackages: ["@prisma/client"],
-  },
+  /* ── 서버 외부 패키지 (Prisma) ── */
+  /* Next.js 15+ 에서 experimental.serverComponentsExternalPackages → 최상위로 이동 */
+  serverExternalPackages: ["@prisma/client"],
 };
 
 export default nextConfig;
