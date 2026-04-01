@@ -24,8 +24,9 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline' https://hangeul.pstatic.net https://fonts.googleapis.com",
               "font-src 'self' https://hangeul.pstatic.net https://fonts.gstatic.com",
               "img-src 'self' data: blob: https: http:",
-              "connect-src 'self' https://kauth.kakao.com https://kapi.kakao.com https://www.google-analytics.com https://*.portone.io",
+              "connect-src 'self' https://res.cloudinary.com https://api.cloudinary.com https://kauth.kakao.com https://kapi.kakao.com https://www.google-analytics.com https://*.portone.io",
               "frame-src 'self' https://*.portone.io https://kauth.kakao.com",
+              "worker-src 'self'",
             ].join("; "),
           },
         ],
@@ -64,7 +65,6 @@ const nextConfig: NextConfig = {
   compress: true,
 
   /* ── 서버 외부 패키지 (Prisma) ── */
-  /* Next.js 15+ 에서 experimental.serverComponentsExternalPackages → 최상위로 이동 */
   serverExternalPackages: ["@prisma/client"],
 };
 

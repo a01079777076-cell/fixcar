@@ -511,7 +511,7 @@ export default function DealerCarsNewPage() {
   const [draftLoaded, setDraftLoaded] = useState(false);
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
 
-  /* 마운트 시 임시저장 확인 */
+  /* 마운트 시 임시저장 확인 + 딜러 연락처 로드 */
   useEffect(() => {
     try {
       const saved = localStorage.getItem(DRAFT_KEY);
@@ -520,6 +520,12 @@ export default function DealerCarsNewPage() {
       if (sc) setSavedComment(sc);
     } catch {}
     setDraftLoaded(true);
+    /* 딜러 프로필에서 연락처 자동 로드 */
+    fetch("/api/dealer/profile").then(r=>r.json()).then(d=>{
+      const p = d?.data || d;
+      if (p?.shopPhone && !contactPhone) setContactPhone(p.shopPhone);
+      if (p?.phoneLand && !contactLand) setContactLand(p.phoneLand || "");
+    }).catch(()=>{});
   }, []);
 
   /* 임시저장 불러오기 */
@@ -1218,8 +1224,9 @@ export default function DealerCarsNewPage() {
             <div>
               {/* ── 연락처 ── */}
               <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
-                <h2 style={{fontSize:18,fontWeight:800,marginBottom:20}}>📞 연락처</h2>
-                <div style={{fontSize:12,color:"#AAA",marginBottom:14}}>* 선택하신 연락처는 050 안심번호로 대체되어 노출됩니다.</div>
+                <h2 style={{fontSize:18,fontWeight:800,marginBottom:4}}>📞 연락처</h2>
+                <div style={{fontSize:12,color:"#AAA",marginBottom:14}}>* 딜러 프로필에 등록된 연락처가 자동으로 입력됩니다. 수정을 원하시면 <a href="/dealer/profile" style={{color:"#0066FF",fontWeight:700,textDecoration:"underline"}}>딜러 관리페이지</a>에서 진행해주세요.</div>
+                <div style={{fontSize:11,color:"#888",marginBottom:14}}>* 선택하신 연락처는 050 안심번호로 대체되어 노출됩니다.</div>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
                   <div>
                     <label style={labelS}>휴대전화</label>

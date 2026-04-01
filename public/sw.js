@@ -1,7 +1,7 @@
-/* ─── 픽스카 Service Worker v1.0 ─── */
-const CACHE_NAME = 'fixcar-v1.0';
+/* ─── 픽스카 Service Worker v1.1 ─── */
+/* CSP 이슈 수정: Cloudinary 이미지 fetch 시 SW가 가로채지 않고 브라우저에 위임 */
+const CACHE_NAME = 'fixcar-v1.1';
 
-/* 앱 셸 사전 캐시 */
 const PRECACHE_URLS = [
   '/',
   '/cars',
@@ -10,41 +10,41 @@ const PRECACHE_URLS = [
   '/offline',
 ];
 
-/* ── Install: 앱 셸 캐시 ── */
+/* ── Install ── */
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
-      cache.addAll(PRECACHE_URLS).catch(() => {/* 실패해도 SW 설치 계속 */})
+      cache.addAll(PRECACHE_URLS).catch(() => {})
     )
   );
   self.skipWaiting();
 });
 
-/* ── Activate: 구버전 캐시 정리 ── */
+/* ── Activate ── */
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((k) => k !== CACHE_NAME)
-          .map((k) => caches.delete(k))
-      )
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
-/* ── Fetch: 전략 분기 ── */
+/* ── Fetch ── */
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  /* 1. API 요청 → Network First (캐시 fallback) */
+  /* ★ 외부 도메인 (Cloudinary 등) → SW가 가로채지 않고 브라우저에 위임 */
+  if (url.origin !== self.location.origin) {
+    return; /* event.respondWith를 호출하지 않으면 브라우저 기본 동작 */
+  }
+
+  /* 1. API 요청 → Network First */
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(request)
         .then((res) => {
-          /* 성공한 GET 응답만 캐시 */
           if (request.method === 'GET' && res.ok) {
             const clone = res.clone();
             caches.open(CACHE_NAME).then((c) => c.put(request, clone));
@@ -56,24 +56,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  /* 2. Cloudinary 이미지 → Cache First */
-  if (url.hostname === 'res.cloudinary.com') {
-    event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) return cached;
-        return fetch(request).then((res) => {
-          if (res.ok) {
-            const clone = res.clone();
-            caches.open(CACHE_NAME).then((c) => c.put(request, clone));
-          }
-          return res;
-        });
-      })
-    );
-    return;
-  }
-
-  /* 3. Next.js 정적 파일 (_next/static) → Cache First */
+  /* 2. Next.js 정적 파일 → Cache First */
   if (url.pathname.startsWith('/_next/static/')) {
     event.respondWith(
       caches.match(request).then((cached) => {
@@ -88,7 +71,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  /* 4. HTML 페이지 → Stale-While-Revalidate */
+  /* 3. HTML 페이지 → Stale-While-Revalidate */
   if (request.mode === 'navigate') {
     event.respondWith(
       caches.match(request).then((cached) => {
@@ -106,7 +89,7 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-/* ── Push 알림 (추후 확장용) ── */
+/* ── Push 알림 ── */
 self.addEventListener('push', (event) => {
   if (!event.data) return;
   try {

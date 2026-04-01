@@ -343,7 +343,7 @@ export default function CarsPage(){
                           <div style={{fontSize:13,color:"#888",fontWeight:400,marginBottom:8}}>
                             {String(car.year).slice(2)}/{String(car.year).slice(2)}년식 · {car.mileage?.toLocaleString()}km · {cf}{car.region?" · "+car.region:""}
                           </div>
-                          {car.description&&(<div style={{fontSize:12,color:"#AAA",fontWeight:400,marginBottom:8,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" as const}}>{car.description}</div>)}
+                          {car.description&&(<div style={{fontSize:12,color:"#AAA",fontWeight:400,marginBottom:8,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" as const}}>{car.description.replace(/\[성능점검데이터\][\s\S]*/,"").trim()}</div>)}
                           {/* ═══ 자동 라벨 + 태그 ═══ */}
                           <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                             {autoLabels.map(lb=>(<span key={lb.text} style={{background:lb.bg,color:lb.color,padding:"3px 10px",borderRadius:100,fontSize:11,fontWeight:700}}>{lb.text}</span>))}

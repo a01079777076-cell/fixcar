@@ -267,7 +267,7 @@ export default function CarDetailClient() {
               {car.description && (
                 <div style={{ background: "white", borderRadius: 18, padding: "20px", marginBottom: 16 }}>
                   <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 8 }}>📋 딜러 설명</div>
-                  <p style={{ fontSize: 13, color: "#555", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{car.description}</p>
+                  <p style={{ fontSize: 13, color: "#555", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{car.description.replace(/\[성능점검데이터\][\s\S]*/,"").trim()}</p>
                 </div>
               )}
 
