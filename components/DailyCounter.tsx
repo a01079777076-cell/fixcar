@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: components/DailyCounter.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import { useState, useEffect } from "react";
 
@@ -16,7 +19,7 @@ export default function DailyCounter() {
     fetch("/api/stats/activity", { cache: "no-store" })
       .then(r => r.json())
       .then(d => { setCount(d.activeUsers || 0); if (d.monthly) setMonthly(d.monthly); })
-      .catch(() => setCount(300));
+      .catch(() => setCount(0));
   }, []);
 
   useEffect(() => {

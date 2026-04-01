@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: components/HomeCarousel.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
@@ -47,40 +50,40 @@ const SLIDES = [
   },
 ];
 
-const INTERVAL  = 5000;
-const SNAP_THRESHOLD = 80; /* px — 이 이상 드래그하면 페이지 전환 */
+const INTERVAL       = 5000;
+const SNAP_THRESHOLD = 80;      /* px — 이 이상 드래그하면 페이지 전환 */
+const SLIDE_PCT      = 100 / 3; /* ≈ 33.333 — track 기준 1슬라이드 이동량 */
+const DRAG_MAX       = SLIDE_PCT * 1.5; /* 드래그 저항 한계 (~50%) */
+const TRANSITION_MS  = 350;
 
 export default function HomeCarousel() {
   const [current,  setCurrent]  = useState(0);
   const [progress, setProgress] = useState(0);
   const [paused,   setPaused]   = useState(false);
 
-  /* 트랙 위치 (translateX %) */
-  const [offset,   setOffset]   = useState(0);   /* -100 ~ +100, 드래그 중 실시간 */
-  const [animate,  setAnimate]  = useState(true); /* 트랜지션 ON/OFF */
+  /* 트랙 위치 (translateX % — track 기준) */
+  const [offset,   setOffset]   = useState(0);
+  const [animate,  setAnimate]  = useState(true);
 
-  const dragStartX  = useRef(0);
-  const isDragging  = useRef(false);
-  const trackWidth  = useRef(0);
-  const trackRef    = useRef<HTMLDivElement>(null);
+  const dragStartX     = useRef(0);
+  const isDragging     = useRef(false);
+  const containerWidth = useRef(0); /* 뷰포트(컨테이너) 폭 px */
+  const trackRef       = useRef<HTMLDivElement>(null);
 
   const N = SLIDES.length;
 
-  /* ── 슬라이드 전환 (모션 포함) ── */
+  /* ── 슬라이드 전환 (버튼 / 자동재생 용) ── */
   const goTo = useCallback((next: number, dir: "left"|"right"|"jump" = "left") => {
     const target = ((next % N) + N) % N;
     setAnimate(true);
-    setOffset(dir === "left" ? -100 : dir === "right" ? 100 : 0);
-    /* 트랜지션 후 실제 인덱스 교체 */
+    setOffset(dir === "left" ? -SLIDE_PCT : dir === "right" ? SLIDE_PCT : 0);
     setTimeout(() => {
       setAnimate(false);
       setCurrent(target);
       setOffset(0);
-      requestAnimationFrame(() => {
-        setAnimate(true);
-      });
+      requestAnimationFrame(() => setAnimate(true));
       setProgress(0);
-    }, 320);
+    }, TRANSITION_MS);
   }, [N]);
 
   const next = useCallback(() => goTo(current + 1, "left"),  [current, goTo]);
@@ -100,59 +103,90 @@ export default function HomeCarousel() {
     return () => clearInterval(timer);
   }, [paused, current, next]);
 
+  /* ── 컨테이너 폭 → 드래그 비율 계산용 ── */
+  const measureContainer = () => {
+    const trackPx = trackRef.current?.offsetWidth || window.innerWidth * 3;
+    containerWidth.current = trackPx / 3;
+  };
+
+  /* ── 드래그 → offset 변환 (컨테이너 100% = SLIDE_PCT) ── */
+  const pxToTrackPct = (px: number) =>
+    (px / containerWidth.current) * SLIDE_PCT;
+
+  /* ── 드래그 해제 → 스냅 (현재 위치에서 이어서 애니메이션) ── */
+  const snapTo = (dir: "next" | "prev" | "reset") => {
+    if (dir === "reset") {
+      setAnimate(true);
+      setOffset(0);
+      setPaused(false);
+      return;
+    }
+    /* 1) transition 프로퍼티만 켜기 (같은 offset → 시각 변화 없음) */
+    setAnimate(true);
+    /* 2) 다음 프레임에서 목표 offset 설정 → 드래그 위치에서 자연스럽게 이어짐 */
+    requestAnimationFrame(() => {
+      setOffset(dir === "next" ? -SLIDE_PCT : SLIDE_PCT);
+    });
+    /* 3) 트랜지션 완료 후 인덱스 교체 + offset 초기화 */
+    setTimeout(() => {
+      setAnimate(false);
+      setCurrent(p => dir === "next" ? (p + 1) % N : ((p - 1) + N) % N);
+      setOffset(0);
+      requestAnimationFrame(() => setAnimate(true));
+      setProgress(0);
+      setPaused(false);
+    }, TRANSITION_MS + 30); /* rAF 지연분 보상 */
+  };
+
   /* ── 마우스 드래그 ── */
   const onMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
     dragStartX.current = e.clientX;
-    trackWidth.current = trackRef.current?.offsetWidth || window.innerWidth;
+    measureContainer();
     setAnimate(false);
     setPaused(true);
   };
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (!isDragging.current) return;
-    const diff = e.clientX - dragStartX.current;
-    const pct  = (diff / trackWidth.current) * 100;
-    /* 저항감: 양 끝에서 당길 때 절반만 따라오게 */
-    setOffset(Math.max(-60, Math.min(60, pct)));
+    const pct = pxToTrackPct(e.clientX - dragStartX.current);
+    setOffset(Math.max(-DRAG_MAX, Math.min(DRAG_MAX, pct)));
   };
 
   const onMouseUp = (e: React.MouseEvent) => {
     if (!isDragging.current) return;
     isDragging.current = false;
     const diff = e.clientX - dragStartX.current;
-    setAnimate(true);
-    if (diff < -SNAP_THRESHOLD)       { setOffset(0); next(); }
-    else if (diff > SNAP_THRESHOLD)   { setOffset(0); prev(); }
-    else                              { setOffset(0); }
-    setPaused(false);
+    if (diff < -SNAP_THRESHOLD)      snapTo("next");
+    else if (diff > SNAP_THRESHOLD)  snapTo("prev");
+    else                              snapTo("reset");
   };
 
   const onMouseLeave = (e: React.MouseEvent) => {
-    if (isDragging.current) onMouseUp(e as React.MouseEvent);
+    if (isDragging.current) onMouseUp(e);
     setPaused(false);
   };
 
   /* ── 터치 드래그 ── */
   const touchStartX = useRef(0);
+
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
-    trackWidth.current  = trackRef.current?.offsetWidth || window.innerWidth;
+    measureContainer();
     setAnimate(false);
     setPaused(true);
   };
+
   const onTouchMove = (e: React.TouchEvent) => {
-    const diff = e.touches[0].clientX - touchStartX.current;
-    const pct  = (diff / trackWidth.current) * 100;
-    setOffset(Math.max(-60, Math.min(60, pct)));
+    const pct = pxToTrackPct(e.touches[0].clientX - touchStartX.current);
+    setOffset(Math.max(-DRAG_MAX, Math.min(DRAG_MAX, pct)));
   };
+
   const onTouchEnd = (e: React.TouchEvent) => {
     const diff = e.changedTouches[0].clientX - touchStartX.current;
-    setAnimate(true);
-    if (diff < -SNAP_THRESHOLD)     { setOffset(0); next(); }
-    else if (diff > SNAP_THRESHOLD) { setOffset(0); prev(); }
-    else                            { setOffset(0); }
-    setPaused(false);
+    if (diff < -SNAP_THRESHOLD)      snapTo("next");
+    else if (diff > SNAP_THRESHOLD)  snapTo("prev");
+    else                              snapTo("reset");
   };
 
   /* 이전/다음 슬라이드 인덱스 */
@@ -176,10 +210,10 @@ export default function HomeCarousel() {
         onTouchEnd={onTouchEnd}
         style={{
           display: "flex",
-          width: "300%",  /* 3 슬라이드 너비 */
+          width: "300%",
           height: BANNER_H,
-          transform: `translateX(calc(-33.333% + ${offset}%))`,
-          transition: animate ? "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)" : "none",
+          transform: `translateX(${-SLIDE_PCT + offset}%)`,
+          transition: animate ? `transform ${TRANSITION_MS}ms cubic-bezier(0.25,0.46,0.45,0.94)` : "none",
           cursor: isDragging.current ? "grabbing" : "grab",
           userSelect: "none",
           willChange: "transform",

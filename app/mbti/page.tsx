@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/mbti/page.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
@@ -127,7 +130,7 @@ export default function CarMbtiPage() {
               <div style={{position:"relative",zIndex:1}}>
                 <div style={{fontSize:48,marginBottom:16}}>🚗</div>
                 <h1 style={{fontSize:"clamp(24px,5vw,40px)",fontWeight:800,color:"white",marginBottom:12,wordBreak:"keep-all"}}>나의 차량 MBTI는?</h1>
-                <p style={{fontSize:15,color:"rgba(255,255,255,0.8)",fontWeight:400,lineHeight:1.8}}>15개 질문으로 알아보는 나만의 차량 유형<br/>16가지 유형 중 당신은 어디?</p>
+                <p style={{fontSize:15,color:"rgba(255,255,255,0.8)",fontWeight:400,lineHeight:1.8}}>내가 무슨 차 있는지도 잘 모른다!<br/>나에게 맞는 차 유형 찾기</p>
               </div>
             </div>
             <div style={{maxWidth:600,margin:"0 auto",padding:"32px 24px 80px"}}>

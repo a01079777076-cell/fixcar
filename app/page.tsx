@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/page.tsx
+// ═══════════════════════════════════════════════════
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import DailyCounter from "@/components/DailyCounter";
@@ -55,7 +58,7 @@ export default async function Home() {
      변경: 랭킹, 블로그, 커뮤니티, 카탈로그, 경매, 32강   */
   const contentBanners = [
     { bgImg:"/icon/main_ranking_button.png",   title:"자동차 랭킹",          subtitle:"세상 모든 차량 순위",     desc:"최고가·저주행·초보추천 랭킹표 전체",              href:"/ranking",   color:"#FF3B1E", bg:"#FFF0ED" },
-    { bgImg:"/icon/main_blog_button.png",       title:"픽스카 블로그",         subtitle:"차량관리, 소모품, 필수꿀템", desc:"차량 필수템부터, 관리 노하우 모음",             href:"/blog",      color:"#2D8A52", bg:"#EAF6EF" },
+    { bgImg:"/icon/main_blog_button.png",       title:"유용한 정보",         subtitle:"차량관리, 소모품, 필수꿀템", desc:"차량 필수템부터, 관리 노하우 모음",             href:"/blog",      color:"#2D8A52", bg:"#EAF6EF" },
     { bgImg:"/icon/main_community_button.png",  title:"커뮤니티",              subtitle:"소식들 올릴 수 있는 곳",   desc:"구매후기·질문답변·정비정보·사진자랑 자유게시판",   href:"/community", color:"#CC6633", bg:"#FFF5ED" },
     { bgImg:"/icon/main_catalog_button.png",    title:"차량 카탈로그",         subtitle:"전세계 차량을 연도별로",   desc:"카탈로그 옵션, 출고가 다 모았어요. 자동차세·보험까지!", href:"/catalog",   color:"#1847FF", bg:"#EEF2FF" },
     { bgImg:"/icon/main_auction_button.png",    title:"내 차 경매로 팔기!",   subtitle:"딜러에게 공개 입찰 경매",  desc:"내 차량을 딜러에게 공개 입찰 경매로 투명하게",     href:"/auction",   color:"#E8A020", bg:"#FFF8EC" },
@@ -162,7 +165,7 @@ export default async function Home() {
               <div style={{ width:48, height:48, background:"rgba(255,255,255,0.15)", borderRadius:14, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:18 }}><Zap size={24} color="white"/></div>
               <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"clamp(32px,5vw,48px)", color:"#fff", letterSpacing:3, marginBottom:10 }}>PICK</div>
               <div style={{ fontSize:"clamp(16px,2.5vw,24px)", fontWeight:600, color:"rgba(255,255,255,0.95)", marginBottom:14, wordBreak:"keep-all" }}>중고차, 잘 모르시다면 차량 MBTI 3분 검사</div>
-              <p style={{ fontSize:"clamp(13px,1.5vw,15px)", color:"rgba(255,255,255,0.78)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>차량 MBTI 테스트 · 12문항<br/>나에게 맞는 차 유형 찾기</p>
+              <p style={{ fontSize:"clamp(13px,1.5vw,15px)", color:"rgba(255,255,255,0.78)", lineHeight:1.85, fontWeight:400, wordBreak:"keep-all" }}>차량 MBTI 테스트 · 12문항<br/>내가 무슨 차 있는지도 잘 모른다! 나에게 맞는 차 유형 찾기</p>
               <a href="/mbti" style={{ display:"inline-flex", alignItems:"center", gap:6, marginTop:18, background:"rgba(255,255,255,0.2)", color:"white", padding:"10px 20px", borderRadius:100, fontSize:13, fontWeight:800 }}>나한테 맞는 차 MBTI 하러가기 <ArrowRight size={14}/></a>
             </div>
             <div className="pickfix-inner" style={{ background:"linear-gradient(135deg,#3060FF 0%,#1338E0 60%,#0A25B8 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
@@ -334,7 +337,7 @@ export default async function Home() {
         <footer style={{ background:"#fff", borderTop:"1px solid #E8E6E1" }}>
           <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"48px clamp(16px,4vw,32px) 40px" }}>
             <div style={{ display:"flex", flexWrap:"wrap", gap:8, alignItems:"center", paddingBottom:24, borderBottom:"1px solid #E8E6E1", marginBottom:24 }}>
-              {[{label:"회사소개",href:"/about",bold:false},{label:"딜러 신청",href:"/dealer/apply",bold:false},{label:"이용약관",href:"/terms",bold:false},{label:"개인정보 처리방침",href:"/privacy",bold:true},{label:"고객센터",href:"/contact",bold:false},{label:"블로그",href:"/blog",bold:false},{label:"자주 묻는 질문",href:"/faq",bold:false}].map((item,i)=>(
+              {[{label:"회사소개",href:"/about",bold:false},{label:"딜러 신청",href:"/dealer/apply",bold:false},{label:"이용약관",href:"/terms",bold:false},{label:"개인정보 처리방침",href:"/privacy",bold:true},{label:"고객센터",href:"/contact",bold:false},{label:"유용한 정보",href:"/blog",bold:false},{label:"자주 묻는 질문",href:"/faq",bold:false}].map((item,i)=>(
                 <span key={item.label} style={{ display:"flex", alignItems:"center", gap:8 }}>
                   <a href={item.href} style={{ fontSize:"clamp(12px,1.5vw,14px)", fontWeight:item.bold?800:400, color:"#333", textDecoration:"none" }}>{item.label}</a>
                   {i<6&&<span style={{ color:"#E0DDD7" }}>|</span>}
