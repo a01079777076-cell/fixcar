@@ -28,6 +28,7 @@ export default function CarDetailClient() {
   const [reportCategory, setReportCategory] = useState("");
   const [reportReason, setReportReason] = useState("");
   const [reportSending, setReportSending] = useState(false);
+  const [expandedGuide, setExpandedGuide] = useState<string|null>(null);
 
   useEffect(() => {
     fetch(`/api/cars/${id}`).then(r => r.json()).then(d => {
@@ -85,26 +86,31 @@ export default function CarDetailClient() {
             </div>
           </div>
 
-          {/* ═══ 사진 갤러리 ═══ */}
-          <div style={{ display: "grid", gridTemplateColumns: images.length > 1 ? "1fr 160px" : "1fr", gap: 6, marginBottom: 12, borderRadius: 20, overflow: "hidden" }}>
-            <div style={{ position: "relative", aspectRatio: "4/3", background: "#E8E6E1", cursor: "pointer" }} onClick={() => setShowAllPhotos(true)}>
+          {/* ═══ 사진 갤러리 (엔카 비율) ═══ */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 220px", gap: 4, marginBottom: 12, borderRadius: 16, overflow: "hidden" }}>
+            <div style={{ position: "relative", aspectRatio: "16/10", background: "#E8E6E1", cursor: "pointer" }} onClick={() => setShowAllPhotos(true)}>
               {images[mainImg] ? <img src={images[mainImg]} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
               {images.length > 1 && <>
-                <button onClick={e => { e.stopPropagation(); goImg(-1); }} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 40, height: 40, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.4)", color: "white", fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
-                <button onClick={e => { e.stopPropagation(); goImg(1); }} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", width: 40, height: 40, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.4)", color: "white", fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
+                <button onClick={e => { e.stopPropagation(); goImg(-1); }} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
+                <button onClick={e => { e.stopPropagation(); goImg(1); }} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
               </>}
               {car.inspected && <div style={{ position: "absolute", top: 12, left: 12, display: "flex", alignItems: "center", gap: 5, background: "rgba(45,138,82,0.9)", borderRadius: 100, padding: "6px 12px" }}><Award size={13} color="white" /><span style={{ fontSize: 11, fontWeight: 800, color: "white" }}>FIXCAR 검수 완료</span></div>}
               <div style={{ position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)", background: "rgba(0,0,0,0.5)", color: "white", fontSize: 12, fontWeight: 700, padding: "4px 14px", borderRadius: 100 }}>{mainImg + 1} / {images.length}</div>
               {images.length > 1 && <button onClick={e => { e.stopPropagation(); setShowAllPhotos(true); }} style={{ position: "absolute", bottom: 12, right: 12, background: "rgba(0,0,0,0.5)", color: "white", border: "none", borderRadius: 100, padding: "6px 14px", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5 }}><ImageIcon size={12} /> 사진 모두보기</button>}
             </div>
-            {sideImgs.length > 0 && <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {sideImgs.map((img: string, i: number) => (
-                <div key={i} onClick={() => setMainImg(i + 1)} style={{ flex: 1, overflow: "hidden", cursor: "pointer", position: "relative", minHeight: 0 }}>
-                  <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                  {i === sideImgs.length - 1 && images.length > 5 && <div onClick={e => { e.stopPropagation(); setShowAllPhotos(true); }} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "white", cursor: "pointer" }}><ImageIcon size={18} /><span style={{ fontSize: 11, fontWeight: 700, marginTop: 4 }}>+{images.length - 5}장</span></div>}
-                </div>
-              ))}
-            </div>}
+            {/* 오른쪽 사이드 사진 (항상 표시) */}
+            <div style={{ display: "grid", gridTemplateRows: "repeat(4,1fr)", gap: 4 }}>
+              {[0, 1, 2, 3].map(i => {
+                const img = images[i + 1];
+                const isLast = i === 3 && images.length > 5;
+                return (
+                  <div key={i} onClick={() => img ? setMainImg(i + 1) : setShowAllPhotos(true)} style={{ overflow: "hidden", cursor: "pointer", position: "relative", background: "#E8E6E1", minHeight: 0 }}>
+                    {img ? <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.15, fontSize: 24 }}>📷</div>}
+                    {isLast && <div onClick={e => { e.stopPropagation(); setShowAllPhotos(true); }} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "white", cursor: "pointer" }}><span style={{ fontSize: 12, fontWeight: 700 }}>+ 사진 모두보기</span></div>}
+                  </div>
+                );
+              })}
+            </div>
           </div>
           {images.length > 1 && <div style={{ display: "flex", gap: 6, overflowX: "auto", marginBottom: 20, paddingBottom: 4 }}>
             {images.map((img: string, i: number) => <button key={i} onClick={() => setMainImg(i)} style={{ width: 64, height: 48, borderRadius: 8, overflow: "hidden", border: i === mainImg ? "3px solid #FF3B1E" : "2px solid transparent", cursor: "pointer", flexShrink: 0, padding: 0, background: "none" }}><img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></button>)}
@@ -137,8 +143,8 @@ export default function CarDetailClient() {
               <div style={{ fontSize: 13, color: "#888", marginBottom: 20 }}>{car.year}년식 · {car.mileage?.toLocaleString()}km · {car.fuel} · {car.transmission}</div>
 
               {/* 탭 네비 */}
-              <div style={{ display: "flex", borderBottom: "2px solid #E8E6E1", marginBottom: 0, position: "sticky", top: 0, background: "#F0EEE9", zIndex: 5, paddingTop: 4 }}>
-                {TABS.map(t => <button key={t.id} onClick={() => setDetailTab(t.id)} style={{ padding: "12px 18px", border: "none", background: "transparent", fontSize: 14, fontWeight: detailTab === t.id ? 800 : 500, color: detailTab === t.id ? "#1A1A1A" : "#AAA", borderBottom: detailTab === t.id ? "3px solid #FF3B1E" : "3px solid transparent", cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif", marginBottom: -2 }}>{t.label}</button>)}
+              <div style={{ display: "flex", gap: 0, borderBottom: "2px solid #E8E6E1", marginBottom: 0, position: "sticky", top: 0, background: "#F0EEE9", zIndex: 5, paddingTop: 4 }}>
+                {TABS.map(t => <button key={t.id} onClick={() => setDetailTab(t.id)} style={{ padding: "14px 20px", border: "none", background: detailTab === t.id ? "white" : "transparent", fontSize: 14, fontWeight: detailTab === t.id ? 800 : 600, color: detailTab === t.id ? "#FF3B1E" : "#888", borderBottom: detailTab === t.id ? "3px solid #FF3B1E" : "3px solid transparent", borderTop: detailTab === t.id ? "1px solid #E8E6E1" : "1px solid transparent", borderLeft: detailTab === t.id ? "1px solid #E8E6E1" : "1px solid transparent", borderRight: detailTab === t.id ? "1px solid #E8E6E1" : "1px solid transparent", borderRadius: detailTab === t.id ? "8px 8px 0 0" : 0, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif", marginBottom: -2, transition: "all 0.15s" }}>{t.label}</button>)}
               </div>
 
               {/* 기본정보 */}
@@ -301,6 +307,47 @@ export default function CarDetailClient() {
           </div>}
 
           <SimilarCars carId={String(car.id)} brand={car.brand} price={car.price} fuel={car.fuel} />
+
+          {/* ═══ 모델 리뷰 ═══ */}
+          <div style={{ background: "white", borderRadius: 20, padding: "28px 24px", marginTop: 24 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>모델 리뷰</div>
+            <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 20 }}>{car.brand} {car.name}<br/><span style={{ color: "#888", fontWeight: 400, fontSize: 13 }}>이런게 걱정되세요?</span></div>
+            {[
+              { q: `${car.name}${car.fuel === "전기" ? " 충전 인프라는 충분한가요?" : " 연비가 좋은 편인가요?"}`, a: car.fuel === "전기" ? "전기차 충전 인프라는 매년 빠르게 확충되고 있습니다. 고속도로 휴게소와 대형마트 등에 급속 충전기가 설치되어 있어 장거리 주행도 문제 없습니다. 자택 충전기 설치 시 월 전기요금은 2~3만원 수준입니다." : `${car.name}의 실연비는 도심 기준 약 10~14km/L 수준입니다. 운전 습관과 도로 상황에 따라 차이가 있으며, 고속도로에서는 더 좋은 연비를 기대할 수 있습니다.` },
+              { q: `중고 ${car.name} 승차감은 어떤가요?`, a: `${car.brand}의 서스펜션 세팅은 안정감과 편안함의 균형이 좋다는 평가가 많습니다. 중고차 구매 시에는 서스펜션 부싱, 쇼바 상태를 반드시 확인하시는 것이 좋습니다.` },
+              { q: `중고로 구매하면 혜택을 어떻게 받나요?`, a: car.fuel === "전기" ? "중고 전기차 구매 시에도 취득세 감면 혜택이 적용됩니다. 다만 보조금은 신차에만 지급되므로, 그만큼 중고 가격이 저렴하게 형성됩니다. 충전 카드 할인 등 운영 혜택은 동일하게 이용 가능합니다." : "중고차 구매 시 취등록세는 차량 가격의 약 7% 수준입니다. 경차는 취등록세 감면, 하이브리드는 일부 세금 혜택이 있습니다. 딜러에게 정확한 이전 비용을 문의하세요." },
+              { q: `${car.fuel === "전기" ? "배터리 수명이 걱정돼요" : "유지비가 많이 드나요?"}`, a: car.fuel === "전기" ? "전기차 배터리는 보통 16만km 또는 10년 보증을 제공합니다. SOH(배터리 건강도)를 확인하면 잔여 수명을 알 수 있습니다. 구매 전 SOH 리포트를 요청하세요." : `정기 점검(엔진오일, 필터류)은 1만km마다 약 10~15만원 수준입니다. 타이어, 브레이크 패드 등 소모품은 주행 상황에 따라 다릅니다. ${car.mileage && car.mileage > 100000 ? "주행거리가 높으므로 소모품 교체 이력을 반드시 확인하세요." : "주행거리가 적어 당분간 큰 유지비 부담은 없을 것으로 예상됩니다."}` },
+            ].map((item, i) => (
+              <div key={i} style={{ borderBottom: "1px solid #F0EEE9" }}>
+                <button onClick={() => setExpandedGuide(expandedGuide === `review_${i}` ? null : `review_${i}`)} style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif", textAlign: "left" }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: "#333" }}>{item.q}</span>
+                  <span style={{ fontSize: 18, color: "#CCC", transform: expandedGuide === `review_${i}` ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>⌄</span>
+                </button>
+                {expandedGuide === `review_${i}` && <div style={{ padding: "0 0 16px", fontSize: 13, color: "#666", lineHeight: 1.8 }}>{item.a}</div>}
+              </div>
+            ))}
+          </div>
+
+          {/* ═══ 구매 가이드 ═══ */}
+          <div style={{ background: "white", borderRadius: 20, padding: "28px 24px", marginTop: 16 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 20 }}>구매 가이드</div>
+            {[
+              { id: "fake", title: "허위매물 대처", content: "허위매물을 피하려면 실매물 인증 마크가 있는 매물을 우선 확인하세요. 시세보다 지나치게 저렴한 매물, 선입금을 요구하는 딜러, 차량 실물 확인 전 계약을 종용하는 경우 의심하세요. 픽스카는 모든 매물을 직접 검수하여 허위매물을 차단합니다." },
+              { id: "seizure", title: "압류 및 저당 처리", content: "차량 구매 전 자동차등록원부를 확인하여 압류·저당 여부를 반드시 확인하세요. 저당이 설정된 차량은 금융기관의 동의 없이 소유권 이전이 불가합니다. 잔존 채무가 있다면 매도인이 말소한 후 거래하는 것이 안전합니다. 자동차365에서 무료로 조회할 수 있습니다." },
+              { id: "inspect", title: "성능 상태 점검기록부", content: "자동차관리법에 따라 중고차 매매 시 성능·상태 점검기록부를 교부받아야 합니다. 점검기록부에는 주행거리, 사고 이력, 주요 부품 교환 여부 등이 기재됩니다. 교환·판금·도장 이력이 많은 차량은 사고 차량일 수 있으니 주의하세요." },
+              { id: "fee", title: "차량 금액 외 별도 수수료", content: "중고차 구매 시 차량 가격 외에 이전등록비(취등록세 약 7%), 매도비(약 2~5만원), 딜러 알선 수수료, 보험료 등이 추가됩니다. 탁송이 필요한 경우 거리에 따라 10~30만원이 발생할 수 있습니다. 견적서를 미리 요청하여 총 비용을 확인하세요." },
+              { id: "transfer", title: "차량 이전등록", content: "차량 구매 후 15일 이내에 관할 차량등록사업소에서 이전등록을 완료해야 합니다. 필요 서류: 자동차매도용 인감증명서, 자동차등록증, 보험가입증명서, 신분증. 딜러를 통해 구매할 경우 이전등록 대행이 가능합니다." },
+              { id: "check", title: "차량 체크사항", content: "시승 시 확인할 사항: ① 엔진 시동 시 이상 소음·진동 ② 변속기 변속 충격 ③ 브레이크 제동력 ④ 스티어링 직진성 ⑤ 에어컨·히터 작동 ⑥ 전장품(창문, 사이드미러, 시트 조절) ⑦ 타이어 마모도·편마모 ⑧ 하체 누유·부식 ⑨ 실내 악취·담배 냄새 ⑩ 외관 도장 상태·색상 차이" },
+            ].map(item => (
+              <div key={item.id} style={{ borderBottom: "1px solid #F0EEE9" }}>
+                <button onClick={() => setExpandedGuide(expandedGuide === item.id ? null : item.id)} style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", border: "none", background: "none", cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif", textAlign: "left" }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: "#333" }}>{item.title}</span>
+                  <span style={{ fontSize: 18, color: "#CCC", transform: expandedGuide === item.id ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>⌄</span>
+                </button>
+                {expandedGuide === item.id && <div style={{ padding: "0 0 16px", fontSize: 13, color: "#666", lineHeight: 1.8 }}>{item.content}</div>}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
