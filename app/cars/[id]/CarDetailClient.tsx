@@ -77,7 +77,7 @@ export default function CarDetailClient() {
       <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;} textarea:focus{outline:none;border-color:#FF3B1E!important;}`}</style>
       <Navbar />
       <div style={{ minHeight: "100vh", background: "#F0EEE9" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "20px 16px 100px" }}>
+        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "20px 24px 100px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <Link href="/cars" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 700, color: "#888" }}><ChevronLeft size={14} />매물 목록</Link>
             <div style={{ display: "flex", gap: 16, fontSize: 12, color: "#AAA" }}>
@@ -87,9 +87,9 @@ export default function CarDetailClient() {
           </div>
 
           {/* ═══ 사진 갤러리 (엔카 비율) ═══ */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 220px", gap: 4, marginBottom: 12, borderRadius: 16, overflow: "hidden" }}>
-            <div style={{ position: "relative", aspectRatio: "16/10", background: "#E8E6E1", cursor: "pointer" }} onClick={() => setShowAllPhotos(true)}>
-              {images[mainImg] ? <img src={images[mainImg]} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 4, marginBottom: 12, borderRadius: 16, overflow: "hidden", height: 520 }}>
+            <div style={{ position: "relative", background: "#E8E6E1", cursor: "pointer", overflow: "hidden" }} onClick={() => setShowAllPhotos(true)}>
+              {images[mainImg] ? <img src={images[mainImg]} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
               {images.length > 1 && <>
                 <button onClick={e => { e.stopPropagation(); goImg(-1); }} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
                 <button onClick={e => { e.stopPropagation(); goImg(1); }} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
