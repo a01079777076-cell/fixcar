@@ -37,8 +37,8 @@ export default function HomeBlogSection() {
     <section style={{ maxWidth:1360, margin:"0 auto 60px", padding:"0 52px" }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
         <div>
-          <div style={{ fontSize:12, fontWeight:800, letterSpacing:3, color:"#FF3B1E", marginBottom:6 }}>BLOG</div>
-          <h2 style={{ fontSize:24, fontWeight:800 }}>픽스카 블로그</h2>
+          <div style={{ fontSize:12, fontWeight:800, letterSpacing:3, color:"#FF3B1E", marginBottom:6 }}>USEFUL INFO</div>
+          <h2 style={{ fontSize:24, fontWeight:800 }}>유용한 정보</h2>
         </div>
         <Link href="/blog" style={{ fontSize:13, fontWeight:700, color:"#888", textDecoration:"none" }}>전체 보기 →</Link>
       </div>
