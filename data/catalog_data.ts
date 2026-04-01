@@ -17290,25 +17290,49 @@ export const CAR_GRADES = {
   ],
   "모델 Y": [
     {
-      "grade": "RWD 스탠다드",
-      "price": 4990,
-      "engine": "전기모터",
+      "grade": "RWD",
+      "price": 4690,
+      "engine": "전기모터 (후륜)",
       "power": "283",
       "torque": "42.3",
       "efficiency": "5.5"
     },
     {
-      "grade": "Long Range AWD",
-      "price": 5990,
-      "engine": "전기모터 듀얼",
+      "grade": "프리미엄 RWD",
+      "price": 4990,
+      "engine": "전기모터 (후륜)",
+      "power": "283",
+      "torque": "42.3",
+      "efficiency": "5.5"
+    },
+    {
+      "grade": "스탠다드 레인지 RWD",
+      "price": 4490,
+      "engine": "전기모터 (후륜)",
+      "power": "255",
+      "torque": "42.3",
+      "efficiency": "5.8"
+    },
+    {
+      "grade": "롱 레인지 AWD",
+      "price": 5690,
+      "engine": "전기모터 듀얼 (AWD)",
       "power": "346",
       "torque": "49.0",
       "efficiency": "5.1"
     },
     {
-      "grade": "Performance",
+      "grade": "프리미엄 롱 레인지 AWD",
+      "price": 5990,
+      "engine": "전기모터 듀얼 (AWD)",
+      "power": "346",
+      "torque": "49.0",
+      "efficiency": "5.1"
+    },
+    {
+      "grade": "퍼포먼스 AWD",
       "price": 6990,
-      "engine": "전기모터 듀얼",
+      "engine": "전기모터 듀얼 (AWD)",
       "power": "514",
       "torque": "66.4",
       "efficiency": "4.4"

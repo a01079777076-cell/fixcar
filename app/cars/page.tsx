@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/cars/page.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
@@ -8,7 +11,7 @@ interface Car {
   fuelType?:string; fuel?:string; transmission?:string; imageUrl?:string; images?:string[];
   status?:string; isAccident?:boolean; accident?:boolean; isPick?:boolean; brand?:string; model?:string;
   tags?:string[]; color?:string; region?:string; description?:string;
-  views?:number; createdAt?:string;
+  views?:number; createdAt?:string; _count?:{favorites?:number}; favCount?:number;
 }
 
 const BRANDS=["전체","현대","기아","제네시스","쉐보레","르노","KG모빌리티","BMW","벤츠","아우디","폭스바겐","볼보","테슬라","토요타","렉서스","혼다","포르쉐","기타"];
@@ -304,20 +307,29 @@ export default function CarsPage(){
                   const imgs=car.images||[];
                   const tags=(car.tags as string[])||[];
                   const autoLabels=getAutoLabels(car);
+                  const fc=car._count?.favorites||car.favCount||0;
                   return(
                     <Link key={car.id} href={`/cars/${car.id}`} style={{textDecoration:"none"}}>
                       <div className="list-item" style={{display:"flex",gap:16,padding:"18px 20px",borderBottom:idx<filtered.length-1?"1px solid #F0EEE9":"none",alignItems:"flex-start",cursor:"pointer"}}>
                         <div style={{position:"relative",flexShrink:0}}>
                           <div style={{display:"flex",gap:4}}>
-                            <div style={{width:180,height:130,borderRadius:10,overflow:"hidden",background:"#F0EEE9"}}>
+                            <div style={{width:200,height:140,borderRadius:10,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
                               {img?<img src={img} alt={cn} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>:
                               <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#CCC",fontSize:11}}>📷 사진 준비중</div>}
+                              {/* 사진 개수 배지 */}
+                              {imgs.length>1&&(
+                                <div style={{position:"absolute",bottom:6,left:6,background:"rgba(0,0,0,0.55)",color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100,display:"flex",alignItems:"center",gap:3,backdropFilter:"blur(4px)"}}>📷 {imgs.length}</div>
+                              )}
                             </div>
                             {imgs.length>1&&(
-                              <div style={{display:"flex",flexDirection:"column",gap:4}}>
-                                {imgs.slice(1,3).map((im,i)=>(
-                                  <div key={i} style={{width:80,height:62,borderRadius:8,overflow:"hidden",background:"#F0EEE9"}}>
+                              <div style={{display:"flex",flexDirection:"column",gap:3}}>
+                                {imgs.slice(1,4).map((im,i)=>(
+                                  <div key={i} style={{width:80,height:44,borderRadius:6,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
                                     <img src={im} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+                                    {/* 마지막 썸네일에 +N장 표시 */}
+                                    {i===2&&imgs.length>4&&(
+                                      <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.5)",display:"flex",alignItems:"center",justifyContent:"center",color:"white",fontSize:11,fontWeight:700}}>+{imgs.length-4}</div>
+                                    )}
                                   </div>
                                 ))}
                               </div>
@@ -339,8 +351,9 @@ export default function CarsPage(){
                           </div>
                           <div style={{display:"flex",alignItems:"center",gap:8,marginTop:8}}>
                             <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:10,color:"#1847FF",border:"1.5px solid #1847FF",padding:"2px 8px",borderRadius:4,letterSpacing:1}}>🔒 FIX PRICE</span>
-                            {/* ═══ 조회수 ═══ */}
+                            {/* ═══ 조회수 + 찜수 ═══ */}
                             {(car.views||0)>0&&<span style={{fontSize:11,color:"#CCC"}}>👁️ {car.views?.toLocaleString()}</span>}
+                            {fc>0&&<span style={{fontSize:11,color:"#CCC"}}>❤️ {fc}</span>}
                             <span style={{fontSize:11,color:"#CCC",fontWeight:400}}>월 {Math.round(car.price*10000*0.019/60)}만원~</span>
                           </div>
                         </div>
@@ -359,17 +372,20 @@ export default function CarsPage(){
                   const cf=car.fuelType||car.fuel||"";
                   const isFav=favs.has(car.id);
                   const img=car.imageUrl||(car.images&&car.images[0])||"";
+                  const imgs=car.images||[];
                   const autoLabels=getAutoLabels(car);
+                  const fc=car._count?.favorites||car.favCount||0;
                   return(
                     <Link key={car.id} href={`/cars/${car.id}`} style={{textDecoration:"none"}}>
                       <div className="grid-card" style={{background:"white",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}>
                         <div style={{position:"relative",height:200,background:"#F0EEE9",overflow:"hidden"}}>
                           {img?<img src={img} alt={cn} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:
                           <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#CCC"}}>📷</div>}
-                          {/* 자동 라벨 */}
                           {autoLabels.length>0&&<div style={{position:"absolute",top:10,left:10,display:"flex",gap:4}}>{autoLabels.slice(0,2).map(lb=>(<span key={lb.text} style={{background:lb.bg,color:lb.color,padding:"3px 10px",borderRadius:100,fontSize:10,fontWeight:800}}>{lb.text}</span>))}</div>}
                           {car.isPick&&<span style={{position:"absolute",top:10,left:10,background:"#FF3B1E",color:"white",padding:"4px 12px",borderRadius:100,fontSize:11,fontWeight:800}}>PICK</span>}
                           <button className="fav-btn" onClick={e=>toggleFav(car.id,e)} style={{position:"absolute",top:10,right:10,width:36,height:36,borderRadius:"50%",background:"rgba(255,255,255,0.9)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>{isFav?"❤️":"🤍"}</button>
+                          {/* 사진 개수 */}
+                          {imgs.length>1&&<div style={{position:"absolute",bottom:8,left:8,background:"rgba(0,0,0,0.5)",color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>📷 {imgs.length}</div>}
                         </div>
                         <div style={{padding:"14px 16px 16px"}}>
                           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
@@ -378,7 +394,10 @@ export default function CarsPage(){
                           </div>
                           <div style={{fontSize:15,fontWeight:800,color:"#1A1A1A",marginBottom:4}}>{cn}</div>
                           <div style={{fontSize:12,color:"#AAA",fontWeight:400}}>{car.year}년식 · {car.mileage?.toLocaleString()}km · {cf}</div>
-                          {(car.views||0)>0&&<div style={{fontSize:11,color:"#CCC",marginTop:6}}>👁️ {car.views?.toLocaleString()}회</div>}
+                          <div style={{display:"flex",gap:10,marginTop:6,fontSize:11,color:"#CCC"}}>
+                            {(car.views||0)>0&&<span>👁️ {car.views?.toLocaleString()}</span>}
+                            {fc>0&&<span>❤️ {fc}</span>}
+                          </div>
                         </div>
                       </div>
                     </Link>
