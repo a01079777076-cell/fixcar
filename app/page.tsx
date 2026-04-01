@@ -54,8 +54,8 @@ export default async function Home() {
   ];
 
   /* 콘텐츠 배너 순서 (7·8·9번 요청 반영)
-     원본: 랭킹, 경매, 32강, 커뮤니티, 블로그, 카탈로그
-     변경: 랭킹, 블로그, 커뮤니티, 카탈로그, 경매, 32강   */
+     원본: 랭킹, 경매, 32강, 커뮤니티, 유용한 정보, 카탈로그
+     변경: 랭킹, 유용한 정보, 커뮤니티, 카탈로그, 경매, 32강   */
   const contentBanners = [
     { bgImg:"/icon/main_ranking_button.png",   title:"자동차 랭킹",          subtitle:"세상 모든 차량 순위",     desc:"최고가·저주행·초보추천 랭킹표 전체",              href:"/ranking",   color:"#FF3B1E", bg:"#FFF0ED" },
     { bgImg:"/icon/main_blog_button.png",       title:"유용한 정보",         subtitle:"차량관리, 소모품, 필수꿀템", desc:"차량 필수템부터, 관리 노하우 모음",             href:"/blog",      color:"#2D8A52", bg:"#EAF6EF" },
@@ -179,7 +179,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ══ 콘텐츠 배너 (순서 변경: 랭킹·블로그·커뮤니티·카탈로그·경매·32강) ══ */}
+        {/* ══ 콘텐츠 배너 (순서 변경: 랭킹·유용한 정보·커뮤니티·카탈로그·경매·32강) ══ */}
         <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", paddingTop:0, paddingBottom:0 }}>
           <div className="content-banners">
             {contentBanners.map(item=>(
@@ -204,7 +204,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ══ 블로그 최신글 ══ */}
+        {/* ══ 유용한 정보 최신글 ══ */}
         <HomeBlogSection/>
 
         {/* ══ 딜러 랭킹 ══ */}
@@ -223,7 +223,7 @@ export default async function Home() {
           <div className="cars-3">
             {cars.map(car=>(
               <a key={car.id} href={`/cars/${car.id}`} className="car-card">
-                <div style={{ height:"clamp(160px,20vw,200px)", overflow:"hidden", position:"relative", background:"#F0EEE9" }}>
+                <div style={{ height:"clamp(200px,26vw,280px)", overflow:"hidden", position:"relative", background:"#F0EEE9" }}>
                   {(car.images && car.images[0]) ? (
                     <Image src={car.images[0]} alt={car.name} fill sizes="(max-width:600px)100vw,(max-width:1024px)50vw,33vw" style={{ objectFit:"cover" }}/>
                   ) : (
@@ -247,7 +247,7 @@ export default async function Home() {
                       <div style={{ fontSize:"clamp(20px,3vw,26px)", fontWeight:800, letterSpacing:-0.5 }}>{car.price.toLocaleString()}<span style={{ fontSize:14, fontWeight:700, color:"#AAA" }}>만원</span></div>
                       <div style={{ fontSize:12, color:"#1847FF", fontWeight:800, marginTop:3, display:"flex", alignItems:"center", gap:3 }}><Lock size={10}/> FIX · 월 {car.monthly}만원~</div>
                     </div>
-                    <div style={{ background:"#1A1A1A", color:"#fff", padding:"10px 18px", borderRadius:10, fontSize:13, fontWeight:800, display:"flex", alignItems:"center", gap:6, flexShrink:0 }}>픽하기 <ArrowRight size={14}/></div>
+                    <div style={{ background:"#1A1A1A", color:"#fff", padding:"10px 18px", borderRadius:10, fontSize:13, fontWeight:800, display:"flex", alignItems:"center", gap:6, flexShrink:0 }}>매물 구경 <ArrowRight size={14}/></div>
                   </div>
                 </div>
               </a>

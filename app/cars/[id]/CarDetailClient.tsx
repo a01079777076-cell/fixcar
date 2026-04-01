@@ -247,23 +247,6 @@ export default function CarDetailClient() {
                 </div>
               </div>
 
-              {/* 카히스토리 사고이력 조회 */}
-              <div style={{ background: "linear-gradient(135deg,#1B3A5C 0%,#0D2240 100%)", borderRadius: 18, padding: "20px 22px", marginBottom: 16 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                  <Shield size={18} color="#4FC3F7" />
-                  <span style={{ fontSize: 15, fontWeight: 800, color: "white" }}>이 차량의 사고이력 확인하기</span>
-                </div>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 14 }}>
-                  자동차365(카히스토리)에서 차량번호로 사고이력, 침수이력, 압류/저당 등을 무료로 조회할 수 있어요.
-                </p>
-                <a href="https://www.car365.go.kr/web/contents/totalhistory.do" target="_blank" rel="noopener noreferrer">
-                  <button style={{ width: "100%", padding: "14px", background: "rgba(255,255,255,0.15)", color: "white", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 12, fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backdropFilter: "blur(4px)" }}>
-                    🔍 자동차365에서 사고이력 무료 조회 <ExternalLink size={13} />
-                  </button>
-                </a>
-                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginTop: 8, textAlign: "center" }}>국토교통부 · 한국교통안전공단 공식 서비스</div>
-              </div>
-
               {car.description && (
                 <div style={{ background: "white", borderRadius: 18, padding: "20px", marginBottom: 16 }}>
                   <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 8 }}>📋 딜러 설명</div>
@@ -334,6 +317,23 @@ export default function CarDetailClient() {
                     description={`${car.year}년 · ${car.mileage?.toLocaleString()}km · ${car.fuel}`}
                     imageUrl={images[0]}
                   />
+                </div>
+
+                {/* 카히스토리 사고이력 조회 */}
+                <div style={{ background: "linear-gradient(135deg,#1B3A5C 0%,#0D2240 100%)", borderRadius: 14, padding: "16px 18px", marginTop: 14 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+                    <Shield size={15} color="#4FC3F7" />
+                    <span style={{ fontSize: 13, fontWeight: 800, color: "white" }}>이 차량의 사고이력 확인하기</span>
+                  </div>
+                  <p style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, marginBottom: 10 }}>
+                    자동차365(카히스토리)에서 차량번호로 사고이력, 침수이력, 압류/저당 등을 무료로 조회할 수 있어요.
+                  </p>
+                  <a href="https://www.car365.go.kr/web/contents/totalhistory.do" target="_blank" rel="noopener noreferrer">
+                    <button style={{ width: "100%", padding: "11px", background: "rgba(255,255,255,0.12)", color: "white", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                      🔍 자동차365에서 사고이력 무료 조회 <ExternalLink size={11} />
+                    </button>
+                  </a>
+                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6, textAlign: "center" }}>국토교통부 · 한국교통안전공단 공식 서비스</div>
                 </div>
               </div>
             </div>

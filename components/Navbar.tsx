@@ -10,7 +10,7 @@ const MAIN_LINKS = [
   { label: "매물", href: "/cars" },
   { label: "카탈로그", href: "/catalog" },
   { label: "커뮤니티", href: "/community" },
-  { label: "블로그", href: "/blog" },
+  { label: "유용한 정보", href: "/blog" },
 ];
 
 const ALL_MENU_SECTIONS = [
@@ -29,7 +29,7 @@ const ALL_MENU_SECTIONS = [
   ]},
   { title: "커뮤니티", items: [
     { label: "커뮤니티", href: "/community" },
-    { label: "블로그", href: "/blog" },
+    { label: "유용한 정보", href: "/blog" },
     { label: "공지사항", href: "/notice" },
     { label: "이벤트", href: "/events" },
   ]},
