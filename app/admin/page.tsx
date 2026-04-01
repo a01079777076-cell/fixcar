@@ -337,59 +337,99 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* ══ 매물 상세 모달 ══ */}
+      {/* ══ 매물 상세 모달 (편집 가능) ══ */}
       {detailCar && (
         <>
           <div onClick={()=>setDetailCar(null)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:10000}}/>
-          <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",background:"white",borderRadius:24,padding:"28px",width:"min(600px,92vw)",maxHeight:"85vh",overflowY:"auto",zIndex:10001,boxShadow:"0 20px 60px rgba(0,0,0,0.2)"}}>
+          <div style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",background:"white",borderRadius:24,padding:"28px",width:"min(720px,94vw)",maxHeight:"90vh",overflowY:"auto",zIndex:10001,boxShadow:"0 20px 60px rgba(0,0,0,0.2)"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-              <h2 style={{fontSize:20,fontWeight:800}}>매물 상세</h2>
-              <button onClick={()=>setDetailCar(null)} style={{border:"none",background:"#F0EEE9",borderRadius:"50%",width:32,height:32,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}><X size={16}/></button>
+              <h2 style={{fontSize:20,fontWeight:800}}>📋 매물 상세 #{detailCar.id}</h2>
+              <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                <span style={{fontSize:11,fontWeight:700,padding:"4px 12px",borderRadius:100,background:statusBg(detailCar.status),color:statusColor(detailCar.status)}}>{statusLabel(detailCar.status)}</span>
+                <button onClick={()=>setDetailCar(null)} style={{border:"none",background:"#F0EEE9",borderRadius:"50%",width:32,height:32,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}><X size={16}/></button>
+              </div>
             </div>
-            <div style={{background:"#F8F7F4",borderRadius:12,padding:"16px",marginBottom:16}}>
-              <div style={{fontSize:18,fontWeight:800,marginBottom:4}}>{detailCar.brand} {detailCar.name}</div>
-              <div style={{fontSize:13,color:"#888"}}>{detailCar.year}년 · {detailCar.mileage?.toLocaleString()}km · {detailCar.fuel} · {detailCar.color}</div>
-              <div style={{fontSize:22,fontWeight:800,color:"#FF3B1E",marginTop:8}}>{detailCar.price?.toLocaleString()}만원</div>
+
+            {/* 기본 정보 테이블 */}
+            <div style={{background:"#F8F7F4",borderRadius:14,padding:"16px 18px",marginBottom:16}}>
+              <div style={{fontSize:18,fontWeight:800,marginBottom:8}}>{detailCar.brand} {detailCar.name}</div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0}}>
+                {[
+                  {l:"가격",v:`${detailCar.price?.toLocaleString()}만원`,c:"#FF3B1E"},
+                  {l:"연식",v:`${detailCar.year}년`},
+                  {l:"주행거리",v:`${detailCar.mileage?.toLocaleString()}km`},
+                  {l:"연료",v:detailCar.fuel},
+                  {l:"변속기",v:detailCar.transmission},
+                  {l:"색상",v:detailCar.color},
+                  {l:"배기량",v:detailCar.cc?`${detailCar.cc}cc`:"전기"},
+                  {l:"지역",v:detailCar.region},
+                  {l:"소유자",v:`${detailCar.owners||1}인`},
+                  {l:"사고이력",v:detailCar.accident?"있음":"무사고",c:detailCar.accident?"#E24B4A":"#2D8A52"},
+                  {l:"검수여부",v:detailCar.inspected?"검수완료":"미검수"},
+                  {l:"등록일",v:new Date(detailCar.createdAt).toLocaleString("ko-KR")},
+                ].map(s=>(
+                  <div key={s.l} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid #EEEDE9"}}>
+                    <span style={{fontSize:12,color:"#AAA"}}>{s.l}</span>
+                    <span style={{fontSize:12,fontWeight:700,color:(s as any).c||"#333"}}>{s.v}</span>
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* 딜러 정보 */}
+            {detailCar.dealer&&(
+              <div style={{background:"#EEF5FF",borderRadius:12,padding:"12px 16px",marginBottom:16,display:"flex",alignItems:"center",gap:10}}>
+                <span style={{fontSize:14}}>🏪</span>
+                <span style={{fontWeight:700,fontSize:13}}>{detailCar.dealer.shopName}</span>
+                {detailCar.dealer.verified&&<span style={{fontSize:10,color:"#2D8A52",background:"#EAF6EF",padding:"2px 6px",borderRadius:4,fontWeight:700}}>인증</span>}
+              </div>
+            )}
+
+            {/* 옵션 */}
             {detailCar.options?.length>0&&(
               <div style={{marginBottom:16}}>
-                <div style={{fontSize:13,fontWeight:800,marginBottom:6}}>옵션</div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{detailCar.options.map((o:string)=><span key={o} style={{fontSize:11,padding:"3px 8px",borderRadius:6,background:"#EEF5FF",color:"#0066FF",fontWeight:600}}>{o}</span>)}</div>
+                <div style={{fontSize:13,fontWeight:800,marginBottom:8}}>⚙️ 옵션 ({detailCar.options.length}개)</div>
+                <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{detailCar.options.map((o:string)=><span key={o} style={{fontSize:11,padding:"4px 10px",borderRadius:6,background:"#F8F7F4",color:"#555",fontWeight:600}}>{o}</span>)}</div>
               </div>
             )}
+
+            {/* 설명글 */}
             {detailCar.description&&(
               <div style={{marginBottom:16}}>
-                <div style={{fontSize:13,fontWeight:800,marginBottom:6}}>📋 딜러 설명글</div>
-                <div style={{background:"#FAFAF8",borderRadius:10,padding:"14px",fontSize:12,color:"#555",lineHeight:1.8,whiteSpace:"pre-wrap",maxHeight:200,overflowY:"auto",border:"1px solid #F0EEE9"}}>{detailCar.description.replace(/\[성능점검데이터\][\s\S]*/,"").trim()}</div>
+                <div style={{fontSize:13,fontWeight:800,marginBottom:6}}>📝 딜러 설명글</div>
+                <div style={{background:"#FAFAF8",borderRadius:10,padding:14,fontSize:12,color:"#555",lineHeight:1.8,whiteSpace:"pre-wrap",maxHeight:250,overflowY:"auto",border:"1px solid #F0EEE9"}}>{detailCar.description.replace(/\[성능점검데이터\][\s\S]*/,"").trim()}</div>
               </div>
             )}
-            {detailCar.dealer&&(
-              <div style={{marginBottom:16}}>
-                <div style={{fontSize:13,fontWeight:800,marginBottom:6}}>🏪 딜러 정보</div>
-                <div style={{background:"#EEF5FF",borderRadius:10,padding:"12px 14px",fontSize:13}}>
-                  <span style={{fontWeight:700}}>{detailCar.dealer.shopName}</span>
-                  {detailCar.dealer.verified&&<span style={{fontSize:10,color:"#2D8A52",background:"#EAF6EF",padding:"2px 6px",borderRadius:4,marginLeft:8,fontWeight:700}}>인증</span>}
-                </div>
-              </div>
-            )}
+
+            {/* 사진 */}
             {detailCar.images?.length>0&&(
               <div style={{marginBottom:16}}>
-                <div style={{fontSize:13,fontWeight:800,marginBottom:8}}>사진 ({detailCar.images.length}장)</div>
-                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+                <div style={{fontSize:13,fontWeight:800,marginBottom:8}}>📷 사진 ({detailCar.images.length}장)</div>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6}}>
                   {detailCar.images.map((img:string,i:number)=>(
-                    <div key={i} style={{borderRadius:10,overflow:"hidden",aspectRatio:"4/3"}}>
+                    <div key={i} style={{borderRadius:8,overflow:"hidden",aspectRatio:"4/3"}}>
                       <img src={img} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
+            {/* 바로가기 */}
+            <div style={{display:"flex",gap:8,marginBottom:16}}>
+              <a href={`/cars/${detailCar.id}`} target="_blank" rel="noopener noreferrer" style={{flex:1}}>
+                <button style={{width:"100%",padding:12,background:"#F0F6FF",border:"1.5px solid #0066FF",borderRadius:10,fontSize:13,fontWeight:700,color:"#0066FF",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>🔗 매물 페이지 열기</button>
+              </a>
+            </div>
+
+            {/* 액션 버튼 */}
             <div style={{display:"flex",gap:8}}>
               {detailCar.status==="REVIEWING"&&<>
-                <button onClick={()=>updateCar(detailCar.id,"AVAILABLE")} style={{flex:1,padding:"14px",background:"#2D8A52",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer"}}>✓ 승인</button>
-                <button onClick={()=>{setDetailCar(null);setRejectId(detailCar.id);}} style={{flex:1,padding:"14px",background:"#E24B4A",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer"}}>✕ 반려</button>
+                <button onClick={()=>updateCar(detailCar.id,"AVAILABLE")} style={{flex:1,padding:14,background:"#2D8A52",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer"}}>✓ 승인 (판매중)</button>
+                <button onClick={()=>{setDetailCar(null);setRejectId(detailCar.id);}} style={{flex:1,padding:14,background:"#E24B4A",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer"}}>✕ 반려</button>
               </>}
-              {detailCar.status==="AVAILABLE"&&<button onClick={()=>updateCar(detailCar.id,"RESERVED")} style={{flex:1,padding:"14px",background:"#E8A020",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer"}}>⏸ 내리기</button>}
+              {detailCar.status==="AVAILABLE"&&<button onClick={()=>updateCar(detailCar.id,"RESERVED")} style={{flex:1,padding:14,background:"#E8A020",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer"}}>⏸ 내리기</button>}
+              {detailCar.status==="RESERVED"&&<button onClick={()=>updateCar(detailCar.id,"AVAILABLE")} style={{flex:1,padding:14,background:"#2D8A52",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer"}}>▶ 다시올리기</button>}
             </div>
           </div>
         </>
