@@ -508,25 +508,51 @@ export default function DealerCarsNewPage() {
   const handleBaseChange=(base:string)=>{setSelectedBase(base);setSelectedModel("");setGrade(""); const g=baseModels.find(g=>g.base===base); if(g&&g.variants.length===1){handleModelSelect(g.variants[0].name);setActiveField("submodel");}else{setActiveField("submodel");}};
   const toggleOption=(opt:string)=>setOptions(prev=>prev.includes(opt)?prev.filter(o=>o!==opt):[...prev,opt]);
 
+  /* ── 이미지 리사이징 (4.5MB 제한 대응) ── */
+  const resizeImage = (file: File, maxWidth = 1920, maxHeight = 1440, quality = 0.85): Promise<File> => {
+    return new Promise((resolve) => {
+      if (file.size <= 4 * 1024 * 1024) { resolve(file); return; } /* 4MB 이하면 그대로 */
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        let w = img.width, h = img.height;
+        if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+        if (h > maxHeight) { w = Math.round(w * maxHeight / h); h = maxHeight; }
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) { resolve(file); return; }
+        ctx.drawImage(img, 0, 0, w, h);
+        canvas.toBlob((blob) => {
+          if (!blob) { resolve(file); return; }
+          resolve(new File([blob], file.name.replace(/\.\w+$/, ".jpg"), { type: "image/jpeg" }));
+        }, "image/jpeg", quality);
+      };
+      img.onerror = () => resolve(file);
+      img.src = url;
+    });
+  };
+
   /* ── 사진 업로드 ── */
   const handleMainUpload=async(slotKey:string)=>{
     const inp=document.createElement("input");inp.type="file";inp.accept="image/*";
     inp.onchange=async(e)=>{
-      const file=(e.target as HTMLInputElement).files?.[0]; if(!file)return;
-      if(file.size>10*1024*1024){alert("파일 크기가 10MB를 초과합니다.");return;}
+      let file=(e.target as HTMLInputElement).files?.[0]; if(!file)return;
       setUploadingSlot(slotKey);
-      const fd=new FormData();fd.append("file",file);
       try{
+        file = await resizeImage(file);
+        const fd=new FormData();fd.append("file",file);
         const res=await fetch("/api/upload",{method:"POST",body:fd});
-        if(!res.ok){alert("업로드 서버 오류 ("+res.status+")");setUploadingSlot(null);return;}
+        if(!res.ok){alert("업로드 서버 오류 ("+res.status+")\n사진 용량이 너무 큽니다. 다른 사진을 시도해주세요.");setUploadingSlot(null);return;}
         const d=await res.json();
         if(d.success&&d.url){
           setMainPhotos(prev=>({...prev,[slotKey]:d.url}));
         } else {
-          alert("업로드 실패: "+(d.error||"Cloudinary 환경변수를 확인해주세요.\n\n설정 → CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET"));
+          alert("업로드 실패: "+(d.error||"Cloudinary 환경변수를 확인해주세요."));
         }
       }catch(err){
-        alert("업로드 중 네트워크 오류가 발생했습니다.\n인터넷 연결을 확인해주세요.");
+        alert("업로드 중 네트워크 오류가 발생했습니다.");
       }
       setUploadingSlot(null);
     };inp.click();
@@ -538,12 +564,12 @@ export default function DealerCarsNewPage() {
       const files=(e.target as HTMLInputElement).files; if(!files)return;
       setUploadingDetail(true);
       let uploadCount=0;
-      for(const file of Array.from(files).slice(0,20-detailPhotos.length)){
-        if(file.size>10*1024*1024)continue;
+      for(let file of Array.from(files).slice(0,20-detailPhotos.length)){
+        file = await resizeImage(file);
         const fd=new FormData();fd.append("file",file);
         try{const res=await fetch("/api/upload",{method:"POST",body:fd});if(!res.ok)continue;const d=await res.json();if(d.success&&d.url){setDetailPhotos(prev=>[...prev,d.url]);uploadCount++;}}catch{}
       }
-      if(uploadCount===0&&files.length>0)alert("사진 업로드에 실패했습니다. Cloudinary 설정을 확인해주세요.");
+      if(uploadCount===0&&files.length>0)alert("사진 업로드에 실패했습니다.");
       setUploadingDetail(false);
     };inp.click();
   };
@@ -575,7 +601,7 @@ export default function DealerCarsNewPage() {
     setErrorFields(fields); return errs;
   };
 
-  const nextStep=()=>{const errs=validate(step);if(errs.length>0){setErrors(errs);return;}setErrors([]);setErrorFields(new Set());setStep(step+1);};
+  const nextStep=()=>{const errs=validate(step);if(errs.length>0){setErrors(errs);return;}setErrors([]);setErrorFields(new Set());setStep(step+1);window.scrollTo({top:0,behavior:"smooth"});};
 
   /* ── 최종 제출 ── */
   const handleSubmit=async()=>{
@@ -1082,8 +1108,81 @@ export default function DealerCarsNewPage() {
                     <label key={k} style={{display:"flex",alignItems:"center",gap:6,fontSize:13,cursor:"pointer",padding:"8px 14px",borderRadius:10,border:descTemplate===k?"2px solid #FF3B1E":"1px solid #E0DDD7",background:descTemplate===k?"#FFF5F3":"white"}}>
                       <input type="radio" checked={descTemplate===k} onChange={()=>{
                         setDescTemplate(k);
-                        if(k==="일반") setDescription("안녕하세요.\n차량에 관심을 가져주셔서 감사합니다.\n\n▶차량설명\n-사고여부 : 무사고 차량입니다.\n-차    종 : \n-연    식 : \n-색    상 : \n-주행거리 : km\n-내/외관 : 실내외 깨끗한 상태입니다.\n-관리상태 : 소모품 교체 완료.\n\n▶옵션사항\n-외관사양 : \n-내장사양 : \n-안전사양 : ");
-                        if(k==="딜러") setDescription("안녕하세요. 중고차 전문딜러 픽스카 입니다.\n차량에 관심을 가져주셔서 대단히 감사합니다.\n현재 고객님께서 보시고있는 차량은 100% 실매물임을 이름을 걸고 약속드립니다.\n\n----------------------차량설명----------------------\n사고여부, 차량상태 등을 입력해 보세요.\n\n▶차량설명\n-사고여부 : \n-차    종 : \n-연    식 : \n-색    상 : \n-주행거리 : km\n-내/외관 : \n-관리상태 : \n\n▶옵션사항\n-외관사양 : \n-내장사양 : \n-안전사양 : ");
+                        if(k==="일반") setDescription(`설명글은 인사말 / 차량상태 / 차주정보 등을 입력하시면 됩니다.
+----------------------인사말---------------------------------
+인사말을 입력해 보세요.
+안녕하세요. 광주에 사는 홍길동입니다.
+제가 판매할 차량은 주행거리가 00,000km인 0000년 0월식 차종 등급 입니다.
+----------------------차량설명---------------------------------
+사고여부, 차량옵션, 관리상태 등을 입력해 보세요.
+▶차량설명
+-사고여부 : 무사고 차량입니다.
+-차    종 :
+-연    식 :
+-색    상 : 인기있는 검정색입니다.
+-주행거리 : 00,000km
+-내 / 외관 : 실내와 실외가 깨끗합니다. 생활 스크레치는 있지만 연식대비 양이 적습니다.
+-관리상태 : 모든 정비를 마친 상태입니다.
+▶옵션사항
+-외관사양 :
+-내장사양 :
+-안전사양 :
+-편의사양 :
+-튜닝정보 :
+----------------------차주정보---------------------------------
+차량을 운행했던 차주정보 등을 입력해 보세요.
+▶차주정보
+-운행자정보 : 1인 소유, 비흡자
+-운행용도 : 출퇴근용으로 사용하여 주행거리가 짧습니다.
+-구입방법 : 신차로 구매하여 운행하던 차량입니다.
+-판매이유 : 이번에 신차를 구매하면서 판매하게 되었습니다.
+----------------------기타---------------------------------
+문의/판매 방법 등을 입력해 보세요.
+▶문의방법
+-연락주시면 친절하고 상세하게 설명을 드리도록 하겠습니다.
+-전화가 부재중일시 문자를 남겨주시면 확인후 전화드리겠습니다.
+-가격은 절충이 가능합니다.`);
+                        if(k==="딜러") setDescription(`설명글은 인사말 / 차량상태 / 차주정보 등을 입력하시면 됩니다.
+----------------------인사말---------------------------------
+인사말을 입력해 보세요.
+안녕하세요. 중고차 전문딜러 픽스카 홍길동 실장입니다.
+차량에 관심을 가져주셔서 대단히 감사합니다.
+현재 고객님께서 보시고있는 차량은 100% 실매물임을 이름을 걸고 약속드립니다.
+----------------------차량설명---------------------------------
+사고여부, 차량옵션, 관리상태 등을 입력해 보세요.
+▶차량설명
+-사고여부 : 무사고 차량입니다.
+-차    종 :
+-연    식 :
+-색    상 : 인기있는 검정색입니다.
+-주행거리 : 00,000km
+-내 / 외관 : 실내와 실외가 깨끗합니다. 생활 스크레치는 있지만 연식대비 양이 적습니다.
+-관리상태 : 모든 정비를 마친 상태입니다.
+▶옵션사항
+-외관사양 :
+-내장사양 :
+-안전사양 :
+-편의사양 :
+-튜닝정보 :
+▶차량의 특징
+-역동적인 바디라인을 강조한 디자인입니다.
+----------------------차주정보---------------------------------
+차량을 운행했던 차주정보 등을 입력해 보세요.
+▶차주정보
+-운행자정보 : 1인 소유, 비흡자
+-운행용도 : 출퇴근용으로 사용하여 주행거리가 짧습니다.
+-구입방법 : 신차로 구매하여 운행하던 차량입니다.
+-판매이유 : 이번에 신차를 구매하면서 판매하게 되었습니다.
+----------------------기타---------------------------------
+문의/판매 방법 등을 입력해 보세요.
+▶문의방법
+-연락주시면 친절하고 상세하게 설명을 드리도록 하겠습니다.
+-전화가 부재중일시 문자를 남겨주시면 확인후 전화드리겠습니다.
+-차량 시승도 가능하며 정비업소에서 차량상태 확인도 가능합니다.
+-현재 타고 계신 차량과 교환도 가능하며, 대출을 통한 차량구매도 가능합니다.
+-가격은 절충이 가능합니다.
+----------------------판매자 소개---------------------------------
+-오시는 길 :`);
                         if(k==="직접") setDescription("");
                       }} style={{accentColor:"#FF3B1E",width:14,height:14}}/>
                       <span style={{fontWeight:descTemplate===k?700:500,color:descTemplate===k?"#FF3B1E":"#555"}}>{l}</span>
@@ -1236,6 +1335,7 @@ export default function DealerCarsNewPage() {
                 )}
               </div>
               <div style={{fontSize:12,color:"#AAA",textAlign:"center"}}>메인 {Object.keys(mainPhotos).length}/4장 · 디테일 {detailPhotos.length}/20장</div>
+              <div style={{fontSize:11,color:"#C4A060",textAlign:"center",marginTop:8,background:"#FFF8E8",padding:"8px 14px",borderRadius:8}}>⚠️ 4.5MB 이상 고용량 사진은 자동 용량 축소되어 화질에 변화가 생길 수 있습니다.</div>
             </div>
           )}
 
@@ -1515,7 +1615,7 @@ export default function DealerCarsNewPage() {
 
           {/* 하단 버튼 */}
           <div style={{display:"flex",gap:10,marginTop:12}}>
-            {step>1&&<button onClick={()=>{setStep(step-1);setErrors([]);setErrorFields(new Set());}} style={{padding:"16px 24px",background:"white",border:"1.5px solid #E0DDD7",borderRadius:14,fontSize:15,fontWeight:700,color:"#888",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}><ChevronLeft size={16} style={{verticalAlign:"middle"}}/> 이전</button>}
+            {step>1&&<button onClick={()=>{setStep(step-1);setErrors([]);setErrorFields(new Set());window.scrollTo({top:0,behavior:"smooth"});}} style={{padding:"16px 24px",background:"white",border:"1.5px solid #E0DDD7",borderRadius:14,fontSize:15,fontWeight:700,color:"#888",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}><ChevronLeft size={16} style={{verticalAlign:"middle"}}/> 이전</button>}
             {step<4
               ?<button onClick={nextStep} style={{flex:1,padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>다음 (옵션선택) <ChevronRight size={16}/></button>
               :<button onClick={handleSubmit} disabled={saving||(!skipInspection&&!agreeWarning)} style={{flex:1,padding:"16px",background:saving?"#CCC":(!skipInspection&&!agreeWarning)?"#CCC":"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:saving||(!skipInspection&&!agreeWarning)?"not-allowed":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>{saving?"등록 중...":(!skipInspection&&!agreeWarning)?"허위기재 확인 필수":"매물 등록하기"}</button>

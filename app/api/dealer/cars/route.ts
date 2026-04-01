@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     }
 
     /* ADMIN은 바로 AVAILABLE, 딜러는 REVIEWING */
-    const status = user.role === "ADMIN" ? "AVAILABLE" as const : "REVIEWING" as const;
+    const status = "REVIEWING" as const;
 
     /* 기본 데이터 */
     const baseData = {
