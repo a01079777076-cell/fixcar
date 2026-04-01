@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/dealer/cars/new/page.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import { useState, useMemo, useRef } from "react";
 import Navbar from "@/components/Navbar";
@@ -37,8 +40,10 @@ function detectFuelFromEngine(engine: string): string {
 
 const FUEL_TYPES     = ["가솔린","디젤","LPG","하이브리드","전기","수소"];
 const COLORS         = ["흰색","검정","은색","회색","파랑","빨강","노랑","초록","베이지","갈색","기타"];
+const INTERIOR_COLORS = ["블랙","아이보리","베이지","그레이","브라운","레드","기타"];
 const TRANSMISSIONS  = ["자동","수동"];
 const REGIONS        = ["광주","전남","전북","서울","경기","인천","대전","대구","부산","울산","세종","충북","충남","경북","경남","강원","제주"];
+const IMPORT_TYPES   = ["해당없음","공식 수입","병행 수입"];
 const OPTION_CATS    = [
   {name:"안전",items:["에어백(6개이상)","ABS","ESC","후방카메라","전방충돌방지","차선이탈경보","사각지대감지","어라운드뷰"]},
   {name:"편의",items:["스마트키","오토홀드","열선시트","통풍시트","전동시트","헤드업디스플레이","무선충전","파워트렁크"]},
@@ -48,7 +53,6 @@ const OPTION_CATS    = [
 ];
 
 /* ═══ 성능점검 데이터 ═══ */
-/* 외판 1·2랭크 */
 const PANEL_1RANK = ["후드","프론트 헨더(좌)","프론트 헨더(우)","프론트 도어(좌)","프론트 도어(우)","리어 도어(좌)","리어 도어(우)","트렁크리드","라디에이터 서포트(볼트체결부품)","루프 패널","쿼터 패널(리어펜더)(좌)","쿼터 패널(리어펜더)(우)","사이드실 패널(좌)","사이드실 패널(우)"];
 const PANEL_ARANK = ["프론트 패널","크로스 멤버","인사이드 패널(좌)","인사이드 패널(우)","리어 패널","트렁크 플로어"];
 const PANEL_BRANK = ["프론트 사이드 멤버(좌)","프론트 사이드 멤버(우)","리어 사이드 멤버(좌)","리어 사이드 멤버(우)","프론트 휠하우스(좌)","프론트 휠하우스(우)","리어 휠하우스(좌)","리어 휠하우스(우)","필러 패널A(좌)","필러 패널A(우)","필러 패널B(좌)","필러 패널B(우)","필러 패널C(좌)","필러 패널C(우)","패키지트레이","대쉬 패널"];
@@ -61,7 +65,6 @@ function initDamageMap(items: string[]): Record<string, DamageRow> {
   return Object.fromEntries(items.map(i => [i, emptyDamage()]));
 }
 
-/* 세부사항 항목 */
 type GoodBad = "양호"|"불량"|"";
 type OilState = "없음"|"미세누유"|"누유"|"";
 type OilLevel = "적정"|"부족"|"과다"|"";
@@ -199,21 +202,26 @@ export default function DealerCarsNewPage() {
   const [errorFields,setErrorFields] = useState<Set<string>>(new Set());
 
   /* ── Step 1: 차량 정보 ── */
+  const [activeField, setActiveField] = useState<string>("plate"); /* 현재 선택된 필드 */
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedBase,  setSelectedBase]  = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [grade,         setGrade]         = useState("");
   const [customGrade,   setCustomGrade]   = useState("");
   const [year,          setYear]          = useState(new Date().getFullYear());
+  const [yearMonth,     setYearMonth]     = useState(String(new Date().getMonth()+1).padStart(2,"0"));
   const [mileage,       setMileage]       = useState("");
   const [fuel,          setFuel]          = useState("가솔린");
   const [color,         setColor]         = useState("");
   const [customColor,   setCustomColor]   = useState("");
+  const [interiorColor, setInteriorColor] = useState("");
   const [transmission,  setTransmission]  = useState("자동");
   const [cc,            setCc]            = useState("");
   const [owners,        setOwners]        = useState("1");
   const [accident,      setAccident]      = useState(false);
   const [plateNumber,   setPlateNumber]   = useState("");
+  const [importType,    setImportType]    = useState("해당없음");
+  const [warranty,      setWarranty]      = useState("없음");
 
   /* ── Step 2: 판매 정보 ── */
   const [price,       setPrice]       = useState("");
@@ -233,9 +241,8 @@ export default function DealerCarsNewPage() {
   const [recordNo1,       setRecordNo1]       = useState("");
   const [recordNo2,       setRecordNo2]       = useState("");
   const [recordNo3,       setRecordNo3]       = useState("");
-  const [skipInspection,  setSkipInspection]  = useState(false); /* 나중에 입력 */
+  const [skipInspection,  setSkipInspection]  = useState(false);
 
-  /* 종합상태 */
   const [odomState,    setOdomState]    = useState<"양호"|"불량"|"">("");
   const [odomKm,       setOdomKm]       = useState("");
   const [odomDriveState, setOdomDriveState] = useState<"없음"|"보통"|"불량"|"">("");
@@ -252,7 +259,6 @@ export default function DealerCarsNewPage() {
   const [colorChange,  setColorChange]  = useState(false);
   const [recall,       setRecall]       = useState<"해당없음"|"해당"|"">("");
 
-  /* 손상 이력 */
   const [damage1, setDamage1] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_1RANK));
   const [damageA, setDamageA] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_ARANK));
   const [damageB, setDamageB] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_BRANK));
@@ -262,7 +268,6 @@ export default function DealerCarsNewPage() {
     (item:string, col:keyof DamageRow, v:boolean) =>
       setter(prev => ({...prev, [item]:{...prev[item],[col]:v}}));
 
-  /* 세부사항 */
   const [selfDiagEngine,  setSelfDiagEngine]  = useState<GoodBad>("");
   const [selfDiagTrans,   setSelfDiagTrans]   = useState<GoodBad>("");
   const [engineRunning,   setEngineRunning]   = useState<GoodBad>("");
@@ -295,7 +300,6 @@ export default function DealerCarsNewPage() {
   const [windowMotor,     setWindowMotor]     = useState<GoodBad>("");
   const [fuelLeak,        setFuelLeak]        = useState<"없음"|"있음"|"">("");
 
-  /* 기타정보 */
   const [exteriorState,   setExteriorState]   = useState<GoodBad>("");
   const [interiorState,   setInteriorState]   = useState<GoodBad>("");
   const [polishState,     setPolishState]     = useState<GoodBad>("");
@@ -303,12 +307,10 @@ export default function DealerCarsNewPage() {
   const [tireState,       setTireState]       = useState<GoodBad>("");
   const [glassState,      setGlassState]      = useState<GoodBad>("");
 
-  /* 점검 사진 */
   const [inspFrontPhoto,  setInspFrontPhoto]  = useState("");
   const [inspRearPhoto,   setInspRearPhoto]   = useState("");
   const [uploadingInsp,   setUploadingInsp]   = useState<"front"|"rear"|null>(null);
 
-  /* 서명 */
   const [inspDate,        setInspDate]        = useState(new Date().toISOString().slice(0,10));
   const [inspectorName,   setInspectorName]   = useState("");
   const [informerName,    setInformerName]    = useState("");
@@ -344,8 +346,8 @@ export default function DealerCarsNewPage() {
     const g=gradeData[model];
     if(g&&Array.isArray(g)&&g.length>0)setFuel(detectFuelFromEngine(g[0].engine));
   };
-  const handleBrandChange=(brand:string)=>{setSelectedBrand(brand);setSelectedBase("");setSelectedModel("");setGrade("");};
-  const handleBaseChange=(base:string)=>{setSelectedBase(base);setSelectedModel("");setGrade(""); const g=baseModels.find(g=>g.base===base); if(g&&g.variants.length===1)handleModelSelect(g.variants[0].name);};
+  const handleBrandChange=(brand:string)=>{setSelectedBrand(brand);setSelectedBase("");setSelectedModel("");setGrade("");setActiveField("model");};
+  const handleBaseChange=(base:string)=>{setSelectedBase(base);setSelectedModel("");setGrade(""); const g=baseModels.find(g=>g.base===base); if(g&&g.variants.length===1){handleModelSelect(g.variants[0].name);setActiveField("submodel");}else{setActiveField("submodel");}};
   const toggleOption=(opt:string)=>setOptions(prev=>prev.includes(opt)?prev.filter(o=>o!==opt):[...prev,opt]);
 
   /* ── 사진 업로드 ── */
@@ -414,7 +416,6 @@ export default function DealerCarsNewPage() {
       const carName=`${selectedModel}${finalGrade?` ${finalGrade}`:""}`;
       const orderedImages=[...MAIN_SLOTS_DATA.map(s=>mainPhotos[s.key]).filter(Boolean),...detailPhotos];
 
-      /* 성능점검 데이터 직렬화 */
       const inspectionData = skipInspection ? null : {
         inspectionNo, recordNo:`${recordNo1}-${recordNo2}-${recordNo3}`,
         overall:{ odomState,odomKm,odomDriveState,vinState,exhaustCO,exhaustHC,tuning,tuningTypes,specialHistory,specialTypes,purposeChange,purposeTypes,colorState,colorChange,recall },
@@ -464,6 +465,218 @@ export default function DealerCarsNewPage() {
 
   const STEP_LABELS = ["차량 정보","판매 정보","사진 업로드","성능점검"];
 
+  /* ═══ Step 1 필드 정의 ═══ */
+  type FieldDef = { key:string; label:string; required:boolean; value:string; };
+  const step1Fields: FieldDef[] = [
+    { key:"plate",     label:"차량번호",          required:true,  value: plateNumber || "" },
+    { key:"brand",     label:"제조사",            required:true,  value: selectedBrand || "" },
+    { key:"model",     label:"모델",              required:true,  value: selectedBase || "" },
+    { key:"submodel",  label:"세부모델",          required:true,  value: selectedModel || "" },
+    { key:"fuel",      label:"연료",              required:false, value: fuel },
+    { key:"grade",     label:"등급",              required:true,  value: grade==="직접입력" ? customGrade : grade },
+    { key:"import",    label:"수입구분",          required:false, value: importType },
+    { key:"warranty",  label:"제조사보증",        required:false, value: warranty },
+    { key:"year",      label:"연식(최초등록일)",  required:true,  value: `${year}년 ${yearMonth}월` },
+    { key:"cc",        label:"배기량",            required:true,  value: cc ? `${Number(cc).toLocaleString()}cc` : "" },
+    { key:"trans",     label:"변속기",            required:true,  value: transmission },
+    { key:"color",     label:"색상",              required:true,  value: color==="기타" ? customColor : color },
+    { key:"interior",  label:"내장 시트 색상",    required:true,  value: interiorColor },
+    { key:"mileage",   label:"주행거리",          required:true,  value: mileage ? `${Number(mileage).toLocaleString()}km` : "" },
+    { key:"owners",    label:"소유자 수",         required:false, value: `${owners}인` },
+    { key:"accident",  label:"사고이력",          required:false, value: accident ? "사고 있음" : "무사고" },
+  ];
+
+  /* ═══ Step 1 오른쪽 패널 렌더링 ═══ */
+  const renderRightPanel = () => {
+    const panelStyle: React.CSSProperties = { padding:"24px 20px" };
+    const panelTitle = (t:string, desc?:string) => (
+      <div style={{marginBottom:20}}>
+        <div style={{fontSize:16,fontWeight:800,color:"#222",marginBottom:desc?4:0}}>{t}</div>
+        {desc && <div style={{fontSize:12,color:"#AAA"}}>{desc}</div>}
+      </div>
+    );
+    const optBtn = (label:string, selected:boolean, onClick:()=>void, sub?:string) => (
+      <button key={label} onClick={onClick} style={{
+        display:"block", width:"100%", textAlign:"left",
+        padding:"14px 18px", marginBottom:8, borderRadius:12,
+        border: selected ? "2px solid #FF3B1E" : "1.5px solid #E8E5E0",
+        background: selected ? "#FFF5F3" : "white",
+        cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif",
+        transition:"all 0.15s",
+      }}>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <div style={{width:18,height:18,borderRadius:"50%",border:selected?"2px solid #FF3B1E":"2px solid #CCC",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+            {selected && <div style={{width:10,height:10,borderRadius:"50%",background:"#FF3B1E"}}/>}
+          </div>
+          <div>
+            <div style={{fontSize:14,fontWeight:selected?800:500,color:selected?"#FF3B1E":"#444"}}>{label}</div>
+            {sub && <div style={{fontSize:11,color:"#AAA",marginTop:2}}>{sub}</div>}
+          </div>
+        </div>
+      </button>
+    );
+
+    switch(activeField) {
+      case "plate":
+        return <div style={panelStyle}>
+          {panelTitle("차량번호 입력","차량번호를 입력하면 자동으로 차량 정보를 불러옵니다.")}
+          <input value={plateNumber} onChange={e=>setPlateNumber(e.target.value)} placeholder="예) 12가1234" style={{...inputS,border:errBorder("plate"),fontSize:18,fontWeight:700,letterSpacing:2,marginBottom:12}}/>
+          <button onClick={()=>alert("국토교통부 차량 조회 기능은 준비 중입니다.")} style={{width:"100%",padding:"14px",background:"#1847FF",color:"white",border:"none",borderRadius:12,fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>🏛️ 국토부 자동 조회</button>
+          <div style={{fontSize:11,color:"#AAA",marginTop:8,lineHeight:1.6}}>• 현재 차량등록은 가능하며,<br/>• 실 차주는 중복등록 삭제/금지를 요청할 수 있습니다.</div>
+        </div>;
+
+      case "brand":
+        return <div style={panelStyle}>
+          {panelTitle("제조사 선택")}
+          <div style={{fontSize:12,fontWeight:700,color:"#FF3B1E",marginBottom:10}}>🇰🇷 국산</div>
+          {brandList.filter(b=>brands[b].category==="국산").map(b=>optBtn(b, selectedBrand===b, ()=>handleBrandChange(b)))}
+          <div style={{fontSize:12,fontWeight:700,color:"#0066FF",marginBottom:10,marginTop:16}}>🌍 수입</div>
+          {brandList.filter(b=>brands[b].category==="수입").map(b=>optBtn(b, selectedBrand===b, ()=>handleBrandChange(b)))}
+        </div>;
+
+      case "model":
+        return <div style={panelStyle}>
+          {panelTitle("모델 선택", selectedBrand ? `${selectedBrand}의 모델` : "제조사를 먼저 선택해주세요")}
+          {!selectedBrand ? <div style={{color:"#AAA",fontSize:14,textAlign:"center",padding:40}}>← 제조사를 먼저 선택해주세요</div> :
+            baseModels.map(g=>optBtn(`${g.base}`, selectedBase===g.base, ()=>handleBaseChange(g.base), `${g.variants.length}개 세대`))
+          }
+        </div>;
+
+      case "submodel":
+        return <div style={panelStyle}>
+          {panelTitle("세부모델 선택", selectedBase ? `${selectedBrand} ${selectedBase}` : "모델을 먼저 선택해주세요")}
+          {!selectedBase ? <div style={{color:"#AAA",fontSize:14,textAlign:"center",padding:40}}>← 모델을 먼저 선택해주세요</div> :
+            modelVariants.length<=1 ? <div style={{color:"#2D8A52",fontSize:14,textAlign:"center",padding:40}}>✓ {selectedModel || selectedBase} 자동 선택됨</div> :
+            [...modelVariants].sort((a,b)=>{if(a.status==="현행"&&b.status!=="현행")return -1;if(a.status!=="현행"&&b.status==="현행")return 1;return 0;}).map(v=>
+              optBtn(v.name, selectedModel===v.name, ()=>{handleModelSelect(v.name);setActiveField("fuel");}, v.status==="현행"?"✦ 현행":"단종")
+            )
+          }
+        </div>;
+
+      case "fuel":
+        return <div style={panelStyle}>
+          {panelTitle("연료 선택")}
+          {(allModelGrades.length>0 ? availableFuels : FUEL_TYPES).map((f:string)=>{
+            const cnt = allModelGrades.filter((g:{fuelType:string})=>g.fuelType===f).length;
+            const icon = f==="전기"?"⚡":f==="하이브리드"?"🔋":f==="디젤"?"🛢️":f==="LPG"?"🔥":f==="수소"?"💧":"⛽";
+            return optBtn(`${icon} ${f}`, fuel===f, ()=>{setFuel(f);setGrade("");}, cnt>0?`${cnt}개 등급`:"");
+          })}
+        </div>;
+
+      case "grade":
+        return <div style={panelStyle}>
+          {panelTitle("등급 선택", selectedModel ? `${selectedModel} · ${fuel}` : "모델/연료를 먼저 선택해주세요")}
+          {filteredGrades.length>0 ? <>
+            {filteredGrades.map((g:{grade:string;price:number;engine:string})=>
+              optBtn(g.grade, grade===g.grade, ()=>setGrade(g.grade), `${g.price?.toLocaleString()}만원 · ${g.engine}`)
+            )}
+            <div style={{borderTop:"1px solid #EEE",marginTop:12,paddingTop:12}}>
+              {optBtn("✎ 직접 입력", grade==="직접입력", ()=>setGrade("직접입력"))}
+              {grade==="직접입력" && <input value={customGrade} onChange={e=>setCustomGrade(e.target.value)} placeholder="등급 직접 입력" style={{...inputS,border:"1.5px solid #E0DDD7",marginTop:8}}/>}
+            </div>
+          </> : <div style={{color:"#AAA",fontSize:13,textAlign:"center",padding:40}}>
+            등급 데이터가 없습니다. 직접 입력해주세요.
+            {optBtn("✎ 직접 입력", grade==="직접입력", ()=>setGrade("직접입력"))}
+            {grade==="직접입력" && <input value={customGrade} onChange={e=>setCustomGrade(e.target.value)} placeholder="등급 직접 입력" style={{...inputS,border:"1.5px solid #E0DDD7",marginTop:8}}/>}
+          </div>}
+          <div style={{fontSize:11,color:"#AAA",marginTop:16,lineHeight:1.6}}>
+            • 선택하신 등급이 실제 차량정보와 다를 경우 차량이 삭제될 수 있습니다.<br/>
+            • 등록 차량이 위 리스트에 없다면? 직접 입력을 선택해주세요.
+          </div>
+        </div>;
+
+      case "import":
+        return <div style={panelStyle}>
+          {panelTitle("수입구분")}
+          {IMPORT_TYPES.map(t=>optBtn(t, importType===t, ()=>setImportType(t)))}
+        </div>;
+
+      case "warranty":
+        return <div style={panelStyle}>
+          {panelTitle("제조사보증","제조사 보증 잔여 여부")}
+          {["없음","보증기간 내","연장보증"].map(t=>optBtn(t, warranty===t, ()=>setWarranty(t)))}
+        </div>;
+
+      case "year":
+        return <div style={panelStyle}>
+          {panelTitle("연식 (최초등록일)")}
+          <div style={{display:"flex",gap:12,marginBottom:16}}>
+            <div style={{flex:1}}>
+              <label style={{fontSize:12,fontWeight:700,color:"#888",marginBottom:6,display:"block"}}>연도</label>
+              <select value={year} onChange={e=>setYear(Number(e.target.value))} style={{...inputS,border:"1.5px solid #E0DDD7"}}>
+                {Array.from({length:new Date().getFullYear()-1989},(_,i)=>new Date().getFullYear()-i).map(y=><option key={y} value={y}>{y}년</option>)}
+              </select>
+            </div>
+            <div style={{flex:1}}>
+              <label style={{fontSize:12,fontWeight:700,color:"#888",marginBottom:6,display:"block"}}>월</label>
+              <select value={yearMonth} onChange={e=>setYearMonth(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7"}}>
+                {Array.from({length:12},(_,i)=>String(i+1).padStart(2,"0")).map(m=><option key={m} value={m}>{m}월</option>)}
+              </select>
+            </div>
+          </div>
+        </div>;
+
+      case "cc":
+        return <div style={panelStyle}>
+          {panelTitle("배기량 (cc)")}
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <input type="number" value={cc} onChange={e=>setCc(e.target.value)} placeholder="예: 1998" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1,fontSize:18,fontWeight:700}}/>
+            <span style={{fontSize:15,color:"#888",fontWeight:700}}>cc</span>
+          </div>
+          <div style={{fontSize:11,color:"#AAA",marginTop:8}}>전기차의 경우 0으로 입력해주세요.</div>
+        </div>;
+
+      case "trans":
+        return <div style={panelStyle}>
+          {panelTitle("변속기")}
+          {TRANSMISSIONS.map(t=>optBtn(t, transmission===t, ()=>setTransmission(t)))}
+        </div>;
+
+      case "color":
+        return <div style={panelStyle}>
+          {panelTitle("외장 색상")}
+          {COLORS.map(c=>optBtn(c, color===c, ()=>setColor(c)))}
+          {color==="기타" && <input value={customColor} onChange={e=>setCustomColor(e.target.value)} placeholder="색상 직접 입력" style={{...inputS,border:"1.5px solid #E0DDD7",marginTop:8}}/>}
+        </div>;
+
+      case "interior":
+        return <div style={panelStyle}>
+          {panelTitle("내장 시트 색상")}
+          {INTERIOR_COLORS.map(c=>optBtn(c, interiorColor===c, ()=>setInteriorColor(c)))}
+        </div>;
+
+      case "mileage":
+        return <div style={panelStyle}>
+          {panelTitle("주행거리")}
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <input type="number" value={mileage} onChange={e=>setMileage(e.target.value)} placeholder="예: 35000" style={{...inputS,border:errBorder("mileage"),flex:1,fontSize:18,fontWeight:700}}/>
+            <span style={{fontSize:15,color:"#888",fontWeight:700}}>km</span>
+          </div>
+        </div>;
+
+      case "owners":
+        return <div style={panelStyle}>
+          {panelTitle("소유자 수")}
+          {["1","2","3","4","5","6","7","8","9이상"].map(o=>optBtn(`${o}인`, owners===o, ()=>setOwners(o)))}
+        </div>;
+
+      case "accident":
+        return <div style={panelStyle}>
+          {panelTitle("사고이력")}
+          {optBtn("무사고", !accident, ()=>setAccident(false))}
+          {optBtn("사고 있음", accident, ()=>setAccident(true))}
+        </div>;
+
+      default:
+        return <div style={{...panelStyle,display:"flex",alignItems:"center",justifyContent:"center",minHeight:300}}>
+          <div style={{textAlign:"center",color:"#CCC"}}>
+            <div style={{fontSize:40,marginBottom:12}}>👈</div>
+            <div style={{fontSize:14}}>왼쪽에서 항목을 선택해주세요</div>
+          </div>
+        </div>;
+    }
+  };
+
   if(submitted) return (
     <><Navbar/><div style={{textAlign:"center",padding:"80px 20px",fontFamily:"'NanumSquareRound',sans-serif"}}>
       <div style={{fontSize:60,marginBottom:20}}>✅</div>
@@ -483,7 +696,7 @@ export default function DealerCarsNewPage() {
       <div style={{minHeight:"100vh",background:"#F0F4FF"}}>
         {/* 헤더 */}
         <div style={{background:"white",borderBottom:"1px solid #DDEEFF",padding:"16px 24px"}}>
-          <div style={{maxWidth:780,margin:"0 auto"}}>
+          <div style={{maxWidth:960,margin:"0 auto"}}>
             <Link href="/dealer" style={{display:"inline-flex",alignItems:"center",gap:4,fontSize:13,color:"#888",marginBottom:8,textDecoration:"none"}}><ChevronLeft size={14}/>딜러 대시보드</Link>
             <h1 style={{fontSize:22,fontWeight:800}}>차량 광고 등록</h1>
             <div style={{display:"flex",gap:6,marginTop:12}}>
@@ -497,98 +710,47 @@ export default function DealerCarsNewPage() {
           </div>
         </div>
 
-        <div style={{maxWidth:780,margin:"0 auto",padding:"24px 16px 120px"}}>
+        <div style={{maxWidth:960,margin:"0 auto",padding:"24px 16px 120px"}}>
 
-          {/* ══ STEP 1: 차량 정보 ══ */}
+          {/* ══ STEP 1: 차량 정보 (엔카 스타일 2패널) ══ */}
           {step===1&&(
-            <div style={{background:"white",borderRadius:20,padding:"28px 26px"}}>
-              <h2 style={{fontSize:18,fontWeight:800,marginBottom:20}}>🚗 차량 정보</h2>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
-                <div>
-                  <label style={labelS}>제조사 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <select value={selectedBrand} onChange={e=>handleBrandChange(e.target.value)} style={{...inputS,border:errBorder("brand")}}>
-                    <option value="">선택</option>
-                    <optgroup label="🇰🇷 국산">{brandList.filter(b=>brands[b].category==="국산").map(b=><option key={b} value={b}>{b}</option>)}</optgroup>
-                    <optgroup label="🌍 수입">{brandList.filter(b=>brands[b].category==="수입").map(b=><option key={b} value={b}>{b}</option>)}</optgroup>
-                  </select>
+            <div>
+              <h2 style={{fontSize:18,fontWeight:800,marginBottom:16}}>🚗 차량정보를 선택하세요</h2>
+              <div style={{display:"flex",gap:0,borderRadius:16,overflow:"hidden",border:"1px solid #E0DDD7",background:"white",minHeight:500}}>
+                {/* ── 왼쪽: 필드 목록 ── */}
+                <div style={{width:340,flexShrink:0,borderRight:"1px solid #E8E5E0",overflowY:"auto",maxHeight:680}}>
+                  {step1Fields.map((f)=>{
+                    const isActive = activeField === f.key;
+                    const hasValue = !!f.value;
+                    const hasError = errorFields.has(f.key);
+                    return (
+                      <button
+                        key={f.key}
+                        onClick={()=>setActiveField(f.key)}
+                        style={{
+                          display:"flex", alignItems:"center", justifyContent:"space-between",
+                          width:"100%", padding:"15px 18px",
+                          border:"none", borderBottom:"1px solid #F0EEE9", borderLeft: isActive ? "3px solid #FF3B1E" : "3px solid transparent",
+                          background: isActive ? "#FFF8F6" : "white",
+                          cursor:"pointer", fontFamily:"'NanumSquareRound',sans-serif",
+                          transition:"all 0.15s",
+                        }}
+                      >
+                        <div style={{display:"flex",alignItems:"center",gap:4}}>
+                          {f.required && <span style={{color:"#FF3B1E",fontSize:13,fontWeight:800}}>*</span>}
+                          <span style={{fontSize:14,fontWeight: isActive ? 800 : hasError ? 700 : 500, color: hasError ? "#E24B4A" : isActive ? "#FF3B1E" : "#444"}}>{f.label}</span>
+                        </div>
+                        <div style={{display:"flex",alignItems:"center",gap:6}}>
+                          {hasValue && <span style={{fontSize:13,color:"#222",fontWeight:600,maxWidth:120,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{f.value}</span>}
+                          <ChevronRight size={14} color={isActive?"#FF3B1E":"#CCC"}/>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
-                <div>
-                  <label style={labelS}>모델명 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <select value={selectedBase} onChange={e=>handleBaseChange(e.target.value)} style={{...inputS,border:errBorder("model")}} disabled={!selectedBrand}>
-                    <option value="">선택</option>
-                    {baseModels.map(g=><option key={g.base} value={g.base}>{g.base} ({g.variants.length})</option>)}
-                  </select>
-                </div>
-              </div>
-              {selectedBase&&modelVariants.length>1&&(
-                <div style={{marginBottom:16}}>
-                  <label style={labelS}>세대/상세 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <select value={selectedModel} onChange={e=>handleModelSelect(e.target.value)} style={{...inputS,border:errBorder("model")}}>
-                    <option value="">선택</option>
-                    {[...modelVariants].sort((a,b)=>{if(a.status==="현행"&&b.status!=="현행")return -1;if(a.status!=="현행"&&b.status==="현행")return 1;return 0;}).map(v=>(
-                      <option key={v.name} value={v.name}>{v.name} {v.status==="현행"?"✦ 현행":"(단종)"}</option>
-                    ))}
-                  </select>
-                </div>
-              )}
-              {selectedModel&&<div style={{background:"#EEF5FF",borderRadius:10,padding:"10px 16px",marginBottom:16,fontSize:14,fontWeight:700,color:"#0066FF"}}>✓ {selectedBrand} {selectedModel}</div>}
-              <div style={{marginBottom:16}}>
-                <label style={labelS}>연료 <span style={{color:"#FF3B1E"}}>*</span></label>
-                {allModelGrades.length>0?(
-                  <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
-                    {availableFuels.map((f:string)=>{
-                      const cnt=allModelGrades.filter((g:{fuelType:string})=>g.fuelType===f).length;
-                      return <button key={f} onClick={()=>{setFuel(f);setGrade("");}} style={{padding:"10px 16px",borderRadius:10,fontSize:14,fontWeight:fuel===f?800:500,border:fuel===f?"2px solid #0066FF":"1.5px solid #E0DDD7",background:fuel===f?"#EEF5FF":"white",color:fuel===f?"#0066FF":"#888",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>
-                        {f==="전기"?"⚡":f==="하이브리드"?"🔋":f==="디젤"?"🛢️":f==="LPG"?"🔥":f==="수소"?"💧":"⛽"} {f} <span style={{fontSize:11,color:fuel===f?"#0066FF":"#CCC"}}>({cnt})</span>
-                      </button>;
-                    })}
-                  </div>
-                ):(
-                  <select value={fuel} onChange={e=>setFuel(e.target.value)} style={inputS}>{FUEL_TYPES.map(f=><option key={f}>{f}</option>)}</select>
-                )}
-              </div>
-              <div style={{marginBottom:16}}>
-                <label style={labelS}>등급/트림</label>
-                <select value={grade} onChange={e=>setGrade(e.target.value)} style={inputS}>
-                  <option value="">선택 (없으면 비워두세요)</option>
-                  {filteredGrades.length>0&&<optgroup label={`📋 ${fuel} 등급`}>{filteredGrades.map((g:{grade:string;price:number;engine:string})=><option key={g.grade} value={g.grade}>{g.grade} ({g.price?.toLocaleString()}만 · {g.engine})</option>)}</optgroup>}
-                  <option value="직접입력">✎ 직접 입력</option>
-                </select>
-                {grade==="직접입력"&&<input value={customGrade} onChange={e=>setCustomGrade(e.target.value)} placeholder="등급/트림 직접 입력" style={{...inputS,border:"1.5px solid #E0DDD7",marginTop:8}}/>}
-              </div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
-                <div><label style={labelS}>연식 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <select value={year} onChange={e=>setYear(Number(e.target.value))} style={inputS}>
-                    {Array.from({length:new Date().getFullYear()-1989},(_,i)=>new Date().getFullYear()-i).map(y=><option key={y} value={y}>{y}년</option>)}
-                  </select>
-                </div>
-                <div><label style={labelS}>주행거리(km) <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <input type="number" value={mileage} onChange={e=>setMileage(e.target.value)} placeholder="예: 35000" style={{...inputS,border:errBorder("mileage")}}/>
-                </div>
-              </div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
-                <div><label style={labelS}>변속기</label><select value={transmission} onChange={e=>setTransmission(e.target.value)} style={inputS}>{TRANSMISSIONS.map(t=><option key={t}>{t}</option>)}</select></div>
-                <div><label style={labelS}>색상 <span style={{color:"#FF3B1E"}}>*</span></label>
-                  <select value={color} onChange={e=>setColor(e.target.value)} style={{...inputS,border:errBorder("color")}}><option value="">선택</option>{COLORS.map(c=><option key={c} value={c}>{c}</option>)}</select>
-                  {color==="기타"&&<input value={customColor} onChange={e=>setCustomColor(e.target.value)} placeholder="색상 직접 입력" style={{...inputS,border:"1.5px solid #E0DDD7",marginTop:8}}/>}
-                </div>
-              </div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
-                <div><label style={labelS}>배기량(cc)</label><input type="number" value={cc} onChange={e=>setCc(e.target.value)} placeholder="예: 1998" style={inputS}/></div>
-                <div><label style={labelS}>소유자 수</label><select value={owners} onChange={e=>setOwners(e.target.value)} style={inputS}>{["1","2","3","4","5","6","7","8","9이상"].map(o=><option key={o} value={o}>{o}인</option>)}</select></div>
-              </div>
-              <div style={{marginBottom:16}}>
-                <label style={labelS}>차량번호 <span style={{color:"#FF3B1E"}}>*</span></label>
-                <div style={{display:"flex",gap:8}}>
-                  <input value={plateNumber} onChange={e=>setPlateNumber(e.target.value)} placeholder="12가1234" style={{...inputS,flex:1,border:errBorder("plate")}}/>
-                  <button onClick={()=>alert("국토교통부 차량 조회 기능은 준비 중입니다.")} style={{padding:"13px 18px",background:"#1847FF",color:"white",border:"none",borderRadius:10,fontSize:13,fontWeight:800,whiteSpace:"nowrap",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>🏛️ 국토부 조회</button>
-                </div>
-              </div>
-              <div style={{marginBottom:16}}>
-                <label style={labelS}>사고이력</label>
-                <div style={{display:"flex",gap:8}}>
-                  <button onClick={()=>setAccident(false)} style={{flex:1,padding:"12px",borderRadius:10,border:!accident?"2px solid #2D8A52":"1.5px solid #E0DDD7",background:!accident?"#EAF6EF":"white",color:!accident?"#2D8A52":"#888",fontWeight:!accident?800:500,fontSize:14,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>무사고</button>
-                  <button onClick={()=>setAccident(true)} style={{flex:1,padding:"12px",borderRadius:10,border:accident?"2px solid #E24B4A":"1.5px solid #E0DDD7",background:accident?"#FFF0ED":"white",color:accident?"#E24B4A":"#888",fontWeight:accident?800:500,fontSize:14,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>사고 있음</button>
+                {/* ── 오른쪽: 선택/입력 패널 ── */}
+                <div style={{flex:1,overflowY:"auto",maxHeight:680,background:"#FAFAFA"}}>
+                  {renderRightPanel()}
                 </div>
               </div>
             </div>
@@ -674,7 +836,6 @@ export default function DealerCarsNewPage() {
           {/* ══ STEP 4: 성능점검 ══ */}
           {step===4&&(
             <div>
-              {/* 나중에 입력 선택지 */}
               <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:16,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
                 <div>
                   <div style={{fontSize:15,fontWeight:800,marginBottom:4}}>🔧 성능점검 기록부</div>
@@ -688,7 +849,6 @@ export default function DealerCarsNewPage() {
 
               {!skipInspection&&(
                 <>
-                  {/* ── 제시번호 & 기록부 번호 ── */}
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:14}}>📋 기록부 번호</div>
                     <div style={{marginBottom:14}}>
@@ -708,10 +868,8 @@ export default function DealerCarsNewPage() {
                     </div>
                   </div>
 
-                  {/* ── 자동차 종합상태 ── */}
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:14}}>🚘 자동차 종합상태</div>
-
                     <div style={{display:"flex",alignItems:"center",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16}}>
                       <div style={{minWidth:160,fontSize:13,fontWeight:700,color:"#444"}}>주행거리 계기상태</div>
                       <RG value={odomState} options={["양호","불량"]} onChange={v=>setOdomState(v as "양호"|"불량")}/>
@@ -747,57 +905,28 @@ export default function DealerCarsNewPage() {
                       <div style={{minWidth:160,fontSize:13,fontWeight:700,paddingTop:2}}>튜닝</div>
                       <div>
                         <RG value={tuning} options={["없음","있음"]} onChange={v=>setTuning(v as "없음"|"있음")}/>
-                        {tuning==="있음"&&(
-                          <div style={{display:"flex",gap:10,marginTop:8}}>
-                            {["구조","장치"].map(t=>(
-                              <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
-                                <input type="checkbox" checked={tuningTypes.includes(t)} onChange={e=>setTuningTypes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#FF3B1E"}}/>
-                                {t}
-                              </label>
-                            ))}
-                          </div>
-                        )}
+                        {tuning==="있음"&&<div style={{display:"flex",gap:10,marginTop:8}}>{["구조","장치"].map(t=>(<label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}><input type="checkbox" checked={tuningTypes.includes(t)} onChange={e=>setTuningTypes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#FF3B1E"}}/>{t}</label>))}</div>}
                       </div>
                     </div>
                     <div style={{display:"flex",alignItems:"flex-start",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16,flexWrap:"wrap"}}>
                       <div style={{minWidth:160,fontSize:13,fontWeight:700,paddingTop:2}}>특별이력</div>
                       <div>
                         <RG value={specialHistory} options={["없음","있음"]} onChange={v=>setSpecialHistory(v as "없음"|"있음")}/>
-                        {specialHistory==="있음"&&(
-                          <div style={{display:"flex",gap:10,marginTop:8}}>
-                            {["침수","화재"].map(t=>(
-                              <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
-                                <input type="checkbox" checked={specialTypes.includes(t)} onChange={e=>setSpecialTypes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#FF3B1E"}}/>
-                                {t}
-                              </label>
-                            ))}
-                          </div>
-                        )}
+                        {specialHistory==="있음"&&<div style={{display:"flex",gap:10,marginTop:8}}>{["침수","화재"].map(t=>(<label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}><input type="checkbox" checked={specialTypes.includes(t)} onChange={e=>setSpecialTypes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#FF3B1E"}}/>{t}</label>))}</div>}
                       </div>
                     </div>
                     <div style={{display:"flex",alignItems:"flex-start",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16,flexWrap:"wrap"}}>
                       <div style={{minWidth:160,fontSize:13,fontWeight:700,paddingTop:2}}>용도변경</div>
                       <div>
                         <RG value={purposeChange} options={["없음","있음"]} onChange={v=>setPurposeChange(v as "없음"|"있음")}/>
-                        {purposeChange==="있음"&&(
-                          <div style={{display:"flex",gap:10,marginTop:8}}>
-                            {["렌트","영업용"].map(t=>(
-                              <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
-                                <input type="checkbox" checked={purposeTypes.includes(t)} onChange={e=>setPurposeTypes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#FF3B1E"}}/>
-                                {t}
-                              </label>
-                            ))}
-                          </div>
-                        )}
+                        {purposeChange==="있음"&&<div style={{display:"flex",gap:10,marginTop:8}}>{["렌트","영업용"].map(t=>(<label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}><input type="checkbox" checked={purposeTypes.includes(t)} onChange={e=>setPurposeTypes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#FF3B1E"}}/>{t}</label>))}</div>}
                       </div>
                     </div>
                     <div style={{display:"flex",alignItems:"center",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16,flexWrap:"wrap"}}>
                       <div style={{minWidth:160,fontSize:13,fontWeight:700}}>색상</div>
                       <div style={{display:"flex",alignItems:"center",gap:16,flexWrap:"wrap"}}>
                         <RG value={colorState} options={["무채색","유채색"]} onChange={v=>setColorState(v as "무채색"|"유채색")}/>
-                        <label style={{display:"flex",alignItems:"center",gap:5,fontSize:12,cursor:"pointer"}}>
-                          <input type="checkbox" checked={colorChange} onChange={e=>setColorChange(e.target.checked)} style={{accentColor:"#FF3B1E"}}/>색상변경
-                        </label>
+                        <label style={{display:"flex",alignItems:"center",gap:5,fontSize:12,cursor:"pointer"}}><input type="checkbox" checked={colorChange} onChange={e=>setColorChange(e.target.checked)} style={{accentColor:"#FF3B1E"}}/>색상변경</label>
                       </div>
                     </div>
                     <div style={{display:"flex",alignItems:"center",padding:"10px 0",gap:16}}>
@@ -806,7 +935,6 @@ export default function DealerCarsNewPage() {
                     </div>
                   </div>
 
-                  {/* ── 사고·교환·수리 이력 ── */}
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:4}}>💥 사고·교환·수리 등 이력</div>
                     <div style={{fontSize:11,color:"#AAA",marginBottom:14}}>해당 부위에 체크 표시하세요</div>
@@ -816,14 +944,11 @@ export default function DealerCarsNewPage() {
                     <DamageTable title="주요 골격 (C)" rank="C랭크" items={PANEL_CRANK} data={damageC} onChange={updateDamage(setDamageC)}/>
                   </div>
 
-                  {/* ── 자동차 세부사항 ── */}
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:14}}>🔩 자동차 세부사항</div>
-
                     {sectionTitle("자가 진단")}
                     {goodBadRow("원동기",selfDiagEngine,setSelfDiagEngine)}
                     {goodBadRow("변속기",selfDiagTrans,setSelfDiagTrans)}
-
                     {sectionTitle("원동기")}
                     {goodBadRow("작동상태(공회전)",engineRunning,setEngineRunning)}
                     {oilRow("실린더 커버(로커암 커버)",oilLeakCover,setOilLeakCover)}
@@ -840,7 +965,6 @@ export default function DealerCarsNewPage() {
                       <div style={{minWidth:160,fontSize:13,color:"#444"}}>냉각수 수량</div>
                       <RG value={coolLevel} options={["적정","부족"]} onChange={v=>setCoolLevel(v as OilLevel)}/>
                     </div>
-
                     {sectionTitle("변속기 (자동)")}
                     {oilRow("오일누유",atOilLeak,setAtOilLeak)}
                     <div style={{display:"flex",alignItems:"center",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16}}>
@@ -848,23 +972,19 @@ export default function DealerCarsNewPage() {
                       <RG value={atOilLevel} options={["적정","부족","과다"]} onChange={v=>setAtOilLevel(v as OilLevel)}/>
                     </div>
                     {goodBadRow("작동상태(공회전)",atRunning,setAtRunning)}
-
                     {sectionTitle("동력전달")}
                     {goodBadRow("클러치 어셈블리",clutch,setClutch)}
                     {goodBadRow("등속조인트",cvJoint,setCvJoint)}
                     {goodBadRow("추진축 및 베어링",driveShaft,setDriveShaft)}
                     {goodBadRow("디퍼렌셜 기어",differential,setDifferential)}
-
                     {sectionTitle("조향")}
                     {goodBadRow("스티어링 펌프",steeringPump,setSteeringPump)}
                     {goodBadRow("스티어링 기어(MDPS포함)",steeringGear,setSteeringGear)}
                     {goodBadRow("스티어링 조인트",steeringJoint,setSteeringJoint)}
-
                     {sectionTitle("제동")}
                     {oilRow("브레이크 마스터 실린더 오일 누유",brakeOilLeak,setBrakeOilLeak)}
                     {oilRow("브레이크 오일 누유",brakeLevel,setBrakeLevel)}
                     {goodBadRow("배력장치 상태",brakeBooster,setBrakeBooster)}
-
                     {sectionTitle("전기")}
                     {goodBadRow("발전기 출력",generator,setGenerator)}
                     {goodBadRow("시동모터",starter,setStarter)}
@@ -872,7 +992,6 @@ export default function DealerCarsNewPage() {
                     {goodBadRow("실내송풍 모터",blowerMotor,setBlowerMotor)}
                     {goodBadRow("라디에이터 팬 모터",radFanMotor,setRadFanMotor)}
                     {goodBadRow("윈도우 모터",windowMotor,setWindowMotor)}
-
                     {sectionTitle("연료")}
                     <div style={{display:"flex",alignItems:"center",padding:"10px 0",gap:16}}>
                       <div style={{minWidth:160,fontSize:13,color:"#444"}}>연료누출(LP가스 포함)</div>
@@ -880,25 +999,16 @@ export default function DealerCarsNewPage() {
                     </div>
                   </div>
 
-                  {/* ── 자동차 기타정보 ── */}
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:14}}>🏎️ 자동차 기타정보</div>
-                    {[
-                      ["외장",exteriorState,setExteriorState],
-                      ["내장",interiorState,setInteriorState],
-                      ["광택",polishState,setPolishState],
-                      ["휠",wheelState,setWheelState],
-                      ["타이어",tireState,setTireState],
-                      ["유리",glassState,setGlassState],
-                    ].map(([label, val, setter])=>(
-                      <div key={label as string} style={{display:"flex",alignItems:"center",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16}}>
-                        <div style={{minWidth:100,fontSize:13,fontWeight:700,color:"#444"}}>{label as string}</div>
-                        <RG value={val as GoodBad} options={["양호","불량"]} onChange={v=>(setter as (v:GoodBad)=>void)(v as GoodBad)}/>
+                    {([ ["외장",exteriorState,setExteriorState], ["내장",interiorState,setInteriorState], ["광택",polishState,setPolishState], ["휠",wheelState,setWheelState], ["타이어",tireState,setTireState], ["유리",glassState,setGlassState] ] as [string,GoodBad,(v:GoodBad)=>void][]).map(([label, val, setter])=>(
+                      <div key={label} style={{display:"flex",alignItems:"center",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16}}>
+                        <div style={{minWidth:100,fontSize:13,fontWeight:700,color:"#444"}}>{label}</div>
+                        <RG value={val} options={["양호","불량"]} onChange={v=>setter(v as GoodBad)}/>
                       </div>
                     ))}
                   </div>
 
-                  {/* ── 점검 장면 촬영 사진 ── */}
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:4}}>📷 점검 장면 촬영 사진</div>
                     <div style={{fontSize:11,color:"#AAA",marginBottom:14}}>점검장 일부(상호 또는 건물 등)를 배경으로 차량 번호판 및 차량 전체가 식별 가능한 사진을 등록해주세요.</div>
@@ -934,7 +1044,6 @@ export default function DealerCarsNewPage() {
                     </div>
                   </div>
 
-                  {/* ── 서명 ── */}
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:4,display:"flex",alignItems:"center",gap:8}}>
                       <Shield size={16} color="#0066FF"/> 서명
@@ -969,7 +1078,7 @@ export default function DealerCarsNewPage() {
           <div style={{display:"flex",gap:10,marginTop:12}}>
             {step>1&&<button onClick={()=>{setStep(step-1);setErrors([]);setErrorFields(new Set());}} style={{padding:"16px 24px",background:"white",border:"1.5px solid #E0DDD7",borderRadius:14,fontSize:15,fontWeight:700,color:"#888",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}><ChevronLeft size={16} style={{verticalAlign:"middle"}}/> 이전</button>}
             {step<4
-              ?<button onClick={nextStep} style={{flex:1,padding:"16px",background:"#0066FF",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>다음 <ChevronRight size={16}/></button>
+              ?<button onClick={nextStep} style={{flex:1,padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>다음 (옵션선택) <ChevronRight size={16}/></button>
               :<button onClick={handleSubmit} disabled={saving} style={{flex:1,padding:"16px",background:saving?"#CCC":"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:saving?"wait":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>{saving?"등록 중...":"매물 등록하기"}</button>
             }
           </div>
