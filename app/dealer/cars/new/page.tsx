@@ -2,7 +2,7 @@
 // 📁 저장 경로: app/dealer/cars/new/page.tsx
 // ═══════════════════════════════════════════════════
 "use client";
-import { useState, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -387,6 +387,38 @@ export default function DealerCarsNewPage() {
   const [mortgage,    setMortgage]    = useState<"없음"|"있음">("없음");
   const [accidentPublic, setAccidentPublic] = useState<"공개"|"비공개">("비공개");
 
+  /* 리스 관련 */
+  const [leaseType,     setLeaseType]     = useState("운용리스");
+  const [leaseCompany,  setLeaseCompany]  = useState("");
+  const [leaseStart,    setLeaseStart]    = useState("");
+  const [leaseEnd,      setLeaseEnd]      = useState("");
+  const [leaseMonthly,  setLeaseMonthly]  = useState("");
+  const [leaseDeposit,  setLeaseDeposit]  = useState("");
+  const [leaseResidual, setLeaseResidual] = useState("");
+  const [leaseRemain,   setLeaseRemain]   = useState("");
+  const [leaseSettlement,setLeaseSettlement]= useState("");
+  const [leaseSettleType,setLeaseSettleType]= useState<"인수금"|"승계지원금">("인수금");
+  const [leaseIncludes, setLeaseIncludes] = useState<string[]>([]);
+  const [leaseAfter,    setLeaseAfter]    = useState<string[]>([]);
+  const [leaseCarPrice, setLeaseCarPrice] = useState("");
+
+  /* 렌트 관련 */
+  const [rentCompany,   setRentCompany]   = useState("");
+  const [rentStart,     setRentStart]     = useState("");
+  const [rentEnd,       setRentEnd]       = useState("");
+  const [rentMonthly,   setRentMonthly]   = useState("");
+  const [rentDeposit,   setRentDeposit]   = useState("");
+  const [rentResidual,  setRentResidual]  = useState("");
+  const [rentSettlement,setRentSettlement]= useState("");
+  const [rentSettleType,setRentSettleType]= useState<"인수금"|"승계지원금">("인수금");
+  const [rentIncludes,  setRentIncludes]  = useState<string[]>([]);
+  const [rentAfter,     setRentAfter]     = useState<string[]>([]);
+  const [rentCarPrice,  setRentCarPrice]  = useState("");
+
+  /* 고정멘트 */
+  const [savedComment,  setSavedComment]  = useState("");
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
+
   /* ── Step 3: 사진 ── */
   const [mainPhotos,     setMainPhotos]     = useState<Record<string,string>>({});
   const [detailPhotos,   setDetailPhotos]   = useState<string[]>([]);
@@ -474,6 +506,93 @@ export default function DealerCarsNewPage() {
   const [agreeWarning,    setAgreeWarning]    = useState(false);
 
   /* ── 브랜드/모델 메모 ── */
+  /* ── 임시저장 (localStorage) ── */
+  const DRAFT_KEY = "fixcar_car_draft";
+  const [draftLoaded, setDraftLoaded] = useState(false);
+  const [showDraftPrompt, setShowDraftPrompt] = useState(false);
+
+  /* 마운트 시 임시저장 확인 */
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) setShowDraftPrompt(true);
+      const sc = localStorage.getItem("fixcar_saved_comment");
+      if (sc) setSavedComment(sc);
+    } catch {}
+    setDraftLoaded(true);
+  }, []);
+
+  /* 임시저장 불러오기 */
+  const loadDraft = () => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (!saved) return;
+      const d = JSON.parse(saved);
+      if (d.selectedBrand) setSelectedBrand(d.selectedBrand);
+      if (d.selectedBase) setSelectedBase(d.selectedBase);
+      if (d.selectedModel) setSelectedModel(d.selectedModel);
+      if (d.grade) setGrade(d.grade);
+      if (d.year) setYear(d.year);
+      if (d.mileage) setMileage(d.mileage);
+      if (d.fuel) setFuel(d.fuel);
+      if (d.color) setColor(d.color);
+      if (d.transmission) setTransmission(d.transmission);
+      if (d.cc) setCc(d.cc);
+      if (d.owners) setOwners(d.owners);
+      if (d.plateNumber) setPlateNumber(d.plateNumber);
+      if (d.price) setPrice(d.price);
+      if (d.region) setRegion(d.region);
+      if (d.description) setDescription(d.description);
+      if (d.options) setOptions(d.options);
+      if (d.saleType) setSaleType(d.saleType);
+      if (d.step) setStep(d.step);
+      if (d.accident !== undefined) setAccident(d.accident);
+    } catch {}
+    setShowDraftPrompt(false);
+  };
+
+  const discardDraft = () => {
+    try { localStorage.removeItem(DRAFT_KEY); } catch {}
+    setShowDraftPrompt(false);
+  };
+
+  /* 자동 임시저장 (5초마다) */
+  useEffect(() => {
+    if (!draftLoaded || submitted) return;
+    const timer = setInterval(() => {
+      try {
+        const draft = {
+          selectedBrand, selectedBase, selectedModel, grade, year, mileage, fuel,
+          color, transmission, cc, owners, plateNumber, price, region,
+          description, options, saleType, step, accident,
+          savedAt: new Date().toISOString(),
+        };
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      } catch {}
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [draftLoaded, submitted, selectedBrand, selectedBase, selectedModel, grade, year, mileage, fuel, color, transmission, cc, owners, plateNumber, price, region, description, options, saleType, step, accident]);
+
+  /* 등록 완료 시 임시저장 삭제 */
+  useEffect(() => {
+    if (submitted) {
+      try { localStorage.removeItem(DRAFT_KEY); } catch {}
+    }
+  }, [submitted]);
+
+  /* 페이지 이탈 경고 */
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (submitted) return;
+      if (selectedBrand || plateNumber || price) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [submitted, selectedBrand, plateNumber, price]);
+
   const brandList = useMemo(() => Object.keys(brands).sort((a,b)=>{
     const o=["현대","기아","제네시스","KG모빌리티","르노코리아","쉐보레"];
     const ai=o.indexOf(a),bi=o.indexOf(b);
@@ -556,6 +675,36 @@ export default function DealerCarsNewPage() {
       }
       setUploadingSlot(null);
     };inp.click();
+  };
+
+  /* 메인사진 4장 한번에 업로드 */
+  const [bulkUploading, setBulkUploading] = useState(false);
+  const handleBulkMainUpload = async () => {
+    const inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "image/*"; inp.multiple = true;
+    inp.onchange = async (e) => {
+      const files = (e.target as HTMLInputElement).files;
+      if (!files || files.length === 0) return;
+      const sorted = Array.from(files).sort((a, b) => a.name.localeCompare(b.name)).slice(0, 4);
+      setBulkUploading(true);
+      const slots = MAIN_SLOTS_DATA.map(s => s.key);
+      for (let i = 0; i < sorted.length; i++) {
+        setUploadingSlot(slots[i]);
+        try {
+          const resized = await resizeImage(sorted[i]);
+          const fd = new FormData(); fd.append("file", resized);
+          const res = await fetch("/api/upload", { method: "POST", body: fd });
+          if (!res.ok) continue;
+          const d = await res.json();
+          if (d.success && d.url) {
+            setMainPhotos(prev => ({ ...prev, [slots[i]]: d.url }));
+          }
+        } catch {}
+      }
+      setUploadingSlot(null);
+      setBulkUploading(false);
+    };
+    inp.click();
   };
   const handleDetailUpload=async()=>{
     if(detailPhotos.length>=20){alert("최대 20장");return;}
@@ -674,7 +823,7 @@ export default function DealerCarsNewPage() {
     { key:"import",    label:"수입구분",          required:false, value: importType },
     { key:"warranty",  label:"제조사보증",        required:false, value: warranty },
     { key:"year",      label:"연식(최초등록일)",  required:true,  value: `${year}년 ${yearMonth}월` },
-    { key:"cc",        label:"배기량",            required:true,  value: fuel==="전기" ? "전기차 ⚡" : cc ? `${Number(cc).toLocaleString()}cc` : "" },
+    { key:"cc",        label:"배기량",            required:fuel!=="전기",  value: fuel==="전기" ? "전기차 ⚡" : cc ? `${Number(cc).toLocaleString()}cc` : "" },
     { key:"trans",     label:"변속기",            required:true,  value: transmission },
     { key:"color",     label:"색상",              required:true,  value: color==="기타" ? customColor : color },
     { key:"interior",  label:"내장 시트 색상",    required:true,  value: interiorColor },
@@ -776,7 +925,7 @@ export default function DealerCarsNewPage() {
           {(allModelGrades.length>0 ? availableFuels : FUEL_TYPES).map((f:string)=>{
             const cnt = allModelGrades.filter((g:{fuelType:string})=>g.fuelType===f).length;
             const icon = f==="전기"?"⚡":f==="하이브리드"?"🔋":f==="디젤"?"🛢️":f==="LPG"?"🔥":f==="수소"?"💧":"⛽";
-            return optBtn(`${icon} ${f}`, fuel===f, ()=>{setFuel(f);setGrade("");setActiveField("grade");}, cnt>0?`${cnt}개 등급`:"");
+            return optBtn(`${icon} ${f}`, fuel===f, ()=>{setFuel(f);setGrade("");setActiveField("grade");if(f==="전기")setCc("0");}, cnt>0?`${cnt}개 등급`:"");
           })}
         </div>;
 
@@ -1006,6 +1155,20 @@ export default function DealerCarsNewPage() {
 
         <div style={{maxWidth:960,margin:"0 auto",padding:"24px 16px 120px"}}>
 
+          {/* ═══ 임시저장 복구 프롬프트 ═══ */}
+          {showDraftPrompt && (
+            <div style={{background:"#EEF5FF",border:"2px solid #0066FF",borderRadius:16,padding:"20px 24px",marginBottom:20,display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,flexWrap:"wrap"}}>
+              <div>
+                <div style={{fontSize:15,fontWeight:800,color:"#0066FF",marginBottom:4}}>📋 임시저장된 차량 정보가 있습니다</div>
+                <div style={{fontSize:12,color:"#888"}}>이전에 작성하던 내용을 불러올까요?</div>
+              </div>
+              <div style={{display:"flex",gap:8}}>
+                <button onClick={loadDraft} style={{padding:"10px 20px",background:"#0066FF",color:"white",border:"none",borderRadius:10,fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>불러오기</button>
+                <button onClick={discardDraft} style={{padding:"10px 20px",background:"white",color:"#888",border:"1px solid #DDD",borderRadius:10,fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>새로 작성</button>
+              </div>
+            </div>
+          )}
+
           {/* ══ STEP 1: 차량 정보 (엔카 스타일 2패널) ══ */}
           {step===1&&(
             <div>
@@ -1097,13 +1260,129 @@ export default function DealerCarsNewPage() {
                   * 중고차 시세를 참고하여 적절한 판매 가격을 제시해 보세요.<br/>
                   * 할부/리스 차량은 선납금, 잔여 개월 수 등을 고려하여 실판매가로 입력해 주세요.
                 </div>
+
+                {/* ── 리스승계 상세 ── */}
+                {saleType==="리스승계차량"&&(
+                  <div style={{marginTop:20,border:"1px solid #E0DDD7",borderRadius:14,padding:"20px",background:"#FAFAF8"}}>
+                    <div style={{fontSize:14,fontWeight:800,marginBottom:16}}>📋 리스 승계 정보</div>
+                    <div style={{display:"grid",gridTemplateColumns:"120px 1fr",gap:12,alignItems:"center",fontSize:13}}>
+                      <span style={{fontWeight:700}}>리스 종류</span>
+                      <select value={leaseType} onChange={e=>setLeaseType(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7"}}>
+                        <option>운용리스</option><option>금융리스</option>
+                      </select>
+                      <span style={{fontWeight:700}}>리스사</span>
+                      <select value={leaseCompany} onChange={e=>setLeaseCompany(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7"}}>
+                        <option value="">선택</option>
+                        {["현대캐피탈","KB캐피탈","신한캐피탈","하나캐피탈","우리캐피탈","롯데캐피탈","BNK캐피탈","JB우리캐피탈","기타"].map(c=><option key={c}>{c}</option>)}
+                      </select>
+                      <span style={{fontWeight:700}}>리스기간</span>
+                      <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                        <input type="month" value={leaseStart} onChange={e=>setLeaseStart(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/>
+                        <span>~</span>
+                        <input type="month" value={leaseEnd} onChange={e=>setLeaseEnd(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/>
+                      </div>
+                      <span style={{fontWeight:700}}>월리스료</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={leaseMonthly} onChange={e=>setLeaseMonthly(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      <span style={{fontWeight:700}}>보증금</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={leaseDeposit} onChange={e=>setLeaseDeposit(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      <span style={{fontWeight:700}}>잔존 가치</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={leaseResidual} onChange={e=>setLeaseResidual(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      <span style={{fontWeight:700}}>미회수 원금</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={leaseRemain} onChange={e=>setLeaseRemain(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      <span style={{fontWeight:700}}>인수 시 정산금</span>
+                      <div>
+                        <div style={{display:"flex",gap:8,marginBottom:8}}>
+                          {(["인수금","승계지원금"] as const).map(t=>(
+                            <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
+                              <input type="radio" checked={leaseSettleType===t} onChange={()=>setLeaseSettleType(t)} style={{accentColor:"#FF3B1E"}}/>{t}
+                            </label>
+                          ))}
+                        </div>
+                        <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={leaseSettlement} onChange={e=>setLeaseSettlement(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      </div>
+                      <span style={{fontWeight:700}}>월리스료 포함</span>
+                      <div style={{display:"flex",gap:10}}>
+                        {["자동차 세금","보험료","정비 서비스"].map(t=>(
+                          <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
+                            <input type="checkbox" checked={leaseIncludes.includes(t)} onChange={e=>setLeaseIncludes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#0066FF"}}/>{t}
+                          </label>
+                        ))}
+                      </div>
+                      <span style={{fontWeight:700}}>만기 후 처리</span>
+                      <div style={{display:"flex",gap:10}}>
+                        {["구매","반납"].map(t=>(
+                          <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
+                            <input type="checkbox" checked={leaseAfter.includes(t)} onChange={e=>setLeaseAfter(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#0066FF"}}/>{t}
+                          </label>
+                        ))}
+                      </div>
+                      <span style={{fontWeight:700}}>차량가격</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={leaseCarPrice} onChange={e=>setLeaseCarPrice(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ── 렌트 상세 ── */}
+                {saleType==="렌트차량"&&(
+                  <div style={{marginTop:20,border:"1px solid #E0DDD7",borderRadius:14,padding:"20px",background:"#FAFAF8"}}>
+                    <div style={{fontSize:14,fontWeight:800,marginBottom:16}}>📋 렌트 정보</div>
+                    <div style={{display:"grid",gridTemplateColumns:"120px 1fr",gap:12,alignItems:"center",fontSize:13}}>
+                      <span style={{fontWeight:700}}>렌트사</span>
+                      <select value={rentCompany} onChange={e=>setRentCompany(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7"}}>
+                        <option value="">선택</option>
+                        {["롯데렌탈","SK렌터카","현대캐피탈","쏘카","AJ렌터카","제주렌터카","기타"].map(c=><option key={c}>{c}</option>)}
+                      </select>
+                      <span style={{fontWeight:700}}>렌트 기간</span>
+                      <div style={{display:"flex",gap:8,alignItems:"center"}}>
+                        <input type="month" value={rentStart} onChange={e=>setRentStart(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/>
+                        <span>~</span>
+                        <input type="month" value={rentEnd} onChange={e=>setRentEnd(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/>
+                      </div>
+                      <span style={{fontWeight:700}}>월렌트료</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={rentMonthly} onChange={e=>setRentMonthly(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      <span style={{fontWeight:700}}>보증금</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={rentDeposit} onChange={e=>setRentDeposit(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      <span style={{fontWeight:700}}>잔존 가치</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={rentResidual} onChange={e=>setRentResidual(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      <span style={{fontWeight:700}}>인수 시 정산금</span>
+                      <div>
+                        <div style={{display:"flex",gap:8,marginBottom:8}}>
+                          {(["인수금","승계지원금"] as const).map(t=>(
+                            <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
+                              <input type="radio" checked={rentSettleType===t} onChange={()=>setRentSettleType(t)} style={{accentColor:"#FF3B1E"}}/>{t}
+                            </label>
+                          ))}
+                        </div>
+                        <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={rentSettlement} onChange={e=>setRentSettlement(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                      </div>
+                      <span style={{fontWeight:700}}>월렌트료 포함</span>
+                      <div style={{display:"flex",gap:10}}>
+                        {["자동차 세금","보험료","정비 서비스"].map(t=>(
+                          <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
+                            <input type="checkbox" checked={rentIncludes.includes(t)} onChange={e=>setRentIncludes(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#0066FF"}}/>{t}
+                          </label>
+                        ))}
+                      </div>
+                      <span style={{fontWeight:700}}>만기 후 처리</span>
+                      <div style={{display:"flex",gap:10}}>
+                        {["구매","반납"].map(t=>(
+                          <label key={t} style={{display:"flex",alignItems:"center",gap:4,fontSize:12,cursor:"pointer"}}>
+                            <input type="checkbox" checked={rentAfter.includes(t)} onChange={e=>setRentAfter(prev=>e.target.checked?[...prev,t]:prev.filter(x=>x!==t))} style={{accentColor:"#0066FF"}}/>{t}
+                          </label>
+                        ))}
+                      </div>
+                      <span style={{fontWeight:700}}>차량가격</span>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}><input type="number" value={rentCarPrice} onChange={e=>setRentCarPrice(e.target.value)} placeholder="0" style={{...inputS,border:"1.5px solid #E0DDD7",flex:1}}/><span>만원</span></div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* ── 설명글 ── */}
               <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
                 <h2 style={{fontSize:18,fontWeight:800,marginBottom:4}}>📝 설명글</h2>
                 <div style={{fontSize:12,color:"#AAA",marginBottom:14}}>* 판매차량의 상태, 판매 사유 등에 대해 자세히 입력해 주시면 더 많은 구매자가 관심을 가질 수 있습니다.</div>
-                <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
+                <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap",alignItems:"center"}}>
                   {([["직접","직접입력"],["일반","일반형 샘플"],["딜러","딜러형 샘플"]] as const).map(([k,l])=>(
                     <label key={k} style={{display:"flex",alignItems:"center",gap:6,fontSize:13,cursor:"pointer",padding:"8px 14px",borderRadius:10,border:descTemplate===k?"2px solid #FF3B1E":"1px solid #E0DDD7",background:descTemplate===k?"#FFF5F3":"white"}}>
                       <input type="radio" checked={descTemplate===k} onChange={()=>{
@@ -1188,7 +1467,24 @@ export default function DealerCarsNewPage() {
                       <span style={{fontWeight:descTemplate===k?700:500,color:descTemplate===k?"#FF3B1E":"#555"}}>{l}</span>
                     </label>
                   ))}
+                  {/* 고정멘트 버튼 */}
+                  <div style={{display:"flex",gap:6,marginLeft:"auto"}}>
+                    {savedComment && (
+                      <button onClick={()=>setDescription(savedComment)} style={{padding:"8px 14px",borderRadius:10,border:"1px solid #0066FF",background:"#EEF5FF",color:"#0066FF",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>📋 고정멘트 불러오기</button>
+                    )}
+                    <button onClick={()=>setShowSaveConfirm(true)} style={{padding:"8px 14px",borderRadius:10,border:"1px solid #E0DDD7",background:"white",color:"#666",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>💾 고정멘트 저장</button>
+                  </div>
                 </div>
+                {/* 고정멘트 저장 확인 */}
+                {showSaveConfirm && (
+                  <div style={{background:"#FFF8E8",border:"1px solid #FFD6A8",borderRadius:12,padding:"14px 18px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
+                    <div style={{fontSize:13,fontWeight:700,color:"#8B6914"}}>현재 내용으로 고정멘트를 저장합니다. 기존 저장본은 삭제됩니다. 진행하시겠습니까?</div>
+                    <div style={{display:"flex",gap:6}}>
+                      <button onClick={()=>{try{localStorage.setItem("fixcar_saved_comment",description);setSavedComment(description);}catch{}setShowSaveConfirm(false);alert("고정멘트가 저장되었습니다.");}} style={{padding:"8px 16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:8,fontSize:12,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>예</button>
+                      <button onClick={()=>setShowSaveConfirm(false)} style={{padding:"8px 16px",background:"white",color:"#888",border:"1px solid #DDD",borderRadius:8,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>아니오</button>
+                    </div>
+                  </div>
+                )}
                 <textarea rows={14} value={description} onChange={e=>setDescription(e.target.value)} placeholder={"설명글은 인사말 / 차량상태 / 차주정보 등을 입력하시면 됩니다.\n\n자유롭게 작성해 주세요."} maxLength={5000} style={{...inputS,border:"1.5px solid #E0DDD7",resize:"vertical",minHeight:300,lineHeight:1.8}}/>
                 <div style={{fontSize:11,color:"#AAA",textAlign:"right",marginTop:4}}>{description.length}/5,000자</div>
               </div>
@@ -1293,7 +1589,13 @@ export default function DealerCarsNewPage() {
             <div style={{background:"white",borderRadius:20,padding:"28px 26px"}}>
               <h2 style={{fontSize:18,fontWeight:800,marginBottom:6}}>📷 사진 업로드</h2>
               <p style={{fontSize:13,color:"#AAA",marginBottom:20}}>메인 사진 4장 필수! 디테일 사진 최대 20장.</p>
-              <div style={{fontSize:14,fontWeight:800,marginBottom:10,color:"#FF3B1E"}}>📌 메인 사진 (4장 필수)</div>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                <div style={{fontSize:14,fontWeight:800,color:"#FF3B1E"}}>📌 메인 사진 (4장 필수)</div>
+                <button onClick={handleBulkMainUpload} disabled={bulkUploading} style={{padding:"8px 16px",background:"#0066FF",color:"white",border:"none",borderRadius:8,fontSize:12,fontWeight:800,cursor:bulkUploading?"wait":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>
+                  {bulkUploading?"업로드 중...":"📁 4장 한번에 올리기"}
+                </button>
+              </div>
+              <div style={{fontSize:11,color:"#888",marginBottom:12}}>파일명 순서(abc)로 main1→main4에 배치됩니다. 개별 클릭으로 교체도 가능.</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
                 {MAIN_SLOTS_DATA.map(slot=>{
                   const url=mainPhotos[slot.key]; const isUp=uploadingSlot===slot.key;

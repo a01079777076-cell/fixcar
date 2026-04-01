@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/admin/page.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import Navbar from "@/components/Navbar";
@@ -186,7 +189,7 @@ export default function AdminPage() {
             <div>
               {cars.length===0
                 ? <div style={{background:"white",borderRadius:18,padding:48,textAlign:"center",color:"#CCC"}}>매물 없음</div>
-                : cars.map(car=>(
+                : cars.sort((a,b)=>{const order:Record<string,number>={"REVIEWING":0,"AVAILABLE":1,"RESERVED":2,"SOLD":3};return (order[a.status]??9)-(order[b.status]??9);}).map(car=>(
                   <div key={car.id} style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:10,border:car.status==="REVIEWING"?"2px solid #FFE4DE":"1px solid #F0EEE9"}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                       <div style={{display:"flex",alignItems:"center",gap:12}}>
@@ -352,6 +355,21 @@ export default function AdminPage() {
               <div style={{marginBottom:16}}>
                 <div style={{fontSize:13,fontWeight:800,marginBottom:6}}>옵션</div>
                 <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{detailCar.options.map((o:string)=><span key={o} style={{fontSize:11,padding:"3px 8px",borderRadius:6,background:"#EEF5FF",color:"#0066FF",fontWeight:600}}>{o}</span>)}</div>
+              </div>
+            )}
+            {detailCar.description&&(
+              <div style={{marginBottom:16}}>
+                <div style={{fontSize:13,fontWeight:800,marginBottom:6}}>📋 딜러 설명글</div>
+                <div style={{background:"#FAFAF8",borderRadius:10,padding:"14px",fontSize:12,color:"#555",lineHeight:1.8,whiteSpace:"pre-wrap",maxHeight:200,overflowY:"auto",border:"1px solid #F0EEE9"}}>{detailCar.description.replace(/\[성능점검데이터\][\s\S]*/,"").trim()}</div>
+              </div>
+            )}
+            {detailCar.dealer&&(
+              <div style={{marginBottom:16}}>
+                <div style={{fontSize:13,fontWeight:800,marginBottom:6}}>🏪 딜러 정보</div>
+                <div style={{background:"#EEF5FF",borderRadius:10,padding:"12px 14px",fontSize:13}}>
+                  <span style={{fontWeight:700}}>{detailCar.dealer.shopName}</span>
+                  {detailCar.dealer.verified&&<span style={{fontSize:10,color:"#2D8A52",background:"#EAF6EF",padding:"2px 6px",borderRadius:4,marginLeft:8,fontWeight:700}}>인증</span>}
+                </div>
               </div>
             )}
             {detailCar.images?.length>0&&(
