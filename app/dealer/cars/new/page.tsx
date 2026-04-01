@@ -52,9 +52,9 @@ const INTERIOR_COLORS_DATA = [
 ];
 const COLORS = COLORS_DATA.map(c=>c.name);
 const INTERIOR_COLORS = INTERIOR_COLORS_DATA.map(c=>c.name);
-const TRANSMISSIONS  = ["자동","수동"];
+const TRANSMISSIONS  = ["오토","수동","세미오토","CVT","기타"];
 const REGIONS        = ["광주","전남","전북","서울","경기","인천","대전","대구","부산","울산","세종","충북","충남","경북","경남","강원","제주"];
-const IMPORT_TYPES   = ["해당없음","공식 수입","병행 수입"];
+const IMPORT_TYPES   = ["국산 차량","공식 수입","병행 수입"];
 
 /* ═══ 세부모델 출시연도 매핑 (신형→구형 정렬용) ═══ */
 const MODEL_YEARS: Record<string, string> = {
@@ -114,57 +114,90 @@ function getModelStartYear(name: string): number {
 }
 
 const OPTION_CATS    = [
+  {name:"외관/내장",items:[
+    {label:"선루프",tip:"일반 선루프 (틸트/슬라이딩)"},
+    {label:"파노라마 선루프",tip:"전체 루프 유리 개방형"},
+    {label:"LED 헤드램프",tip:"HID/LED 전조등"},
+    {label:"파워 전동 트렁크",tip:"버튼/발차기로 트렁크 자동 개폐"},
+    {label:"고스트 도어 클로징",tip:"문 자동 닫힘 기능"},
+    {label:"전동접이 사이드미러",tip:"사이드미러 자동 접기"},
+    {label:"알루미늄 휠",tip:"알루미늄 합금 휠"},
+    {label:"루프랙",tip:"지붕 캐리어 장착용 레일"},
+    {label:"열선 스티어링 휠",tip:"핸들 히팅 기능"},
+    {label:"전동 조절 스티어링 휠",tip:"핸들 높이/거리 전동 조절"},
+    {label:"패들 시프트",tip:"핸들 뒤 수동 변속 레버"},
+    {label:"스티어링 휠 리모컨",tip:"핸들 버튼으로 오디오/전화 조작"},
+    {label:"ECM 룸미러",tip:"전자식 자동 방현 룸미러"},
+    {label:"하이패스",tip:"하이패스 단말기 내장"},
+    {label:"프라이버시 유리",tip:"뒷유리 틴팅 (프라이버시)"},
+  ]},
   {name:"안전",items:[
-    {label:"에어백(운전석)",tip:"운전석 전면 에어백"},
-    {label:"에어백(동승석)",tip:"동승석 전면 에어백"},
+    {label:"에어백(운전석/동승석)",tip:"전면 에어백"},
     {label:"에어백(사이드)",tip:"측면 충돌 시 보호"},
     {label:"에어백(커튼)",tip:"전복/측면 충돌 시 머리 보호"},
     {label:"ABS",tip:"급제동 시 바퀴 잠김 방지"},
+    {label:"TCS(미끄럼방지)",tip:"구동력 제어 시스템"},
     {label:"ESC(차체자세제어)",tip:"미끄러짐 방지 전자 제어"},
-    {label:"후방카메라",tip:"후진 시 후방 영상 표시"},
+    {label:"TPMS(타이어공기압)",tip:"타이어 공기압 모니터링"},
+    {label:"차선이탈경보(LDWS)",tip:"차선 이탈 시 경고"},
+    {label:"차선유지보조(LKA)",tip:"차선 이탈 시 자동 조향"},
+    {label:"전자제어 서스펜션",tip:"노면에 따라 댐퍼 자동 조절"},
+    {label:"주차감지센서(전방/후방)",tip:"장애물 접근 시 경고음"},
+    {label:"후측방 경보 시스템",tip:"사각지대 차량 접근 시 경고"},
+    {label:"후방 카메라",tip:"후진 시 후방 영상 표시"},
+    {label:"360도 어라운드 뷰",tip:"360도 주변 영상 표시"},
     {label:"전방충돌방지",tip:"전방 충돌 위험 시 자동 제동"},
-    {label:"차선이탈경보",tip:"차선 이탈 시 경고음/진동"},
-    {label:"차선유지보조",tip:"차선 이탈 시 자동 조향"},
-    {label:"사각지대감지",tip:"사각지대 차량 접근 시 경고"},
-    {label:"어라운드뷰",tip:"360도 주변 영상 표시"},
     {label:"후방교차충돌경고",tip:"후진 시 측방 접근 차량 경고"},
   ]},
-  {name:"편의",items:[
-    {label:"스마트키",tip:"버튼식 시동 + 무선 잠금해제"},
+  {name:"편의/멀티미디어",items:[
+    {label:"크루즈 컨트롤",tip:"정속 주행 장치 (일반/어댑티브)"},
+    {label:"어댑티브 크루즈",tip:"앞차 거리에 따라 속도 자동 조절"},
+    {label:"헤드업 디스플레이(HUD)",tip:"속도/내비 정보를 전면유리에 표시"},
+    {label:"전자식 주차브레이크(EPB)",tip:"전자식 파킹 브레이크"},
     {label:"오토홀드",tip:"정차 시 브레이크 자동 유지"},
-    {label:"열선시트(앞)",tip:"앞좌석 시트 히팅"},
-    {label:"열선시트(뒤)",tip:"뒷좌석 시트 히팅"},
-    {label:"통풍시트",tip:"시트 쿨링 (에어컨 바람)"},
-    {label:"전동시트(운전석)",tip:"전동 조절 시트"},
-    {label:"헤드업디스플레이",tip:"속도/내비 정보를 전면유리에 표시"},
-    {label:"무선충전",tip:"스마트폰 무선 충전 패드"},
-    {label:"파워트렁크",tip:"버튼/발차기로 트렁크 자동 개폐"},
-    {label:"전동접이식미러",tip:"사이드미러 자동 접기"},
-    {label:"오토라이트",tip:"조도에 따라 전조등 자동 ON/OFF"},
-  ]},
-  {name:"멀티미디어",items:[
-    {label:"내비게이션",tip:"내장형 네비게이션 시스템"},
+    {label:"자동 에어컨",tip:"온도 자동 조절 에어컨"},
+    {label:"스마트키",tip:"버튼식 시동 + 무선 잠금해제"},
+    {label:"무선도어 잠금장치",tip:"리모컨 키 도어 잠금/해제"},
+    {label:"레인센서",tip:"비 감지 자동 와이퍼"},
+    {label:"오토 라이트",tip:"조도에 따라 전조등 자동 ON/OFF"},
+    {label:"커튼/블라인드",tip:"뒷좌석/후방 커튼/블라인드"},
+    {label:"내비게이션",tip:"내장형 네비게이션"},
     {label:"카플레이/안드로이드오토",tip:"스마트폰 미러링 연결"},
     {label:"블루투스",tip:"핸즈프리 통화/음악 재생"},
-    {label:"USB충전",tip:"USB 충전 포트"},
-    {label:"프리미엄사운드",tip:"JBL/하만카돈/BOSE/B&O 등"},
-    {label:"후석모니터",tip:"뒷좌석 엔터테인먼트 모니터"},
+    {label:"뒷좌석 AV 모니터",tip:"뒷좌석 엔터테인먼트"},
+    {label:"USB 단자",tip:"USB 충전/연결 포트"},
+    {label:"무선충전",tip:"스마트폰 무선 충전 패드"},
+    {label:"프리미엄 사운드",tip:"JBL/하만카돈/BOSE/B&O 등"},
   ]},
-  {name:"외관",items:[
-    {label:"LED헤드램프",tip:"LED 전조등"},
-    {label:"선루프",tip:"일반 선루프"},
-    {label:"파노라마선루프",tip:"전체 루프 개방형 선루프"},
-    {label:"루프랙",tip:"지붕 캐리어 장착용 레일"},
-    {label:"18인치이상휠",tip:"18인치 이상 대형 휠"},
-    {label:"프라이버시유리",tip:"뒷유리 틴팅 (프라이버시)"},
+  {name:"시트",items:[
+    {label:"가죽시트",tip:"천연/인조 가죽 시트"},
+    {label:"전동시트(운전석/동승석)",tip:"전동 조절 시트"},
+    {label:"전동시트(뒷좌석)",tip:"뒷좌석 전동 조절"},
+    {label:"열선시트(앞좌석)",tip:"앞좌석 시트 히팅"},
+    {label:"열선시트(뒷좌석)",tip:"뒷좌석 시트 히팅"},
+    {label:"메모리시트(운전석)",tip:"시트 위치 기억 기능"},
+    {label:"통풍시트(운전석/동승석)",tip:"시트 쿨링 (에어컨 바람)"},
+    {label:"통풍시트(뒷좌석)",tip:"뒷좌석 통풍"},
+    {label:"마사지 시트",tip:"시트 내장 마사지 기능"},
   ]},
   {name:"주행/성능",items:[
     {label:"터보차저",tip:"엔진 과급기 (출력 향상)"},
-    {label:"AWD(사륜구동)",tip:"전륜+후륜 상시/온디맨드 4WD"},
-    {label:"에어서스펜션",tip:"공기압식 서스펜션 (승차감 조절)"},
-    {label:"어댑티브크루즈",tip:"앞차 거리에 따라 속도 자동 조절"},
-    {label:"전자제어서스펜션",tip:"노면에 따라 댐퍼 자동 조절"},
-    {label:"패들시프트",tip:"핸들 뒤 수동 변속 레버"},
+    {label:"AWD(사륜구동)",tip:"전륜+후륜 4WD"},
+    {label:"에어 서스펜션",tip:"공기압식 서스펜션 (승차감 조절)"},
+  ]},
+  {name:"기타(애프터마켓)",items:[
+    {label:"블랙박스",tip:"전방/후방 블랙박스"},
+    {label:"버튼 시동키",tip:"순정 외 시동 버튼 장착"},
+    {label:"인치업",tip:"휠 인치 업그레이드"},
+    {label:"휠 튜닝",tip:"정품/카피 휠 교체"},
+    {label:"ECU 맵핑",tip:"엔진 제어 유닛 튜닝"},
+    {label:"배기 튜닝",tip:"배기 시스템 교체/개조"},
+    {label:"차고/감쇠력 조절 서스",tip:"애프터 서스펜션 교체"},
+    {label:"스포일러",tip:"리어 스포일러 장착"},
+    {label:"바디킷",tip:"외관 에어로 파츠"},
+    {label:"랩핑",tip:"차량 외관 랩핑"},
+    {label:"실내 방음/방청",tip:"방음재/방청 시공"},
+    {label:"견인 장치",tip:"트레일러 히치/견인 장치"},
   ]},
 ];
 
@@ -331,20 +364,28 @@ export default function DealerCarsNewPage() {
   const [color,         setColor]         = useState("");
   const [customColor,   setCustomColor]   = useState("");
   const [interiorColor, setInteriorColor] = useState("");
-  const [transmission,  setTransmission]  = useState("자동");
+  const [transmission,  setTransmission]  = useState("오토");
   const [cc,            setCc]            = useState("");
   const [owners,        setOwners]        = useState("1");
   const [accident,      setAccident]      = useState(false);
   const [plateNumber,   setPlateNumber]   = useState("");
-  const [importType,    setImportType]    = useState("해당없음");
+  const [importType,    setImportType]    = useState("국산 차량");
   const [warranty,      setWarranty]      = useState("없음");
 
   /* ── Step 2: 판매 정보 ── */
   const [price,       setPrice]       = useState("");
   const [region,      setRegion]      = useState("광주");
   const [description, setDescription] = useState("");
+  const [descTemplate,setDescTemplate]= useState<"직접"|"일반"|"딜러">("직접");
   const [options,     setOptions]     = useState<string[]>([]);
   const [tags]                        = useState<string[]>([]);
+  const [contactPhone,setContactPhone]= useState("");
+  const [contactLand, setContactLand] = useState("");
+  const [saleType,    setSaleType]    = useState<"일반차량"|"리스승계차량"|"렌트차량">("일반차량");
+  const [tradeType,   setTradeType]   = useState<"직접매도"|"매매알선">("직접매도");
+  const [seizure,     setSeizure]     = useState<"없음"|"있음">("없음");
+  const [mortgage,    setMortgage]    = useState<"없음"|"있음">("없음");
+  const [accidentPublic, setAccidentPublic] = useState<"공개"|"비공개">("비공개");
 
   /* ── Step 3: 사진 ── */
   const [mainPhotos,     setMainPhotos]     = useState<Record<string,string>>({});
@@ -472,11 +513,21 @@ export default function DealerCarsNewPage() {
     const inp=document.createElement("input");inp.type="file";inp.accept="image/*";
     inp.onchange=async(e)=>{
       const file=(e.target as HTMLInputElement).files?.[0]; if(!file)return;
+      if(file.size>10*1024*1024){alert("파일 크기가 10MB를 초과합니다.");return;}
       setUploadingSlot(slotKey);
       const fd=new FormData();fd.append("file",file);
-      try{ const res=await fetch("/api/upload",{method:"POST",body:fd}); const d=await res.json();
-        if(d.success&&d.url)setMainPhotos(prev=>({...prev,[slotKey]:d.url}));
-        else alert("업로드 실패: "+(d.error||"Cloudinary 환경변수 확인")); }catch{alert("업로드 중 오류");}
+      try{
+        const res=await fetch("/api/upload",{method:"POST",body:fd});
+        if(!res.ok){alert("업로드 서버 오류 ("+res.status+")");setUploadingSlot(null);return;}
+        const d=await res.json();
+        if(d.success&&d.url){
+          setMainPhotos(prev=>({...prev,[slotKey]:d.url}));
+        } else {
+          alert("업로드 실패: "+(d.error||"Cloudinary 환경변수를 확인해주세요.\n\n설정 → CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET"));
+        }
+      }catch(err){
+        alert("업로드 중 네트워크 오류가 발생했습니다.\n인터넷 연결을 확인해주세요.");
+      }
       setUploadingSlot(null);
     };inp.click();
   };
@@ -486,10 +537,13 @@ export default function DealerCarsNewPage() {
     inp.onchange=async(e)=>{
       const files=(e.target as HTMLInputElement).files; if(!files)return;
       setUploadingDetail(true);
+      let uploadCount=0;
       for(const file of Array.from(files).slice(0,20-detailPhotos.length)){
+        if(file.size>10*1024*1024)continue;
         const fd=new FormData();fd.append("file",file);
-        try{const res=await fetch("/api/upload",{method:"POST",body:fd});const d=await res.json();if(d.success&&d.url)setDetailPhotos(prev=>[...prev,d.url]);}catch{}
+        try{const res=await fetch("/api/upload",{method:"POST",body:fd});if(!res.ok)continue;const d=await res.json();if(d.success&&d.url){setDetailPhotos(prev=>[...prev,d.url]);uploadCount++;}}catch{}
       }
+      if(uploadCount===0&&files.length>0)alert("사진 업로드에 실패했습니다. Cloudinary 설정을 확인해주세요.");
       setUploadingDetail(false);
     };inp.click();
   };
@@ -696,7 +750,7 @@ export default function DealerCarsNewPage() {
           {(allModelGrades.length>0 ? availableFuels : FUEL_TYPES).map((f:string)=>{
             const cnt = allModelGrades.filter((g:{fuelType:string})=>g.fuelType===f).length;
             const icon = f==="전기"?"⚡":f==="하이브리드"?"🔋":f==="디젤"?"🛢️":f==="LPG"?"🔥":f==="수소"?"💧":"⛽";
-            return optBtn(`${icon} ${f}`, fuel===f, ()=>{setFuel(f);setGrade("");}, cnt>0?`${cnt}개 등급`:"");
+            return optBtn(`${icon} ${f}`, fuel===f, ()=>{setFuel(f);setGrade("");setActiveField("grade");}, cnt>0?`${cnt}개 등급`:"");
           })}
         </div>;
 
@@ -805,18 +859,20 @@ export default function DealerCarsNewPage() {
       case "color":
         return <div style={panelStyle}>
           {panelTitle("기본 색상 선택","1개를 선택해 주세요.")}
-          <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:16}}>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:14}}>
             {COLORS_DATA.map(c=>(
               <button key={c.name} onClick={()=>setColor(c.name)} style={{
-                width:80,height:40,borderRadius:8,border:color===c.name?"3px solid #FF3B1E":"1px solid #DDD",
-                background:c.hex,cursor:"pointer",position:"relative",
-                boxShadow:color===c.name?"0 0 0 1px #FF3B1E":"none",
+                display:"flex",flexDirection:"column",alignItems:"center",gap:6,
+                padding:"8px 4px",borderRadius:10,cursor:"pointer",
+                border:color===c.name?"2px solid #FF3B1E":"2px solid transparent",
+                background:color===c.name?"#FFF5F3":"transparent",
               }}>
-                <span style={{position:"absolute",bottom:-18,left:0,right:0,textAlign:"center",fontSize:10,fontWeight:color===c.name?800:500,color:color===c.name?"#FF3B1E":"#888"}}>{c.name}</span>
+                <div style={{width:36,height:36,borderRadius:"50%",background:c.hex,border:c.hex==="#FFFFFF"?"1px solid #DDD":"1px solid rgba(0,0,0,0.1)",boxShadow:color===c.name?"0 0 0 2px #FF3B1E":"none"}}/>
+                <span style={{fontSize:10,fontWeight:color===c.name?800:600,color:color===c.name?"#FF3B1E":"#555",fontFamily:"'NanumSquareRound',sans-serif",textAlign:"center",lineHeight:1.2,wordBreak:"keep-all"}}>{c.name}</span>
               </button>
             ))}
           </div>
-          <div style={{marginTop:30,borderTop:"1px solid #EEE",paddingTop:16}}>
+          <div style={{marginTop:20,borderTop:"1px solid #EEE",paddingTop:16}}>
             <div style={{fontSize:12,fontWeight:700,color:"#888",marginBottom:8}}>제조사 출시 색상 (선택입력사항)</div>
             <div style={{display:"flex",gap:8}}>
               <input value={customColor} onChange={e=>setCustomColor(e.target.value)} placeholder="직접입력" style={{...inputS,flex:1,border:"1.5px solid #E0DDD7"}}/>
@@ -828,16 +884,16 @@ export default function DealerCarsNewPage() {
       case "interior":
         return <div style={panelStyle}>
           {panelTitle("내장 시트 색상","1개를 선택해 주세요.")}
-          <div style={{display:"flex",flexWrap:"wrap",gap:10}}>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:14}}>
             {INTERIOR_COLORS_DATA.map(c=>(
               <button key={c.name} onClick={()=>setInteriorColor(c.name)} style={{
-                width:80,height:40,borderRadius:8,
-                border:interiorColor===c.name?"3px solid #FF3B1E":"1px solid #DDD",
-                background:c.name==="기타"?"linear-gradient(135deg,#EEE,#CCC)":c.hex,
-                cursor:"pointer",position:"relative",
-                boxShadow:interiorColor===c.name?"0 0 0 1px #FF3B1E":"none",
+                display:"flex",flexDirection:"column",alignItems:"center",gap:6,
+                padding:"8px 4px",borderRadius:10,cursor:"pointer",
+                border:interiorColor===c.name?"2px solid #FF3B1E":"2px solid transparent",
+                background:interiorColor===c.name?"#FFF5F3":"transparent",
               }}>
-                <span style={{position:"absolute",bottom:-18,left:0,right:0,textAlign:"center",fontSize:10,fontWeight:interiorColor===c.name?800:500,color:interiorColor===c.name?"#FF3B1E":"#888"}}>{c.name}</span>
+                <div style={{width:36,height:36,borderRadius:"50%",background:c.name==="기타"?"linear-gradient(135deg,#EEE,#CCC)":c.hex,border:c.hex==="#FFFFF0"||c.hex==="#F5F5F5"?"1px solid #DDD":"1px solid rgba(0,0,0,0.1)",boxShadow:interiorColor===c.name?"0 0 0 2px #FF3B1E":"none"}}/>
+                <span style={{fontSize:10,fontWeight:interiorColor===c.name?800:600,color:interiorColor===c.name?"#FF3B1E":"#555",fontFamily:"'NanumSquareRound',sans-serif"}}>{c.name}</span>
               </button>
             ))}
           </div>
@@ -855,7 +911,15 @@ export default function DealerCarsNewPage() {
       case "owners":
         return <div style={panelStyle}>
           {panelTitle("소유자 수")}
-          {["1","2","3","4","5","6","7","8","9이상"].map(o=>optBtn(`${o}인`, owners===o, ()=>setOwners(o)))}
+          <div style={{display:"flex",gap:10,marginBottom:16}}>
+            <button onClick={()=>setOwners("1")} style={{flex:1,padding:"16px",borderRadius:12,border:owners==="1"?"2px solid #FF3B1E":"1.5px solid #E8E5E0",background:owners==="1"?"#FFF5F3":"white",fontSize:15,fontWeight:owners==="1"?800:500,color:owners==="1"?"#FF3B1E":"#555",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>1인 소유</button>
+            <button onClick={()=>{if(owners==="1")setOwners("2");}} style={{flex:1,padding:"16px",borderRadius:12,border:owners!=="1"?"2px solid #FF3B1E":"1.5px solid #E8E5E0",background:owners!=="1"?"#FFF5F3":"white",fontSize:15,fontWeight:owners!=="1"?800:500,color:owners!=="1"?"#FF3B1E":"#555",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>2인 이상</button>
+          </div>
+          {owners!=="1"&&(
+            <select value={owners} onChange={e=>setOwners(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7"}}>
+              {Array.from({length:49},(_,i)=>String(i+2)).map(o=><option key={o} value={o}>{o}인 소유</option>)}
+            </select>
+          )}
         </div>;
 
       case "accident":
@@ -890,8 +954,11 @@ export default function DealerCarsNewPage() {
   return (
     <>
       <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0F4FF;} select:focus,input:focus,textarea:focus{outline:none;border-color:#0066FF!important;} input[type=checkbox],input[type=radio]{cursor:pointer;}
-      .opt-tooltip-wrap button:hover+.opt-tip,.opt-tooltip-wrap:hover .opt-tip{opacity:1;transform:translateY(0);pointer-events:auto;}
-      .opt-tooltip-wrap button:hover{background:#F0F6FF!important;border-color:#0066FF!important;}
+      .opt-wrap{position:relative;display:inline-block;}
+      .opt-wrap .opt-tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%) translateY(4px);background:#333;color:white;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:600;white-space:nowrap;pointer-events:none;opacity:0;transition:all 0.15s;z-index:100;font-family:'NanumSquareRound',sans-serif;}
+      .opt-wrap .opt-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#333;}
+      .opt-wrap:hover .opt-tip{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+      .opt-wrap button:hover{background:#F0F6FF!important;border-color:#0066FF!important;}
       `}</style>
       <Navbar/>
       <div style={{minHeight:"100vh",background:"#F0F4FF"}}>
@@ -959,26 +1026,157 @@ export default function DealerCarsNewPage() {
 
           {/* ══ STEP 2: 판매 정보 ══ */}
           {step===2&&(
-            <div style={{background:"white",borderRadius:20,padding:"28px 26px"}}>
-              <h2 style={{fontSize:18,fontWeight:800,marginBottom:20}}>💰 판매 정보</h2>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
-                <div><label style={labelS}>판매가(만원) <span style={{color:"#FF3B1E"}}>*</span></label><input type="number" value={price} onChange={e=>setPrice(e.target.value)} placeholder="예: 2500" style={{...inputS,border:errBorder("price")}}/></div>
-                <div><label style={labelS}>지역</label><select value={region} onChange={e=>setRegion(e.target.value)} style={inputS}>{REGIONS.map(r=><option key={r}>{r}</option>)}</select></div>
+            <div>
+              {/* ── 연락처 ── */}
+              <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
+                <h2 style={{fontSize:18,fontWeight:800,marginBottom:20}}>📞 연락처</h2>
+                <div style={{fontSize:12,color:"#AAA",marginBottom:14}}>* 선택하신 연락처는 050 안심번호로 대체되어 노출됩니다.</div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+                  <div>
+                    <label style={labelS}>휴대전화</label>
+                    <input value={contactPhone} onChange={e=>setContactPhone(e.target.value)} placeholder="010-0000-4989" style={{...inputS,border:"1.5px solid #E0DDD7"}}/>
+                  </div>
+                  <div>
+                    <label style={labelS}>일반전화 (선택)</label>
+                    <input value={contactLand} onChange={e=>setContactLand(e.target.value)} placeholder="062-000-0000" style={{...inputS,border:"1.5px solid #E0DDD7"}}/>
+                  </div>
+                </div>
               </div>
-              <div style={{marginBottom:20}}>
-                <label style={labelS}>차량 설명</label>
-                <textarea rows={10} value={description} onChange={e=>setDescription(e.target.value)} placeholder={"차량 상태, 특이사항, 장점 등을 자유롭게 작성해주세요.\n\n예시)\n- 1인 소유, 비흡연 차량\n- 순정 상태 유지\n- 소모품 최근 교체 (타이어, 브레이크패드)\n- 실내외 깨끗한 상태\n- 추가 옵션: 블랙박스, 하이패스 등"} maxLength={5000} style={{...inputS,border:"1.5px solid #E0DDD7",resize:"vertical",minHeight:240,lineHeight:1.8}}/>
+
+              {/* ── 판매가 & 판매구분 ── */}
+              <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
+                <h2 style={{fontSize:18,fontWeight:800,marginBottom:20}}>💰 차량 판매가</h2>
+                <div style={{marginBottom:16}}>
+                  <label style={labelS}>판매구분</label>
+                  <div style={{display:"flex",gap:8}}>
+                    {(["일반차량","리스승계차량","렌트차량"] as const).map(t=>(
+                      <label key={t} style={{display:"flex",alignItems:"center",gap:6,fontSize:13,cursor:"pointer",padding:"10px 16px",borderRadius:10,border:saleType===t?"2px solid #FF3B1E":"1px solid #E0DDD7",background:saleType===t?"#FFF5F3":"white"}}>
+                        <input type="radio" checked={saleType===t} onChange={()=>setSaleType(t)} style={{accentColor:"#FF3B1E",width:14,height:14}}/>
+                        <span style={{fontWeight:saleType===t?700:500,color:saleType===t?"#FF3B1E":"#555"}}>{t}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:12}}>
+                  <div>
+                    <label style={labelS}>판매가(만원) <span style={{color:"#FF3B1E"}}>*</span></label>
+                    <input type="number" value={price} onChange={e=>setPrice(e.target.value)} placeholder="예: 2500" style={{...inputS,border:errBorder("price")}}/>
+                  </div>
+                  <div>
+                    <label style={labelS}>지역</label>
+                    <select value={region} onChange={e=>setRegion(e.target.value)} style={inputS}>{REGIONS.map(r=><option key={r}>{r}</option>)}</select>
+                  </div>
+                </div>
+                <div style={{fontSize:11,color:"#FF3B1E",lineHeight:1.6}}>
+                  * 중고차 시세를 참고하여 적절한 판매 가격을 제시해 보세요.<br/>
+                  * 할부/리스 차량은 선납금, 잔여 개월 수 등을 고려하여 실판매가로 입력해 주세요.
+                </div>
+              </div>
+
+              {/* ── 설명글 ── */}
+              <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
+                <h2 style={{fontSize:18,fontWeight:800,marginBottom:4}}>📝 설명글</h2>
+                <div style={{fontSize:12,color:"#AAA",marginBottom:14}}>* 판매차량의 상태, 판매 사유 등에 대해 자세히 입력해 주시면 더 많은 구매자가 관심을 가질 수 있습니다.</div>
+                <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
+                  {([["직접","직접입력"],["일반","일반형 샘플"],["딜러","딜러형 샘플"]] as const).map(([k,l])=>(
+                    <label key={k} style={{display:"flex",alignItems:"center",gap:6,fontSize:13,cursor:"pointer",padding:"8px 14px",borderRadius:10,border:descTemplate===k?"2px solid #FF3B1E":"1px solid #E0DDD7",background:descTemplate===k?"#FFF5F3":"white"}}>
+                      <input type="radio" checked={descTemplate===k} onChange={()=>{
+                        setDescTemplate(k);
+                        if(k==="일반") setDescription("안녕하세요.\n차량에 관심을 가져주셔서 감사합니다.\n\n▶차량설명\n-사고여부 : 무사고 차량입니다.\n-차    종 : \n-연    식 : \n-색    상 : \n-주행거리 : km\n-내/외관 : 실내외 깨끗한 상태입니다.\n-관리상태 : 소모품 교체 완료.\n\n▶옵션사항\n-외관사양 : \n-내장사양 : \n-안전사양 : ");
+                        if(k==="딜러") setDescription("안녕하세요. 중고차 전문딜러 픽스카 입니다.\n차량에 관심을 가져주셔서 대단히 감사합니다.\n현재 고객님께서 보시고있는 차량은 100% 실매물임을 이름을 걸고 약속드립니다.\n\n----------------------차량설명----------------------\n사고여부, 차량상태 등을 입력해 보세요.\n\n▶차량설명\n-사고여부 : \n-차    종 : \n-연    식 : \n-색    상 : \n-주행거리 : km\n-내/외관 : \n-관리상태 : \n\n▶옵션사항\n-외관사양 : \n-내장사양 : \n-안전사양 : ");
+                        if(k==="직접") setDescription("");
+                      }} style={{accentColor:"#FF3B1E",width:14,height:14}}/>
+                      <span style={{fontWeight:descTemplate===k?700:500,color:descTemplate===k?"#FF3B1E":"#555"}}>{l}</span>
+                    </label>
+                  ))}
+                </div>
+                <textarea rows={14} value={description} onChange={e=>setDescription(e.target.value)} placeholder={"설명글은 인사말 / 차량상태 / 차주정보 등을 입력하시면 됩니다.\n\n자유롭게 작성해 주세요."} maxLength={5000} style={{...inputS,border:"1.5px solid #E0DDD7",resize:"vertical",minHeight:300,lineHeight:1.8}}/>
                 <div style={{fontSize:11,color:"#AAA",textAlign:"right",marginTop:4}}>{description.length}/5,000자</div>
               </div>
-              <div style={{marginBottom:16}}>
-                <label style={labelS}>옵션 선택</label>
+
+              {/* ── 매매유형 & 압류/저당 ── */}
+              <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
+                <h2 style={{fontSize:18,fontWeight:800,marginBottom:20}}>📋 매매유형 선택</h2>
+                <div style={{marginBottom:20}}>
+                  <label style={labelS}>매매유형</label>
+                  <div style={{display:"flex",gap:8}}>
+                    {(["직접매도","매매알선"] as const).map(t=>(
+                      <label key={t} style={{display:"flex",alignItems:"center",gap:6,fontSize:14,cursor:"pointer",padding:"12px 20px",borderRadius:10,border:tradeType===t?"2px solid #FF3B1E":"1px solid #E0DDD7",background:tradeType===t?"#FFF5F3":"white"}}>
+                        <input type="radio" checked={tradeType===t} onChange={()=>setTradeType(t)} style={{accentColor:"#FF3B1E",width:15,height:15}}/>
+                        <span style={{fontWeight:tradeType===t?800:500,color:tradeType===t?"#FF3B1E":"#555"}}>{t}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{marginBottom:20}}>
+                  <label style={{...labelS,marginBottom:10}}>압류 / 저당 입력</label>
+                  <div style={{fontSize:11,color:"#FF3B1E",marginBottom:12,lineHeight:1.6}}>* 판매차량의 자동차등록원부에 기재되어 있는 압류/저당 정보를 입력해 주세요.<br/>* 압류/저당 정보를 허위로 입력할 경우 관련법에 따라 처벌받을 수 있으며, 해당 정보를 제재하지 아니한 경우 과태료처분을 받을 수 있습니다.</div>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+                    <div style={{border:"1px solid #E8E5E0",borderRadius:12,padding:"14px 18px"}}>
+                      <div style={{fontSize:13,fontWeight:800,marginBottom:10}}>압류</div>
+                      <div style={{display:"flex",gap:12}}>
+                        {(["없음","있음"] as const).map(v=>(
+                          <label key={v} style={{display:"flex",alignItems:"center",gap:5,fontSize:13,cursor:"pointer"}}>
+                            <input type="radio" checked={seizure===v} onChange={()=>setSeizure(v)} style={{accentColor:"#FF3B1E",width:14,height:14}}/>
+                            <span style={{fontWeight:seizure===v?700:400}}>{v}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{border:"1px solid #E8E5E0",borderRadius:12,padding:"14px 18px"}}>
+                      <div style={{fontSize:13,fontWeight:800,marginBottom:10}}>저당</div>
+                      <div style={{display:"flex",gap:12}}>
+                        {(["없음","있음"] as const).map(v=>(
+                          <label key={v} style={{display:"flex",alignItems:"center",gap:5,fontSize:13,cursor:"pointer"}}>
+                            <input type="radio" checked={mortgage===v} onChange={()=>setMortgage(v)} style={{accentColor:"#FF3B1E",width:14,height:14}}/>
+                            <span style={{fontWeight:mortgage===v?700:400}}>{v}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ── 사고이력 공개 ── */}
+              <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
+                <h2 style={{fontSize:18,fontWeight:800,marginBottom:4}}>🔍 사고이력 공개</h2>
+                <div style={{fontSize:12,color:"#FF3B1E",marginBottom:16}}>사고이력은 구매자가 가장 궁금한 사항입니다. 정보 공개로 매물의 신뢰도를 올려보세요!</div>
+                <div style={{background:"#F8F6F3",borderRadius:14,padding:"16px 20px",marginBottom:16}}>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,fontSize:13}}>
+                    <div style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid #E8E5E0"}}><span style={{color:"#888"}}>자동차 일반 사양</span><span style={{fontWeight:700}}>{selectedBrand} {selectedModel || "-"}, {year}년식</span></div>
+                    <div style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid #E8E5E0"}}><span style={{color:"#888"}}>자동차 용도변경 이력</span><span style={{fontWeight:700}}>-</span></div>
+                    <div style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid #E8E5E0"}}><span style={{color:"#888"}}>자동차 특수사고 이력</span><span style={{fontWeight:700}}>전손 0 / 도난 0 / 침수 0</span></div>
+                    <div style={{display:"flex",justifyContent:"space-between",padding:"6px 0"}}><span style={{color:"#888"}}>보험사고 이력</span><span style={{fontWeight:700}}>-</span></div>
+                  </div>
+                </div>
+                <div style={{fontSize:11,color:"#888",lineHeight:1.8,marginBottom:14}}>
+                  사고이력공개 서비스는 보험개발원에서 보유하고 있는 1996년 이후의 자동차보험 사고자료 등을 기초로 제공되는 온라인 서비스입니다.<br/>
+                  보험사에 보험사고발생 사실이 신고되지 않았거나 보험사고처리가 되지 않은 사항은 제공되지 않습니다.
+                </div>
+                <div style={{display:"flex",gap:12}}>
+                  {(["공개","비공개"] as const).map(v=>(
+                    <label key={v} style={{display:"flex",alignItems:"center",gap:6,fontSize:14,cursor:"pointer",padding:"12px 20px",borderRadius:10,border:accidentPublic===v?"2px solid #FF3B1E":"1px solid #E0DDD7",background:accidentPublic===v?"#FFF5F3":"white",flex:1,justifyContent:"center"}}>
+                      <input type="radio" checked={accidentPublic===v} onChange={()=>setAccidentPublic(v)} style={{accentColor:"#FF3B1E",width:15,height:15}}/>
+                      <span style={{fontWeight:accidentPublic===v?800:500,color:accidentPublic===v?"#FF3B1E":"#555"}}>{v==="공개"?"사고이력을 공개하겠습니다.":"사고이력을 공개하지 않습니다."}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── 옵션 선택 ── */}
+              <div style={{background:"white",borderRadius:20,padding:"28px 26px"}}>
+                <h2 style={{fontSize:18,fontWeight:800,marginBottom:6}}>⚙️ 옵션 선택</h2>
+                <div style={{fontSize:12,color:"#AAA",marginBottom:16}}>차량에 해당하는 옵션을 선택해주세요. 옵션 위에 마우스를 올리면 설명이 나옵니다.</div>
                 {OPTION_CATS.map(cat=>(
                   <div key={cat.name} style={{marginBottom:14}}>
-                    <div style={{fontSize:12,fontWeight:700,color:"#0066FF",marginBottom:8}}>{cat.name}</div>
+                    <div style={{fontSize:13,fontWeight:700,color:"#0066FF",marginBottom:8,padding:"6px 0",borderBottom:"1px solid #EEF5FF"}}>{cat.name}</div>
                     <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
                       {cat.items.map(item=>(
-                        <div key={item.label} style={{position:"relative"}} className="opt-tooltip-wrap">
-                          <button onClick={()=>toggleOption(item.label)} title={item.tip} style={{padding:"8px 14px",borderRadius:8,fontSize:12,fontWeight:options.includes(item.label)?800:500,border:options.includes(item.label)?"2px solid #0066FF":"1px solid #E0DDD7",background:options.includes(item.label)?"#EEF5FF":"white",color:options.includes(item.label)?"#0066FF":"#666",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",transition:"all 0.15s"}}>
+                        <div key={item.label} className="opt-wrap">
+                          <div className="opt-tip">{item.tip}</div>
+                          <button onClick={()=>toggleOption(item.label)} style={{padding:"8px 14px",borderRadius:8,fontSize:12,fontWeight:options.includes(item.label)?800:500,border:options.includes(item.label)?"2px solid #0066FF":"1px solid #E0DDD7",background:options.includes(item.label)?"#EEF5FF":"white",color:options.includes(item.label)?"#0066FF":"#666",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",transition:"all 0.15s"}}>
                             {options.includes(item.label)&&<Check size={10} style={{marginRight:4}}/>}{item.label}
                           </button>
                         </div>
@@ -986,6 +1184,7 @@ export default function DealerCarsNewPage() {
                     </div>
                   </div>
                 ))}
+                <div style={{fontSize:11,color:"#AAA",marginTop:8}}>선택된 옵션: {options.length}개</div>
               </div>
             </div>
           )}
