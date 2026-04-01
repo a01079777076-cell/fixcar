@@ -44,6 +44,64 @@ const INTERIOR_COLORS = ["블랙","아이보리","베이지","그레이","브라
 const TRANSMISSIONS  = ["자동","수동"];
 const REGIONS        = ["광주","전남","전북","서울","경기","인천","대전","대구","부산","울산","세종","충북","충남","경북","경남","강원","제주"];
 const IMPORT_TYPES   = ["해당없음","공식 수입","병행 수입"];
+
+/* ═══ 세부모델 출시연도 매핑 (신형→구형 정렬용) ═══ */
+const MODEL_YEARS: Record<string, string> = {
+  /* 현대 */
+  "아반떼 CN7":"2020~현재","아반떼 AD":"2015~2020","아반떼 MD":"2010~2015","아반떼 HD":"2006~2010","아반떼 XD":"2000~2006",
+  "쏘나타 DN8":"2019~현재","쏘나타 MX5":"2024~현재","쏘나타 LF":"2014~2019","쏘나타 YF":"2009~2014","쏘나타 NF":"2004~2009","쏘나타 EF":"1998~2004",
+  "그랜저 GN7":"2022~현재","그랜저 IG":"2016~2022","그랜저 HG":"2011~2016","그랜저 TG":"2005~2011","그랜저 XG":"1998~2005",
+  "투싼 NX4":"2021~현재","투싼 TL":"2015~2021","투싼 ix":"2009~2015","투싼 JM":"2004~2009",
+  "싼타페 MX5":"2023~현재","싼타페 TM":"2018~2023","싼타페 DM":"2012~2018","싼타페 CM":"2005~2012",
+  "팰리세이드":"2018~현재","코나 2세대":"2023~현재","코나 OS":"2017~2023","베뉴":"2019~현재",
+  "아이오닉5":"2021~현재","아이오닉5 N":"2024~현재","아이오닉6":"2022~현재","아이오닉9":"2025~현재",
+  "스타리아":"2021~현재","캐스퍼":"2021~현재","캐스퍼 AX1":"2021~현재","넥쏘":"2018~현재",
+  "벨로스터":"2018~2022","i30 PD":"2017~2022","i30 GD":"2011~2017","i30 FD":"2007~2011",
+  "엑센트":"2010~2019","액센트 HC":"2017~2019","액센트 RB":"2010~2017",
+  "베르나 MC":"2005~2010","베르나 LC":"1999~2005","아슬란":"2014~2019",
+  "아토스 MX":"1997~2003","클릭/겟츠 TB":"2002~2008","i10 PA":"2007~2013","i10 BA":"2013~2019",
+  "쏘나타 트랜스폼 YF":"2012~2014",
+  /* 기아 */
+  "K3 BD":"2018~현재","K3 YD":"2012~2018","세라토":"2003~2008",
+  "K5 DL3":"2019~현재","K5 JF":"2015~2019","K5 TF":"2010~2015","K5 MG":"2005~2010",
+  "K8":"2021~현재","K8 GL3":"2021~현재",
+  "K9 RJ":"2022~현재","K9 KH":"2012~2018",
+  "쏘렌토 MQ4":"2020~현재","쏘렌토 UM":"2014~2020","쏘렌토 R XM":"2009~2014","쏘렌토 BL":"2002~2009",
+  "스포티지 NQ5":"2021~현재","스포티지 QL":"2015~2021","스포티지 R SL":"2010~2015","스포티지 KM":"2004~2010",
+  "카니발 KA4":"2020~현재","카니발 YP":"2014~2020","카니발 VQ":"2005~2014",
+  "모닝 JA":"2017~현재","모닝 TA":"2011~2017","모닝 SA":"2004~2011",
+  "레이":"2011~현재","스팅어":"2017~2023","EV6":"2021~현재","EV9":"2023~현재","EV3":"2024~현재",
+  "니로 SG2":"2022~현재","니로 DE":"2016~2022","셀토스":"2019~현재",
+  /* 제네시스 */
+  "G70":"2017~현재","G80 RG3":"2020~현재","G80":"2016~2020","G90 RS4":"2022~현재","G90 HI":"2016~2022",
+  "GV60":"2022~현재","GV70":"2021~현재","GV80":"2020~현재","GV80 쿠페":"2023~현재",
+  /* KG모빌리티(쌍용) */
+  "토레스":"2022~현재","토레스 EVX":"2024~현재","액티언 스포츠":"2006~2018","티볼리":"2015~현재","티볼리 에어":"2016~현재",
+  "코란도":"2019~현재","코란도 C":"2011~2019","렉스턴":"2017~현재","렉스턴 스포츠":"2018~현재",
+  /* 르노코리아 */
+  "QM6":"2016~현재","SM6":"2016~2024","XM3":"2020~현재","아르카나":"2023~현재","그랑 콜레오스":"2024~현재",
+  /* 쉐보레 */
+  "트랙스 크로스":"2023~현재","트랙스":"2013~2023","이쿼녹스":"2023~현재","트래버스":"2019~현재",
+  "말리부":"2016~2024","스파크":"2009~2022","볼트 EV":"2017~2023","볼트 EUV":"2021~2023",
+  "트레일블레이저":"2020~현재","콜로라도":"2016~현재",
+  /* 수입차 주요 모델 */
+  "3시리즈 G20":"2018~현재","5시리즈 G60":"2023~현재","5시리즈 G30":"2016~2023","X3 G01":"2017~현재","X5 G05":"2018~현재",
+  "E클래스 W214":"2023~현재","E클래스 W213":"2016~2023","C클래스 W206":"2021~현재","C클래스 W205":"2014~2021",
+  "GLC X254":"2022~현재","GLC X253":"2015~2022","GLE W167":"2018~현재",
+  "A4 B9":"2015~현재","A6 C8":"2018~현재","Q5 FY":"2016~현재","Q7 4M":"2015~현재",
+  "모델 Y":"2020~현재","모델 3":"2017~현재","모델 X":"2015~현재","모델 S":"2012~현재",
+  "캠리 XV70":"2017~현재","RAV4 XA50":"2018~현재","프리우스":"2022~현재",
+  "시빅":"2021~현재","CR-V":"2022~현재","어코드":"2022~현재",
+  "골프 8":"2019~현재","골프 7":"2012~2019","티구안 AD":"2016~현재","ID.4":"2020~현재",
+};
+
+function getModelStartYear(name: string): number {
+  const range = MODEL_YEARS[name];
+  if (!range) return 0;
+  const match = range.match(/^(\d{4})/);
+  return match ? parseInt(match[1]) : 0;
+}
+
 const OPTION_CATS    = [
   {name:"안전",items:["에어백(6개이상)","ABS","ESC","후방카메라","전방충돌방지","차선이탈경보","사각지대감지","어라운드뷰"]},
   {name:"편의",items:["스마트키","오토홀드","열선시트","통풍시트","전동시트","헤드업디스플레이","무선충전","파워트렁크"]},
@@ -314,6 +372,7 @@ export default function DealerCarsNewPage() {
   const [inspDate,        setInspDate]        = useState(new Date().toISOString().slice(0,10));
   const [inspectorName,   setInspectorName]   = useState("");
   const [informerName,    setInformerName]    = useState("");
+  const [agreeWarning,    setAgreeWarning]    = useState(false);
 
   /* ── 브랜드/모델 메모 ── */
   const brandList = useMemo(() => Object.keys(brands).sort((a,b)=>{
@@ -547,10 +606,30 @@ export default function DealerCarsNewPage() {
           {panelTitle("세부모델 선택", selectedBase ? `${selectedBrand} ${selectedBase}` : "모델을 먼저 선택해주세요")}
           {!selectedBase ? <div style={{color:"#AAA",fontSize:14,textAlign:"center",padding:40}}>← 모델을 먼저 선택해주세요</div> :
             modelVariants.length<=1 ? <div style={{color:"#2D8A52",fontSize:14,textAlign:"center",padding:40}}>✓ {selectedModel || selectedBase} 자동 선택됨</div> :
-            [...modelVariants].sort((a,b)=>{if(a.status==="현행"&&b.status!=="현행")return -1;if(a.status!=="현행"&&b.status==="현행")return 1;return 0;}).map(v=>
-              optBtn(v.name, selectedModel===v.name, ()=>{handleModelSelect(v.name);setActiveField("fuel");}, v.status==="현행"?"✦ 현행":"단종")
-            )
+            [...modelVariants].sort((a,b)=>{
+              /* 현행 먼저, 그다음 출시연도 내림차순 (신형→구형) */
+              if(a.status==="현행"&&b.status!=="현행") return -1;
+              if(a.status!=="현행"&&b.status==="현행") return 1;
+              const ya = getModelStartYear(a.name);
+              const yb = getModelStartYear(b.name);
+              if(ya!==yb) return yb - ya; /* 신형 먼저 */
+              return a.name.localeCompare(b.name);
+            }).map(v=>{
+              const yearRange = MODEL_YEARS[v.name] || "";
+              return optBtn(
+                v.name,
+                selectedModel===v.name,
+                ()=>{handleModelSelect(v.name);setActiveField("fuel");},
+                `${v.status==="현행"?"✦ 현행":"단종"}${yearRange?` · ${yearRange}`:""}`
+              );
+            })
           }
+          {selectedBase && modelVariants.length>1 && (
+            <div style={{fontSize:11,color:"#AAA",marginTop:12,lineHeight:1.6}}>
+              • 선택하신 세부모델이 실제 차량정보와 다를 경우 차량이 삭제될 수 있습니다.<br/>
+              • 등록 차량이 위 리스트에 없다면? 가장 유사한 모델을 선택해주세요.
+            </div>
+          )}
         </div>;
 
       case "fuel":
@@ -613,6 +692,26 @@ export default function DealerCarsNewPage() {
                 {Array.from({length:12},(_,i)=>String(i+1).padStart(2,"0")).map(m=><option key={m} value={m}>{m}월</option>)}
               </select>
             </div>
+          </div>
+          {/* 형식연도 설명 */}
+          <div style={{background:"#F8F6F3",borderRadius:12,padding:"16px 18px",marginTop:12}}>
+            <div style={{fontSize:14,fontWeight:800,color:"#333",marginBottom:10}}>형식연도란?</div>
+            <p style={{fontSize:12,color:"#666",lineHeight:1.8,marginBottom:12}}>
+              <strong>연식</strong>은 본인 명의 등록일을 말하며, <strong>형식연도</strong>는 제조사의 신형/구형 모델 구분을 위해 부여한 연식입니다.
+            </p>
+            <p style={{fontSize:12,color:"#666",lineHeight:1.8,marginBottom:12}}>
+              예를 들어 2014년 말에 출시된 신형 모델이 &quot;2015년형 모델&quot;로 판매되는 경우를 말합니다.
+            </p>
+            <div style={{background:"white",borderRadius:10,padding:"14px",border:"1px solid #E8E5E0"}}>
+              <div style={{fontSize:11,color:"#AAA",marginBottom:6}}>예시</div>
+              <div style={{fontSize:13,color:"#333",lineHeight:1.8}}>
+                <span style={{fontWeight:700,color:"#FF3B1E"}}>A</span> 최초등록일 = <strong>연식</strong> (예: 2021년 05월)<br/>
+                <span style={{fontWeight:700,color:"#0066FF"}}>B</span> 형식 및 연식의 연도 = <strong>형식연도</strong> (예: 2021년)
+              </div>
+            </div>
+            <p style={{fontSize:11,color:"#AAA",marginTop:10,lineHeight:1.6}}>
+              연식과 형식연도가 다를 경우 함께 표기됩니다.<br/>예) 11월 10월식 (12년형)
+            </p>
           </div>
         </div>;
 
@@ -1067,6 +1166,26 @@ export default function DealerCarsNewPage() {
             </div>
           )}
 
+          {/* 허위기재 경고 (Step 4에서 표시) */}
+          {step===4 && !skipInspection && (
+            <div style={{background:"#FFF8F0",border:"1px solid #FFD6A8",borderRadius:14,padding:"18px 20px",marginTop:16}}>
+              <div style={{display:"flex",alignItems:"flex-start",gap:10}}>
+                <span style={{fontSize:20,flexShrink:0}}>⚠️</span>
+                <div>
+                  <div style={{fontSize:14,fontWeight:800,color:"#C47A00",marginBottom:6}}>허위기재 주의사항</div>
+                  <p style={{fontSize:12,color:"#8B6914",lineHeight:1.8,marginBottom:12}}>
+                    자동차관리법 제58조에 따라 중고자동차 성능·상태를 허위로 기재하거나 중요 정보를 누락할 경우 <strong>법적 제재</strong>를 받을 수 있습니다.
+                    사고이력, 침수이력, 주행거리 등을 사실과 다르게 기재 시 매물 삭제 및 딜러 자격이 영구 정지됩니다.
+                  </p>
+                  <label style={{display:"flex",alignItems:"center",gap:8,cursor:"pointer"}}>
+                    <input type="checkbox" checked={agreeWarning} onChange={e=>setAgreeWarning(e.target.checked)} style={{width:18,height:18,accentColor:"#FF3B1E",flexShrink:0}}/>
+                    <span style={{fontSize:13,fontWeight:700,color:"#333"}}>위 내용을 확인하였으며, 모든 정보를 사실대로 기재하였음을 확인합니다.</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* 에러 */}
           {errors.length>0&&(
             <div style={{background:"#FFF0ED",border:"1px solid #FFB8A8",borderRadius:12,padding:"14px 18px",marginTop:16}}>
@@ -1079,7 +1198,7 @@ export default function DealerCarsNewPage() {
             {step>1&&<button onClick={()=>{setStep(step-1);setErrors([]);setErrorFields(new Set());}} style={{padding:"16px 24px",background:"white",border:"1.5px solid #E0DDD7",borderRadius:14,fontSize:15,fontWeight:700,color:"#888",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}><ChevronLeft size={16} style={{verticalAlign:"middle"}}/> 이전</button>}
             {step<4
               ?<button onClick={nextStep} style={{flex:1,padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>다음 (옵션선택) <ChevronRight size={16}/></button>
-              :<button onClick={handleSubmit} disabled={saving} style={{flex:1,padding:"16px",background:saving?"#CCC":"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:saving?"wait":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>{saving?"등록 중...":"매물 등록하기"}</button>
+              :<button onClick={handleSubmit} disabled={saving||(!skipInspection&&!agreeWarning)} style={{flex:1,padding:"16px",background:saving?"#CCC":(!skipInspection&&!agreeWarning)?"#CCC":"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:saving||(!skipInspection&&!agreeWarning)?"not-allowed":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>{saving?"등록 중...":(!skipInspection&&!agreeWarning)?"허위기재 확인 필수":"매물 등록하기"}</button>
             }
           </div>
         </div>

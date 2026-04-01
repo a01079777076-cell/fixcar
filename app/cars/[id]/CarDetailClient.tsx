@@ -1,9 +1,12 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/cars/[id]/CarDetailClient.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Heart, MessageSquare, Shield, ChevronLeft, Award, Star, Check } from "lucide-react";
+import { Heart, MessageSquare, Shield, ChevronLeft, Award, Star, Check, AlertTriangle, ExternalLink } from "lucide-react";
 import ShareButtons from "@/components/ShareButtons";
 import { saveRecentCar } from "@/components/RecentCars";
 import SimilarCars from "@/components/SimilarCars";
@@ -18,6 +21,10 @@ export default function CarDetailClient() {
   const [inquiryMsg, setInquiryMsg] = useState("");
   const [sending, setSending] = useState(false);
   const [mainImg, setMainImg] = useState(0);
+  const [showReport, setShowReport] = useState(false);
+  const [reportCategory, setReportCategory] = useState("");
+  const [reportReason, setReportReason] = useState("");
+  const [reportSending, setReportSending] = useState(false);
 
   useEffect(() => {
     fetch(`/api/cars/${id}`)
@@ -71,6 +78,30 @@ export default function CarDetailClient() {
     setSending(false);
   };
 
+  const sendReport = async () => {
+    if (!userId) { alert("로그인이 필요해요!"); return; }
+    if (!reportCategory) { alert("신고 사유를 선택해주세요"); return; }
+    setReportSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "허위매물신고",
+          carId: Number(id),
+          category: reportCategory,
+          message: `[허위매물 신고] 매물 #${id}\n사유: ${reportCategory}\n상세: ${reportReason || "없음"}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success || res.ok) {
+        alert("신고가 접수되었습니다. 관리자가 확인 후 조치하겠습니다.");
+        setShowReport(false); setReportCategory(""); setReportReason("");
+      } else alert("신고 접수 실패. 다시 시도해주세요.");
+    } catch { alert("네트워크 오류"); }
+    setReportSending(false);
+  };
+
   if (loading) return <><Navbar /><div style={{ textAlign: "center", padding: 100, color: "#CCC" }}>로딩 중...</div></>;
   if (!car) return (
     <>
@@ -88,6 +119,16 @@ export default function CarDetailClient() {
   const options = car.options || [];
   const dealer  = car.dealer;
   const isVerified = dealer?.verified;
+
+  const REPORT_CATEGORIES = [
+    "허위 가격 (실제 가격과 다름)",
+    "허위 사고이력 (사고차를 무사고로 표기)",
+    "허위 주행거리 (계기판 조작 의심)",
+    "존재하지 않는 매물",
+    "사진과 실제 차량 불일치",
+    "이미 판매 완료된 매물",
+    "기타",
+  ];
 
   return (
     <>
@@ -112,7 +153,6 @@ export default function CarDetailClient() {
                     <span style={{ fontSize: 11, fontWeight: 800, color: "white" }}>FIXCAR 검수 완료</span>
                   </div>
                 )}
-                {/* 조회수 */}
                 {(car.views || 0) > 0 && (
                   <div style={{ position: "absolute", bottom: 10, right: 12, background: "rgba(0,0,0,0.4)", color: "white", fontSize: 11, fontWeight: 600, padding: "3px 9px", borderRadius: 100, backdropFilter: "blur(4px)" }}>
                     👁 {car.views.toLocaleString()}회
@@ -201,6 +241,31 @@ export default function CarDetailClient() {
                 </div>
               </div>
 
+              {/* ── 사고이력 조회 (자동차365 카히스토리) ── */}
+              <div style={{ background: "linear-gradient(135deg,#1B3A5C 0%,#0D2240 100%)", borderRadius: 18, padding: "20px 22px", marginBottom: 16 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                  <Shield size={18} color="#4FC3F7" />
+                  <span style={{ fontSize: 15, fontWeight: 800, color: "white" }}>이 차량의 사고이력 확인하기</span>
+                </div>
+                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 14 }}>
+                  자동차365(카히스토리)에서 차량번호로 사고이력, 침수이력, 압류/저당 등을 무료로 조회할 수 있어요.
+                </p>
+                <a href="https://www.car365.go.kr/web/contents/totalhistory.do" target="_blank" rel="noopener noreferrer">
+                  <button style={{
+                    width: "100%", padding: "14px", background: "rgba(255,255,255,0.15)", color: "white",
+                    border: "1px solid rgba(255,255,255,0.25)", borderRadius: 12, fontSize: 14, fontWeight: 800,
+                    cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    backdropFilter: "blur(4px)",
+                  }}>
+                    🔍 자동차365에서 사고이력 무료 조회 <ExternalLink size={13} />
+                  </button>
+                </a>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginTop: 8, textAlign: "center" }}>
+                  국토교통부 · 한국교통안전공단 공식 서비스
+                </div>
+              </div>
+
               {car.description && (
                 <div style={{ background: "white", borderRadius: 18, padding: "20px", marginBottom: 16 }}>
                   <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 8 }}>📋 딜러 설명</div>
@@ -230,6 +295,20 @@ export default function CarDetailClient() {
                 </button>
               </div>
 
+              {/* ── 허위매물 신고 버튼 ── */}
+              <button
+                onClick={() => setShowReport(!showReport)}
+                style={{
+                  width: "100%", padding: "12px", background: "transparent",
+                  border: "1px solid #E0DDD7", borderRadius: 12, fontSize: 12, fontWeight: 600,
+                  color: "#AAA", cursor: "pointer", display: "flex", alignItems: "center",
+                  justifyContent: "center", gap: 6, fontFamily: "'NanumSquareRound',sans-serif",
+                  marginBottom: 12,
+                }}
+              >
+                <AlertTriangle size={13} /> 이 매물이 허위라고 생각되시나요? 신고하기
+              </button>
+
               <ShareButtons
                 title={`${car.brand} ${car.name} ${car.price?.toLocaleString()}만원`}
                 description={`${car.year}년 · ${car.mileage?.toLocaleString()}km · ${car.fuel}`}
@@ -253,6 +332,46 @@ export default function CarDetailClient() {
               <button onClick={sendInquiry} disabled={sending} style={{ width: "100%", padding: "16px", background: sending ? "#CCC" : "#FF3B1E", color: "white", border: "none", borderRadius: 14, fontSize: 16, fontWeight: 800, cursor: sending ? "wait" : "pointer", marginTop: 12, fontFamily: "'NanumSquareRound',sans-serif" }}>
                 {sending ? "전송 중..." : "문의 보내기"}
               </button>
+            </div>
+          )}
+
+          {/* ── 허위매물 신고 폼 ── */}
+          {showReport && (
+            <div style={{ background: "#FFF8F6", borderRadius: 20, padding: "24px", marginTop: 20, border: "1px solid #FFD6CC" }}>
+              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
+                <AlertTriangle size={20} color="#FF3B1E" /> 허위매물 신고
+              </h3>
+              <p style={{ fontSize: 12, color: "#AAA", marginBottom: 16, lineHeight: 1.6 }}>
+                허위 매물이 의심되는 경우 신고해주세요. 관리자가 확인 후 해당 매물 삭제 및 딜러 제재 조치를 합니다.
+              </p>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 8 }}>신고 사유 선택 *</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {REPORT_CATEGORIES.map((cat) => (
+                    <label key={cat} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer", padding: "10px 14px", borderRadius: 10, border: reportCategory === cat ? "2px solid #FF3B1E" : "1px solid #E8E5E0", background: reportCategory === cat ? "#FFF0ED" : "white" }}>
+                      <input type="radio" checked={reportCategory === cat} onChange={() => setReportCategory(cat)} style={{ accentColor: "#FF3B1E", width: 14, height: 14 }} />
+                      <span style={{ fontWeight: reportCategory === cat ? 700 : 400, color: reportCategory === cat ? "#FF3B1E" : "#555" }}>{cat}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 6 }}>상세 내용 (선택)</div>
+                <textarea
+                  rows={3}
+                  value={reportReason}
+                  onChange={(e) => setReportReason(e.target.value)}
+                  placeholder="구체적인 내용을 작성해주시면 더 빠르게 처리됩니다"
+                  maxLength={1000}
+                  style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0DDD7", borderRadius: 10, fontSize: 13, fontFamily: "'NanumSquareRound',sans-serif", resize: "none", lineHeight: 1.7 }}
+                />
+              </div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <button onClick={() => setShowReport(false)} style={{ flex: 1, padding: "14px", background: "white", border: "1px solid #E0DDD7", borderRadius: 12, fontSize: 14, fontWeight: 700, color: "#888", cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif" }}>취소</button>
+                <button onClick={sendReport} disabled={reportSending} style={{ flex: 1, padding: "14px", background: reportSending ? "#CCC" : "#FF3B1E", color: "white", border: "none", borderRadius: 12, fontSize: 14, fontWeight: 800, cursor: reportSending ? "wait" : "pointer", fontFamily: "'NanumSquareRound',sans-serif" }}>
+                  {reportSending ? "접수 중..." : "신고 접수하기"}
+                </button>
+              </div>
             </div>
           )}
 
