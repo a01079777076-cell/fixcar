@@ -35,6 +35,7 @@ model User {
   catalogReports    CatalogReport[]    @relation("CatalogReports")
   carScores         CarScore[]         @relation("CarScores")
   mbti              UserMbti?          @relation("UserMbti")
+  dealer            Dealer?
 }
 
 enum Role {
@@ -46,6 +47,7 @@ enum Role {
 model Dealer {
   id          Int      @id @default(autoincrement())
   userId      Int      @unique
+  user        User     @relation(fields: [userId], references: [id])
   shopName    String
   shopDesc    String?  @db.Text
   shopPhone   String?

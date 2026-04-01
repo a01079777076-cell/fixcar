@@ -119,7 +119,7 @@ export async function GET(req: NextRequest) {
     /* shopDesc에 PENDING 포함된 딜러 목록 반환 */
     const dealers = await prisma.dealer.findMany({
       where: { verified: false, shopDesc: { contains: "PENDING" } },
-      include: { User: { select: { name: true, email: true, phone: true, role: true } } },
+      include: { user: { select: { name: true, email: true, phone: true, role: true } } },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json({ success: true, data: dealers });
