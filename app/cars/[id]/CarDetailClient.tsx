@@ -89,7 +89,7 @@ export default function CarDetailClient() {
           {/* ═══ 사진 갤러리 (엔카 비율) ═══ */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 4, marginBottom: 12, borderRadius: 16, overflow: "hidden", height: 560 }}>
             <div style={{ position: "relative", background: "#E8E6E1", cursor: "pointer", overflow: "hidden" }} onClick={() => setShowAllPhotos(true)}>
-              {images[mainImg] ? <img src={images[mainImg]} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
+              {images[mainImg] ? <img src={images[mainImg]} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 60%", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
               {images.length > 1 && <>
                 <button onClick={e => { e.stopPropagation(); goImg(-1); }} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
                 <button onClick={e => { e.stopPropagation(); goImg(1); }} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
@@ -105,7 +105,7 @@ export default function CarDetailClient() {
                 const isLast = i === 3 && images.length > 5;
                 return (
                   <div key={i} onClick={() => img ? setMainImg(i + 1) : undefined} style={{ overflow: "hidden", cursor: img ? "pointer" : "default", position: "relative", background: "#E8E6E1", minHeight: 0 }}>
-                    {img ? <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.15, fontSize: 20 }}>📷</div>}
+                    {img ? <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 60%", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.15, fontSize: 20 }}>📷</div>}
                     {isLast && <div onClick={e => { e.stopPropagation(); setShowAllPhotos(true); }} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "white", cursor: "pointer" }}><span style={{ fontSize: 13, fontWeight: 700 }}>+ 사진 모두보기</span></div>}
                   </div>
                 );
