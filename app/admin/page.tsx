@@ -5,7 +5,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
-import { Shield, Car, Users, MessageSquare, BarChart3, Eye, X, Search, UserX, Key, ChevronDown } from "lucide-react";
+import { Shield, Car, Users, MessageSquare, BarChart3, Eye, X, Search, UserX, Key, ChevronDown, AlertTriangle } from "lucide-react";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -14,6 +14,7 @@ export default function AdminPage() {
   const [cars,      setCars]    = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [users,     setUsers]   = useState<any[]>([]);
+  const [flaggedPosts, setFlaggedPosts] = useState<any[]>([]);
   const [detailCar, setDetailCar] = useState<any>(null);
   const [rejectId,  setRejectId] = useState<number|null>(null);
   const [rejectReason, setRejectReason] = useState("");
@@ -38,14 +39,16 @@ export default function AdminPage() {
   }, [router]);
 
   const loadAll = async () => {
-    const [cR, iR, uR] = await Promise.all([
+    const [cR, iR, uR, fR] = await Promise.all([
       fetch("/api/admin/cars").then(r=>r.json()).catch(()=>[]),
       fetch("/api/admin/inquiries").then(r=>r.json()).catch(()=>[]),
       fetch("/api/admin/users").then(r=>r.json()).catch(()=>[]),
+      fetch("/api/admin/community").then(r=>r.json()).catch(()=>[]),
     ]);
     if (Array.isArray(cR)) setCars(cR);
     if (Array.isArray(iR)) setInquiries(iR);
     if (Array.isArray(uR)) setUsers(uR);
+    if (Array.isArray(fR)) setFlaggedPosts(fR);
   };
 
   /* ── 매물 처리 ── */
@@ -121,11 +124,12 @@ export default function AdminPage() {
   if (!user) return <><Navbar/><div style={{textAlign:"center",padding:100,color:"#CCC"}}>권한 확인 중...</div></>;
 
   const TABS = [
-    {id:"dashboard", label:"대시보드",   icon:BarChart3,   count:0},
-    {id:"cars",      label:"매물 관리",  icon:Car,         count:cars.filter(c=>c.status==="REVIEWING").length},
-    {id:"inquiries", label:"문의 관리",  icon:MessageSquare,count:inquiries.filter(i=>i.status==="PENDING").length},
-    {id:"users",     label:"회원 관리",  icon:Users,       count:0},
-    {id:"stats",     label:"방문자 통계",icon:Eye,         count:0},
+    {id:"dashboard", label:"대시보드",   icon:BarChart3,     count:0},
+    {id:"cars",      label:"매물 관리",  icon:Car,           count:cars.filter(c=>c.status==="REVIEWING").length},
+    {id:"flagged",   label:"보류 게시글",icon:AlertTriangle, count:flaggedPosts.filter(p=>p.status==="FLAGGED").length},
+    {id:"inquiries", label:"문의 관리",  icon:MessageSquare, count:inquiries.filter(i=>i.status==="PENDING").length},
+    {id:"users",     label:"회원 관리",  icon:Users,         count:0},
+    {id:"stats",     label:"방문자 통계",icon:Eye,           count:0},
   ];
 
   const statusLabel = (s:string) => s==="AVAILABLE"?"판매중":s==="REVIEWING"?"검수대기":s==="SOLD"?"반려":s==="RESERVED"?"내림":"완료";
@@ -329,6 +333,68 @@ export default function AdminPage() {
                   )}
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* ══ 보류 게시글 관리 ══ */}
+          {tab==="flagged" && (
+            <div>
+              {flaggedPosts.length===0
+                ? <div style={{background:"white",borderRadius:18,padding:48,textAlign:"center",color:"#CCC"}}>보류 게시글 없음</div>
+                : flaggedPosts.map(post=>(
+                  <div key={post.id} style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:10,border:post.status==="FLAGGED"?"2px solid #FFE4DE":"1px solid #F0EEE9"}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                      <div style={{display:"flex",alignItems:"center",gap:10}}>
+                        <span style={{fontSize:12,color:"#CCC"}}>#{post.id}</span>
+                        <span style={{fontSize:11,fontWeight:700,padding:"3px 10px",borderRadius:100,background:post.status==="FLAGGED"?"#FFF8EC":"#FFF0ED",color:post.status==="FLAGGED"?"#E8A020":"#E24B4A"}}>{post.status==="FLAGGED"?"보류":"차단"}</span>
+                        <span style={{fontSize:13,fontWeight:800}}>{post.title}</span>
+                      </div>
+                      <span style={{fontSize:11,color:"#CCC"}}>{new Date(post.createdAt).toLocaleString("ko-KR")}</span>
+                    </div>
+                    <div style={{fontSize:12,color:"#888",marginBottom:6}}>작성자: {post.author?.nickname||post.author?.name||"익명"} ({post.author?.email?.replace("@fixcar.local","")})</div>
+                    {post.flagReason&&<div style={{fontSize:11,color:"#E8A020",background:"#FFF8EC",padding:"6px 12px",borderRadius:8,marginBottom:8}}>⚠️ {post.flagReason}</div>}
+                    <div style={{background:"#F8F7F4",borderRadius:10,padding:"12px 14px",fontSize:13,color:"#555",marginBottom:12,maxHeight:150,overflowY:"auto",lineHeight:1.7}} dangerouslySetInnerHTML={{__html:post.content?.slice(0,500)||(post.content||"")}}/>
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                      <button onClick={async()=>{
+                        await fetch("/api/admin/community",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"approve",postId:post.id})});
+                        setFlaggedPosts(prev=>prev.filter(p=>p.id!==post.id));
+                      }} style={{padding:"8px 16px",background:"#2D8A52",color:"white",border:"none",borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>✓ 승인 (게시)</button>
+                      <button onClick={async()=>{
+                        await fetch("/api/admin/community",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"block",postId:post.id,reason:"관리자 차단"})});
+                        setFlaggedPosts(prev=>prev.map(p=>p.id===post.id?{...p,status:"BLOCKED"}:p));
+                      }} style={{padding:"8px 16px",background:"#E24B4A",color:"white",border:"none",borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>✕ 차단</button>
+                      <button onClick={async()=>{
+                        if(!confirm("게시글을 완전 삭제하시겠습니까?"))return;
+                        await fetch("/api/admin/community",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"delete",postId:post.id})});
+                        setFlaggedPosts(prev=>prev.filter(p=>p.id!==post.id));
+                      }} style={{padding:"8px 16px",background:"#F0EEE9",color:"#888",border:"none",borderRadius:8,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>🗑 삭제</button>
+                      <div style={{width:1,background:"#E0DDD7",margin:"0 4px"}}/>
+                      <select onChange={async(e)=>{
+                        const v=e.target.value; if(!v)return;
+                        if(!confirm(`이 유저를 ${v==="permanent"?"영구":v+"일"} 벤 하시겠습니까?`))return;
+                        await fetch("/api/admin/community",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"ban",userId:post.author?.id,banDays:v,reason:post.flagReason})});
+                        alert("유저 제재 완료");e.target.value="";
+                      }} style={{padding:"8px 12px",borderRadius:8,border:"1px solid #FFB8A8",fontSize:11,fontFamily:"'NanumSquareRound',sans-serif",color:"#E24B4A",cursor:"pointer"}}>
+                        <option value="">🚫 유저 벤...</option>
+                        <option value="3">3일 벤</option>
+                        <option value="7">7일 벤</option>
+                        <option value="30">30일 벤</option>
+                        <option value="permanent">영구 벤</option>
+                      </select>
+                      <select onChange={async(e)=>{
+                        const v=e.target.value; if(!v)return;
+                        await fetch("/api/admin/community",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"mute",userId:post.author?.id,banDays:v})});
+                        alert(`글쓰기 권한 ${v}일 제한 완료`);e.target.value="";
+                      }} style={{padding:"8px 12px",borderRadius:8,border:"1px solid #E0DDD7",fontSize:11,fontFamily:"'NanumSquareRound',sans-serif",color:"#888",cursor:"pointer"}}>
+                        <option value="">✏️ 글권한 제한...</option>
+                        <option value="3">3일 글쓰기 제한</option>
+                        <option value="7">7일 글쓰기 제한</option>
+                        <option value="30">30일 글쓰기 제한</option>
+                      </select>
+                    </div>
+                  </div>
+                ))
+              }
             </div>
           )}
 

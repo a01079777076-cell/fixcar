@@ -193,6 +193,9 @@ model CommunityPost {
   reports   CommunityReport[]
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
+  status     String  @default("PUBLISHED")
+  flagReason String?
+
 }
 
 model CommunityComment {
