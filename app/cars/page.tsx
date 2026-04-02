@@ -312,31 +312,25 @@ export default function CarsPage(){
                     <Link key={car.id} href={`/cars/${car.id}`} style={{textDecoration:"none"}}>
                       <div className="list-item" style={{display:"flex",gap:16,padding:"18px 20px",borderBottom:idx<filtered.length-1?"1px solid #F0EEE9":"none",alignItems:"flex-start",cursor:"pointer"}}>
                         <div style={{position:"relative",flexShrink:0}}>
-                          <div style={{display:"flex",gap:4}}>
-                            <div style={{width:200,height:140,borderRadius:10,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
+                          <div style={{display:"flex",gap:3}}>
+                            <div style={{width:180,height:130,borderRadius:10,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
                               {img?<img src={img} alt={cn} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>:
                               <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#CCC",fontSize:11}}>📷 사진 준비중</div>}
-                              {/* 사진 개수 배지 */}
-                              {imgs.length>1&&(
+                              {imgs.length>2&&(
                                 <div style={{position:"absolute",bottom:6,left:6,background:"rgba(0,0,0,0.55)",color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100,display:"flex",alignItems:"center",gap:3,backdropFilter:"blur(4px)"}}>📷 {imgs.length}</div>
                               )}
                             </div>
                             {imgs.length>1&&(
-                              <div style={{display:"flex",flexDirection:"column",gap:3}}>
-                                {imgs.slice(1,4).map((im,i)=>(
-                                  <div key={i} style={{width:80,height:44,borderRadius:6,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
-                                    <img src={im} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
-                                    {/* 마지막 썸네일에 +N장 표시 */}
-                                    {i===2&&imgs.length>4&&(
-                                      <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.5)",display:"flex",alignItems:"center",justifyContent:"center",color:"white",fontSize:11,fontWeight:700}}>+{imgs.length-4}</div>
-                                    )}
-                                  </div>
-                                ))}
+                              <div style={{width:180,height:130,borderRadius:10,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
+                                <img src={imgs[1]} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+                                {imgs.length>2&&(
+                                  <div style={{position:"absolute",bottom:6,right:6,background:"rgba(0,0,0,0.55)",color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>+{imgs.length-2}</div>
+                                )}
                               </div>
                             )}
                           </div>
                           {car.isPick&&<span style={{position:"absolute",top:6,left:6,background:"#FF3B1E",color:"white",padding:"3px 10px",borderRadius:100,fontSize:10,fontWeight:800}}>PICK추천</span>}
-                          <button className="fav-btn" onClick={e=>toggleFav(car.id,e)} style={{position:"absolute",top:6,right:imgs.length>1?90:6,width:32,height:32,borderRadius:"50%",background:"rgba(255,255,255,0.85)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>{isFav?"❤️":"🤍"}</button>
+                          <button className="fav-btn" onClick={e=>toggleFav(car.id,e)} style={{position:"absolute",top:6,right:6,width:32,height:32,borderRadius:"50%",background:"rgba(255,255,255,0.85)",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>{isFav?"❤️":"🤍"}</button>
                         </div>
                         <div style={{flex:1,minWidth:0}}>
                           <div style={{fontSize:16,fontWeight:800,color:"#1A1A1A",marginBottom:5,lineHeight:1.3}}>{cn}</div>
