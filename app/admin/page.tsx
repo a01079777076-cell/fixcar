@@ -201,7 +201,7 @@ export default function AdminPage() {
                   <div style={{fontSize:12,color:"#AAA",marginTop:2}}>양식 다운로드 → 작성 → 업로드</div>
                 </div>
                 <div style={{display:"flex",gap:8}}>
-                  <a href="/fixcar_car_template.xlsx" download><button style={{padding:"10px 18px",background:"#EEF5FF",border:"1.5px solid #0066FF",borderRadius:10,fontSize:12,fontWeight:700,color:"#0066FF",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>📥 양식 다운로드</button></a>
+                  <a href="/api/admin/cars/template" download="fixcar_car_template.xlsx"><button style={{padding:"10px 18px",background:"#EEF5FF",border:"1.5px solid #0066FF",borderRadius:10,fontSize:12,fontWeight:700,color:"#0066FF",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>📥 양식 다운로드</button></a>
                   <button onClick={()=>{
                     const inp=document.createElement("input");inp.type="file";inp.accept=".xlsx,.xls";
                     inp.onchange=async(e)=>{
