@@ -24,7 +24,13 @@ export async function POST(req: NextRequest) {
     const ws = wb.Sheets[wb.SheetNames[0]];
     if (!ws) return NextResponse.json({ error: "시트를 읽을 수 없습니다" }, { status: 400 });
 
-    const rows: any[] = XLSX.utils.sheet_to_json(ws, { range: 1, defval: "" });
+    /* row 1 = 헤더, row 2 = 가이드(스킵), row 3+ = 데이터 */
+    const allRows: any[] = XLSX.utils.sheet_to_json(ws, { defval: "" });
+    /* 첫 행이 가이드행이면 제거 (값에 "예:" 포함 여부로 판단) */
+    const rows = allRows.filter(r => {
+      const brand = String(r["브랜드 *"] || "").trim();
+      return brand && !brand.startsWith("예:");
+    });
     if (rows.length === 0) return NextResponse.json({ error: "데이터가 없습니다" }, { status: 400 });
 
     let dealer = await prisma.dealer.findUnique({ where: { userId: admin.id } });
