@@ -284,12 +284,20 @@ export default function CarDetailClient() {
             </div>
           </div>
 
-          {/* 문의 폼 */}
-          {showInquiry && <div style={{ background: "white", borderRadius: 20, padding: 24, marginTop: 20 }}>
-            <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>💬 딜러에게 문의하기</h3>
-            <textarea rows={4} value={inquiryMsg} onChange={e => setInquiryMsg(e.target.value)} placeholder="궁금한 점을 자유롭게 작성해주세요" maxLength={2000} style={{ width: "100%", padding: "14px 16px", border: "1.5px solid #E0DDD7", borderRadius: 12, fontSize: 14, fontFamily: "'NanumSquareRound',sans-serif", resize: "none", lineHeight: 1.8 }} />
-            <button onClick={sendInquiry} disabled={sending} style={{ width: "100%", padding: 16, background: sending ? "#CCC" : "#FF3B1E", color: "white", border: "none", borderRadius: 14, fontSize: 16, fontWeight: 800, cursor: sending ? "wait" : "pointer", marginTop: 12, fontFamily: "'NanumSquareRound',sans-serif" }}>{sending ? "전송 중..." : "문의 보내기"}</button>
-          </div>}
+          {/* 문의 모달 */}
+          {showInquiry && <>
+            <div onClick={() => setShowInquiry(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 9998 }} />
+            <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)", background: "white", borderRadius: 24, padding: "32px 28px", width: "min(480px,92vw)", zIndex: 9999, boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <h3 style={{ fontSize: 20, fontWeight: 800 }}>💬 딜러에게 문의하기</h3>
+                <button onClick={() => setShowInquiry(false)} style={{ border: "none", background: "#F0EEE9", borderRadius: "50%", width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 16 }}>✕</button>
+              </div>
+              <div style={{ fontSize: 13, color: "#888", marginBottom: 14 }}>{car.brand} {car.name} · {car.price?.toLocaleString()}만원</div>
+              <textarea rows={5} value={inquiryMsg} onChange={e => setInquiryMsg(e.target.value)} placeholder={"궁금한 점을 자유롭게 작성해주세요\n\n예) 차량 상태, 시승 가능 여부, 할부 조건 등"} maxLength={2000} style={{ width: "100%", padding: "14px 16px", border: "1.5px solid #E0DDD7", borderRadius: 12, fontSize: 14, fontFamily: "'NanumSquareRound',sans-serif", resize: "none", lineHeight: 1.8 }} />
+              <div style={{ fontSize: 11, color: "#AAA", textAlign: "right", marginTop: 4, marginBottom: 12 }}>{inquiryMsg.length}/2,000자</div>
+              <button onClick={sendInquiry} disabled={sending} style={{ width: "100%", padding: 16, background: sending ? "#CCC" : "#FF3B1E", color: "white", border: "none", borderRadius: 14, fontSize: 16, fontWeight: 800, cursor: sending ? "wait" : "pointer", fontFamily: "'NanumSquareRound',sans-serif" }}>{sending ? "전송 중..." : "문의 보내기"}</button>
+            </div>
+          </>}
 
           {/* 허위매물 신고 */}
           {showReport && <div style={{ background: "#FFF8F6", borderRadius: 20, padding: 24, marginTop: 20, border: "1px solid #FFD6CC" }}>
