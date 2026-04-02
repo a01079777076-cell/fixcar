@@ -291,11 +291,11 @@ function PhotoGuideSvg({ type }: { type: "front34"|"rear34"|"front"|"rear"|"inte
 }
 
 const MAIN_SLOTS_DATA = [
-  { key:"main1", label:"① 전면 3/4",  guide:"왼쪽 앞 대각선에서 촬영",   svgType:"front34" as const },
-  { key:"main2", label:"② 후면 3/4",  guide:"오른쪽 뒤 대각선에서 촬영", svgType:"rear34"  as const },
-  { key:"main3", label:"③ 전면",       guide:"차량 앞에서 정면 촬영",      svgType:"front"   as const },
-  { key:"main4", label:"④ 후면",       guide:"차량 뒤에서 정면 촬영",      svgType:"rear"    as const },
-  { key:"main5", label:"⑤ 실내 메인",  guide:"운전석에서 대시보드 방향 촬영", svgType:"interior" as const },
+  { key:"main1", label:"① 전면 좌측 각도",  guide:"전면에서 왼쪽을 쳐다보는 각도",   svgType:"front34" as const },
+  { key:"main2", label:"② 후면 우측 각도",  guide:"후면에서 오른쪽을 쳐다보는 각도", svgType:"rear34"  as const },
+  { key:"main3", label:"③ 정면",            guide:"정 가운데 정면에서 촬영",          svgType:"front"   as const },
+  { key:"main4", label:"④ 후면",            guide:"정 가운데 후면에서 촬영",          svgType:"rear"    as const },
+  { key:"main5", label:"⑤ 실내 메인",       guide:"운전석에서 대시보드 방향 촬영",    svgType:"interior" as const },
 ];
 
 /* ═══ 간단 라디오 버튼 컴포넌트 ═══ */
@@ -700,7 +700,7 @@ export default function DealerCarsNewPage() {
     };inp.click();
   };
 
-  /* 메인사진 4장 한번에 업로드 */
+  /* 메인사진 5장 한번에 업로드 (파일명 숫자로 슬롯 매칭) */
   const [bulkUploading, setBulkUploading] = useState(false);
   const handleBulkMainUpload = async () => {
     const inp = document.createElement("input");
@@ -708,20 +708,22 @@ export default function DealerCarsNewPage() {
     inp.onchange = async (e) => {
       const files = (e.target as HTMLInputElement).files;
       if (!files || files.length === 0) return;
-      const sorted = Array.from(files).sort((a, b) => a.name.localeCompare(b.name)).slice(0, 5);
       setBulkUploading(true);
       const slots = MAIN_SLOTS_DATA.map(s => s.key);
-      for (let i = 0; i < sorted.length; i++) {
-        setUploadingSlot(slots[i]);
+      /* 파일명에서 숫자 추출하여 슬롯 매칭: "1.jpg"→main1, "2_front.jpg"→main2 */
+      const fileArr = Array.from(files);
+      for (const file of fileArr) {
+        const numMatch = file.name.match(/^(\d)/);
+        const slotIdx = numMatch ? Number(numMatch[1]) - 1 : -1;
+        if (slotIdx < 0 || slotIdx >= slots.length) continue;
+        setUploadingSlot(slots[slotIdx]);
         try {
-          const resized = await resizeImage(sorted[i]);
+          const resized = await resizeImage(file);
           const fd = new FormData(); fd.append("file", resized);
           const res = await fetch("/api/upload", { method: "POST", body: fd });
           if (!res.ok) continue;
           const d = await res.json();
-          if (d.success && d.url) {
-            setMainPhotos(prev => ({ ...prev, [slots[i]]: d.url }));
-          }
+          if (d.success && d.url) setMainPhotos(prev => ({ ...prev, [slots[slotIdx]]: d.url }));
         } catch {}
       }
       setUploadingSlot(null);
@@ -1622,7 +1624,7 @@ export default function DealerCarsNewPage() {
                   {bulkUploading?"업로드 중...":"📁 5장 한번에 올리기"}
                 </button>
               </div>
-              <div style={{fontSize:11,color:"#888",marginBottom:4}}>파일명 순서(abc)로 ①~⑤에 배치됩니다. 개별 클릭으로 교체도 가능.</div>
+              <div style={{fontSize:11,color:"#888",marginBottom:4}}>파일명 앞 숫자로 배치: <strong>1</strong>.jpg→①번, <strong>2</strong>.jpg→②번 ... <strong>5</strong>.jpg→⑤번. 해당 번호 없으면 공란.</div>
               <div style={{fontSize:11,color:"#0066FF",marginBottom:12,background:"#EEF5FF",padding:"8px 12px",borderRadius:8}}>💡 ①번(실외 메인)과 ⑤번(실내 메인) 사진이 전체 매물 목록에서 대표 사진 2장으로 노출됩니다.</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
                 {MAIN_SLOTS_DATA.map(slot=>{
@@ -1681,6 +1683,36 @@ export default function DealerCarsNewPage() {
               </div>
               <div style={{fontSize:12,color:"#AAA",textAlign:"center"}}>메인 {Object.keys(mainPhotos).length}/5장 · 디테일 {detailPhotos.length}/20장</div>
               <div style={{fontSize:11,color:"#C4A060",textAlign:"center",marginTop:8,background:"#FFF8E8",padding:"8px 14px",borderRadius:8}}>⚠️ 4.5MB 이상 고용량 사진은 자동 용량 축소되어 화질에 변화가 생길 수 있습니다.</div>
+
+              {/* ═══ 매물 등록 미리보기 ═══ */}
+              {Object.keys(mainPhotos).length > 0 && (
+                <div style={{marginTop:20,background:"#F8F7F4",borderRadius:16,padding:"20px 22px"}}>
+                  <div style={{fontSize:13,fontWeight:800,color:"#888",marginBottom:12}}>👁️ 전체매물에서 보여질 예시</div>
+                  <div style={{background:"white",borderRadius:14,padding:"14px 16px",display:"flex",gap:14,alignItems:"flex-start",border:"1px solid #E8E6E1"}}>
+                    {/* 사진 2장 */}
+                    <div style={{display:"flex",gap:3,flexShrink:0}}>
+                      <div style={{width:140,height:100,borderRadius:10,overflow:"hidden",background:"#F0EEE9"}}>
+                        {mainPhotos.main1?<img src={mainPhotos.main1.split("#")[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:`center ${photoPositions.main1||50}%`}}/>:<div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#CCC",fontSize:11}}>📷 실외</div>}
+                      </div>
+                      <div style={{width:140,height:100,borderRadius:10,overflow:"hidden",background:"#F0EEE9"}}>
+                        {mainPhotos.main5?<img src={mainPhotos.main5.split("#")[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:`center ${photoPositions.main5||50}%`}}/>:<div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#CCC",fontSize:11}}>📷 실내</div>}
+                      </div>
+                    </div>
+                    {/* 정보 */}
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontSize:15,fontWeight:800,marginBottom:4}}>{selectedBrand||"브랜드"} {selectedModel||selectedBase||"모델명"}{grade?` ${grade}`:""}</div>
+                      <div style={{fontSize:12,color:"#AAA",marginBottom:6}}>{year||"00"}년식 · {mileage?Number(mileage).toLocaleString():"0"}km · {fuel||"연료"} · {region||"지역"}</div>
+                      <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:6}}>
+                        {!accident&&<span style={{fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100,background:"#EAF6EF",color:"#2D8A52"}}>무사고</span>}
+                        {fuel==="전기"&&<span style={{fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100,background:"#EEF5FF",color:"#0066FF"}}>전기차</span>}
+                        {Number(mileage)<30000&&Number(mileage)>0&&<span style={{fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100,background:"#F0F6FF",color:"#0066FF"}}>저주행</span>}
+                      </div>
+                    </div>
+                    {/* 가격 */}
+                    <div style={{fontSize:20,fontWeight:800,color:"#FF3B1E",flexShrink:0}}>{price?Number(price).toLocaleString():"0"}<span style={{fontSize:11,color:"#AAA"}}>만원</span></div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

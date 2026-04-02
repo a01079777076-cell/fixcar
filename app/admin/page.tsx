@@ -227,9 +227,26 @@ export default function AdminPage() {
               )}
               {cars.length===0
                 ? <div style={{background:"white",borderRadius:18,padding:48,textAlign:"center",color:"#CCC"}}>매물 없음</div>
-                : cars.sort((a,b)=>{const order:Record<string,number>={"REVIEWING":0,"AVAILABLE":1,"RESERVED":2,"SOLD":3};return (order[a.status]??9)-(order[b.status]??9);}).map(car=>(
-                  <div key={car.id} style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:10,border:car.status==="REVIEWING"?"2px solid #FFE4DE":"1px solid #F0EEE9"}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                : cars.sort((a,b)=>{const order:Record<string,number>={"REVIEWING":0,"AVAILABLE":1,"RESERVED":2,"SOLD":3};return (order[a.status]??9)-(order[b.status]??9);}).map(car=>{
+                  /* 검수대기 경고 검출 */
+                  const warnings: string[] = [];
+                  if (car.status === "REVIEWING") {
+                    if (!car.images || car.images.length === 0) warnings.push("📷 사진 미등록");
+                    else if (car.images.length < 5) warnings.push(`📷 메인사진 부족 (${car.images.length}/5장)`);
+                    if (!car.price || car.price <= 0) warnings.push("💰 판매가 미입력");
+                    if (!car.description) warnings.push("📝 설명글 없음");
+                    if (!car.color) warnings.push("🎨 색상 미입력");
+                    if (car.mileage === 0 && car.fuel !== "전기") warnings.push("🔢 주행거리 0km");
+                    /* 동일 차량번호 중복 체크 */
+                    if (car.plateNumber) {
+                      const dupes = cars.filter((c: any) => c.id !== car.id && c.plateNumber === car.plateNumber);
+                      if (dupes.length > 0) warnings.push(`🚨 동일번호 매물 존재 (#${dupes.map((d: any) => d.id).join(",")})`);
+                    }
+                    if (!car.plateNumber) warnings.push("🔖 차량번호 미입력");
+                  }
+                  return (
+                  <div key={car.id} style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:10,border:car.status==="REVIEWING"?(warnings.length>0?"2px solid #E24B4A":"2px solid #FFE4DE"):"1px solid #F0EEE9"}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
                       <div style={{display:"flex",alignItems:"center",gap:12}}>
                         <span style={{fontSize:12,color:"#CCC"}}>#{car.id}</span>
                         <span style={{fontSize:15,fontWeight:800}}>{car.brand} {car.name}</span>
@@ -237,9 +254,20 @@ export default function AdminPage() {
                       </div>
                       <span style={{fontSize:11,fontWeight:700,padding:"4px 12px",borderRadius:100,background:statusBg(car.status),color:statusColor(car.status)}}>{statusLabel(car.status)}</span>
                     </div>
-                    <div style={{fontSize:12,color:"#AAA",marginBottom:10}}>{car.year}년 · {car.mileage?.toLocaleString()}km · {car.fuel} · 딜러: {car.dealer?.shopName||"-"}</div>
+                    <div style={{fontSize:12,color:"#AAA",marginBottom:warnings.length>0?6:10}}>
+                      {car.year}년 · {car.mileage?.toLocaleString()}km · {car.fuel} · 딜러: {car.dealer?.shopName||"-"}
+                      {car.plateNumber && <span style={{marginLeft:8,fontWeight:700,color:"#555"}}>🔖 {car.plateNumber}</span>}
+                    </div>
+                    {/* 경고 표시 */}
+                    {warnings.length>0&&(
+                      <div style={{background:"#FFF0ED",borderRadius:10,padding:"10px 14px",marginBottom:10,border:"1px solid #FFD4CC"}}>
+                        <div style={{fontSize:12,fontWeight:800,color:"#E24B4A",marginBottom:4}}>⚠️ 검수 경고 ({warnings.length}건)</div>
+                        {warnings.map((w,i)=><div key={i} style={{fontSize:11,color:"#CC6633",lineHeight:1.8}}>{w}</div>)}
+                      </div>
+                    )}
                     <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
                       <button onClick={()=>setDetailCar(car)} style={{padding:"8px 16px",background:"white",border:"1.5px solid #0066FF",borderRadius:10,fontSize:12,fontWeight:700,color:"#0066FF",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>📋 상세보기</button>
+                      <a href={`/admin/cars/${car.id}/edit`}><button style={{padding:"8px 16px",background:"#0066FF",border:"none",borderRadius:10,fontSize:12,fontWeight:700,color:"white",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>✏️ 수정</button></a>
                       {car.status==="REVIEWING"&&<>
                         <button onClick={()=>updateCar(car.id,"AVAILABLE")} style={{padding:"8px 16px",background:"#2D8A52",border:"none",borderRadius:10,fontSize:12,fontWeight:700,color:"white",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>✓ 승인</button>
                         <button onClick={()=>setRejectId(rejectId===car.id?null:car.id)} style={{padding:"8px 16px",background:"#E24B4A",border:"none",borderRadius:10,fontSize:12,fontWeight:700,color:"white",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>✕ 반려</button>
@@ -258,7 +286,7 @@ export default function AdminPage() {
                       </div>
                     )}
                   </div>
-                ))
+                );})
               }
             </div>
           )}
