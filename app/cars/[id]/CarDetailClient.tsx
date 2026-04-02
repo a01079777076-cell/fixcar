@@ -99,11 +99,11 @@ export default function CarDetailClient() {
               <div style={{ position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)", background: "rgba(0,0,0,0.5)", color: "white", fontSize: 12, fontWeight: 700, padding: "4px 14px", borderRadius: 100 }}>{mainImg + 1} / {images.length}</div>
               {images.length > 1 && <button onClick={e => { e.stopPropagation(); setShowAllPhotos(true); }} style={{ position: "absolute", bottom: 12, right: 12, background: "rgba(0,0,0,0.5)", color: "white", border: "none", borderRadius: 100, padding: "6px 14px", fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5 }}><ImageIcon size={12} /> 사진 모두보기</button>}
             </div>
-            {/* 오른쪽 사이드 사진 (4장 고정, 엔카 동일) */}
-            <div style={{ display: "grid", gridTemplateRows: "repeat(4,1fr)", gap: 4 }}>
-              {[0, 1, 2, 3].map(i => {
+            {/* 오른쪽 사이드 사진 (3장 고정) */}
+            <div style={{ display: "grid", gridTemplateRows: "repeat(3,1fr)", gap: 4 }}>
+              {[0, 1, 2].map(i => {
                 const img = images[i + 1];
-                const isLast = i === 3 && images.length > 5;
+                const isLast = i === 2 && images.length > 4;
                 return (
                   <div key={i} onClick={() => img ? setMainImg(i + 1) : undefined} style={{ overflow: "hidden", cursor: img ? "pointer" : "default", position: "relative", background: "#E8E6E1", minHeight: 0 }}>
                     {img ? (() => { const p = parseImg(img); return <img src={p.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos, display: "block" }} />; })() : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.15, fontSize: 20 }}>📷</div>}
