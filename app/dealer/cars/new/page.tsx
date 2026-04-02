@@ -548,25 +548,28 @@ export default function DealerCarsNewPage() {
       const saved = localStorage.getItem(DRAFT_KEY);
       if (!saved) return;
       const d = JSON.parse(saved);
-      if (d.selectedBrand) setSelectedBrand(d.selectedBrand);
-      if (d.selectedBase) setSelectedBase(d.selectedBase);
-      if (d.selectedModel) setSelectedModel(d.selectedModel);
-      if (d.grade) setGrade(d.grade);
-      if (d.year) setYear(d.year);
-      if (d.mileage) setMileage(d.mileage);
-      if (d.fuel) setFuel(d.fuel);
-      if (d.color) setColor(d.color);
-      if (d.transmission) setTransmission(d.transmission);
-      if (d.cc) setCc(d.cc);
-      if (d.owners) setOwners(d.owners);
-      if (d.plateNumber) setPlateNumber(d.plateNumber);
-      if (d.price) setPrice(d.price);
-      if (d.region) setRegion(d.region);
-      if (d.description) setDescription(d.description);
-      if (d.options) setOptions(d.options);
-      if (d.saleType) setSaleType(d.saleType);
-      if (d.step) setStep(d.step);
+      if (d.selectedBrand !== undefined) setSelectedBrand(d.selectedBrand);
+      if (d.selectedBase !== undefined) setSelectedBase(d.selectedBase);
+      if (d.selectedModel !== undefined) setSelectedModel(d.selectedModel);
+      if (d.grade !== undefined) setGrade(d.grade);
+      if (d.year !== undefined) setYear(d.year);
+      if (d.mileage !== undefined) setMileage(d.mileage);
+      if (d.fuel !== undefined) setFuel(d.fuel);
+      if (d.color !== undefined) setColor(d.color);
+      if (d.transmission !== undefined) setTransmission(d.transmission);
+      if (d.cc !== undefined) setCc(d.cc);
+      if (d.owners !== undefined) setOwners(d.owners);
+      if (d.plateNumber !== undefined) setPlateNumber(d.plateNumber);
+      if (d.price !== undefined) setPrice(d.price);
+      if (d.region !== undefined) setRegion(d.region);
+      if (d.description !== undefined) setDescription(d.description);
+      if (d.options !== undefined) setOptions(d.options);
+      if (d.saleType !== undefined) setSaleType(d.saleType);
       if (d.accident !== undefined) setAccident(d.accident);
+      if (d.importType !== undefined) setImportType(d.importType);
+      if (d.interiorColor !== undefined) setInteriorColor(d.interiorColor);
+      /* step은 마지막에 (다른 state가 세팅된 후) */
+      setTimeout(() => { if (d.step !== undefined) setStep(d.step); }, 100);
     } catch {}
     setShowDraftPrompt(false);
   };
@@ -584,7 +587,7 @@ export default function DealerCarsNewPage() {
         const draft = {
           selectedBrand, selectedBase, selectedModel, grade, year, mileage, fuel,
           color, transmission, cc, owners, plateNumber, price, region,
-          description, options, saleType, step, accident,
+          description, options, saleType, step, accident, importType, interiorColor,
           savedAt: new Date().toISOString(),
         };
         localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
@@ -1634,16 +1637,21 @@ export default function DealerCarsNewPage() {
                             setPhotoPositions(prev=>({...prev,[slot.key]:Math.max(10,Math.min(90,yPct))}));
                           }}>
                             <img src={url} alt={slot.label} style={{width:"100%",aspectRatio:"4/3",objectFit:"cover",objectPosition:`center ${photoPositions[slot.key]||50}%`,display:"block"}}/>
-                            {/* 포컬포인트 라인 */}
-                            <div style={{position:"absolute",left:0,right:0,top:`${photoPositions[slot.key]||50}%`,height:2,background:"#FF3B1E",opacity:0.7,pointerEvents:"none",transition:"top 0.15s"}}/>
-                            <div style={{position:"absolute",left:8,top:`calc(${photoPositions[slot.key]||50}% - 10px)`,background:"#FF3B1E",color:"white",fontSize:9,fontWeight:800,padding:"2px 6px",borderRadius:4,pointerEvents:"none",opacity:0.8}}>보임</div>
+                            {/* 매물에서 잘릴 영역 어둡게 표시 */}
+                            {photoPositions[slot.key]!==undefined&&<>
+                              <div style={{position:"absolute",top:0,left:0,right:0,height:`${Math.max(0,(photoPositions[slot.key]||50)-25)}%`,background:"rgba(0,0,0,0.45)",pointerEvents:"none",transition:"height 0.15s"}}/>
+                              <div style={{position:"absolute",bottom:0,left:0,right:0,height:`${Math.max(0,100-(photoPositions[slot.key]||50)-25)}%`,background:"rgba(0,0,0,0.45)",pointerEvents:"none",transition:"height 0.15s"}}/>
+                              <div style={{position:"absolute",left:0,right:0,top:`${(photoPositions[slot.key]||50)-25}%`,height:"50%",border:"2px solid #2D8A52",pointerEvents:"none",transition:"top 0.15s"}}>
+                                <div style={{position:"absolute",top:4,left:8,background:"#2D8A52",color:"white",fontSize:9,fontWeight:800,padding:"2px 8px",borderRadius:4}}>✓ 보이는 영역</div>
+                              </div>
+                            </>}
                           </div>
-                          <div style={{position:"absolute",top:0,left:0,right:0,background:"linear-gradient(to bottom,rgba(0,0,0,0.5),transparent)",padding:"8px 12px"}}><span style={{fontSize:11,fontWeight:800,color:"white"}}>{slot.label}</span></div>
-                          <div style={{position:"absolute",top:6,right:6,display:"flex",gap:4}}>
+                          <div style={{position:"absolute",top:0,left:0,right:0,background:"linear-gradient(to bottom,rgba(0,0,0,0.5),transparent)",padding:"8px 12px",zIndex:2}}><span style={{fontSize:11,fontWeight:800,color:"white"}}>{slot.label}</span></div>
+                          <div style={{position:"absolute",top:6,right:6,display:"flex",gap:4,zIndex:2}}>
                             <button onClick={()=>handleMainUpload(slot.key)} style={{width:28,height:28,borderRadius:"50%",background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12}}>↺</button>
                             <button onClick={()=>{setMainPhotos(prev=>{const n={...prev};delete n[slot.key];return n;});setPhotoPositions(prev=>{const n={...prev};delete n[slot.key];return n;});}} style={{width:28,height:28,borderRadius:"50%",background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={12}/></button>
                           </div>
-                          <div style={{background:"#1A1A1A",padding:"4px 10px",fontSize:10,color:"#AAA",textAlign:"center"}}>사진을 클릭하여 보일 위치를 조정하세요</div>
+                          <div style={{background:"#1A1A1A",padding:"5px 10px",fontSize:10,color:"#AAA",textAlign:"center"}}>📌 사진을 클릭하여 매물에 보일 위치를 조정하세요</div>
                         </div>
                       ):(
                         <button onClick={()=>handleMainUpload(slot.key)} disabled={isUp} style={{width:"100%",aspectRatio:"4/3",border:"none",background:"transparent",cursor:isUp?"wait":"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,fontFamily:"'NanumSquareRound',sans-serif",padding:"8px"}}>
