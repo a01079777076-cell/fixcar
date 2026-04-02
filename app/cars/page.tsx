@@ -322,7 +322,7 @@ export default function CarsPage(){
                             </div>
                             {imgs.length>1&&(
                               <div style={{width:180,height:130,borderRadius:10,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
-                                <img src={imgs[1]} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+                                <img src={imgs[4]||imgs[1]} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
                                 {imgs.length>2&&(
                                   <div style={{position:"absolute",bottom:6,right:6,background:"rgba(0,0,0,0.55)",color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>+{imgs.length-2}</div>
                                 )}

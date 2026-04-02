@@ -219,8 +219,20 @@ type OilState = "없음"|"미세누유"|"누유"|"";
 type OilLevel = "적정"|"부족"|"과다"|"";
 
 /* ═══ SVG 가이드 ═══ */
-function PhotoGuideSvg({ type }: { type: "front34"|"rear34"|"front"|"rear" }) {
+function PhotoGuideSvg({ type }: { type: "front34"|"rear34"|"front"|"rear"|"interior" }) {
   const bc="#D6E4F0",lc="#90A8C0",ac="#FF3B1E";
+  if(type==="interior") return (
+    <svg width={140} height={105} viewBox="0 0 140 105" fill="none">
+      <rect x="15" y="20" width="110" height="65" rx="10" fill={bc} stroke={lc} strokeWidth="1.5"/>
+      <rect x="30" y="30" width="80" height="35" rx="6" fill="#B8D4E8" stroke={lc} strokeWidth="1"/>
+      <circle cx="45" cy="72" r="10" fill="#AAC0D0" stroke={lc} strokeWidth="1.5"/>
+      <circle cx="95" cy="72" r="10" fill="#AAC0D0" stroke={lc} strokeWidth="1.5"/>
+      <rect x="60" y="68" width="20" height="12" rx="3" fill="#AAC0D0" stroke={lc} strokeWidth="1"/>
+      <text x="70" y="50" textAnchor="middle" fontSize="9" fill={lc} fontWeight="bold">INTERIOR</text>
+      <path d="M70 8 L70 20" stroke={ac} strokeWidth="1.5" strokeDasharray="3,3" opacity="0.6"/>
+      <circle cx="70" cy="5" r="4" fill={ac} opacity="0.6"/>
+    </svg>
+  );
   if(type==="front34") return (
     <svg width={140} height={105} viewBox="0 0 140 105" fill="none">
       <rect x="25" y="42" width="90" height="36" rx="8" fill={bc} stroke={lc} strokeWidth="1.5"/>
@@ -283,6 +295,7 @@ const MAIN_SLOTS_DATA = [
   { key:"main2", label:"② 후면 3/4",  guide:"오른쪽 뒤 대각선에서 촬영", svgType:"rear34"  as const },
   { key:"main3", label:"③ 전면",       guide:"차량 앞에서 정면 촬영",      svgType:"front"   as const },
   { key:"main4", label:"④ 후면",       guide:"차량 뒤에서 정면 촬영",      svgType:"rear"    as const },
+  { key:"main5", label:"⑤ 실내 메인",  guide:"운전석에서 대시보드 방향 촬영", svgType:"interior" as const },
 ];
 
 /* ═══ 간단 라디오 버튼 컴포넌트 ═══ */
@@ -691,7 +704,7 @@ export default function DealerCarsNewPage() {
     inp.onchange = async (e) => {
       const files = (e.target as HTMLInputElement).files;
       if (!files || files.length === 0) return;
-      const sorted = Array.from(files).sort((a, b) => a.name.localeCompare(b.name)).slice(0, 4);
+      const sorted = Array.from(files).sort((a, b) => a.name.localeCompare(b.name)).slice(0, 5);
       setBulkUploading(true);
       const slots = MAIN_SLOTS_DATA.map(s => s.key);
       for (let i = 0; i < sorted.length; i++) {
@@ -752,7 +765,7 @@ export default function DealerCarsNewPage() {
       if(!plateNumber){errs.push("차량번호를 입력해주세요");fields.add("plate");}
     }
     if(s===2){if(!price||Number(price)<100){errs.push("판매가 100만원 이상 입력해주세요");fields.add("price");}}
-    if(s===3){const mc=Object.keys(mainPhotos).length;if(mc<4){errs.push(`메인 사진 ${mc}/4장 — 4장 모두 필수`);fields.add("photos");}}
+    if(s===3){const mc=Object.keys(mainPhotos).length;if(mc<5){errs.push(`메인 사진 ${mc}/5장 — 실외 4장 + 실내 1장 모두 필수`);fields.add("photos");}}
     setErrorFields(fields); return errs;
   };
 
@@ -1595,14 +1608,15 @@ export default function DealerCarsNewPage() {
           {step===3&&(
             <div style={{background:"white",borderRadius:20,padding:"28px 26px"}}>
               <h2 style={{fontSize:18,fontWeight:800,marginBottom:6}}>📷 사진 업로드</h2>
-              <p style={{fontSize:13,color:"#AAA",marginBottom:20}}>메인 사진 4장 필수! 디테일 사진 최대 20장.</p>
+              <p style={{fontSize:13,color:"#AAA",marginBottom:20}}>메인 사진 5장 필수 (실외 4장 + 실내 1장)! 디테일 사진 최대 20장.</p>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-                <div style={{fontSize:14,fontWeight:800,color:"#FF3B1E"}}>📌 메인 사진 (4장 필수)</div>
+                <div style={{fontSize:14,fontWeight:800,color:"#FF3B1E"}}>📌 메인 사진 (5장 필수)</div>
                 <button onClick={handleBulkMainUpload} disabled={bulkUploading} style={{padding:"8px 16px",background:"#0066FF",color:"white",border:"none",borderRadius:8,fontSize:12,fontWeight:800,cursor:bulkUploading?"wait":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>
-                  {bulkUploading?"업로드 중...":"📁 4장 한번에 올리기"}
+                  {bulkUploading?"업로드 중...":"📁 5장 한번에 올리기"}
                 </button>
               </div>
-              <div style={{fontSize:11,color:"#888",marginBottom:12}}>파일명 순서(abc)로 main1→main4에 배치됩니다. 개별 클릭으로 교체도 가능.</div>
+              <div style={{fontSize:11,color:"#888",marginBottom:4}}>파일명 순서(abc)로 ①~⑤에 배치됩니다. 개별 클릭으로 교체도 가능.</div>
+              <div style={{fontSize:11,color:"#0066FF",marginBottom:12,background:"#EEF5FF",padding:"8px 12px",borderRadius:8}}>💡 ①번(실외 메인)과 ⑤번(실내 메인) 사진이 전체 매물 목록에서 대표 사진 2장으로 노출됩니다.</div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
                 {MAIN_SLOTS_DATA.map(slot=>{
                   const url=mainPhotos[slot.key]; const isUp=uploadingSlot===slot.key;
@@ -1643,7 +1657,7 @@ export default function DealerCarsNewPage() {
                   </button>
                 )}
               </div>
-              <div style={{fontSize:12,color:"#AAA",textAlign:"center"}}>메인 {Object.keys(mainPhotos).length}/4장 · 디테일 {detailPhotos.length}/20장</div>
+              <div style={{fontSize:12,color:"#AAA",textAlign:"center"}}>메인 {Object.keys(mainPhotos).length}/5장 · 디테일 {detailPhotos.length}/20장</div>
               <div style={{fontSize:11,color:"#C4A060",textAlign:"center",marginTop:8,background:"#FFF8E8",padding:"8px 14px",borderRadius:8}}>⚠️ 4.5MB 이상 고용량 사진은 자동 용량 축소되어 화질에 변화가 생길 수 있습니다.</div>
             </div>
           )}
