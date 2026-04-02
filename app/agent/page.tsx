@@ -1,3 +1,6 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/agent/page.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -33,14 +36,35 @@ export default function AgentPage() {
             <p style={{ fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: 20 }}>
               당근마켓, 번개장터 등 개인간 중고차 거래<br />전문 딜러가 안전하게 대행해드립니다
             </p>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "rgba(255,59,30,0.15)", border: "1px solid rgba(255,59,30,0.3)", borderRadius: 14, padding: "16px 28px" }}>
-              <span style={{ fontSize: 28, fontWeight: 800, color: "#FF3B1E" }}>15~20만원</span>
-              <span style={{ fontSize: 14, color: "rgba(255,255,255,0.6)" }}>대행료</span>
-            </div>
           </div>
         </div>
 
         <div style={{ maxWidth: 700, margin: "0 auto", padding: "32px 16px 100px" }}>
+          {/* 핵심 메시지 — 사기 피해금 vs 대행료 비교 */}
+          <div style={{ background: "white", borderRadius: 20, padding: "28px 24px", marginBottom: 28, border: "2px solid #FF3B1E", textAlign: "center" }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#888", marginBottom: 12 }}>중고차 개인거래 사기 피해</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, marginBottom: 16 }}>
+              <div>
+                <div style={{ fontSize: 14, color: "#AAA", marginBottom: 4 }}>평균 사기 피해금</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: "#E24B4A", textDecoration: "line-through" }}>300~500만원</div>
+              </div>
+              <div style={{ fontSize: 24, color: "#CCC" }}>→</div>
+              <div>
+                <div style={{ fontSize: 14, color: "#AAA", marginBottom: 4 }}>과도한 이전비 피해</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: "#E24B4A", textDecoration: "line-through" }}>50~100만원</div>
+              </div>
+            </div>
+            <div style={{ background: "#EAF6EF", borderRadius: 14, padding: "20px", marginBottom: 12 }}>
+              <div style={{ fontSize: 13, color: "#2D8A52", marginBottom: 6, fontWeight: 700 }}>✅ 픽스카 거래대행으로 한번에 해결!</div>
+              <div style={{ fontSize: 30, fontWeight: 800, color: "#2D8A52" }}>대행료 15~20만원</div>
+              <div style={{ fontSize: 13, color: "#888", marginTop: 6 }}>검수 + 시세분석 + 서류대행 + 명의이전 포함</div>
+            </div>
+            <div style={{ fontSize: 12, color: "#AAA", lineHeight: 1.6 }}>
+              ※ 별도: 이전등록비, 취득세, 보험료 (실비 정산)<br />
+              ※ 대행료는 거래 완료 시 현장 결제
+            </div>
+          </div>
+
           {/* 왜 필요한가 */}
           <div style={{ background: "#FFF0ED", borderRadius: 18, padding: "24px", marginBottom: 28 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
@@ -51,7 +75,7 @@ export default function AgentPage() {
               • 허위매물 — 사진과 다른 차량, 존재하지 않는 매물<br />
               • 침수/사고차 — 성능점검기록 조작, 사고 이력 숨기기<br />
               • 서류 사기 — 명의이전 미완료, 대포차 위험<br />
-              • 가격 사기 — 시세보다 높은 가격으로 판매<br />
+              • 과도한 이전비 — 중간에 끼워넣기식 수수료 청구<br />
               • 거래 후 분쟁 — 하자 발견 시 연락 두절
             </div>
           </div>
@@ -72,7 +96,7 @@ export default function AgentPage() {
           <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16 }}>📋 거래대행 진행 과정</h2>
           <div style={{ marginBottom: 32 }}>
             {STEPS.map((s, i) => (
-              <div key={s.num} style={{ display: "flex", gap: 16, marginBottom: i < STEPS.length - 1 ? 0 : 0 }}>
+              <div key={s.num} style={{ display: "flex", gap: 16 }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                   <div style={{ width: 44, height: 44, borderRadius: "50%", background: "linear-gradient(135deg,#FF3B1E,#CC2200)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 800, flexShrink: 0 }}>{s.num}</div>
                   {i < STEPS.length - 1 && <div style={{ width: 2, flex: 1, background: "#E0DDD7", minHeight: 24 }} />}
@@ -86,25 +110,6 @@ export default function AgentPage() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* 가격 안내 */}
-          <div style={{ background: "white", borderRadius: 20, padding: "28px", border: "2px solid #FF3B1E", marginBottom: 28 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 16, textAlign: "center" }}>💰 대행료 안내</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-              <div style={{ background: "#FFF0ED", borderRadius: 14, padding: "20px", textAlign: "center" }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: "#FF3B1E" }}>15만원</div>
-                <div style={{ fontSize: 12, color: "#AAA", marginTop: 4 }}>일반 거래대행</div>
-              </div>
-              <div style={{ background: "#FFF0ED", borderRadius: 14, padding: "20px", textAlign: "center" }}>
-                <div style={{ fontSize: 24, fontWeight: 800, color: "#FF3B1E" }}>20만원</div>
-                <div style={{ fontSize: 12, color: "#AAA", marginTop: 4 }}>원거리/프리미엄</div>
-              </div>
-            </div>
-            <div style={{ fontSize: 13, color: "#888", lineHeight: 1.8, background: "#F8F7F4", borderRadius: 12, padding: "14px 18px" }}>
-              ※ 대행료에 포함: 차량 검수, 시세 분석, 서류 대행, 명의이전<br />
-              ※ 별도: 이전등록비, 취득세, 보험료 (실비 정산)
-            </div>
           </div>
 
           {/* CTA */}

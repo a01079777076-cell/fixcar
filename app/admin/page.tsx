@@ -15,9 +15,12 @@ export default function AdminPage() {
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [users,     setUsers]   = useState<any[]>([]);
   const [flaggedPosts, setFlaggedPosts] = useState<any[]>([]);
+  const [expandedFlag, setExpandedFlag] = useState<number|null>(null);
   const [detailCar, setDetailCar] = useState<any>(null);
   const [rejectId,  setRejectId] = useState<number|null>(null);
   const [rejectReason, setRejectReason] = useState("");
+  const [bulkUploading, setBulkUploading] = useState(false);
+  const [bulkResult, setBulkResult] = useState<any>(null);
 
   /* 회원 상세 모달 */
   const [detailUser, setDetailUser] = useState<any>(null);
@@ -191,6 +194,37 @@ export default function AdminPage() {
           {/* ══ 매물 관리 ══ */}
           {tab==="cars" && (
             <div>
+              {/* 엑셀 일괄등록 */}
+              <div style={{background:"white",borderRadius:16,padding:"18px 22px",marginBottom:16,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
+                <div>
+                  <div style={{fontSize:14,fontWeight:800}}>📊 딜러 매물 엑셀 등록</div>
+                  <div style={{fontSize:12,color:"#AAA",marginTop:2}}>양식 다운로드 → 작성 → 업로드</div>
+                </div>
+                <div style={{display:"flex",gap:8}}>
+                  <a href="/fixcar_car_template.xlsx" download><button style={{padding:"10px 18px",background:"#EEF5FF",border:"1.5px solid #0066FF",borderRadius:10,fontSize:12,fontWeight:700,color:"#0066FF",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>📥 양식 다운로드</button></a>
+                  <button onClick={()=>{
+                    const inp=document.createElement("input");inp.type="file";inp.accept=".xlsx,.xls";
+                    inp.onchange=async(e)=>{
+                      const file=(e.target as HTMLInputElement).files?.[0];if(!file)return;
+                      setBulkUploading(true);setBulkResult(null);
+                      const fd=new FormData();fd.append("file",file);
+                      try{const res=await fetch("/api/admin/cars/bulk",{method:"POST",body:fd});const d=await res.json();setBulkResult(d);if(d.success)loadAll();}catch(err){setBulkResult({error:"업로드 실패"});}
+                      setBulkUploading(false);
+                    };inp.click();
+                  }} disabled={bulkUploading} style={{padding:"10px 18px",background:bulkUploading?"#CCC":"#FF3B1E",border:"none",borderRadius:10,fontSize:12,fontWeight:700,color:"white",cursor:bulkUploading?"wait":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>
+                    {bulkUploading?"업로드 중...":"📤 엑셀 업로드"}
+                  </button>
+                </div>
+              </div>
+              {bulkResult&&(
+                <div style={{background:bulkResult.error?"#FFF0ED":"#EAF6EF",borderRadius:12,padding:"14px 18px",marginBottom:16,border:bulkResult.error?"1px solid #FFB8A8":"1px solid #B8DFC8"}}>
+                  {bulkResult.error?<div style={{fontSize:13,fontWeight:700,color:"#E24B4A"}}>{bulkResult.error}</div>:
+                  <div>
+                    <div style={{fontSize:14,fontWeight:800,color:"#2D8A52",marginBottom:6}}>{bulkResult.message}</div>
+                    {bulkResult.details?.filter((d:any)=>!d.success).map((d:any)=><div key={d.row} style={{fontSize:11,color:"#E24B4A"}}>{d.row}행: {d.error}</div>)}
+                  </div>}
+                </div>
+              )}
               {cars.length===0
                 ? <div style={{background:"white",borderRadius:18,padding:48,textAlign:"center",color:"#CCC"}}>매물 없음</div>
                 : cars.sort((a,b)=>{const order:Record<string,number>={"REVIEWING":0,"AVAILABLE":1,"RESERVED":2,"SOLD":3};return (order[a.status]??9)-(order[b.status]??9);}).map(car=>(
@@ -353,7 +387,11 @@ export default function AdminPage() {
                     </div>
                     <div style={{fontSize:12,color:"#888",marginBottom:6}}>작성자: {post.author?.nickname||post.author?.name||"익명"} ({post.author?.email?.replace("@fixcar.local","")})</div>
                     {post.flagReason&&<div style={{fontSize:11,color:"#E8A020",background:"#FFF8EC",padding:"6px 12px",borderRadius:8,marginBottom:8}}>⚠️ {post.flagReason}</div>}
-                    <div style={{background:"#F8F7F4",borderRadius:10,padding:"12px 14px",fontSize:13,color:"#555",marginBottom:12,maxHeight:150,overflowY:"auto",lineHeight:1.7}} dangerouslySetInnerHTML={{__html:post.content?.slice(0,500)||(post.content||"")}}/>
+                    <button onClick={()=>setExpandedFlag(expandedFlag===post.id?null:post.id)} style={{width:"100%",textAlign:"left",border:"1px solid #E8E5E0",background:"#F8F7F4",borderRadius:10,padding:"12px 14px",fontSize:13,color:"#555",marginBottom:12,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                      <span style={{fontWeight:700}}>{expandedFlag===post.id?"▼ 내용 접기":"▶ 내용 보기 (클릭)"}</span>
+                      <span style={{fontSize:11,color:"#AAA"}}>{(post.content||"").replace(/<[^>]*>/g,"").length}자</span>
+                    </button>
+                    {expandedFlag===post.id&&<div style={{background:"white",borderRadius:10,padding:"14px",fontSize:13,color:"#555",marginBottom:12,lineHeight:1.7,border:"1px solid #E8E5E0"}} dangerouslySetInnerHTML={{__html:post.content||""}}/>}
                     <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                       <button onClick={async()=>{
                         await fetch("/api/admin/community",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"approve",postId:post.id})});
