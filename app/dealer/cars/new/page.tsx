@@ -5,7 +5,7 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, Upload, X, Check, Shield } from "lucide-react";
 import { BRAND_MODELS, CAR_GRADES } from "@/data/catalog_data";
 
@@ -357,6 +357,9 @@ function DamageTable({ title, rank, items, data, onChange }:{
 /* ═══ 메인 컴포넌트 ═══ */
 export default function DealerCarsNewPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("edit");
+  const isEditMode = !!editId;
   const [step,      setStep]      = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [saving,    setSaving]    = useState(false);
@@ -534,6 +537,41 @@ export default function DealerCarsNewPage() {
       if (sc) setSavedComment(sc);
     } catch {}
     setDraftLoaded(true);
+    /* 수정 모드: 기존 매물 데이터 로드 */
+    if (editId) {
+      fetch(`/api/admin/cars/${editId}`).then(r=>r.json()).then(d=>{
+        if(d.error)return;
+        if(d.brand)setSelectedBrand(d.brand);
+        if(d.name){
+          const parts=d.name.split(" ");
+          if(parts[0])setSelectedModel(parts[0]);
+          if(parts.length>1)setGrade(parts.slice(1).join(" "));
+        }
+        if(d.year)setYear(d.year);
+        if(d.mileage!==undefined)setMileage(String(d.mileage));
+        if(d.fuel)setFuel(d.fuel);
+        if(d.color)setColor(d.color);
+        if(d.transmission)setTransmission(d.transmission);
+        if(d.cc!==undefined)setCc(String(d.cc));
+        if(d.owners!==undefined)setOwners(String(d.owners));
+        if(d.accident!==undefined)setAccident(d.accident);
+        if(d.plateNumber)setPlateNumber(d.plateNumber);
+        if(d.price!==undefined)setPrice(String(d.price));
+        if(d.region)setRegion(d.region);
+        if(d.description)setDescription(d.description.split("[성능점검데이터]")[0].trim());
+        if(d.options)setOptions(d.options);
+        if(d.images&&d.images.length>0){
+          const mp:Record<string,string>={};
+          const slots=MAIN_SLOTS_DATA.map(s=>s.key);
+          d.images.forEach((img:string,i:number)=>{
+            if(i<slots.length)mp[slots[i]]=img;
+            else setDetailPhotos(prev=>[...prev,img]);
+          });
+          setMainPhotos(mp);
+        }
+        setShowDraftPrompt(false);
+      }).catch(()=>{});
+    }
     /* 딜러 프로필에서 연락처 자동 로드 */
     fetch("/api/dealer/profile").then(r=>r.json()).then(d=>{
       const p = d?.data || d;
@@ -802,8 +840,8 @@ export default function DealerCarsNewPage() {
 
       const finalDesc = [description, inspectionData ? `\n\n[성능점검데이터]\n${JSON.stringify(inspectionData)}` : ""].join("");
 
-      const res=await fetch("/api/dealer/cars",{
-        method:"POST",headers:{"Content-Type":"application/json"},
+      const res=await fetch(isEditMode?`/api/admin/cars/${editId}`:"/api/dealer/cars",{
+        method:isEditMode?"PATCH":"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({ name:carName,brand:selectedBrand,year,mileage:Number(mileage),fuel,
           color:color==="기타"?customColor:color,region,price:Number(price),cc:Number(cc)||0,
           transmission,owners:Number(owners),accident,tags,options,images:orderedImages,
@@ -813,7 +851,7 @@ export default function DealerCarsNewPage() {
       });
       const data=await res.json();
       if(data.success)setSubmitted(true);
-      else alert("등록 실패: "+(data.error||"다시 시도해주세요"));
+      else alert((isEditMode?"수정":"등록")+" 실패: "+(data.error||"다시 시도해주세요"));
     }catch{alert("네트워크 오류");}
     setSaving(false);
   };
@@ -1145,7 +1183,7 @@ export default function DealerCarsNewPage() {
   if(submitted) return (
     <><Navbar/><div style={{textAlign:"center",padding:"80px 20px",fontFamily:"'NanumSquareRound',sans-serif"}}>
       <div style={{fontSize:60,marginBottom:20}}>✅</div>
-      <h2 style={{fontSize:28,fontWeight:700,marginBottom:10}}>매물 등록 완료!</h2>
+      <h2 style={{fontSize:28,fontWeight:700,marginBottom:10}}>{isEditMode?"매물 수정 완료!":"매물 등록 완료!"}</h2>
       <p style={{fontSize:16,color:"#888",fontWeight:400,marginBottom:28}}>관리자 검수 후 게시됩니다.</p>
       <div style={{display:"flex",gap:12,justifyContent:"center"}}>
         <Link href="/dealer"><button style={{padding:"14px 28px",background:"#0066FF",color:"white",border:"none",borderRadius:12,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>내 매물 관리</button></Link>
@@ -1995,7 +2033,7 @@ export default function DealerCarsNewPage() {
             {step>1&&<button onClick={()=>{setStep(step-1);setErrors([]);setErrorFields(new Set());window.scrollTo({top:0,behavior:"smooth"});}} style={{padding:"16px 24px",background:"white",border:"1.5px solid #E0DDD7",borderRadius:14,fontSize:15,fontWeight:700,color:"#888",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}><ChevronLeft size={16} style={{verticalAlign:"middle"}}/> 이전</button>}
             {step<4
               ?<button onClick={nextStep} style={{flex:1,padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>다음 (옵션선택) <ChevronRight size={16}/></button>
-              :<button onClick={handleSubmit} disabled={saving||(!skipInspection&&!agreeWarning)} style={{flex:1,padding:"16px",background:saving?"#CCC":(!skipInspection&&!agreeWarning)?"#CCC":"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:saving||(!skipInspection&&!agreeWarning)?"not-allowed":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>{saving?"등록 중...":(!skipInspection&&!agreeWarning)?"허위기재 확인 필수":"매물 등록하기"}</button>
+              :<button onClick={handleSubmit} disabled={saving||(!skipInspection&&!agreeWarning)} style={{flex:1,padding:"16px",background:saving?"#CCC":(!skipInspection&&!agreeWarning)?"#CCC":"#FF3B1E",color:"white",border:"none",borderRadius:14,fontSize:16,fontWeight:800,cursor:saving||(!skipInspection&&!agreeWarning)?"not-allowed":"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>{saving?(isEditMode?"수정 중...":"등록 중..."):(!skipInspection&&!agreeWarning)?"허위기재 확인 필수":(isEditMode?"매물 수정하기":"매물 등록하기")}</button>
             }
           </div>
         </div>
