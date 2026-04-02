@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   if (result instanceof NextResponse) return result;
 
   try {
-    let posts;
+    let posts: any[] = [];
     try {
       posts = await prisma.communityPost.findMany({
         where: { status: { in: ["FLAGGED", "BLOCKED"] } },
