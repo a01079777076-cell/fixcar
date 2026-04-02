@@ -434,6 +434,7 @@ export default function DealerCarsNewPage() {
 
   /* ── Step 3: 사진 ── */
   const [mainPhotos,     setMainPhotos]     = useState<Record<string,string>>({});
+  const [photoPositions, setPhotoPositions] = useState<Record<string,number>>({});
   const [detailPhotos,   setDetailPhotos]   = useState<string[]>([]);
   const [uploadingSlot,  setUploadingSlot]  = useState<string|null>(null);
   const [uploadingDetail,setUploadingDetail]= useState(false);
@@ -779,7 +780,10 @@ export default function DealerCarsNewPage() {
     try{
       const finalGrade=grade==="직접입력"?customGrade:grade;
       const carName=`${selectedModel}${finalGrade?` ${finalGrade}`:""}`;
-      const orderedImages=[...MAIN_SLOTS_DATA.map(s=>mainPhotos[s.key]).filter(Boolean),...detailPhotos];
+      const orderedImages=[...MAIN_SLOTS_DATA.map(s=>{
+        const url=mainPhotos[s.key]; if(!url)return "";
+        const pos=photoPositions[s.key]; return pos?`${url}#${pos}`:url;
+      }).filter(Boolean),...detailPhotos];
 
       const inspectionData = skipInspection ? null : {
         inspectionNo, recordNo:`${recordNo1}-${recordNo2}-${recordNo3}`,
@@ -1624,12 +1628,22 @@ export default function DealerCarsNewPage() {
                     <div key={slot.key} style={{border:url?"2px solid #0066FF":errorFields.has("photos")?"2px dashed #E24B4A":"2px dashed #FFB8A8",borderRadius:14,overflow:"hidden",background:url?"white":"#FFF8F6"}}>
                       {url?(
                         <div style={{position:"relative"}}>
-                          <img src={url} alt={slot.label} style={{width:"100%",aspectRatio:"4/3",objectFit:"cover",display:"block"}}/>
+                          <div style={{position:"relative",cursor:"crosshair"}} onClick={(e)=>{
+                            const rect=(e.currentTarget as HTMLElement).getBoundingClientRect();
+                            const yPct=Math.round(((e.clientY-rect.top)/rect.height)*100);
+                            setPhotoPositions(prev=>({...prev,[slot.key]:Math.max(10,Math.min(90,yPct))}));
+                          }}>
+                            <img src={url} alt={slot.label} style={{width:"100%",aspectRatio:"4/3",objectFit:"cover",objectPosition:`center ${photoPositions[slot.key]||50}%`,display:"block"}}/>
+                            {/* 포컬포인트 라인 */}
+                            <div style={{position:"absolute",left:0,right:0,top:`${photoPositions[slot.key]||50}%`,height:2,background:"#FF3B1E",opacity:0.7,pointerEvents:"none",transition:"top 0.15s"}}/>
+                            <div style={{position:"absolute",left:8,top:`calc(${photoPositions[slot.key]||50}% - 10px)`,background:"#FF3B1E",color:"white",fontSize:9,fontWeight:800,padding:"2px 6px",borderRadius:4,pointerEvents:"none",opacity:0.8}}>보임</div>
+                          </div>
                           <div style={{position:"absolute",top:0,left:0,right:0,background:"linear-gradient(to bottom,rgba(0,0,0,0.5),transparent)",padding:"8px 12px"}}><span style={{fontSize:11,fontWeight:800,color:"white"}}>{slot.label}</span></div>
                           <div style={{position:"absolute",top:6,right:6,display:"flex",gap:4}}>
                             <button onClick={()=>handleMainUpload(slot.key)} style={{width:28,height:28,borderRadius:"50%",background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12}}>↺</button>
-                            <button onClick={()=>setMainPhotos(prev=>{const n={...prev};delete n[slot.key];return n;})} style={{width:28,height:28,borderRadius:"50%",background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={12}/></button>
+                            <button onClick={()=>{setMainPhotos(prev=>{const n={...prev};delete n[slot.key];return n;});setPhotoPositions(prev=>{const n={...prev};delete n[slot.key];return n;});}} style={{width:28,height:28,borderRadius:"50%",background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={12}/></button>
                           </div>
+                          <div style={{background:"#1A1A1A",padding:"4px 10px",fontSize:10,color:"#AAA",textAlign:"center"}}>사진을 클릭하여 보일 위치를 조정하세요</div>
                         </div>
                       ):(
                         <button onClick={()=>handleMainUpload(slot.key)} disabled={isUp} style={{width:"100%",aspectRatio:"4/3",border:"none",background:"transparent",cursor:isUp?"wait":"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,fontFamily:"'NanumSquareRound',sans-serif",padding:"8px"}}>

@@ -67,6 +67,7 @@ export default function CarDetailClient() {
   if (!car) return <><Navbar /><div style={{ textAlign: "center", padding: 100 }}><div style={{ fontSize: 48, marginBottom: 12 }}>🚗</div><h2 style={{ fontSize: 20, fontWeight: 800 }}>매물을 찾을 수 없어요</h2><Link href="/cars" style={{ color: "#FF3B1E", fontWeight: 700, marginTop: 12, display: "inline-block" }}>매물 보러가기 →</Link></div></>;
 
   const images = car.images || [], tags = car.tags || [], options = car.options || [], dealer = car.dealer, isVerified = dealer?.verified;
+  const parseImg = (img: string) => { const [url, pos] = img.split("#"); return { url, pos: pos ? `center ${pos}%` : "center 60%" }; };
   const sideImgs = images.slice(1, 5);
   const cleanDesc = (car.description || "").replace(/\[성능점검데이터\][\s\S]*/, "").trim();
   const REPORT_CATS = ["허위 가격","허위 사고이력","허위 주행거리","존재하지 않는 매물","사진 불일치","판매 완료된 매물","기타"];
@@ -89,7 +90,7 @@ export default function CarDetailClient() {
           {/* ═══ 사진 갤러리 (엔카 비율) ═══ */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 4, marginBottom: 12, borderRadius: 16, overflow: "hidden", height: 560 }}>
             <div style={{ position: "relative", background: "#E8E6E1", cursor: "pointer", overflow: "hidden" }} onClick={() => setShowAllPhotos(true)}>
-              {images[mainImg] ? <img src={images[mainImg]} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 60%", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
+              {images[mainImg] ? (() => { const p = parseImg(images[mainImg]); return <img src={p.url} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos, display: "block" }} />; })() : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
               {images.length > 1 && <>
                 <button onClick={e => { e.stopPropagation(); goImg(-1); }} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
                 <button onClick={e => { e.stopPropagation(); goImg(1); }} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
@@ -105,16 +106,17 @@ export default function CarDetailClient() {
                 const isLast = i === 3 && images.length > 5;
                 return (
                   <div key={i} onClick={() => img ? setMainImg(i + 1) : undefined} style={{ overflow: "hidden", cursor: img ? "pointer" : "default", position: "relative", background: "#E8E6E1", minHeight: 0 }}>
-                    {img ? <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 60%", display: "block" }} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.15, fontSize: 20 }}>📷</div>}
+                    {img ? (() => { const p = parseImg(img); return <img src={p.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos, display: "block" }} />; })() : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.15, fontSize: 20 }}>📷</div>}
                     {isLast && <div onClick={e => { e.stopPropagation(); setShowAllPhotos(true); }} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "white", cursor: "pointer" }}><span style={{ fontSize: 13, fontWeight: 700 }}>+ 사진 모두보기</span></div>}
                   </div>
                 );
               })}
             </div>
           </div>
-          {images.length > 1 && <div style={{ display: "flex", gap: 6, overflowX: "auto", marginBottom: 20, paddingBottom: 4 }}>
+          {images.length > 1 && <div style={{ display: "flex", gap: 6, overflowX: "auto", marginBottom: 8, paddingBottom: 4 }}>
             {images.map((img: string, i: number) => <button key={i} onClick={() => setMainImg(i)} style={{ width: 64, height: 48, borderRadius: 8, overflow: "hidden", border: i === mainImg ? "3px solid #FF3B1E" : "2px solid transparent", cursor: "pointer", flexShrink: 0, padding: 0, background: "none" }}><img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></button>)}
           </div>}
+          <div style={{ fontSize: 10, color: "#BBB", textAlign: "right", marginBottom: 16 }}>* 본 매물의 사진은 실제 차량을 촬영한 것이며, AI 보정이 적용되었을 수 있습니다.</div>
 
           {/* 풀스크린 모달 */}
           {showAllPhotos && <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }} onClick={() => setShowAllPhotos(false)}>

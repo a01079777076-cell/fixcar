@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, Send, X, Bold, Italic, Underline, List, Image as ImageIcon, Type, Palette } from "lucide-react";
+import { checkContent, checkUrls } from "@/lib/contentFilter";
 
 const CATEGORIES = ["자유게시판", "차량 후기", "질문/답변", "정보 공유", "모임/동호회"];
 const FONT_SIZES = ["13px", "15px", "17px", "20px", "24px"];
@@ -88,7 +89,17 @@ export default function CommunityWritePage() {
     if (!nickname) { setShowNicknameModal(true); return; }
     if (!title.trim()) { alert("제목을 입력해주세요"); return; }
     const html = editorRef.current?.innerHTML || "";
-    if (!html.replace(/<[^>]*>/g, "").trim()) { alert("내용을 입력해주세요"); return; }
+    const plainText = html.replace(/<[^>]*>/g, "");
+    if (!plainText.trim()) { alert("내용을 입력해주세요"); return; }
+    /* 유해 콘텐츠 검사 */
+    const titleCheck = checkContent(title);
+    const contentCheck = checkContent(plainText);
+    const urlCheck = checkUrls(plainText);
+    if (titleCheck.blocked || contentCheck.blocked || urlCheck.length > 0) {
+      const allMatches = [...titleCheck.matches, ...contentCheck.matches, ...urlCheck];
+      alert(`⚠️ 부적절한 내용이 감지되었습니다.\n\n감지된 항목: ${allMatches.slice(0,3).join(", ")}${allMatches.length>3?" 외 "+(allMatches.length-3)+"건":""}\n\n해당 내용은 관리자 검토 후 게시됩니다.\n반복 시 계정 제재가 적용될 수 있습니다.`);
+      return;
+    }
     /* 사진을 본문 하단에 추가 */
     const photoHtml = photos.map(url => `<img src="${url}" style="max-width:100%;border-radius:8px;margin:8px 0;" />`).join("");
     const fullContent = html + (photoHtml ? `<div style="margin-top:16px;">${photoHtml}</div>` : "");
