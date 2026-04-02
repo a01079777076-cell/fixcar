@@ -2,7 +2,7 @@
 // 📁 저장 경로: app/dealer/cars/new/page.tsx
 // ═══════════════════════════════════════════════════
 "use client";
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -355,7 +355,7 @@ function DamageTable({ title, rank, items, data, onChange }:{
 }
 
 /* ═══ 메인 컴포넌트 ═══ */
-export default function DealerCarsNewPage() {
+function DealerCarsNewInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("edit");
@@ -2040,4 +2040,8 @@ export default function DealerCarsNewPage() {
       </div>
     </>
   );
+}
+
+export default function DealerCarsNewPage() {
+  return <Suspense fallback={<div style={{textAlign:"center",padding:100,color:"#CCC"}}>로딩 중...</div>}><DealerCarsNewInner/></Suspense>;
 }
