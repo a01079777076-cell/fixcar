@@ -1,50 +1,82 @@
+// 📁 저장 경로: app/contact/page.tsx
 "use client";
-import Navbar from "@/components/Navbar";
 import { useState } from "react";
-import { Phone, Mail, Clock, ChevronDown, MessageSquare, HelpCircle } from "lucide-react";
-
-const FAQ = [
-  {q:"픽스카 FIX 정찰가란?",a:"판매 가격이 고정(FIX)되어 있어 흥정 없이 투명하게 구매할 수 있는 시스템입니다. 모든 매물은 시세 분석을 거쳐 합리적인 가격이 책정됩니다."},
-  {q:"차량 구매 절차가 어떻게 되나요?",a:"매물 선택 → 문의/시승 예약 → 차량 확인 → 계약/결제 → 이전등록 → 탁송/인수 순서로 진행됩니다. 전 과정을 픽스카에서 도와드립니다."},
-  {q:"할부 구매가 가능한가요?",a:"네! 카카오페이, 토스페이 등 다양한 결제 수단을 지원하며, 캐피탈 할부도 연결해드립니다. 최대 72개월까지 가능합니다."},
-  {q:"환불/반품이 가능한가요?",a:"차량 인수 후 3일 이내 중대한 하자 발견 시 반품이 가능합니다. 자세한 내용은 이용약관을 참고해주세요."},
-  {q:"딜러 입점은 어떻게 하나요?",a:"딜러 모집 페이지에서 신청하시거나, 고객센터로 연락해주세요. 사업자등록증과 종사원증이 필요합니다."},
-  {q:"매물 사진은 실제 차량인가요?",a:"네, 모든 매물 사진은 실차 촬영 사진입니다. 허위 매물은 즉시 삭제되며 해당 딜러는 제재를 받습니다."},
-  {q:"시승은 어떻게 예약하나요?",a:"매물 상세 페이지에서 '문의하기' 버튼을 눌러 시승 희망 일시를 알려주시면, 딜러가 확인 후 안내드립니다."},
-  {q:"이전등록(명의변경)도 대행해주나요?",a:"네, 픽스카 제휴 대행업체를 통해 이전등록을 도와드립니다. 비용은 별도이며 상세 안내는 계약 시 받으실 수 있습니다."},
-];
+import Navbar from "@/components/Navbar";
+import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 
 export default function ContactPage() {
-  const [openIdx, setOpenIdx] = useState<number|null>(null);
+  const [form, setForm] = useState({name:"",email:"",type:"일반문의",message:""});
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = async () => {
+    if(!form.name||!form.email||!form.message){alert("모든 항목을 입력해주세요.");return;}
+    // TODO: 실제 이메일/API 연동
+    setSent(true);
+  };
 
   return (
     <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}`}</style>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} input:focus,select:focus,textarea:focus{outline:none;border-color:#FF3B1E!important;}`}</style>
       <Navbar/>
       <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <div style={{background:"#1A1A1A",padding:"44px 24px 36px"}}>
-          <div style={{maxWidth:800,margin:"0 auto"}}><h1 style={{fontSize:28,fontWeight:800,color:"white"}}>📞 고객센터</h1></div>
-        </div>
-        <div style={{maxWidth:800,margin:"0 auto",padding:"24px 20px 100px"}}>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:12,marginBottom:32}}>
-            {[{icon:Phone,label:"전화",value:"010-0000-0000",color:"#FF3B1E"},{icon:Mail,label:"이메일",value:"help@fixcar.kr",color:"#1847FF"},{icon:Clock,label:"운영시간",value:"매일 9:00~21:00",color:"#2D8A52"}].map(c=>{const Icon=c.icon;return(
-              <div key={c.label} style={{background:"white",borderRadius:18,padding:"24px 18px",textAlign:"center"}}>
-                <Icon size={24} color={c.color} style={{marginBottom:8}}/><div style={{fontSize:11,color:"#AAA",marginBottom:4}}>{c.label}</div><div style={{fontSize:14,fontWeight:800}}>{c.value}</div>
-              </div>
-            );})}
-          </div>
+        <div style={{maxWidth:800,margin:"0 auto",padding:"40px 24px 100px"}}>
+          <h1 style={{fontSize:28,fontWeight:800,marginBottom:8}}>📞 고객센터</h1>
+          <p style={{fontSize:14,color:"#AAA",marginBottom:32}}>궁금한 점이나 불편 사항을 알려주세요.</p>
 
-          <h2 style={{fontSize:20,fontWeight:800,marginBottom:16,display:"flex",alignItems:"center",gap:8}}><HelpCircle size={20} color="#E8A020"/>자주 묻는 질문 (FAQ)</h2>
-          <div style={{display:"flex",flexDirection:"column",gap:6}}>
-            {FAQ.map((faq,i)=>(
-              <div key={i} style={{background:"white",borderRadius:14,overflow:"hidden"}}>
-                <button onClick={()=>setOpenIdx(openIdx===i?null:i)} style={{width:"100%",padding:"18px 22px",border:"none",background:"transparent",display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",textAlign:"left"}}>
-                  <span style={{fontSize:14,fontWeight:700}}><span style={{color:"#FF3B1E",marginRight:8}}>Q.</span>{faq.q}</span>
-                  <ChevronDown size={16} color="#CCC" style={{transform:openIdx===i?"rotate(180deg)":"none",transition:"0.2s",flexShrink:0}}/>
-                </button>
-                {openIdx===i&&<div style={{padding:"0 22px 18px",fontSize:14,color:"#666",lineHeight:1.8,borderTop:"1px solid #F0EEE9",paddingTop:14}}><span style={{color:"#1847FF",fontWeight:800,marginRight:8}}>A.</span>{faq.a}</div>}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
+            {[
+              {icon:<Phone size={20}/>,label:"전화",value:"062-000-0000",sub:"평일 09:00~18:00"},
+              {icon:<Mail size={20}/>,label:"이메일",value:"info@fixcar.kr",sub:"24시간 접수"},
+              {icon:<MapPin size={20}/>,label:"주소",value:"광주광역시",sub:"방문 상담 가능"},
+              {icon:<Clock size={20}/>,label:"운영시간",value:"평일 09:00~18:00",sub:"주말·공휴일 휴무"},
+            ].map(v=>(
+              <div key={v.label} style={{background:"white",borderRadius:14,padding:"20px 18px",display:"flex",gap:14,alignItems:"flex-start"}}>
+                <div style={{width:40,height:40,borderRadius:12,background:"#FFF0ED",display:"flex",alignItems:"center",justifyContent:"center",color:"#FF3B1E",flexShrink:0}}>{v.icon}</div>
+                <div>
+                  <div style={{fontSize:12,color:"#AAA",marginBottom:2}}>{v.label}</div>
+                  <div style={{fontSize:15,fontWeight:800}}>{v.value}</div>
+                  <div style={{fontSize:11,color:"#AAA"}}>{v.sub}</div>
+                </div>
               </div>
             ))}
+          </div>
+
+          <div style={{background:"white",borderRadius:18,padding:"28px 24px"}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:20}}>
+              <MessageCircle size={20} color="#FF3B1E"/>
+              <h2 style={{fontSize:20,fontWeight:800}}>문의하기</h2>
+            </div>
+            {sent ? (
+              <div style={{textAlign:"center",padding:"40px 0"}}>
+                <div style={{fontSize:48,marginBottom:12}}>✅</div>
+                <div style={{fontSize:20,fontWeight:800,marginBottom:8}}>문의가 접수되었습니다</div>
+                <div style={{fontSize:14,color:"#AAA"}}>빠른 시일 내에 답변 드리겠습니다.</div>
+              </div>
+            ) : (
+              <>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
+                  <div>
+                    <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:5,color:"#666"}}>이름</label>
+                    <input value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))} placeholder="이름" style={{width:"100%",padding:"12px 14px",border:"1.5px solid #E0DDD7",borderRadius:10,fontSize:14,fontFamily:"'NanumSquareRound',sans-serif"}}/>
+                  </div>
+                  <div>
+                    <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:5,color:"#666"}}>이메일</label>
+                    <input type="email" value={form.email} onChange={e=>setForm(p=>({...p,email:e.target.value}))} placeholder="email@example.com" style={{width:"100%",padding:"12px 14px",border:"1.5px solid #E0DDD7",borderRadius:10,fontSize:14,fontFamily:"'NanumSquareRound',sans-serif"}}/>
+                  </div>
+                </div>
+                <div style={{marginBottom:12}}>
+                  <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:5,color:"#666"}}>문의 유형</label>
+                  <select value={form.type} onChange={e=>setForm(p=>({...p,type:e.target.value}))} style={{width:"100%",padding:"12px 14px",border:"1.5px solid #E0DDD7",borderRadius:10,fontSize:14,background:"white",fontFamily:"'NanumSquareRound',sans-serif"}}>
+                    {["일반문의","매물문의","딜러입점","거래대행","허위매물신고","결제/환불","기타"].map(t=><option key={t}>{t}</option>)}
+                  </select>
+                </div>
+                <div style={{marginBottom:16}}>
+                  <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:5,color:"#666"}}>문의 내용</label>
+                  <textarea rows={6} value={form.message} onChange={e=>setForm(p=>({...p,message:e.target.value}))} placeholder="문의 내용을 입력해주세요." style={{width:"100%",padding:"12px 14px",border:"1.5px solid #E0DDD7",borderRadius:10,fontSize:14,resize:"none",lineHeight:1.8,fontFamily:"'NanumSquareRound',sans-serif"}}/>
+                </div>
+                <button onClick={handleSubmit} style={{width:"100%",padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:12,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>문의 보내기</button>
+              </>
+            )}
           </div>
         </div>
       </div>
