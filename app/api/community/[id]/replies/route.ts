@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     const replies = await prisma.communityReply.findMany({
       where: { postId: Number(id) },
-      include: { user: { select: { id: true, name: true, nickname: true, role: true } } },
+      include: { author: { select: { id: true, name: true, nickname: true, role: true } } },
       orderBy: { createdAt: "asc" },
     });
     return NextResponse.json(replies);
@@ -40,9 +40,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       data: {
         content: content.trim(),
         postId: Number(id),
-        userId: user.id,
+        authorId: user.id,
       },
-      include: { user: { select: { id: true, name: true, nickname: true, role: true } } },
+      include: { author: { select: { id: true, name: true, nickname: true, role: true } } },
     });
 
     return NextResponse.json({ success: true, reply });
@@ -61,7 +61,7 @@ export async function DELETE(req: NextRequest) {
     const { replyId } = await req.json();
     const reply = await prisma.communityReply.findUnique({ where: { id: Number(replyId) } });
     if (!reply) return NextResponse.json({ error: "답글 없음" }, { status: 404 });
-    if (reply.userId !== user.id && user.role !== "ADMIN") return NextResponse.json({ error: "본인 답글만 삭제 가능" }, { status: 403 });
+    if (reply.authorId !== user.id && user.role !== "ADMIN") return NextResponse.json({ error: "본인 답글만 삭제 가능" }, { status: 403 });
 
     await prisma.communityReply.delete({ where: { id: Number(replyId) } });
     return NextResponse.json({ success: true });
