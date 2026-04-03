@@ -532,7 +532,7 @@ function DealerCarsNewInner() {
   const [evHighVoltWire,  setEvHighVoltWire]  = useState<GoodBad>(""); /* 고전원전기배선 상태 */
   /* 수동변속기 */
   const [mtGearShift,     setMtGearShift]     = useState<GoodBad>(""); /* 기어변속장치 */
-  const [mtOilLevel,      setMtOilLevel]      = useState<OilLevel>(""); /* M/T 오일유량 및 상태 */
+  const [mtOilLevel,      setMtOilLevel]      = useState<GoodBad>(""); /* M/T 오일유량 및 상태 */
   const [mtRunning,       setMtRunning]       = useState<GoodBad>(""); /* M/T 작동상태 */
   /* 보유상태 */
   const [hasManual,       setHasManual]       = useState<"있음"|"없음"|"">("");
