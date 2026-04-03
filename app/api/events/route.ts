@@ -1,17 +1,10 @@
+// 📁 저장 경로: app/api/events/route.ts
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
-
-/* GET: 이벤트 목록 */
 export async function GET() {
   try {
-    const events = await prisma.event.findMany({
-      orderBy: [{ active: "desc" }, { startDate: "desc" }],
-    });
+    const events = await prisma.event.findMany({ orderBy: { startDate: "desc" }, take: 20 });
     return NextResponse.json(events);
-  } catch (e) {
-    console.error("Events GET error:", e);
-    return NextResponse.json([]);
-  }
+  } catch { return NextResponse.json([]); }
 }
