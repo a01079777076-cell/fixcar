@@ -202,7 +202,8 @@ const OPTION_CATS    = [
 ];
 
 /* ═══ 성능점검 데이터 ═══ */
-const PANEL_1RANK = ["후드","프론트 헨더(좌)","프론트 헨더(우)","프론트 도어(좌)","프론트 도어(우)","리어 도어(좌)","리어 도어(우)","트렁크리드","라디에이터 서포트(볼트체결부품)","루프 패널","쿼터 패널(리어펜더)(좌)","쿼터 패널(리어펜더)(우)","사이드실 패널(좌)","사이드실 패널(우)"];
+const PANEL_1RANK = ["후드","프론트 펜더(좌)","프론트 펜더(우)","프론트 도어(좌)","프론트 도어(우)","리어 도어(좌)","리어 도어(우)","트렁크리드"];
+const PANEL_2RANK = ["라디에이터 서포트(볼트체결부품)","쿼터 패널(리어펜더)(좌)","쿼터 패널(리어펜더)(우)","루프 패널","사이드실 패널(좌)","사이드실 패널(우)"];
 const PANEL_ARANK = ["프론트 패널","크로스 멤버","인사이드 패널(좌)","인사이드 패널(우)","리어 패널","트렁크 플로어"];
 const PANEL_BRANK = ["프론트 사이드 멤버(좌)","프론트 사이드 멤버(우)","리어 사이드 멤버(좌)","리어 사이드 멤버(우)","프론트 휠하우스(좌)","프론트 휠하우스(우)","리어 휠하우스(좌)","리어 휠하우스(우)","필러 패널A(좌)","필러 패널A(우)","필러 패널B(좌)","필러 패널B(우)","필러 패널C(좌)","필러 패널C(우)","패키지트레이","대쉬 패널"];
 const PANEL_CRANK = ["플로어 패널(바닥)"];
@@ -318,6 +319,18 @@ function DamageTable({ title, rank, items, data, onChange }:{
   data:Record<string,DamageRow>;
   onChange:(item:string,col:keyof DamageRow,v:boolean)=>void;
 }) {
+  /* 한 행에서 하나만 체크 (라디오 동작) */
+  const handleCheck = (item: string, col: keyof DamageRow, checked: boolean) => {
+    if (checked) {
+      /* 먼저 같은 행의 다른 체크 모두 해제 */
+      for (const c of DAMAGE_COLS) {
+        if (c !== col && data[item]?.[c as keyof DamageRow]) {
+          onChange(item, c as keyof DamageRow, false);
+        }
+      }
+    }
+    onChange(item, col, checked);
+  };
   return (
     <div style={{marginBottom:16}}>
       <div style={{fontSize:13,fontWeight:800,color:"#333",background:"#F0F4FF",padding:"8px 12px",borderRadius:"8px 8px 0 0",borderBottom:"1px solid #DDEEFF",display:"flex",gap:8,alignItems:"center"}}>
@@ -341,7 +354,7 @@ function DamageTable({ title, rank, items, data, onChange }:{
                 {DAMAGE_COLS.map(col=>(
                   <td key={col} style={{textAlign:"center",padding:"7px 4px",borderBottom:"1px solid #F0F4FF"}}>
                     <input type="checkbox" checked={data[item]?.[col as keyof DamageRow]||false}
-                      onChange={e=>onChange(item,col as keyof DamageRow,e.target.checked)}
+                      onChange={e=>handleCheck(item,col as keyof DamageRow,e.target.checked)}
                       style={{width:14,height:14,accentColor:col==="교환"?"#FF3B1E":"#0066FF",cursor:"pointer"}}/>
                   </td>
                 ))}
@@ -448,6 +461,7 @@ function DealerCarsNewInner() {
   const [recordNo2,       setRecordNo2]       = useState("");
   const [recordNo3,       setRecordNo3]       = useState("");
   const [skipInspection,  setSkipInspection]  = useState(false);
+  const [inspCenter,      setInspCenter]      = useState(""); /* 성능점검장 */
 
   const [odomState,    setOdomState]    = useState<"양호"|"불량"|"">("");
   const [odomKm,       setOdomKm]       = useState("");
@@ -466,6 +480,7 @@ function DealerCarsNewInner() {
   const [recall,       setRecall]       = useState<"해당없음"|"해당"|"">("");
 
   const [damage1, setDamage1] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_1RANK));
+  const [damage2, setDamage2] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_2RANK));
   const [damageA, setDamageA] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_ARANK));
   const [damageB, setDamageB] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_BRANK));
   const [damageC, setDamageC] = useState<Record<string,DamageRow>>(() => initDamageMap(PANEL_CRANK));
@@ -505,6 +520,30 @@ function DealerCarsNewInner() {
   const [radFanMotor,     setRadFanMotor]     = useState<GoodBad>("");
   const [windowMotor,     setWindowMotor]     = useState<GoodBad>("");
   const [fuelLeak,        setFuelLeak]        = useState<"없음"|"있음"|"">("");
+
+  /* 누락 항목 추가: 매연, 조향, 제동, 고전원, 수동변속기, 보유상태, 검사/보증, 특기사항 */
+  const [exhaustSmoke,    setExhaustSmoke]    = useState(""); /* 매연(%) - 디젤 */
+  const [steeringHose,    setSteeringHose]    = useState<GoodBad>(""); /* 파워고압호스 */
+  const [tieRodBallJoint, setTieRodBallJoint] = useState<GoodBad>(""); /* 타이로드엔드 및 볼조인트 */
+  const [brakeMasterLeak, setBrakeMasterLeak] = useState<OilState>(""); /* 마스터실린더 오일누유 */
+  /* 고전원 전기장치 (전기차/하이브리드) */
+  const [evChargeInsul,   setEvChargeInsul]   = useState<GoodBad>(""); /* 충전구 절연상태 */
+  const [evBatteryIso,    setEvBatteryIso]    = useState<GoodBad>(""); /* 구동축전지 격리상태 */
+  const [evHighVoltWire,  setEvHighVoltWire]  = useState<GoodBad>(""); /* 고전원전기배선 상태 */
+  /* 수동변속기 */
+  const [mtGearShift,     setMtGearShift]     = useState<GoodBad>(""); /* 기어변속장치 */
+  const [mtOilLevel,      setMtOilLevel]      = useState<OilLevel>(""); /* M/T 오일유량 및 상태 */
+  const [mtRunning,       setMtRunning]       = useState<GoodBad>(""); /* M/T 작동상태 */
+  /* 보유상태 */
+  const [hasManual,       setHasManual]       = useState<"있음"|"없음"|"">("");
+  const [hasTriangle,     setHasTriangle]     = useState<"있음"|"없음"|"">("");
+  const [hasJack,         setHasJack]         = useState<"있음"|"없음"|"">("");
+  const [hasSpanner,      setHasSpanner]      = useState<"있음"|"없음"|"">("");
+  /* 검사유효기간, 보증유형 */
+  const [inspExpiry,      setInspExpiry]      = useState(""); /* 검사유효기간 */
+  const [warrantyType,    setWarrantyType]    = useState<"자가보증"|"보험사보증"|"">("");
+  /* 특기사항 */
+  const [specialNote,     setSpecialNote]     = useState(""); /* 점검자 의견 */
 
   const [exteriorState,   setExteriorState]   = useState<GoodBad>("");
   const [interiorState,   setInteriorState]   = useState<GoodBad>("");
@@ -829,13 +868,16 @@ function DealerCarsNewInner() {
       }).filter(Boolean),...detailPhotos];
 
       const inspectionData = skipInspection ? null : {
-        inspectionNo, recordNo:`${recordNo1}-${recordNo2}-${recordNo3}`,
-        overall:{ odomState,odomKm,odomDriveState,vinState,exhaustCO,exhaustHC,tuning,tuningTypes,specialHistory,specialTypes,purposeChange,purposeTypes,colorState,colorChange,recall },
-        damage:{ panel1:damage1, panelA:damageA, panelB:damageB, panelC:damageC },
-        detail:{ selfDiagEngine,selfDiagTrans,engineRunning,oilLeakCover,oilLeakHead,oilLeakBlock,oilLevel,coolLeakHead,coolLeakPump,coolLeakRad,coolLevel,atOilLeak,atOilLevel,atRunning,clutch,cvJoint,driveShaft,differential,steeringPump,steeringGear,steeringJoint,brakeOilLeak,brakeLevel,brakeBooster,generator,starter,wiperMotor,blowerMotor,radFanMotor,windowMotor,fuelLeak },
+        inspectionNo, recordNo:`${recordNo1}-${recordNo2}-${recordNo3}`, inspCenter,
+        inspExpiry, warrantyType,
+        overall:{ odomState,odomKm,odomDriveState,vinState,exhaustCO,exhaustHC,exhaustSmoke,tuning,tuningTypes,specialHistory,specialTypes,purposeChange,purposeTypes,colorState,colorChange,recall },
+        damage:{ panel1:damage1, panel2:damage2, panelA:damageA, panelB:damageB, panelC:damageC },
+        detail:{ selfDiagEngine,selfDiagTrans,engineRunning,oilLeakCover,oilLeakHead,oilLeakBlock,oilLevel,coolLeakHead,coolLeakPump,coolLeakRad,coolLevel,atOilLeak,atOilLevel,atRunning,mtGearShift,mtOilLevel,mtRunning,clutch,cvJoint,driveShaft,differential,steeringPump,steeringGear,steeringJoint,steeringHose,tieRodBallJoint,brakeOilLeak,brakeMasterLeak,brakeLevel,brakeBooster,generator,starter,wiperMotor,blowerMotor,radFanMotor,windowMotor,fuelLeak,evChargeInsul,evBatteryIso,evHighVoltWire },
         extra:{ exteriorState,interiorState,polishState,wheelState,tireState,glassState },
+        accessories:{ hasManual,hasTriangle,hasJack,hasSpanner },
         photos:{ front:inspFrontPhoto, rear:inspRearPhoto },
         signature:{ inspDate,inspectorName,informerName },
+        specialNote,
       };
 
       const finalDesc = [description, inspectionData ? `\n\n[성능점검데이터]\n${JSON.stringify(inspectionData)}` : ""].join("");
@@ -1282,21 +1324,9 @@ function DealerCarsNewInner() {
           {/* ══ STEP 2: 판매 정보 ══ */}
           {step===2&&(
             <div>
-              {/* ── 연락처 ── */}
-              <div style={{background:"white",borderRadius:20,padding:"28px 26px",marginBottom:16}}>
-                <h2 style={{fontSize:18,fontWeight:800,marginBottom:4}}>📞 연락처</h2>
-                <div style={{fontSize:12,color:"#AAA",marginBottom:14}}>* 딜러 프로필에 등록된 연락처가 자동으로 입력됩니다. 수정을 원하시면 <a href="/dealer/profile" style={{color:"#0066FF",fontWeight:700,textDecoration:"underline"}}>딜러 관리페이지</a>에서 진행해주세요.</div>
-                <div style={{fontSize:11,color:"#888",marginBottom:14}}>* 선택하신 연락처는 050 안심번호로 대체되어 노출됩니다.</div>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-                  <div>
-                    <label style={labelS}>휴대전화</label>
-                    <input value={contactPhone} onChange={e=>setContactPhone(e.target.value)} placeholder="010-0000-4989" style={{...inputS,border:"1.5px solid #E0DDD7"}}/>
-                  </div>
-                  <div>
-                    <label style={labelS}>일반전화 (선택)</label>
-                    <input value={contactLand} onChange={e=>setContactLand(e.target.value)} placeholder="062-000-0000" style={{...inputS,border:"1.5px solid #E0DDD7"}}/>
-                  </div>
-                </div>
+              {/* ── 연락처 (딜러 프로필에서 자동 적용) ── */}
+              <div style={{background:"#EEF5FF",borderRadius:14,padding:"14px 18px",marginBottom:16,border:"1px solid #DDEEFF"}}>
+                <div style={{fontSize:13,color:"#0066FF",fontWeight:700}}>📞 연락처는 딜러 프로필에 등록된 정보가 자동 적용됩니다. <a href="/dealer/profile" style={{textDecoration:"underline"}}>프로필 수정 →</a></div>
               </div>
 
               {/* ── 판매가 & 판매구분 ── */}
@@ -1705,12 +1735,17 @@ function DealerCarsNewInner() {
                   );
                 })}
               </div>
-              <div style={{fontSize:14,fontWeight:800,marginBottom:10}}>🔍 디테일 사진 (최대 20장)</div>
+              <div style={{fontSize:14,fontWeight:800,marginBottom:10}}>🔍 디테일 사진 (최대 20장) <span style={{fontSize:11,color:"#AAA",fontWeight:500}}>←→ 순서 변경</span></div>
               <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:12}}>
                 {detailPhotos.map((url,i)=>(
                   <div key={i} style={{position:"relative",borderRadius:10,overflow:"hidden",aspectRatio:"1"}}>
                     <img src={url} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-                    <button onClick={()=>setDetailPhotos(prev=>prev.filter((_,j)=>j!==i))} style={{position:"absolute",top:4,right:4,width:22,height:22,borderRadius:"50%",background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={10}/></button>
+                    <div style={{position:"absolute",top:4,left:4,background:"rgba(0,0,0,0.5)",color:"white",fontSize:9,fontWeight:800,padding:"2px 6px",borderRadius:4}}>디테일{i+1}</div>
+                    <div style={{position:"absolute",top:4,right:4,display:"flex",gap:2}}>
+                      {i>0&&<button onClick={()=>setDetailPhotos(prev=>{const a=[...prev];[a[i-1],a[i]]=[a[i],a[i-1]];return a;})} style={{width:20,height:20,borderRadius:4,background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",fontSize:10,display:"flex",alignItems:"center",justifyContent:"center"}}>←</button>}
+                      {i<detailPhotos.length-1&&<button onClick={()=>setDetailPhotos(prev=>{const a=[...prev];[a[i],a[i+1]]=[a[i+1],a[i]];return a;})} style={{width:20,height:20,borderRadius:4,background:"rgba(0,0,0,0.6)",color:"white",border:"none",cursor:"pointer",fontSize:10,display:"flex",alignItems:"center",justifyContent:"center"}}>→</button>}
+                      <button onClick={()=>setDetailPhotos(prev=>prev.filter((_,j)=>j!==i))} style={{width:20,height:20,borderRadius:4,background:"rgba(220,50,50,0.8)",color:"white",border:"none",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={10}/></button>
+                    </div>
                   </div>
                 ))}
                 {detailPhotos.length<20&&(
@@ -1772,6 +1807,24 @@ function DealerCarsNewInner() {
                 <>
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
                     <div style={{fontSize:14,fontWeight:800,marginBottom:14}}>📋 기록부 번호</div>
+                    {/* 성능상태점검장 선택 */}
+                    <div style={{marginBottom:14}}>
+                      <label style={labelS}>성능 상태점검장 선택</label>
+                      <select value={inspCenter} onChange={e=>setInspCenter(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7",background:"white"}}>
+                        <option value="">성능 상태점검장 선택</option>
+                        <option value="빛고을">빛고을 (빛고을오토자동차공업사)</option>
+                        <option value="서광주">서광주</option>
+                        <option value="엠플러스">엠플러스</option>
+                        <option value="웰퓨처">웰퓨처</option>
+                        <option value="카존">카존</option>
+                        <option value="하나카">하나카</option>
+                        <option value="광주성능정비">(주)광주성능정비</option>
+                        <option value="자동차성능점검인협동조합">자동차성능점검인협동조합</option>
+                        <option value="완성자동차공업사">완성자동차공업사</option>
+                        <option value="기타">기타 (직접입력)</option>
+                      </select>
+                      <div style={{fontSize:11,color:"#0066FF",marginTop:6}}>💡 픽스카 제휴 성능장에서 검수를 받으면 성능점검기록부가 자동으로 연동됩니다. (성능 점검일로부터 4개월이 경과한 것은 가져오기 불가)</div>
+                    </div>
                     <div style={{marginBottom:14}}>
                       <label style={labelS}>제시번호</label>
                       <input value={inspectionNo} onChange={e=>setInspectionNo(e.target.value)} placeholder="예) 2012070722" style={{...inputS,border:"1.5px solid #E0DDD7"}}/>
@@ -1820,6 +1873,11 @@ function DealerCarsNewInner() {
                           <input type="number" value={exhaustHC} onChange={e=>setExhaustHC(e.target.value)} placeholder="0" style={{...inputS,width:80,padding:"8px 10px"}}/>
                           <span style={{fontSize:12,color:"#888"}}>ppm</span>
                         </div>
+                        <div style={{display:"flex",alignItems:"center",gap:8}}>
+                          <span style={{fontSize:12,color:"#888",minWidth:90}}>매연 (디젤)</span>
+                          <input type="number" step="0.1" value={exhaustSmoke} onChange={e=>setExhaustSmoke(e.target.value)} placeholder="0.0" style={{...inputS,width:80,padding:"8px 10px"}}/>
+                          <span style={{fontSize:12,color:"#888"}}>%</span>
+                        </div>
                       </div>
                     </div>
                     <div style={{display:"flex",alignItems:"flex-start",padding:"10px 0",borderBottom:"1px solid #F0F4FF",gap:16,flexWrap:"wrap"}}>
@@ -1860,6 +1918,7 @@ function DealerCarsNewInner() {
                     <div style={{fontSize:14,fontWeight:800,marginBottom:4}}>💥 사고·교환·수리 등 이력</div>
                     <div style={{fontSize:11,color:"#AAA",marginBottom:14}}>해당 부위에 체크 표시하세요</div>
                     <DamageTable title="외판 부위" rank="1랭크" items={PANEL_1RANK} data={damage1} onChange={updateDamage(setDamage1)}/>
+                    <DamageTable title="외판 부위" rank="2랭크" items={PANEL_2RANK} data={damage2} onChange={updateDamage(setDamage2)}/>
                     <DamageTable title="주요 골격 (A)" rank="A랭크" items={PANEL_ARANK} data={damageA} onChange={updateDamage(setDamageA)}/>
                     <DamageTable title="주요 골격 (B)" rank="B랭크" items={PANEL_BRANK} data={damageB} onChange={updateDamage(setDamageB)}/>
                     <DamageTable title="주요 골격 (C)" rank="C랭크" items={PANEL_CRANK} data={damageC} onChange={updateDamage(setDamageC)}/>
@@ -1902,9 +1961,12 @@ function DealerCarsNewInner() {
                     {goodBadRow("스티어링 펌프",steeringPump,setSteeringPump)}
                     {goodBadRow("스티어링 기어(MDPS포함)",steeringGear,setSteeringGear)}
                     {goodBadRow("스티어링 조인트",steeringJoint,setSteeringJoint)}
+                    {goodBadRow("파워 고압호스",steeringHose,setSteeringHose)}
+                    {goodBadRow("타이로드엔드 및 볼 조인트",tieRodBallJoint,setTieRodBallJoint)}
                     {sectionTitle("제동")}
-                    {oilRow("브레이크 마스터 실린더 오일 누유",brakeOilLeak,setBrakeOilLeak)}
-                    {oilRow("브레이크 오일 누유",brakeLevel,setBrakeLevel)}
+                    {oilRow("마스터 실린더 오일 누유",brakeMasterLeak,setBrakeMasterLeak)}
+                    {oilRow("브레이크 오일 누유",brakeOilLeak,setBrakeOilLeak)}
+                    {oilRow("브레이크 오일 유량",brakeLevel,setBrakeLevel)}
                     {goodBadRow("배력장치 상태",brakeBooster,setBrakeBooster)}
                     {sectionTitle("전기")}
                     {goodBadRow("발전기 출력",generator,setGenerator)}
@@ -1913,11 +1975,25 @@ function DealerCarsNewInner() {
                     {goodBadRow("실내송풍 모터",blowerMotor,setBlowerMotor)}
                     {goodBadRow("라디에이터 팬 모터",radFanMotor,setRadFanMotor)}
                     {goodBadRow("윈도우 모터",windowMotor,setWindowMotor)}
+                    {/* 고전원 전기장치 (전기차/하이브리드) */}
+                    {(fuel==="전기"||fuel==="하이브리드")&&<>
+                      {sectionTitle("⚡ 고전원 전기장치 (전기차/하이브리드)")}
+                      {goodBadRow("충전구 절연 상태",evChargeInsul,setEvChargeInsul)}
+                      {goodBadRow("구동축전지 격리 상태",evBatteryIso,setEvBatteryIso)}
+                      {goodBadRow("고전원전기배선 상태",evHighVoltWire,setEvHighVoltWire)}
+                    </>}
                     {sectionTitle("연료")}
                     <div style={{display:"flex",alignItems:"center",padding:"10px 0",gap:16}}>
                       <div style={{minWidth:160,fontSize:13,color:"#444"}}>연료누출(LP가스 포함)</div>
                       <RG value={fuelLeak} options={["없음","있음"]} onChange={v=>setFuelLeak(v as "없음"|"있음")}/>
                     </div>
+                    {/* 수동변속기 (M/T 선택 시) */}
+                    {transmission==="수동"&&<>
+                      {sectionTitle("🔧 수동변속기 (M/T)")}
+                      {goodBadRow("기어변속장치",mtGearShift,setMtGearShift)}
+                      {oilRow("오일유량 및 상태",mtOilLevel,setMtOilLevel)}
+                      {goodBadRow("작동상태(이상음,진동)",mtRunning,setMtRunning)}
+                    </>}
                   </div>
 
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
@@ -1928,6 +2004,44 @@ function DealerCarsNewInner() {
                         <RG value={val} options={["양호","불량"]} onChange={v=>setter(v as GoodBad)}/>
                       </div>
                     ))}
+                    {/* 보유상태 */}
+                    <div style={{marginTop:14,borderTop:"2px solid #E8EEFF",paddingTop:14}}>
+                      <div style={{fontSize:13,fontWeight:800,color:"#0066FF",marginBottom:10}}>📦 부속품 보유상태</div>
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+                        {([["사용설명서",hasManual,setHasManual],["안전삼각대",hasTriangle,setHasTriangle],["잭",hasJack,setHasJack],["스패너",hasSpanner,setHasSpanner]] as [string,string,(v:"있음"|"없음")=>void][]).map(([label,val,setter])=>(
+                          <div key={label} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0"}}>
+                            <span style={{fontSize:13,color:"#444",minWidth:80}}>{label}</span>
+                            <RG value={val} options={["있음","없음"]} onChange={v=>setter(v as "있음"|"없음")}/>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 검사유효기간 + 보증유형 + 특기사항 */}
+                  <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>
+                    <div style={{fontSize:14,fontWeight:800,marginBottom:14}}>📝 기본 정보 (추가)</div>
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
+                      <div>
+                        <label style={{fontSize:13,fontWeight:800,display:"block",marginBottom:6}}>검사유효기간</label>
+                        <input type="date" value={inspExpiry} onChange={e=>setInspExpiry(e.target.value)} style={{...inputS,border:"1.5px solid #E0DDD7"}}/>
+                      </div>
+                      <div>
+                        <label style={{fontSize:13,fontWeight:800,display:"block",marginBottom:6}}>보증유형</label>
+                        <div style={{display:"flex",gap:8,marginTop:6}}>
+                          {(["자가보증","보험사보증"] as const).map(v=>(
+                            <label key={v} style={{display:"flex",alignItems:"center",gap:5,fontSize:13,cursor:"pointer",padding:"10px 16px",borderRadius:10,border:warrantyType===v?"2px solid #0066FF":"1px solid #E0DDD7",background:warrantyType===v?"#EEF5FF":"white"}}>
+                              <input type="radio" checked={warrantyType===v} onChange={()=>setWarrantyType(v)} style={{accentColor:"#0066FF",width:14,height:14}}/>
+                              <span style={{fontWeight:warrantyType===v?700:500}}>{v}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label style={{fontSize:13,fontWeight:800,display:"block",marginBottom:6}}>⑮ 특기사항 및 점검자 의견</label>
+                      <textarea rows={4} value={specialNote} onChange={e=>setSpecialNote(e.target.value)} placeholder="점검 시 특이사항, 점검자의 의견 등을 자유롭게 기재하세요." style={{...inputS,border:"1.5px solid #E0DDD7",resize:"none",lineHeight:1.8}}/>
+                    </div>
                   </div>
 
                   <div style={{background:"white",borderRadius:16,padding:"20px 24px",marginBottom:12}}>

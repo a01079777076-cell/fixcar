@@ -1,43 +1,50 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/about/page.tsx
+// ═══════════════════════════════════════════════════
 "use client";
 import Navbar from "@/components/Navbar";
-import { Shield, Lock, Star, MapPin } from "lucide-react";
+import Link from "next/link";
+import { Shield, Users, Target, Heart } from "lucide-react";
+
 export default function AboutPage() {
   return (
     <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;}`}</style>
-      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <Navbar/>
-        <div style={{background:"#FF3B1E",padding:"80px 52px",textAlign:"center",position:"relative",overflow:"hidden"}}>
-          <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none"}}><div style={{fontFamily:"'Bebas Neue',serif",fontSize:"200px",color:"rgba(255,255,255,0.06)"}}>FIXCAR</div></div>
-          <div style={{position:"relative",zIndex:1}}>
-            <h1 style={{fontSize:"clamp(32px,6vw,64px)",fontWeight:800,color:"white",letterSpacing:"-2px",marginBottom:"14px"}}>나, 이 차로 픽했어</h1>
-            <p style={{fontSize:"17px",color:"rgba(255,255,255,0.8)",lineHeight:1.8,maxWidth:"560px",margin:"0 auto",fontWeight:400}}>광주 중고차 시장의 불투명한 가격 관행을 바꾸기 위해 태어난 FIX 정찰제 플랫폼</p>
-          </div>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}`}</style>
+      <Navbar />
+      <div style={{ minHeight: "100vh", background: "#F0EEE9" }}>
+        <div style={{ background: "linear-gradient(135deg,#1A1A1A,#333)", padding: "60px 24px", textAlign: "center" }}>
+          <div style={{ fontFamily: "'Bebas Neue',serif", fontSize: 48, color: "#FF3B1E", letterSpacing: 3 }}>FIXCAR</div>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: "white", marginTop: 8 }}>광주의 새로운 중고차 문화</h1>
+          <p style={{ fontSize: 15, color: "rgba(255,255,255,0.6)", marginTop: 12, lineHeight: 1.8 }}>FIX 정찰가로 투명하게, 검수로 안전하게</p>
         </div>
-        <div style={{maxWidth:"860px",margin:"0 auto",padding:"60px 32px 80px"}}>
-          <div style={{background:"white",borderRadius:"20px",padding:"36px 40px",marginBottom:"20px"}}>
-            <div style={{fontSize:"12px",fontWeight:800,letterSpacing:"3px",color:"#FF3B1E",marginBottom:"12px"}}>VISION</div>
-            <h2 style={{fontSize:"26px",fontWeight:800,letterSpacing:"-1px",marginBottom:"14px"}}>중고차 구매, 더 이상 두렵지 않게</h2>
-            <p style={{fontSize:"15px",color:"#555",lineHeight:1.9,fontWeight:400}}>중고차 시장의 가장 큰 문제는 '정보 비대칭'이에요. 딜러는 알고 있지만 고객은 모르는 것들. 픽스카는 이 구조를 바꿉니다.<br/><br/>모든 매물에 <strong style={{fontWeight:800,color:"#FF3B1E"}}>FIX 정찰가</strong>를 적용해 표시 가격이 곧 최종 가격이에요. 가격 흥정 없이, 투명하게, 믿고 살 수 있는 중고차 플랫폼을 만들어가고 있어요.</p>
-          </div>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"14px",marginBottom:"20px"}}>
-            {[{icon:<Lock size={26} color="#FF3B1E"/>,title:"FIX 정찰가",desc:"표시 가격 = 최종 가격. 흥정 없음, 바가지 없음."},{icon:<Shield size={26} color="#1847FF"/>,title:"100항목 검수",desc:"전문 정비사가 직접 점검한 매물만 등록."},{icon:<Star size={26} color="#2D8A52"/>,title:"3일 환불 보장",desc:"구매 후 3일 이내 이유 불문 100% 환불."},{icon:<MapPin size={26} color="#E8A020"/>,title:"광주 지역 특화",desc:"광주·전남 지역 중고차 1위를 목표로."}].map(i=>(
-              <div key={i.title} style={{background:"white",borderRadius:"18px",padding:"22px"}}>
-                <div style={{marginBottom:"10px"}}>{i.icon}</div>
-                <div style={{fontSize:"16px",fontWeight:800,marginBottom:"5px"}}>{i.title}</div>
-                <div style={{fontSize:"13px",color:"#888",lineHeight:1.7,fontWeight:400}}>{i.desc}</div>
+        <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 24px 100px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 40 }}>
+            {[
+              { icon: <Shield size={28} color="#FF3B1E" />, title: "FIX 정찰가", desc: "흥정 없는 투명한 가격. 시세 기반 적정 가격만 표시합니다." },
+              { icon: <Target size={28} color="#0066FF" />, title: "100항목 검수", desc: "전문 검수원이 직접 확인한 차량만 인증 뱃지를 부여합니다." },
+              { icon: <Users size={28} color="#2D8A52" />, title: "광주 전문", desc: "광주·전남 지역 딜러만 입점. 지역 밀착 서비스를 제공합니다." },
+              { icon: <Heart size={28} color="#E8A020" />, title: "소비자 보호", desc: "허위매물 삼진아웃, 사기 피해 예방, 거래대행 서비스." },
+            ].map(v => (
+              <div key={v.title} style={{ background: "white", borderRadius: 18, padding: "28px 24px" }}>
+                <div style={{ marginBottom: 14 }}>{v.icon}</div>
+                <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>{v.title}</div>
+                <div style={{ fontSize: 14, color: "#888", lineHeight: 1.7 }}>{v.desc}</div>
               </div>
             ))}
           </div>
-          <div style={{background:"#1A1A1A",borderRadius:"20px",padding:"28px 32px",color:"white"}}>
-            <div style={{fontSize:"11px",fontWeight:800,letterSpacing:"3px",color:"rgba(255,255,255,0.4)",marginBottom:"16px"}}>COMPANY INFO</div>
-            {[["서비스명","픽스카 FIXCAR"],["URL","fixcar.kr"],["지역","광주광역시"],["이메일","contact@fixcar.kr"],["런칭","2026년 3월"]].map(([k,v])=>(
-              <div key={k as string} style={{display:"flex",gap:"20px",padding:"9px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
-                <span style={{fontSize:"13px",color:"rgba(255,255,255,0.4)",minWidth:"70px",fontWeight:400}}>{k}</span>
-                <span style={{fontSize:"13px",fontWeight:700}}>{v}</span>
-              </div>
-            ))}
+          <div style={{ background: "white", borderRadius: 18, padding: "28px 24px", marginBottom: 20 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 14 }}>📍 회사 정보</h2>
+            <div style={{ fontSize: 14, color: "#888", lineHeight: 2 }}>
+              상호: 픽스카 FIXCAR<br />
+              대표: 상훈<br />
+              주소: 광주광역시 (상세 주소 추후 기입)<br />
+              이메일: info@fixcar.kr<br />
+              고객센터: 062-000-0000 (평일 09:00~18:00)
+            </div>
           </div>
+          <Link href="/dealer/apply">
+            <button style={{ width: "100%", padding: "18px", background: "#FF3B1E", color: "white", border: "none", borderRadius: 14, fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif" }}>딜러 입점 신청하기</button>
+          </Link>
         </div>
       </div>
     </>

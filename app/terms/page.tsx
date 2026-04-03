@@ -1,26 +1,42 @@
+// ═══════════════════════════════════════════════════
+// 📁 저장 경로: app/terms/page.tsx
+// ═══════════════════════════════════════════════════
+"use client";
 import Navbar from "@/components/Navbar";
+
+const sections = [
+  { title: "제1조 (목적)", content: "이 약관은 픽스카(이하 '회사')가 제공하는 중고차 정보 플랫폼 서비스(이하 '서비스')의 이용 조건 및 절차, 회사와 회원 간의 권리·의무를 규정함을 목적으로 합니다." },
+  { title: "제2조 (정의)", content: "① '서비스'란 회사가 fixcar.kr 및 관련 앱을 통해 제공하는 중고차 매물 정보 제공, 거래 중개, 검수, 커뮤니티 등의 서비스를 말합니다.\n② '회원'이란 이 약관에 동의하고 회원가입을 완료한 자를 말합니다.\n③ '딜러회원'이란 중고자동차 매매업 등록을 마치고 회사의 딜러 인증을 완료한 회원을 말합니다." },
+  { title: "제3조 (약관의 효력)", content: "① 이 약관은 서비스 화면에 게시하거나 기타의 방법으로 회원에게 공지함으로써 효력이 발생합니다.\n② 회사는 관련 법령을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다." },
+  { title: "제4조 (회원가입)", content: "① 서비스 이용을 원하는 자는 회사가 정한 가입 절차에 따라 회원가입을 신청합니다.\n② 회사는 다음 각 호에 해당하는 경우 가입을 거부할 수 있습니다.\n  1. 타인의 정보를 도용한 경우\n  2. 허위 정보를 기재한 경우\n  3. 기타 회사가 정한 기준에 부합하지 않는 경우" },
+  { title: "제5조 (서비스 이용)", content: "① 서비스는 연중무휴 24시간 제공을 원칙으로 합니다.\n② 회사는 시스템 점검, 장애 등 불가피한 사유로 서비스를 일시 중단할 수 있습니다.\n③ 매물 정보의 정확성은 해당 딜러에게 책임이 있으며, 회사는 중개 플랫폼으로서의 역할만 수행합니다." },
+  { title: "제6조 (FIX 정찰가)", content: "① FIX 정찰가는 딜러가 등록한 판매 가격을 의미하며, 추가 흥정이 없는 고정 가격을 원칙으로 합니다.\n② 회사는 시세 대비 비정상적인 가격의 매물에 대해 등록을 거부하거나 수정을 요청할 수 있습니다." },
+  { title: "제7조 (광고 및 유료 서비스)", content: "① 딜러회원은 매물 등록비, 프리미엄 광고비 등 유료 서비스를 이용할 수 있습니다.\n② 유료 서비스의 요금 및 결제 방법은 서비스 내 별도 안내에 따릅니다.\n③ ⚠️ 결제된 광고비(매물등록비, 프리미엄 등록비, 인증딜러 비용 등)는 결제 완료 시점부터 서비스가 즉시 제공되므로, 결제 후 환불이 불가합니다.\n④ 다만, 회사의 귀책사유로 서비스가 정상 제공되지 않은 경우에는 잔여 기간에 대해 환불을 요청할 수 있습니다.\n⑤ 매물 삭제, 계정 탈퇴 시에도 이미 결제된 광고비는 환불되지 않습니다." },
+  { title: "제8조 (검수 서비스)", content: "① 회사는 제휴 검수업체를 통해 차량 검수 서비스를 제공합니다.\n② 검수 결과는 참고용이며, 회사는 검수 결과에 대한 법적 책임을 지지 않습니다.\n③ 검수비는 서비스 이용 시점에 결제되며, 검수 완료 후 환불이 불가합니다." },
+  { title: "제9조 (거래대행 서비스)", content: "① 회사는 개인간 중고차 거래에 대한 대행 서비스를 제공합니다.\n② 대행료는 거래 완료 시 현장에서 결제하며, 대행 과정에서 발생하는 세금·보험료 등은 이용자 부담입니다." },
+  { title: "제10조 (금지행위)", content: "회원은 다음 각 호의 행위를 하여서는 안 됩니다.\n  1. 허위 매물 등록\n  2. 타인의 정보 도용\n  3. 서비스 운영을 방해하는 행위\n  4. 허위 리뷰·평점 조작\n  5. 기타 관련 법령에 위반되는 행위" },
+  { title: "제11조 (허위매물 삼진아웃)", content: "① 허위매물로 신고·확인된 딜러에게는 경고가 부여됩니다.\n② 3회 경고 시 해당 딜러의 계정은 영구 정지됩니다.\n③ 영구 정지된 딜러의 잔여 광고비는 환불되지 않습니다." },
+  { title: "제12조 (AI 서비스)", content: "① 서비스 내 AI 기능(차량 추천, 문의 답변, 이미지 보정 등)은 참고용이며, AI가 제공하는 정보의 정확성을 보장하지 않습니다.\n② 매물 사진에 AI 보정이 적용될 수 있으며, 이는 매물 상세 페이지에 고지됩니다." },
+  { title: "제13조 (개인정보 보호)", content: "회원의 개인정보 보호에 관한 사항은 별도의 개인정보 처리방침에 따릅니다." },
+  { title: "제14조 (분쟁 해결)", content: "① 서비스 이용과 관련한 분쟁은 당사자간 협의를 우선으로 합니다.\n② 협의가 이루어지지 않을 경우 회사 소재지 관할 법원을 합의 관할로 합니다." },
+  { title: "부칙", content: "이 약관은 2026년 4월 1일부터 시행합니다." },
+];
 
 export default function TermsPage() {
   return (
     <>
-      <Navbar/>
-      <div style={{minHeight:"100vh",background:"#F0EEE9",fontFamily:"'NanumSquareRound',sans-serif"}}>
-        <div style={{background:"#1A1A1A",padding:"44px 24px 36px"}}><div style={{maxWidth:800,margin:"0 auto"}}><h1 style={{fontSize:28,fontWeight:800,color:"white"}}>📋 이용약관</h1></div></div>
-        <div style={{maxWidth:800,margin:"0 auto",padding:"32px 24px 100px"}}>
-          <div style={{background:"white",borderRadius:20,padding:"36px 32px",fontSize:14,color:"#555",lineHeight:2.2}}>
-            <p style={{fontSize:12,color:"#AAA",marginBottom:16}}>시행일: 2025년 1월 1일</p>
-            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",marginBottom:8}}>제1조 (목적)</h2>
-            <p>이 약관은 픽스카 FIXCAR(이하 &quot;서비스&quot;)가 제공하는 중고차 거래 중개 플랫폼의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
-            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제2조 (정의)</h2>
-            <p>1. &quot;서비스&quot;란 픽스카가 운영하는 웹사이트(fixcar.kr) 및 관련 서비스를 말합니다.<br/>2. &quot;회원&quot;이란 서비스에 가입하여 이용하는 자를 말합니다.<br/>3. &quot;딜러&quot;란 서비스에 중고차 매물을 등록하는 자동차매매업 종사자를 말합니다.<br/>4. &quot;FIX 가격&quot;이란 흥정 없이 고정된 판매 가격을 말합니다.</p>
-            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제3조 (서비스 이용)</h2>
-            <p>1. 서비스 이용을 위해 회원가입이 필요합니다.<br/>2. 허위 정보로 가입한 경우 서비스 이용이 제한될 수 있습니다.<br/>3. 매물 정보는 딜러가 등록하며, 픽스카는 검수를 통해 허위 매물을 차단합니다.</p>
-            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제4조 (FIX 가격 정책)</h2>
-            <p>1. 모든 매물은 FIX 정찰가로 등록됩니다.<br/>2. 등록된 가격은 딜러가 변경하기 전까지 유효합니다.<br/>3. 별도 흥정이나 추가 비용 요구는 금지됩니다.</p>
-            <h2 style={{fontSize:18,fontWeight:800,color:"#1A1A1A",margin:"24px 0 8px"}}>제5조 (면책)</h2>
-            <p>1. 픽스카는 중개 플랫폼으로서, 실제 거래에 대한 책임은 당사자 간에 있습니다.<br/>2. 천재지변, 시스템 장애 등 불가항력으로 인한 서비스 중단에 대해 책임지지 않습니다.</p>
-            <div style={{background:"#F8F7F4",borderRadius:12,padding:"16px 20px",marginTop:24,fontSize:12,color:"#AAA"}}>문의: help@fixcar.kr</div>
-          </div>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}`}</style>
+      <Navbar />
+      <div style={{ minHeight: "100vh", background: "#F0EEE9" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 24px 100px" }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>📋 이용약관</h1>
+          <p style={{ fontSize: 13, color: "#AAA", marginBottom: 32 }}>픽스카 서비스 이용에 관한 약관입니다. (시행일: 2026.04.01)</p>
+          {sections.map((s, i) => (
+            <div key={i} style={{ background: "white", borderRadius: 14, padding: "22px 24px", marginBottom: 10 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 10, color: s.title.includes("광고") ? "#FF3B1E" : "#1A1A1A" }}>{s.title}</h3>
+              <div style={{ fontSize: 14, color: "#666", lineHeight: 1.9, whiteSpace: "pre-line" }}>{s.content}</div>
+            </div>
+          ))}
         </div>
       </div>
     </>

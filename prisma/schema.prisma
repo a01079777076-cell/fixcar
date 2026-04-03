@@ -34,6 +34,7 @@ model User {
   wishAlerts        WishAlert[]        @relation("WishAlerts")
   catalogReports    CatalogReport[]    @relation("CatalogReports")
   carScores         CarScore[]         @relation("CarScores")
+  communityReplies  CommunityReply[]   @relation("CommunityReplies") 
   mbti              UserMbti?          @relation("UserMbti")
   dealer            Dealer?
 }
@@ -190,6 +191,7 @@ model CommunityPost {
   authorId  Int
   author    User               @relation("CommunityPosts", fields: [authorId], references: [id])
   comments  CommunityComment[]
+  replies   CommunityReply[]
   reports   CommunityReport[]
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
@@ -205,6 +207,16 @@ model CommunityComment {
   post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   authorId  Int
   author    User          @relation("CommunityComments", fields: [authorId], references: [id])
+  createdAt DateTime      @default(now())
+}
+
+model CommunityReply {
+  id        Int           @id @default(autoincrement())
+  content   String        @db.Text
+  postId    Int
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  Int
+  author    User          @relation("CommunityReplies", fields: [authorId], references: [id])
   createdAt DateTime      @default(now())
 }
 

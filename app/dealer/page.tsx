@@ -132,45 +132,59 @@ export default function DealerDashboard() {
                 const img1=imgs[0]?imgs[0].split("#")[0]:"";
                 const img2=(imgs[4]||imgs[1]||"").split("#")[0];
                 return(
-                  <Link key={car.id} href={`/cars/${car.id}`}>
-                    <div style={{background:"white",borderRadius:16,padding:"16px 22px",display:"flex",alignItems:"center",gap:16,cursor:"pointer",border:"1px solid #EEEEFF",transition:"box-shadow 0.15s"}} onMouseOver={e=>(e.currentTarget.style.boxShadow="0 4px 16px rgba(0,0,0,0.08)")} onMouseOut={e=>(e.currentTarget.style.boxShadow="none")}>
-                      {/* 사진 2장 */}
-                      <div style={{display:"flex",gap:3,flexShrink:0}}>
-                        <div style={{width:100,height:75,borderRadius:10,overflow:"hidden",background:"#F0F4FF"}}>
-                          {img1?<img src={img1} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:22}}>🚗</span>}
+                  <div key={car.id} style={{background:"white",borderRadius:16,overflow:"hidden",border:"1px solid #EEEEFF"}}>
+                    <Link href={`/cars/${car.id}`}>
+                      <div style={{padding:"16px 22px",display:"flex",alignItems:"center",gap:16,cursor:"pointer",transition:"box-shadow 0.15s"}} onMouseOver={e=>(e.currentTarget.style.background="#FAFBFF")} onMouseOut={e=>(e.currentTarget.style.background="white")}>
+                        <div style={{display:"flex",gap:3,flexShrink:0}}>
+                          <div style={{width:100,height:75,borderRadius:10,overflow:"hidden",background:"#F0F4FF"}}>
+                            {img1?<img src={img1} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:22}}>🚗</span>}
+                          </div>
+                          <div style={{width:100,height:75,borderRadius:10,overflow:"hidden",background:"#F0F4FF"}}>
+                            {img2?<img src={img2} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:16,color:"#DDD"}}>📷</span>}
+                          </div>
                         </div>
-                        <div style={{width:100,height:75,borderRadius:10,overflow:"hidden",background:"#F0F4FF"}}>
-                          {img2?<img src={img2} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:16,color:"#DDD"}}>📷</span>}
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontSize:15,fontWeight:800}}>{car.brand} {car.name}</div>
+                          <div style={{fontSize:12,color:"#AAA",marginTop:2}}>{car.year}년 · {car.mileage?.toLocaleString()}km · {car.fuel}</div>
                         </div>
-                      </div>
-                      {/* 정보 */}
-                      <div style={{flex:1,minWidth:0}}>
-                        <div style={{fontSize:15,fontWeight:800}}>{car.brand} {car.name}</div>
-                        <div style={{fontSize:12,color:"#AAA",marginTop:2}}>{car.year}년 · {car.mileage?.toLocaleString()}km · {car.fuel}</div>
-                      </div>
-                      {/* 조회수 / 찜 */}
-                      <div style={{display:"flex",gap:24,alignItems:"center"}}>
-                        <div style={{textAlign:"center",minWidth:50}}>
-                          <div style={{fontSize:20,fontWeight:800,color:"#E8A020"}}>{views.toLocaleString()}</div>
-                          <div style={{fontSize:10,color:"#AAA",marginTop:2}}>조회수</div>
+                        <div style={{display:"flex",gap:24,alignItems:"center"}}>
+                          <div style={{textAlign:"center",minWidth:50}}>
+                            <div style={{fontSize:20,fontWeight:800,color:"#E8A020"}}>{views.toLocaleString()}</div>
+                            <div style={{fontSize:10,color:"#AAA",marginTop:2}}>조회수</div>
+                          </div>
+                          <div style={{textAlign:"center",minWidth:50}}>
+                            <div style={{fontSize:20,fontWeight:800,color:"#FF3B1E"}}>{favs}</div>
+                            <div style={{fontSize:10,color:"#AAA",marginTop:2}}>찜</div>
+                          </div>
                         </div>
-                        <div style={{textAlign:"center",minWidth:50}}>
-                          <div style={{fontSize:20,fontWeight:800,color:"#FF3B1E"}}>{favs}</div>
-                          <div style={{fontSize:10,color:"#AAA",marginTop:2}}>찜</div>
+                        <div style={{fontSize:16,fontWeight:800,color:"#0066FF",minWidth:90,textAlign:"right"}}>
+                          {car.price?.toLocaleString()}<span style={{fontSize:10,color:"#AAA"}}>만</span>
                         </div>
+                        <span style={{fontSize:10,fontWeight:700,padding:"4px 12px",borderRadius:100,flexShrink:0,
+                          background:car.status==="AVAILABLE"?"#EAF6EF":car.status==="REVIEWING"?"#FFF8EC":"#F0EEE9",
+                          color:car.status==="AVAILABLE"?"#2D8A52":car.status==="REVIEWING"?"#E8A020":"#888"}}>
+                          {car.status==="AVAILABLE"?"판매중":car.status==="REVIEWING"?"검수대기":"완료"}
+                        </span>
                       </div>
-                      {/* 가격 */}
-                      <div style={{fontSize:16,fontWeight:800,color:"#0066FF",minWidth:90,textAlign:"right"}}>
-                        {car.price?.toLocaleString()}<span style={{fontSize:10,color:"#AAA"}}>만</span>
-                      </div>
-                      {/* 상태 */}
-                      <span style={{fontSize:10,fontWeight:700,padding:"4px 12px",borderRadius:100,flexShrink:0,
-                        background:car.status==="AVAILABLE"?"#EAF6EF":car.status==="REVIEWING"?"#FFF8EC":"#F0EEE9",
-                        color:car.status==="AVAILABLE"?"#2D8A52":car.status==="REVIEWING"?"#E8A020":"#888"}}>
-                        {car.status==="AVAILABLE"?"판매중":car.status==="REVIEWING"?"검수대기":"완료"}
-                      </span>
+                    </Link>
+                    {/* 수정/삭제 버튼 */}
+                    <div style={{padding:"0 22px 14px",display:"flex",gap:8}}>
+                      <Link href={`/dealer/cars/new?edit=${car.id}`}>
+                        <button style={{padding:"8px 16px",background:"#EEF5FF",border:"1.5px solid #0066FF",borderRadius:8,fontSize:12,fontWeight:700,color:"#0066FF",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>✏️ 수정</button>
+                      </Link>
+                      <button onClick={async(e)=>{
+                        e.preventDefault();
+                        const ok=confirm(`⚠️ "${car.brand} ${car.name}" 매물을 삭제하시겠습니까?\n\n• 삭제된 매물은 복구할 수 없습니다.\n• 결제된 광고비가 있는 경우 환불되지 않습니다.\n• 자세한 내용은 이용약관을 확인해주세요.`);
+                        if(!ok)return;
+                        try{
+                          const res=await fetch(`/api/dealer/cars/${car.id}`,{method:"DELETE"});
+                          const d=await res.json();
+                          if(d.success){setCars(prev=>prev.filter(c=>c.id!==car.id));alert("매물이 삭제되었습니다.");}
+                          else alert(d.error||"삭제 실패");
+                        }catch{alert("네트워크 오류");}
+                      }} style={{padding:"8px 16px",background:"white",border:"1.5px solid #E24B4A",borderRadius:8,fontSize:12,fontWeight:700,color:"#E24B4A",cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>🗑 삭제</button>
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>
