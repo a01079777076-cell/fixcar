@@ -1991,7 +1991,7 @@ function DealerCarsNewInner() {
                     {transmission==="수동"&&<>
                       {sectionTitle("🔧 수동변속기 (M/T)")}
                       {goodBadRow("기어변속장치",mtGearShift,setMtGearShift)}
-                      {oilRow("오일유량 및 상태",mtOilLevel,setMtOilLevel)}
+                      {goodBadRow("오일유량 및 상태",mtOilLevel,setMtOilLevel)}
                       {goodBadRow("작동상태(이상음,진동)",mtRunning,setMtRunning)}
                     </>}
                   </div>
