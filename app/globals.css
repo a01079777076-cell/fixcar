@@ -1,141 +1,99 @@
 /* 📁 저장 경로: app/globals.css */
 /* ═══ 픽스카 글로벌 모바일 반응형 ═══ */
 
-/* 기본 리셋 */
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body { font-family: 'NanumSquareRound', -apple-system, BlinkMacSystemFont, sans-serif; background: #F0EEE9; overflow-x: hidden; }
 img { max-width: 100%; height: auto; }
 input, textarea, select, button { font-family: inherit; -webkit-appearance: none; }
 
-/* ═══ 모바일 브레이크포인트 ═══ */
-
-/* 태블릿 이하 (768px) */
+/* ═══ 태블릿 (768px) ═══ */
 @media (max-width: 768px) {
-  /* 기본 컨테이너 */
-  div[style*="maxWidth: 960"],
-  div[style*="maxWidth:960"],
-  div[style*="max-width: 960"],
-  div[style*="maxWidth: 900"],
-  div[style*="maxWidth:900"],
-  div[style*="maxWidth: 800"],
-  div[style*="maxWidth:800"],
-  div[style*="maxWidth: 1300"],
-  div[style*="maxWidth:1300"] {
-    max-width: 100% !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-
-  /* 그리드 4→2열 */
-  div[style*="gridTemplateColumns: repeat(4"],
-  div[style*="gridTemplateColumns:repeat(4"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  /* 그리드 3→2열 */
-  div[style*="gridTemplateColumns: repeat(3"],
-  div[style*="gridTemplateColumns:repeat(3"],
-  div[style*="gridTemplateColumns: 1fr 1fr 1fr"],
-  div[style*="gridTemplateColumns:1fr 1fr 1fr"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  /* flex row → column (넓은 플렉스) */
-  div[style*="display:\"flex\""][style*="gap:24"],
-  div[style*="display: \"flex\""][style*="gap: 24"] {
-    flex-wrap: wrap !important;
-  }
-
-  /* 큰 폰트 축소 */
+  section[style*="padding:0 52px"], section[style*="padding: 0 52px"] { padding: 0 16px !important; }
+  section[style*="margin-bottom:80px"], section[style*="margin-bottom: 80px"] { margin-bottom: 40px !important; }
+  section[style*="margin:40px auto 80px"] { margin: 20px auto 40px !important; }
   h1 { font-size: 22px !important; }
   h2 { font-size: 18px !important; }
-
-  /* 테이블 가로 스크롤 */
   table { font-size: 11px !important; }
   th, td { padding: 6px 4px !important; }
 }
 
-/* 모바일 (480px 이하) */
+/* ═══ 모바일 (480px) — 핵심 수정 ═══ */
 @media (max-width: 480px) {
-  /* 그리드 2→1열 */
-  div[style*="gridTemplateColumns: repeat(2"],
-  div[style*="gridTemplateColumns:repeat(2"],
-  div[style*="gridTemplateColumns: 1fr 1fr"],
-  div[style*="gridTemplateColumns:1fr 1fr"] {
-    grid-template-columns: 1fr !important;
+  /* 매물 카드: flex row → column */
+  a[href*="/cars/"] > div[style*="display: flex"][style*="gap: 16px"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 14px !important;
+    gap: 10px !important;
+  }
+  /* 사진 영역 가로 100% + 높이 조절 */
+  a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex-shrink: 0"]:first-child {
+    width: 100% !important;
+    display: flex !important;
+    gap: 4px !important;
+  }
+  a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex-shrink: 0"]:first-child > div {
+    flex: 1 !important;
+    width: auto !important;
+    height: 130px !important;
+  }
+  /* 텍스트 영역 100% */
+  a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex: 1"] {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+  /* 가격 좌측 정렬 + 커지게 */
+  a[href*="/cars/"] > div[style*="display: flex"] > div[style*="text-align: right"] {
+    text-align: left !important;
   }
 
-  /* 4→1열 */
-  div[style*="gridTemplateColumns: repeat(4"],
-  div[style*="gridTemplateColumns:repeat(4"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  /* 카드/패널 패딩 축소 */
-  div[style*="padding: \"28px"],
-  div[style*="padding:\"28px"],
-  div[style*="padding: \"32px"],
-  div[style*="padding:\"32px"] {
-    padding: 16px !important;
-  }
-
-  /* 큰 폰트 */
-  h1 { font-size: 20px !important; }
-  div[style*="fontSize: 48"],
-  div[style*="fontSize:48"],
-  span[style*="fontSize: 48"],
-  span[style*="fontSize:48"] {
-    font-size: 32px !important;
-  }
-
-  /* 매물 리스트 사진 크기 조정 */
-  div[style*="width: 140"][style*="height: 100"],
-  div[style*="width:140"][style*="height:100"] {
-    width: 100px !important;
-    height: 72px !important;
-  }
-
-  /* 딜러 대시보드 카드 */
-  div[style*="width: 100"][style*="height: 75"],
+  /* 딜러 대시보드 카드 — 사진 축소 */
+  div[style*="width: 100px"][style*="height: 75px"],
   div[style*="width:100"][style*="height:75"] {
-    width: 70px !important;
-    height: 52px !important;
+    width: 60px !important;
+    height: 45px !important;
   }
 
-  /* 가격 폰트 */
-  div[style*="fontSize: 20"][style*="fontWeight: 800"],
-  div[style*="fontSize:20"][style*="fontWeight:800"] {
-    font-size: 16px !important;
-  }
+  /* 그리드 조정 */
+  div[style*="grid-template-columns: repeat(4"], div[style*="gridTemplateColumns:repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"], div[style*="gridTemplateColumns:1fr 1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
+  div[style*="grid-template-columns: 1fr 1fr"], div[style*="gridTemplateColumns:1fr 1fr"] { grid-template-columns: 1fr !important; }
 
-  /* 챗봇 모바일 전체화면 */
-  div[style*="maxWidth: 400"] {
-    max-width: 100% !important;
-  }
+  /* 패딩 축소 */
+  div[style*="padding: 28px"], div[style*="padding:28px"] { padding: 16px !important; }
+  div[style*="padding: 32px"], div[style*="padding:32px"] { padding: 16px !important; }
+
+  /* 메인 섹션 마진 축소 */
+  section[style*="margin-bottom:80px"], section[style*="margin-bottom: 80px"] { margin-bottom: 24px !important; }
+  section[style*="margin:40px auto 80px"] { margin: 16px auto 24px !important; }
+  section[style*="padding:0 52px"], section[style*="padding: 0 52px"] { padding: 0 12px !important; }
+
+  /* 챗봇 전체화면 */
+  div[style*="max-width: 400"], div[style*="maxWidth: 400"] { max-width: 100% !important; }
+
+  /* 미리보기 사진 */
+  div[style*="width: 140"][style*="height: 100"] { width: 100px !important; height: 72px !important; }
 }
 
-/* ═══ 안전 영역 (노치/홈바) ═══ */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  body { padding-bottom: env(safe-area-inset-bottom); }
+/* ═══ 폴드 (320px) ═══ */
+@media (max-width: 320px) {
+  a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex-shrink: 0"]:first-child > div { height: 90px !important; }
+  div[style*="padding: 18px"], div[style*="padding:18px"] { padding: 10px !important; }
+  h1 { font-size: 18px !important; }
 }
 
-/* ═══ 스크롤바 커스텀 ═══ */
+/* ═══ safe-area ═══ */
+@supports (padding-bottom: env(safe-area-inset-bottom)) { body { padding-bottom: env(safe-area-inset-bottom); } }
+
+/* ═══ 스크롤바 ═══ */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #D0CCC5; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #AAA; }
 
-/* ═══ 포커스 스타일 ═══ */
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: #FF3B1E !important;
-  box-shadow: 0 0 0 3px rgba(255,59,30,0.1);
-}
-
-/* ═══ 터치 피드백 ═══ */
+/* ═══ 포커스/터치 ═══ */
+input:focus, textarea:focus, select:focus { outline: none; border-color: #FF3B1E !important; box-shadow: 0 0 0 3px rgba(255,59,30,0.1); }
 button:active { transform: scale(0.97); }
 a:active { opacity: 0.7; }
-
-/* ═══ 링크 기본 ═══ */
 a { text-decoration: none; color: inherit; }

@@ -116,6 +116,12 @@ export default async function Home() {
           .pickfix-inner{padding:32px 20px!important;}
           .promises-4{grid-template-columns:1fr!important;}
         }
+        @media(max-width:480px){
+          .section-pad{padding-left:12px!important;padding-right:12px!important;}
+          section[style*="margin"]{margin-bottom:24px!important;}
+          section[style*="padding: 96px"],section[style*="padding:96px"]{padding-top:40px!important;padding-bottom:40px!important;}
+          section[style*="min-height"]{min-height:auto!important;}
+        }
         @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
       `}</style>
 
@@ -158,7 +164,7 @@ export default async function Home() {
         </section>
 
         {/* ══ PICK + FIX ══ */}
-        <section className="section-pad" style={{ maxWidth:"1360px", margin:"40px auto 80px", paddingTop:0, paddingBottom:0 }}>
+        <section className="section-pad" style={{ maxWidth:"1360px", margin:"clamp(20px,4vw,40px) auto clamp(24px,6vw,80px)", paddingTop:0, paddingBottom:0 }}>
           <div className="pickfix-grid">
             <div className="pickfix-inner" style={{ background:"linear-gradient(135deg,#FF5A3C 0%,#E8290F 60%,#C41E08 100%)", padding:"64px 56px", position:"relative", overflow:"hidden" }}>
               <div style={{ position:"absolute", right:-10, bottom:-30, fontFamily:"'Bebas Neue',serif", fontSize:"clamp(120px,18vw,200px)", color:"rgba(255,255,255,0.2)", lineHeight:1, letterSpacing:-5, pointerEvents:"none" }}>PICK</div>
@@ -180,7 +186,7 @@ export default async function Home() {
         </section>
 
         {/* ══ 콘텐츠 배너 (순서 변경: 랭킹·유용한 정보·커뮤니티·카탈로그·경매·32강) ══ */}
-        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", paddingTop:0, paddingBottom:0 }}>
+        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto clamp(24px,6vw,80px)", paddingTop:0, paddingBottom:0 }}>
           <div className="content-banners">
             {contentBanners.map(item=>(
               <a key={item.title} href={item.href}>
@@ -211,7 +217,7 @@ export default async function Home() {
         <HomeDealerRanking/>
 
         {/* ══ 오늘 인기 급상승 매물 ══ */}
-        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto 80px", paddingTop:0, paddingBottom:0 }}>
+        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto clamp(24px,6vw,80px)", paddingTop:0, paddingBottom:0 }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:36 }}>
             <div>
               <div style={{ fontSize:12, fontWeight:800, letterSpacing:3, color:"#FF3B1E", marginBottom:12 }}>HOT TODAY</div>
@@ -256,7 +262,7 @@ export default async function Home() {
         </section>
 
         {/* ══ FIX 약속 ══ */}
-        <section style={{ background:"#1A1A1A", padding:"96px clamp(16px,4vw,52px)" }}>
+        <section style={{ background:"#1A1A1A", padding:"clamp(40px,8vw,96px) clamp(16px,4vw,52px)" }}>
           <div style={{ maxWidth:"1360px", margin:"0 auto" }}>
             <div className="promise-header">
               <div>
@@ -279,7 +285,7 @@ export default async function Home() {
         </section>
 
         {/* ══ 후기 ══ */}
-        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto", paddingTop:80, paddingBottom:80 }}>
+        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto", paddingTop:"clamp(32px,6vw,80px)", paddingBottom:"clamp(32px,6vw,80px)" }}>
           <div style={{ marginBottom:48 }}>
             <div style={{ fontSize:12, fontWeight:800, letterSpacing:3, color:"#FF3B1E", marginBottom:12 }}>PICK STORIES</div>
             <h2 style={{ fontSize:"clamp(22px,4vw,46px)", fontWeight:800, letterSpacing:-1.5, lineHeight:1.1 }}>픽한 사람들 이야기</h2>
@@ -303,7 +309,7 @@ export default async function Home() {
         </section>
 
         {/* ══ CTA ══ */}
-        <section style={{ background:"#FF3B1E", minHeight:520, position:"relative", overflow:"hidden", display:"flex", alignItems:"center" }}>
+        <section style={{ background:"#FF3B1E", minHeight:"clamp(320px,50vw,520px)", position:"relative", overflow:"hidden", display:"flex", alignItems:"center" }}>
           <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.08)", clipPath:"polygon(0 0,58% 0,42% 100%,0 100%)", pointerEvents:"none" }}/>
           <div style={{ position:"absolute", top:-20, left:-10, fontFamily:"'Bebas Neue',serif", fontSize:"clamp(140px,22vw,280px)", color:"rgba(255,255,255,0.08)", lineHeight:1, letterSpacing:-5, pointerEvents:"none", userSelect:"none" }}>PICK</div>
           <div style={{ position:"absolute", bottom:-30, right:-10, fontFamily:"'Bebas Neue',serif", fontSize:"clamp(140px,22vw,280px)", color:"rgba(0,0,0,0.1)", lineHeight:1, letterSpacing:-5, pointerEvents:"none", userSelect:"none" }}>FIX</div>
