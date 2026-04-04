@@ -1,5 +1,5 @@
 /* 📁 저장 경로: app/globals.css */
-/* ═══ 픽스카 글로벌 모바일 반응형 ═══ */
+/* ═══ 픽스카 글로벌 모바일 반응형 v2 ═══ */
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
@@ -7,8 +7,9 @@ body { font-family: 'NanumSquareRound', -apple-system, BlinkMacSystemFont, sans-
 img { max-width: 100%; height: auto; }
 input, textarea, select, button { font-family: inherit; -webkit-appearance: none; }
 
-/* ═══ 태블릿 (768px) ═══ */
+/* ═══ 태블릿 (768px) — 매물카드 핵심 수정 포함 ═══ */
 @media (max-width: 768px) {
+  /* 패딩 축소 */
   section[style*="padding:0 52px"], section[style*="padding: 0 52px"] { padding: 0 16px !important; }
   section[style*="margin-bottom:80px"], section[style*="margin-bottom: 80px"] { margin-bottom: 40px !important; }
   section[style*="margin:40px auto 80px"] { margin: 20px auto 40px !important; }
@@ -16,18 +17,14 @@ input, textarea, select, button { font-family: inherit; -webkit-appearance: none
   h2 { font-size: 18px !important; }
   table { font-size: 11px !important; }
   th, td { padding: 6px 4px !important; }
-}
 
-/* ═══ 모바일 (480px) — 핵심 수정 ═══ */
-@media (max-width: 480px) {
-  /* 매물 카드: flex row → column */
+  /* ── 매물 카드: flex row → column ── */
   a[href*="/cars/"] > div[style*="display: flex"][style*="gap: 16px"] {
     flex-direction: column !important;
     align-items: stretch !important;
     padding: 14px !important;
     gap: 10px !important;
   }
-  /* 사진 영역 가로 100% + 높이 조절 */
   a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex-shrink: 0"]:first-child {
     width: 100% !important;
     display: flex !important;
@@ -36,44 +33,41 @@ input, textarea, select, button { font-family: inherit; -webkit-appearance: none
   a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex-shrink: 0"]:first-child > div {
     flex: 1 !important;
     width: auto !important;
-    height: 130px !important;
+    height: 140px !important;
   }
-  /* 텍스트 영역 100% */
   a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex: 1"] {
     width: 100% !important;
     min-width: 100% !important;
   }
-  /* 가격 좌측 정렬 + 커지게 */
   a[href*="/cars/"] > div[style*="display: flex"] > div[style*="text-align: right"] {
     text-align: left !important;
   }
 
-  /* 딜러 대시보드 카드 — 사진 축소 */
-  div[style*="width: 100px"][style*="height: 75px"],
-  div[style*="width:100"][style*="height:75"] {
-    width: 60px !important;
-    height: 45px !important;
-  }
-
-  /* 그리드 조정 */
+  /* 그리드 4→2 */
   div[style*="grid-template-columns: repeat(4"], div[style*="gridTemplateColumns:repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+  /* 그리드 3→2 */
   div[style*="grid-template-columns: 1fr 1fr 1fr"], div[style*="gridTemplateColumns:1fr 1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
-  div[style*="grid-template-columns: 1fr 1fr"], div[style*="gridTemplateColumns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+}
 
+/* ═══ 모바일 (480px) ═══ */
+@media (max-width: 480px) {
+  /* 그리드 2→1 */
+  div[style*="grid-template-columns: 1fr 1fr"], div[style*="gridTemplateColumns:1fr 1fr"] { grid-template-columns: 1fr !important; }
   /* 패딩 축소 */
   div[style*="padding: 28px"], div[style*="padding:28px"] { padding: 16px !important; }
   div[style*="padding: 32px"], div[style*="padding:32px"] { padding: 16px !important; }
-
-  /* 메인 섹션 마진 축소 */
+  /* 섹션 마진 더 축소 */
   section[style*="margin-bottom:80px"], section[style*="margin-bottom: 80px"] { margin-bottom: 24px !important; }
   section[style*="margin:40px auto 80px"] { margin: 16px auto 24px !important; }
   section[style*="padding:0 52px"], section[style*="padding: 0 52px"] { padding: 0 12px !important; }
-
+  /* 매물카드 사진 높이 줄임 */
+  a[href*="/cars/"] > div[style*="display: flex"] > div[style*="flex-shrink: 0"]:first-child > div { height: 120px !important; }
   /* 챗봇 전체화면 */
   div[style*="max-width: 400"], div[style*="maxWidth: 400"] { max-width: 100% !important; }
-
   /* 미리보기 사진 */
   div[style*="width: 140"][style*="height: 100"] { width: 100px !important; height: 72px !important; }
+  /* 딜러 대시보드 카드 사진 */
+  div[style*="width: 100px"][style*="height: 75px"] { width: 60px !important; height: 45px !important; }
 }
 
 /* ═══ 폴드 (320px) ═══ */
