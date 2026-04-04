@@ -1,4 +1,4 @@
-// 📁 저장 경로: app/api/dealer/cars/route.ts
+// 📁 저장 경로: app/api/dealer/transactions/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyToken } from "@/lib/auth";
@@ -11,19 +11,23 @@ export async function GET(req: NextRequest) {
     const dealer = await prisma.dealer.findUnique({ where: { userId: user.id } });
     if (!dealer) return NextResponse.json({ error: "딜러 정보 없음" }, { status: 404 });
 
-    const cars = await prisma.car.findMany({
+    const carIds = (await prisma.car.findMany({
       where: { dealerId: dealer.id },
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true, name: true, brand: true, year: true, mileage: true,
-        price: true, status: true, views: true, images: true, createdAt: true,
-        fuel: true, color: true, region: true, transmission: true,
+      select: { id: true },
+    })).map(c => c.id);
+
+    const purchases = await prisma.purchase.findMany({
+      where: { carId: { in: carIds } },
+      include: {
+        car: { select: { name: true, brand: true, price: true } },
+        user: { select: { name: true, phone: true } },
       },
+      orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json({ success: true, data: cars });
+    return NextResponse.json({ success: true, data: purchases });
   } catch (e) {
-    console.error("Dealer cars error:", e);
+    console.error("Transactions error:", e);
     return NextResponse.json({ error: "조회 실패" }, { status: 500 });
   }
 }
