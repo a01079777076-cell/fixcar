@@ -1,204 +1,234 @@
-"use client";
-import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { ChevronLeft, Send, Trash2, Eye, MessageSquare, ThumbsUp, Heart } from "lucide-react";
+// 📁 저장 경로: app/community/[id]/page.tsx
+'use client';
 
-interface Post { id:number; title:string; content:string; category:string; views:number; likes:number; createdAt:string; updatedAt?:string; authorId:number; author:{name:string;nickname?:string} }
-interface Comment { id:number; content:string; createdAt:string; authorId:number; author:{name:string;nickname?:string} }
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
+import CommunityReplies from '@/components/CommunityReplies';
+import ReportModal from '@/components/ReportModal';
+
+interface CommunityPost {
+  id: number;
+  title: string;
+  content: string;
+  category: string;
+  views: number;
+  likes: number;
+  createdAt: string;
+  updatedAt: string;
+  author: {
+    id: number;
+    nickname: string;
+    name: string;
+    role: string;
+  };
+  _count?: {
+    replies: number;
+  };
+}
 
 export default function CommunityDetailPage() {
-  const { id } = useParams();
+  const params = useParams();
   const router = useRouter();
-  const [post, setPost] = useState<Post|null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const { user } = useAuth();
+  const [post, setPost] = useState<CommunityPost | null>(null);
   const [loading, setLoading] = useState(true);
-  const [newComment, setNewComment] = useState("");
-  const [sending, setSending] = useState(false);
-  const [userId, setUserId] = useState<number|null>(null);
-  const [userRole, setUserRole] = useState("");
   const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [editing, setEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState("");
-  const [editContent, setEditContent] = useState("");
-  const [editSaving, setEditSaving] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+
+  const postId = params.id as string;
 
   useEffect(() => {
-    fetch(`/api/community/${id}`).then(r=>r.json()).then(d=>{
-      if(d.post) { setPost(d.post); setLikeCount(d.post.likes||0); }
-      if(d.comments) setComments(d.comments);
+    fetchPost();
+  }, [postId]);
+
+  const fetchPost = async () => {
+    try {
+      const res = await fetch(`/api/community/${postId}`);
+      if (!res.ok) throw new Error('게시글을 찾을 수 없습니다');
+      const data = await res.json();
+      setPost(data.data || data);
+    } catch {
+      router.push('/community');
+    } finally {
       setLoading(false);
-    }).catch(()=>setLoading(false));
-    fetch("/api/auth/session").then(r=>r.json()).then(d=>{
-      if(d?.user?.id) { setUserId(d.user.id); setUserRole(d.user.role||""); }
-    }).catch(()=>{});
-  }, [id]);
+    }
+  };
 
   const handleLike = async () => {
-    if(!userId) { alert("로그인이 필요해요!"); return; }
-    if(liked) return;
+    if (!user) return alert('로그인이 필요합니다');
     try {
-      const res = await fetch("/api/community/like", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postId: Number(id) }),
-      });
-      const data = await res.json();
-      if(data.success) { setLiked(true); setLikeCount(data.likes || likeCount + 1); }
+      const res = await fetch(`/api/community/${postId}/like`, { method: 'POST' });
+      if (res.ok) {
+        setLiked(!liked);
+        setPost(prev => prev ? { ...prev, likes: prev.likes + (liked ? -1 : 1) } : prev);
+      }
     } catch {}
   };
 
-  const handleComment = async () => {
-    if(!newComment.trim()) return;
-    if(!userId) { alert("로그인이 필요해요!"); return; }
-    setSending(true);
+  const handleDelete = async () => {
+    if (!confirm('정말 삭제하시겠습니까?')) return;
     try {
-      const res = await fetch("/api/community/comments", {
-        method:"POST", headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({ postId:Number(id), content:newComment }),
-      });
-      const data = await res.json();
-      if(data.success && data.comment) { setComments(prev=>[...prev, data.comment]); setNewComment(""); }
-    } catch {}
-    setSending(false);
-  };
-
-  const handleDeleteComment = async (commentId:number) => {
-    if(!confirm("정말 이 댓글을 삭제하시겠습니까?")) return;
-    try {
-      const res = await fetch(`/api/community/comments?id=${commentId}`, { method:"DELETE" });
-      const data = await res.json();
-      if(data.success) setComments(prev=>prev.filter(c=>c.id!==commentId));
+      const res = await fetch(`/api/community/${postId}`, { method: 'DELETE' });
+      if (res.ok) router.push('/community');
     } catch {}
   };
 
-  const handleDeletePost = async () => {
-    if(!confirm(`정말 "${post?.title}" 글을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`)) return;
-    try {
-      const res = await fetch(`/api/community/${id}`, { method:"DELETE" });
-      const data = await res.json();
-      if(data.success) { alert("삭제 완료"); router.push("/community"); }
-    } catch {}
+  const categoryMap: Record<string, string> = {
+    free: '자유게시판',
+    review: '차량 후기',
+    qna: '질문/답변',
+    info: '정보 공유',
+    club: '모임/동호회',
   };
 
-  const startEdit = () => { if(post){ setEditTitle(post.title); setEditContent(post.content); setEditing(true); } };
-  const handleEdit = async () => {
-    if(!editTitle.trim()||!editContent.trim()){alert("제목과 내용을 입력해주세요");return;}
-    setEditSaving(true);
-    try {
-      const res = await fetch(`/api/community/${id}`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({title:editTitle,content:editContent})});
-      const data = await res.json();
-      if(data.success){ setPost({...post!,title:editTitle,content:editContent,updatedAt:new Date().toISOString()}); setEditing(false); }
-      else alert(data.error||"수정 실패");
-    } catch { alert("네트워크 오류"); }
-    setEditSaving(false);
+  const categoryColorMap: Record<string, string> = {
+    free: '#888',
+    review: '#2196F3',
+    qna: '#FF9800',
+    info: '#4CAF50',
+    club: '#E91E63',
   };
 
-  const displayName = (author:{name:string;nickname?:string}) => {
-    const nick = author.nickname || author.name;
-    if (userRole === "ADMIN" && author.nickname) {
-      return <>{nick} <span style={{fontSize:10,color:"#CCC",fontWeight:400}}>({author.name})</span></>;
-    }
-    return nick;
-  };
+  if (loading) {
+    return (
+      <div style={{ minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <p style={{ color: '#999' }}>로딩 중...</p>
+      </div>
+    );
+  }
 
-  if(loading) return <><Navbar/><div style={{textAlign:"center",padding:100,color:"#CCC"}}>로딩 중...</div></>;
-  if(!post) return <><Navbar/><div style={{textAlign:"center",padding:100}}><h2 style={{fontSize:20,fontWeight:800}}>글을 찾을 수 없어요</h2><Link href="/community" style={{color:"#FF3B1E",fontWeight:700,marginTop:12,display:"inline-block"}}>목록으로 →</Link></div></>;
+  if (!post) return null;
 
-  const isMyPost = userId === post.authorId;
-  const isAdmin = userRole === "ADMIN";
+  const isAuthor = user?.id === post.author.id;
+  const isAdmin = user?.role === 'ADMIN';
+  const canDelete = isAuthor || isAdmin;
+  const isEdited = post.updatedAt !== post.createdAt;
 
   return (
-    <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} textarea:focus{outline:none;border-color:#FF3B1E!important;}`}</style>
-      <Navbar/>
-      <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
-        <div style={{maxWidth:800,margin:"0 auto",padding:"28px 24px 100px"}}>
-          <Link href="/community" style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:13,fontWeight:700,color:"#888",marginBottom:16,textDecoration:"none"}}><ChevronLeft size={14}/>목록</Link>
+    <div style={{ maxWidth: 800, margin: '0 auto', padding: '24px 16px 80px' }}>
+      {/* 뒤로가기 */}
+      <Link href="/community" style={{ color: '#888', textDecoration: 'none', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
+        ‹ 목록
+      </Link>
 
-          <div style={{background:"white",borderRadius:20,padding:"32px 30px",marginBottom:16}}>
-            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12,flexWrap:"wrap"}}>
-              <span style={{fontSize:12,fontWeight:700,color:"#FF3B1E",background:"#FFF0ED",padding:"3px 10px",borderRadius:100}}>{post.category}</span>
-              <span style={{fontSize:12,color:"#CCC"}}>{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span>
-            </div>
-            <h1 style={{fontSize:22,fontWeight:800,marginBottom:16,lineHeight:1.4}}>{post.title}</h1>
-            <div style={{display:"flex",gap:16,fontSize:12,color:"#AAA",marginBottom:20,paddingBottom:16,borderBottom:"1px solid #F0EEE9",justifyContent:"space-between",alignItems:"center"}}>
-              <div style={{display:"flex",gap:16}}>
-                <span>👤 {displayName(post.author)}</span>
-                <span><Eye size={12} style={{verticalAlign:"middle"}}/> {post.views}</span>
-                <span><MessageSquare size={12} style={{verticalAlign:"middle"}}/> {comments.length}</span>
-              </div>
-              {(isMyPost || isAdmin) && (
-                <div style={{display:"flex",gap:6}}>
-                  {isMyPost&&<button onClick={startEdit} style={{border:"none",background:"#EEF5FF",padding:"5px 10px",borderRadius:6,fontSize:11,fontWeight:700,color:"#0066FF",cursor:"pointer",display:"flex",alignItems:"center",gap:4,fontFamily:"'NanumSquareRound',sans-serif"}}>
-                    ✏️ 수정
-                  </button>}
-                  <button onClick={handleDeletePost} style={{border:"none",background:"#FFF0ED",padding:"5px 10px",borderRadius:6,fontSize:11,fontWeight:700,color:"#E24B4A",cursor:"pointer",display:"flex",alignItems:"center",gap:4,fontFamily:"'NanumSquareRound',sans-serif"}}>
-                    <Trash2 size={10}/> 삭제
-                  </button>
-                </div>
-              )}
-            </div>
+      {/* 본문 카드 */}
+      <div style={{ background: '#fff', borderRadius: 16, padding: '28px 24px', marginBottom: 16 }}>
+        {/* 카테고리 + 날짜 */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+          <span style={{
+            padding: '3px 10px',
+            borderRadius: 20,
+            fontSize: 12,
+            fontWeight: 700,
+            color: '#fff',
+            background: categoryColorMap[post.category] || '#888',
+          }}>
+            {categoryMap[post.category] || post.category}
+          </span>
+          <span style={{ color: '#aaa', fontSize: 13 }}>
+            {new Date(post.createdAt).toLocaleDateString('ko-KR')}
+          </span>
+        </div>
 
-            {/* 수정 모드 */}
-            {editing?(
-              <div>
-                <input value={editTitle} onChange={e=>setEditTitle(e.target.value)} style={{width:"100%",padding:"12px 14px",border:"1.5px solid #DDEEFF",borderRadius:10,fontSize:16,fontWeight:700,fontFamily:"'NanumSquareRound',sans-serif",marginBottom:10}}/>
-                <textarea rows={8} value={editContent} onChange={e=>setEditContent(e.target.value)} style={{width:"100%",padding:"12px 14px",border:"1.5px solid #DDEEFF",borderRadius:10,fontSize:14,fontFamily:"'NanumSquareRound',sans-serif",resize:"none",lineHeight:1.8,marginBottom:10}}/>
-                <div style={{display:"flex",gap:8}}>
-                  <button onClick={handleEdit} disabled={editSaving} style={{padding:"10px 24px",background:"#0066FF",color:"white",border:"none",borderRadius:10,fontSize:13,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>{editSaving?"저장 중...":"수정 완료"}</button>
-                  <button onClick={()=>setEditing(false)} style={{padding:"10px 20px",background:"#F0EEE9",color:"#888",border:"none",borderRadius:10,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>취소</button>
-                </div>
-              </div>
-            ):(
-              <div>
-                {post.updatedAt&&post.updatedAt!==post.createdAt&&<div style={{fontSize:11,color:"#CCC",marginBottom:8}}>✏️ {new Date(post.updatedAt).toLocaleDateString("ko-KR")} 수정됨</div>}
-                <div style={{fontSize:15,color:"#333",lineHeight:2.0,whiteSpace:"pre-wrap"}}>{post.content}</div>
-              </div>
-            )}
+        {/* 제목 */}
+        <h1 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 14px', lineHeight: 1.3, color: '#1a1a1a' }}>
+          {post.title}
+        </h1>
 
-            {/* ═══ 좋아요 버튼 ═══ */}
-            <div style={{display:"flex",justifyContent:"center",marginTop:28,paddingTop:20,borderTop:"1px solid #F0EEE9"}}>
-              <button onClick={handleLike} disabled={liked} style={{
-                display:"flex",flexDirection:"column",alignItems:"center",gap:6,
-                padding:"16px 32px",borderRadius:16,cursor:liked?"default":"pointer",
-                border:liked?"2px solid #FF3B1E":"2px solid #E0DDD7",
-                background:liked?"#FFF0ED":"white",
-                fontFamily:"'NanumSquareRound',sans-serif",transition:"all 0.2s",
-              }}>
-                <Heart size={24} color="#FF3B1E" fill={liked?"#FF3B1E":"none"} style={{transition:"all 0.2s"}}/>
-                <span style={{fontSize:18,fontWeight:800,color:liked?"#FF3B1E":"#888"}}>{likeCount}</span>
-                <span style={{fontSize:11,color:liked?"#FF3B1E":"#CCC",fontWeight:700}}>{liked?"추천완료":"추천"}</span>
-              </button>
-            </div>
+        {/* 작성자 정보 + 조회수 + 액션 */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 14, color: '#555' }}>
+              👤 {post.author.nickname}
+              <span style={{ color: '#aaa', fontSize: 12 }}> ({post.author.name})</span>
+            </span>
+            <span style={{ fontSize: 13, color: '#bbb' }}>👁 {post.views}</span>
           </div>
-
-          {/* 댓글 */}
-          <div style={{background:"white",borderRadius:20,padding:"24px 26px"}}>
-            <h3 style={{fontSize:16,fontWeight:800,marginBottom:16}}>💬 댓글 ({comments.length})</h3>
-            <div style={{display:"flex",gap:8,marginBottom:20}}>
-              <textarea rows={2} value={newComment} onChange={e=>setNewComment(e.target.value)} placeholder={userId?"댓글을 입력하세요":"로그인 후 댓글을 작성할 수 있어요"} disabled={!userId} style={{flex:1,padding:"12px 14px",border:"1.5px solid #E0DDD7",borderRadius:10,fontSize:14,fontFamily:"'NanumSquareRound',sans-serif",resize:"none"}}/>
-              <button onClick={handleComment} disabled={sending||!userId} style={{padding:"12px 18px",background:userId?"#FF3B1E":"#CCC",color:"white",border:"none",borderRadius:10,cursor:userId?"pointer":"not-allowed",fontFamily:"'NanumSquareRound',sans-serif",alignSelf:"flex-end"}}>
-                <Send size={16}/>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {/* 🚨 신고 버튼 - Fix #3 */}
+            {user && !isAuthor && (
+              <button
+                onClick={() => setShowReport(true)}
+                style={{
+                  padding: '5px 12px',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: 8,
+                  background: '#fff',
+                  color: '#999',
+                  fontSize: 13,
+                  cursor: 'pointer',
+                }}
+              >
+                🚨 신고
               </button>
-            </div>
-            {comments.length===0?<div style={{textAlign:"center",padding:"20px",color:"#CCC",fontSize:14}}>아직 댓글이 없어요. 첫 댓글을 남겨보세요!</div>:
-            comments.map(c=>(
-              <div key={c.id} style={{padding:"14px 0",borderBottom:"1px solid #F0EEE9"}}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-                  <span style={{fontSize:13,fontWeight:800}}>{displayName(c.author)}</span>
-                  <div style={{display:"flex",alignItems:"center",gap:8}}>
-                    <span style={{fontSize:11,color:"#CCC"}}>{new Date(c.createdAt).toLocaleDateString("ko-KR")}</span>
-                    {(userId===c.authorId||isAdmin)&&<button onClick={()=>handleDeleteComment(c.id)} style={{border:"none",background:"transparent",cursor:"pointer",color:"#CCC"}}><Trash2 size={12}/></button>}
-                  </div>
-                </div>
-                <p style={{fontSize:14,color:"#555",lineHeight:1.7}}>{c.content}</p>
-              </div>
-            ))}
+            )}
+            {canDelete && (
+              <button
+                onClick={handleDelete}
+                style={{
+                  padding: '5px 12px',
+                  border: '1px solid #ffcdd2',
+                  borderRadius: 8,
+                  background: '#fff',
+                  color: '#e53935',
+                  fontSize: 13,
+                  cursor: 'pointer',
+                }}
+              >
+                🗑 삭제
+              </button>
+            )}
           </div>
         </div>
+
+        {/* 수정됨 표시 */}
+        {isEdited && (
+          <p style={{ fontSize: 12, color: '#bbb', marginBottom: 16 }}>
+            ✏️ {new Date(post.updatedAt).toLocaleDateString('ko-KR')} 수정됨
+          </p>
+        )}
+
+        {/* 본문 */}
+        <div style={{ fontSize: 15, lineHeight: 1.8, color: '#333', whiteSpace: 'pre-wrap', marginBottom: 28 }}>
+          {post.content}
+        </div>
+
+        {/* 추천 */}
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '20px 0' }}>
+          <button
+            onClick={handleLike}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 4,
+              padding: '16px 32px',
+              border: liked ? '2px solid #FF3B1E' : '2px solid #e0e0e0',
+              borderRadius: 16,
+              background: liked ? '#FFF5F4' : '#fff',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            <span style={{ fontSize: 24 }}>{liked ? '❤' : '🤍'}</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: liked ? '#FF3B1E' : '#333' }}>{post.likes}</span>
+            <span style={{ fontSize: 12, color: '#999' }}>추천</span>
+          </button>
+        </div>
       </div>
-    </>
+
+      {/* 댓글 섹션 */}
+      <CommunityReplies postId={Number(postId)} user={user} />
+
+      {/* 🚨 신고 모달 - Fix #3 */}
+      {showReport && (
+        <ReportModal
+          postId={Number(postId)}
+          onClose={() => setShowReport(false)}
+        />
+      )}
+    </div>
   );
 }

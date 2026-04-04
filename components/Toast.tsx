@@ -1,75 +1,96 @@
 // 📁 저장 경로: components/Toast.tsx
-"use client";
-import { useState, useEffect, createContext, useContext, useCallback, ReactNode } from "react";
-import { CheckCircle, AlertTriangle, X, Info } from "lucide-react";
+'use client';
 
-interface ToastItem {
+import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+
+interface Toast {
   id: number;
   message: string;
-  type: "success" | "error" | "warning" | "info";
+  type: 'success' | 'error' | 'info' | 'warning';
 }
 
-interface ToastCtx {
-  toast: (message: string, type?: ToastItem["type"]) => void;
+interface ToastContextType {
+  addToast: (message: string, type?: Toast['type']) => void;
 }
 
-const ToastContext = createContext<ToastCtx>({ toast: () => {} });
-export const useToast = () => useContext(ToastContext);
+const ToastContext = createContext<ToastContextType | null>(null);
 
-let toastId = 0;
+export function useToast() {
+  const context = useContext(ToastContext);
+  if (!context) throw new Error('useToast must be used within ToastProvider');
+  return context;
+}
+
+const typeStyles: Record<Toast['type'], { bg: string; border: string; icon: string }> = {
+  success: { bg: '#F0FFF4', border: '#48BB78', icon: '✅' },
+  error: { bg: '#FFF5F5', border: '#F56565', icon: '❌' },
+  info: { bg: '#EBF8FF', border: '#4299E1', icon: 'ℹ️' },
+  warning: { bg: '#FFFFF0', border: '#ECC94B', icon: '⚠️' },
+};
 
 export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const toast = useCallback((message: string, type: ToastItem["type"] = "success") => {
-    const id = ++toastId;
+  const addToast = useCallback((message: string, type: Toast['type'] = 'info') => {
+    const id = Date.now();
     setToasts(prev => [...prev, { id, message, type }]);
-    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 3000);
   }, []);
 
-  const remove = (id: number) => setToasts(prev => prev.filter(t => t.id !== id));
-
-  const icons = {
-    success: <CheckCircle size={16} />,
-    error: <AlertTriangle size={16} />,
-    warning: <AlertTriangle size={16} />,
-    info: <Info size={16} />,
-  };
-  const colors = {
-    success: { bg: "#EAF6EF", border: "#B8DFC8", text: "#2D8A52" },
-    error: { bg: "#FFF0ED", border: "#FFD4CC", text: "#E24B4A" },
-    warning: { bg: "#FFF8E0", border: "#FFE8A0", text: "#C4A060" },
-    info: { bg: "#EEF5FF", border: "#DDEEFF", text: "#0066FF" },
-  };
-
   return (
-    <ToastContext.Provider value={{ toast }}>
+    <ToastContext.Provider value={{ addToast }}>
       {children}
-      {/* 토스트 컨테이너 */}
-      <div style={{
-        position: "fixed", top: 80, right: 20, zIndex: 10001,
-        display: "flex", flexDirection: "column", gap: 8,
-        pointerEvents: "none", maxWidth: 360,
-      }}>
-        {toasts.map(t => {
-          const c = colors[t.type];
+
+      {/* Toast Container */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 20,
+          right: 20,
+          zIndex: 99999,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+          pointerEvents: 'none',
+        }}
+      >
+        {toasts.map(toast => {
+          const style = typeStyles[toast.type];
           return (
-            <div key={t.id} style={{
-              background: c.bg, border: `1.5px solid ${c.border}`, borderRadius: 14,
-              padding: "14px 18px", display: "flex", alignItems: "center", gap: 10,
-              boxShadow: "0 4px 16px rgba(0,0,0,0.08)", pointerEvents: "auto",
-              animation: "toastSlideIn 0.3s ease-out",
-            }}>
-              <div style={{ color: c.text, flexShrink: 0 }}>{icons[t.type]}</div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: c.text, flex: 1 }}>{t.message}</div>
-              <button onClick={() => remove(t.id)} style={{ border: "none", background: "none", cursor: "pointer", color: c.text, padding: 2, flexShrink: 0 }}>
-                <X size={14} />
-              </button>
+            <div
+              key={toast.id}
+              style={{
+                background: style.bg,
+                border: `1px solid ${style.border}`,
+                borderRadius: 12,
+                padding: '12px 20px',
+                fontSize: 14,
+                fontWeight: 600,
+                color: '#333',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                animation: 'toastSlideIn 0.3s ease-out',
+                pointerEvents: 'auto',
+                maxWidth: 360,
+              }}
+            >
+              <span>{style.icon}</span>
+              <span>{toast.message}</span>
             </div>
           );
         })}
       </div>
-      <style>{`@keyframes toastSlideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }`}</style>
+
+      <style>{`
+        @keyframes toastSlideIn {
+          from { opacity: 0; transform: translateX(40px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
     </ToastContext.Provider>
   );
 }
