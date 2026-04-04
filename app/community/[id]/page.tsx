@@ -150,7 +150,7 @@ export default function CommunityDetailPage() {
             )}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            {/* 🚨 신고 버튼 */}
+            {/* 신고 버튼 */}
             {user && !isAuthor && (
               <button
                 onClick={() => setShowReport(true)}
@@ -223,8 +223,8 @@ export default function CommunityDetailPage() {
         </div>
       </div>
 
-      {/* 댓글 */}
-      <CommunityReplies postId={Number(postId)} user={user} />
+      {/* 댓글 — currentUserId prop 사용 */}
+      <CommunityReplies postId={Number(postId)} currentUserId={user?.id} />
 
       {/* 신고 모달 */}
       {showReport && (
