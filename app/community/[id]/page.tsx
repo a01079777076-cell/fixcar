@@ -8,6 +8,11 @@ import { useAuth } from '@/hooks/useAuth';
 import CommunityReplies from '@/components/CommunityReplies';
 import ReportModal from '@/components/ReportModal';
 
+interface PostAuthor {
+  name: string;
+  nickname: string;
+}
+
 interface CommunityPost {
   id: number;
   title: string;
@@ -15,17 +20,12 @@ interface CommunityPost {
   category: string;
   views: number;
   likes: number;
+  authorId: number;
   createdAt: string;
   updatedAt: string;
-  author: {
-    id: number;
-    nickname: string;
-    name: string;
-    role: string;
-  };
-  _count?: {
-    replies: number;
-  };
+  status: string;
+  flagReason: string | null;
+  author: PostAuthor;
 }
 
 export default function CommunityDetailPage() {
@@ -48,7 +48,8 @@ export default function CommunityDetailPage() {
       const res = await fetch(`/api/community/${postId}`);
       if (!res.ok) throw new Error('게시글을 찾을 수 없습니다');
       const data = await res.json();
-      setPost(data.data || data);
+      // API 응답: { post: {...}, comments: [...] }
+      setPost(data.post);
     } catch {
       router.push('/community');
     } finally {
@@ -78,9 +79,14 @@ export default function CommunityDetailPage() {
   const categoryMap: Record<string, string> = {
     free: '자유게시판',
     review: '차량 후기',
+    '질문/답변': '질문/답변',
     qna: '질문/답변',
+    '정보 공유': '정보 공유',
     info: '정보 공유',
+    '모임/동호회': '모임/동호회',
     club: '모임/동호회',
+    '차량 후기': '차량 후기',
+    '자유게시판': '자유게시판',
   };
 
   const categoryColorMap: Record<string, string> = {
@@ -89,6 +95,11 @@ export default function CommunityDetailPage() {
     qna: '#FF9800',
     info: '#4CAF50',
     club: '#E91E63',
+    '자유게시판': '#888',
+    '차량 후기': '#2196F3',
+    '질문/답변': '#FF9800',
+    '정보 공유': '#4CAF50',
+    '모임/동호회': '#E91E63',
   };
 
   if (loading) {
@@ -101,7 +112,7 @@ export default function CommunityDetailPage() {
 
   if (!post) return null;
 
-  const isAuthor = user?.id === post.author.id;
+  const isAuthor = user?.id === post.authorId;
   const isAdmin = user?.role === 'ADMIN';
   const canDelete = isAuthor || isAdmin;
   const isEdited = post.updatedAt !== post.createdAt;
@@ -145,9 +156,6 @@ export default function CommunityDetailPage() {
               <span style={{ color: '#aaa', fontSize: 12 }}> ({post.author.name})</span>
             </span>
             <span style={{ fontSize: 13, color: '#bbb' }}>👁 {post.views}</span>
-            {post._count?.replies !== undefined && (
-              <span style={{ fontSize: 13, color: '#bbb' }}>💬 {post._count.replies}</span>
-            )}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             {/* 신고 버튼 */}
@@ -162,7 +170,6 @@ export default function CommunityDetailPage() {
                   color: '#999',
                   fontSize: 13,
                   cursor: 'pointer',
-                  transition: 'all 0.15s',
                 }}
               >
                 🚨 신고
@@ -223,7 +230,7 @@ export default function CommunityDetailPage() {
         </div>
       </div>
 
-      {/* 댓글 — currentUserId prop 사용 */}
+      {/* 댓글 */}
       <CommunityReplies postId={Number(postId)} currentUserId={user?.id} />
 
       {/* 신고 모달 */}
