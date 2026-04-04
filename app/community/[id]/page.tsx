@@ -138,16 +138,19 @@ export default function CommunityDetailPage() {
         </h1>
 
         {/* 작성자 정보 + 조회수 + 액션 */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: 14, color: '#555' }}>
               👤 {post.author.nickname}
               <span style={{ color: '#aaa', fontSize: 12 }}> ({post.author.name})</span>
             </span>
             <span style={{ fontSize: 13, color: '#bbb' }}>👁 {post.views}</span>
+            {post._count?.replies !== undefined && (
+              <span style={{ fontSize: 13, color: '#bbb' }}>💬 {post._count.replies}</span>
+            )}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            {/* 🚨 신고 버튼 - Fix #3 */}
+            {/* 🚨 신고 버튼 */}
             {user && !isAuthor && (
               <button
                 onClick={() => setShowReport(true)}
@@ -159,6 +162,7 @@ export default function CommunityDetailPage() {
                   color: '#999',
                   fontSize: 13,
                   cursor: 'pointer',
+                  transition: 'all 0.15s',
                 }}
               >
                 🚨 신고
@@ -219,10 +223,10 @@ export default function CommunityDetailPage() {
         </div>
       </div>
 
-      {/* 댓글 섹션 */}
+      {/* 댓글 */}
       <CommunityReplies postId={Number(postId)} user={user} />
 
-      {/* 🚨 신고 모달 - Fix #3 */}
+      {/* 신고 모달 */}
       {showReport && (
         <ReportModal
           postId={Number(postId)}

@@ -1,6 +1,5 @@
 // 📁 저장 경로: app/providers.tsx
-// ⚠️ 기존 providers.tsx가 있다면 ToastProvider 래핑만 추가하면 됩니다.
-// 기존 파일이 없거나 구조가 다르면 이 파일로 교체하세요.
+// ⚠️ AuthProvider import 경로가 다르면 기존 경로로 수정하세요
 'use client';
 
 import { ReactNode } from 'react';

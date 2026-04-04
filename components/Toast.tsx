@@ -42,8 +42,6 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-
-      {/* Toast Container */}
       <div
         style={{
           position: 'fixed',
@@ -57,13 +55,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         }}
       >
         {toasts.map(toast => {
-          const style = typeStyles[toast.type];
+          const s = typeStyles[toast.type];
           return (
             <div
               key={toast.id}
               style={{
-                background: style.bg,
-                border: `1px solid ${style.border}`,
+                background: s.bg,
+                border: `1px solid ${s.border}`,
                 borderRadius: 12,
                 padding: '12px 20px',
                 fontSize: 14,
@@ -78,13 +76,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 maxWidth: 360,
               }}
             >
-              <span>{style.icon}</span>
+              <span>{s.icon}</span>
               <span>{toast.message}</span>
             </div>
           );
         })}
       </div>
-
       <style>{`
         @keyframes toastSlideIn {
           from { opacity: 0; transform: translateX(40px); }
