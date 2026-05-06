@@ -1,7 +1,7 @@
 // 📁 저장 경로: components/FaqChatbot.tsx
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, ChevronRight } from "lucide-react";
+import { MessageCircle, X, Send, ChevronRight, ChevronDown } from "lucide-react";
 
 const FAQ_DATA = [
   { q: "중고차 구매 절차가 어떻게 되나요?", a: "1) 매물 검색 → 2) 딜러 문의 → 3) 차량 확인/시승 → 4) 계약 → 5) 결제(할부/일시불) → 6) 명의이전 → 7) 보험가입 → 인수 완료!\n\n픽스카에서는 모든 과정을 딜러가 안내해드립니다." },
@@ -52,18 +52,38 @@ export default function FaqChatbot() {
   const [tmi, setTmi] = useState("");
   const [showTmi, setShowTmi] = useState(false);
   const msgEndRef = useRef<HTMLDivElement>(null);
+  const disabledRef = useRef(false);
 
-  /* 방문 시 1회 TMI 말풍선 */
+  /* TMI 말풍선 순환 — 20초 노출 / 5초 쉼 / 랜덤 새 문구 */
   useEffect(() => {
-    const key = "fixcar_tmi_shown";
-    if (sessionStorage.getItem(key)) return;
-    const randomTmi = CAR_TMI[Math.floor(Math.random() * CAR_TMI.length)];
-    setTmi(randomTmi);
-    const timer1 = setTimeout(() => setShowTmi(true), 2000);
-    const timer2 = setTimeout(() => setShowTmi(false), 12000);
-    sessionStorage.setItem(key, "1");
-    return () => { clearTimeout(timer1); clearTimeout(timer2); };
+    const disabledUntil = localStorage.getItem("fixcar_tmi_disabled_until");
+    if (disabledUntil && Date.now() < Number(disabledUntil)) {
+      disabledRef.current = true;
+      return;
+    }
+
+    let timer: ReturnType<typeof setTimeout>;
+
+    const showNext = () => {
+      if (disabledRef.current) return;
+      setTmi(CAR_TMI[Math.floor(Math.random() * CAR_TMI.length)]);
+      setShowTmi(true);
+      timer = setTimeout(() => {
+        if (disabledRef.current) return;
+        setShowTmi(false);
+        timer = setTimeout(showNext, 5000);
+      }, 20000);
+    };
+
+    timer = setTimeout(showNext, 2000);
+    return () => clearTimeout(timer);
   }, []);
+
+  const disableForDay = () => {
+    localStorage.setItem("fixcar_tmi_disabled_until", String(Date.now() + 24 * 60 * 60 * 1000));
+    disabledRef.current = true;
+    setShowTmi(false);
+  };
 
   /* 자동 스크롤 */
   useEffect(() => {
@@ -106,6 +126,11 @@ export default function FaqChatbot() {
         }}>
           <div style={{ fontSize: 10, fontWeight: 800, color: "#FF3B1E", marginBottom: 6, letterSpacing: 1 }}>🚗 자동차 TMI</div>
           <div style={{ fontSize: 13, color: "#444", lineHeight: 1.7, fontWeight: 500 }}>{tmi}</div>
+          <button onClick={(e) => { e.stopPropagation(); disableForDay(); }} style={{
+            marginTop: 10, padding: "5px 10px", background: "transparent", border: "1px solid #E0DDD7",
+            borderRadius: 8, fontSize: 11, color: "#999", cursor: "pointer", fontWeight: 600,
+            fontFamily: "'NanumSquareRound',sans-serif",
+          }}>오늘 하루 끄기</button>
           <button onClick={(e) => { e.stopPropagation(); setShowTmi(false); }} style={{
             position: "absolute", top: -8, right: -8, width: 22, height: 22, borderRadius: "50%",
             background: "#F0EEE9", border: "1px solid #E0DDD7", cursor: "pointer",
@@ -132,7 +157,7 @@ export default function FaqChatbot() {
       {open && (
         <div style={{
           position: "fixed", bottom: 0, right: 0, width: "100%", maxWidth: 400, height: "100dvh",
-          background: "white", zIndex: 9990, display: "flex", flexDirection: "column",
+          background: "white", zIndex: 10001, display: "flex", flexDirection: "column",
           boxShadow: "-4px 0 24px rgba(0,0,0,0.1)",
         }}>
           {/* 헤더 */}
@@ -141,8 +166,17 @@ export default function FaqChatbot() {
               <div style={{ fontSize: 16, fontWeight: 800, color: "white" }}>픽스카 도우미</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.7)" }}>자주 묻는 질문 자동 응답</div>
             </div>
-            <button onClick={() => setOpen(false)} style={{ border: "none", background: "rgba(255,255,255,0.2)", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-              <X size={18} color="white" />
+            <button
+              aria-label="축소"
+              onClick={() => setOpen(false)}
+              style={{
+                border: "none", background: "white", borderRadius: "50%",
+                width: 40, height: 40, display: "flex", alignItems: "center",
+                justifyContent: "center", cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+              }}
+            >
+              <ChevronDown size={22} color="#FF3B1E" strokeWidth={2.5} />
             </button>
           </div>
 

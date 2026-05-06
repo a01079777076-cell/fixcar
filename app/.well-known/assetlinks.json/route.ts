@@ -1,0 +1,23 @@
+import { NextResponse } from "next/server";
+
+const assetlinks = [
+  {
+    relation: ["delegate_permission/common.handle_all_urls"],
+    target: {
+      namespace: "android_app",
+      package_name: "kr.fixcar.app",
+      sha256_cert_fingerprints: [
+        "BF:23:89:B5:EF:96:08:40:35:FF:F7:63:1A:11:67:71:00:69:0F:A0:1D:5C:FC:CE:01:CC:11:36:D5:02:86:AD",
+      ],
+    },
+  },
+];
+
+export async function GET() {
+  return NextResponse.json(assetlinks, {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, max-age=86400",
+    },
+  });
+}

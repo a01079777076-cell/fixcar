@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   authors:   [{ name: "픽스카 FIXCAR", url: "https://www.fixcar.kr" }],
   creator:   "픽스카 FIXCAR",
   publisher: "픽스카 FIXCAR",
-  robots:    { index: false, follow: false, googleBot: { index: false, follow: false } },
+  robots:    { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
     type:        "website",
     locale:      "ko_KR",
@@ -48,7 +48,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.fixcar.kr" },
   icons: {
     icon:      [{ url: "/favicon.svg", type: "image/svg+xml" }, { url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
-    apple:     [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple:     [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
     shortcut:  "/favicon.svg",
   },
   /* PWA manifest */
@@ -182,6 +185,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <meta name="msapplication-TileImage"             content="/icon-192.png" />
         <meta name="msapplication-config"                content="none" />
         <meta name="format-detection"                    content="telephone=no" />
+
+        {/* ── iOS 앱 연결 (Apple App Store ID 발급 후 교체) ── */}
+        <meta name="apple-itunes-app"                    content="app-id=000000000, app-argument=https://www.fixcar.kr" />
+
+        {/* ── iOS 스플래시 스크린 ── */}
+        <link rel="apple-touch-startup-image" href="/icon-512.png" />
+
+        {/* ── Android 앱 연결 ── */}
+        <meta name="google-play-app"                     content="app-id=kr.fixcar.app" />
 
         {/* ── JSON-LD 구조화 데이터 ── */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdAutoDealer) }} />

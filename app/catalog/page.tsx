@@ -13,6 +13,7 @@ export default function CatalogPage() {
 
   const brands = tab === "domestic" ? DOMESTIC_BRANDS : IMPORT_BRANDS;
 const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
+  const mobileStep: "brand" | "model" | "detail" = !brand ? "brand" : !selectedModel ? "model" : "detail";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const spec = selectedModel ? (CAR_SPECS as any)[selectedModel] : null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,7 +33,16 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
         body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;}
         .brand-btn{transition:all 0.15s;cursor:pointer;} .brand-btn:hover{background:#FFF0ED!important;}
         .model-btn{transition:all 0.15s;cursor:pointer;} .model-btn:hover{background:#EEF2FF!important;}
-        @media(max-width:1024px){.catalog-grid{grid-template-columns:1fr!important;}.sidebar{display:none!important;}}
+        .mobile-back{display:none;}
+        @media(max-width:1024px){
+          .catalog-grid{grid-template-columns:1fr!important;}
+          .col-brand,.col-model,.col-detail{display:none;}
+          .step-brand .col-brand{display:block!important;}
+          .step-model .col-model{display:block!important;}
+          .step-detail .col-detail{display:block!important;}
+          .sidebar{position:static!important;max-height:none!important;overflow-y:visible!important;}
+          .mobile-back{display:flex!important;}
+        }
       `}</style>
       <Navbar/>
       <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
@@ -57,9 +67,9 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
             ))}
           </div>
 
-          <div className="catalog-grid" style={{display:"grid",gridTemplateColumns:"220px 220px 1fr",gap:16,alignItems:"start"}}>
+          <div className={`catalog-grid step-${mobileStep}`} style={{display:"grid",gridTemplateColumns:"220px 220px 1fr",gap:16,alignItems:"start"}}>
             {/* 1열: 브랜드 */}
-            <div className="sidebar" style={{background:"white",borderRadius:18,padding:"16px 14px",position:"sticky",top:80,maxHeight:"calc(100vh - 100px)",overflowY:"auto"}}>
+            <div className="sidebar col-brand" style={{background:"white",borderRadius:18,padding:"16px 14px",position:"sticky",top:80,maxHeight:"calc(100vh - 100px)",overflowY:"auto"}}>
               <div style={{fontSize:13,fontWeight:800,marginBottom:12,color:"#888"}}>{tab==="domestic"?"국산":"수입"} 브랜드</div>
               {brands.map(b=>(
                 <button key={b} className="brand-btn" onClick={()=>{setBrand(b);setSelectedModel("");}} style={{
@@ -75,7 +85,16 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
             </div>
 
             {/* 2열: 모델 */}
-            <div className="sidebar" style={{background:"white",borderRadius:18,padding:"16px 14px",position:"sticky",top:80,maxHeight:"calc(100vh - 100px)",overflowY:"auto"}}>
+            <div className="sidebar col-model" style={{background:"white",borderRadius:18,padding:"16px 14px",position:"sticky",top:80,maxHeight:"calc(100vh - 100px)",overflowY:"auto"}}>
+              <button
+                className="mobile-back"
+                onClick={()=>setBrand("")}
+                style={{
+                  alignItems:"center",gap:6,padding:"6px 4px",marginBottom:10,
+                  background:"transparent",border:"none",fontSize:13,fontWeight:700,color:"#888",
+                  cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",
+                }}
+              >← 브랜드 목록</button>
               {brand ? (
                 <>
                   <div style={{fontSize:13,fontWeight:800,marginBottom:12,color:"#888"}}>{brand} 모델</div>
@@ -100,7 +119,16 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
             </div>
 
             {/* 3열: 상세 정보 */}
-            <div>
+            <div className="col-detail">
+              <button
+                className="mobile-back"
+                onClick={()=>setSelectedModel("")}
+                style={{
+                  alignItems:"center",gap:6,padding:"6px 4px",marginBottom:10,
+                  background:"transparent",border:"none",fontSize:13,fontWeight:700,color:"#888",
+                  cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif",
+                }}
+              >← {brand} 모델 목록</button>
               {selectedModel && spec ? (
                 <div style={{display:"flex",flexDirection:"column",gap:16}}>
                   {/* 차량명 + 세그먼트 */}
