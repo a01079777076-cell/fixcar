@@ -20,15 +20,8 @@ const FONTS: { label: string; val: string }[] = [
   { label: "바른히피",   val: "NanumBarunHipi" },
 ];
 
-const SIZES = [
-  { label: "아주 작게", val: "1" },
-  { label: "작게",     val: "2" },
-  { label: "보통",     val: "3" },
-  { label: "조금 크게", val: "4" },
-  { label: "크게",     val: "5" },
-  { label: "아주 크게", val: "6" },
-  { label: "최대",     val: "7" },
-];
+/* pt 프리셋 (네이버 블로그 기준 자주 쓰이는 값) */
+const SIZES_PT = [10, 11, 12, 13, 14, 15, 16, 18, 20, 24, 28, 32, 36, 48];
 
 const COLORS = ["#1A1A1A","#FF3B1E","#1847FF","#2D8A52","#E8A020","#9B30FF","#888888","#FF6B9D"];
 
@@ -76,6 +69,7 @@ const EDITOR_CSS = `
 export default function BlogEditor({ value, onChange, onImageUpload }: Props) {
   const editorRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const ptInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [openMenu, setOpenMenu] = useState<"" | "color" | "size" | "font">("");
   const initializedRef = useRef(false);
@@ -107,6 +101,45 @@ export default function BlogEditor({ value, onChange, onImageUpload }: Props) {
 
   const syncContent = () => {
     if (editorRef.current) onChange(editorRef.current.innerHTML);
+  };
+
+  /* pt 단위 글자 크기 적용
+     - 선택 영역이 있으면: execCommand("fontSize","7") 로 정규화 → font[size=7] 을 span style 로 교체
+     - 커서만 있을 때: 영폭 공백을 가진 span 삽입 후 커서 진입 → 다음 입력부터 적용 */
+  const applyFontSize = (pt: number) => {
+    if (!pt || pt < 6 || pt > 200) return;
+    editorRef.current?.focus();
+    const sel = window.getSelection();
+    if (!sel) return;
+
+    if (sel.isCollapsed) {
+      const range = sel.getRangeAt(0);
+      const span = document.createElement("span");
+      span.style.fontSize = `${pt}pt`;
+      const zw = document.createTextNode("​");
+      span.appendChild(zw);
+      range.insertNode(span);
+      const newRange = document.createRange();
+      newRange.setStart(zw, 1);
+      newRange.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+    } else {
+      document.execCommand("fontSize", false, "7");
+      editorRef.current?.querySelectorAll('font[size="7"]').forEach((f) => {
+        const span = document.createElement("span");
+        span.style.fontSize = `${pt}pt`;
+        span.innerHTML = (f as HTMLElement).innerHTML;
+        /* 내부 span 의 옛 font-size 제거 (중첩 방지) */
+        span.querySelectorAll("span").forEach((s) => {
+          if (s.style.fontSize) s.style.fontSize = "";
+          if (!s.getAttribute("style")) s.removeAttribute("style");
+        });
+        f.replaceWith(span);
+      });
+    }
+    syncContent();
+    setOpenMenu("");
   };
 
   const applyFont = (val: string) => {
@@ -236,30 +269,71 @@ export default function BlogEditor({ value, onChange, onImageUpload }: Props) {
           <ToolBtn onClick={insertDivider} title="구분선"><Minus size={16}/></ToolBtn>
           <Sep />
 
-          {/* 글자 크기 */}
+          {/* 글자 크기 (pt 단위) */}
           <div style={{ position: "relative" }}>
-            <ToolBtn onClick={() => setOpenMenu(openMenu === "size" ? "" : "size")} title="글자 크기">
+            <ToolBtn onClick={() => setOpenMenu(openMenu === "size" ? "" : "size")} title="글자 크기 (pt)">
               <Type size={16}/>
             </ToolBtn>
             {openMenu === "size" && (
               <div style={{
                 position: "absolute", top: "100%", left: 0, marginTop: 4,
                 background: "white", borderRadius: 10,
-                boxShadow: "0 4px 20px rgba(0,0,0,0.15)", padding: 6, zIndex: 20, minWidth: 120,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.15)", padding: 8, zIndex: 20, minWidth: 220,
               }}>
-                {SIZES.map((s) => (
-                  <button
-                    key={s.val}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => { exec("fontSize", s.val); setOpenMenu(""); }}
+                {/* 직접 입력 */}
+                <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 8 }}>
+                  <input
+                    ref={ptInputRef}
+                    type="number"
+                    min={6}
+                    max={100}
+                    defaultValue={14}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        const v = Number((e.target as HTMLInputElement).value);
+                        if (v) applyFontSize(v);
+                      }
+                    }}
                     style={{
-                      display: "block", width: "100%", padding: "7px 14px", border: "none",
-                      background: "transparent", fontSize: 13, fontWeight: 600, color: "#333",
-                      textAlign: "left", cursor: "pointer", borderRadius: 6,
+                      width: 70, padding: "6px 8px", border: "1.5px solid #E0DDD7", borderRadius: 6,
+                      fontSize: 13, fontFamily: "'NanumSquareRound',sans-serif", outline: "none",
+                    }}
+                  />
+                  <span style={{ fontSize: 12, color: "#888", fontWeight: 700 }}>pt</span>
+                  <button
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                      const v = Number(ptInputRef.current?.value);
+                      if (v) applyFontSize(v);
+                    }}
+                    style={{
+                      padding: "6px 12px", border: "none", background: "#FF3B1E", color: "white",
+                      borderRadius: 6, fontSize: 12, fontWeight: 800, cursor: "pointer",
                       fontFamily: "'NanumSquareRound',sans-serif",
                     }}
-                  >{s.label}</button>
-                ))}
+                  >적용</button>
+                </div>
+                <div style={{ height: 1, background: "#F0EEE9", margin: "0 0 6px" }} />
+                {/* 프리셋 */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+                  {SIZES_PT.map((pt) => (
+                    <button
+                      key={pt}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => applyFontSize(pt)}
+                      style={{
+                        padding: "7px 0", border: "none", background: "transparent",
+                        fontSize: 13, fontWeight: 600, color: "#333",
+                        cursor: "pointer", borderRadius: 6,
+                        fontFamily: "'NanumSquareRound',sans-serif",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "#F0EEE9")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    >{pt}pt</button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
