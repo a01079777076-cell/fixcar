@@ -1,6 +1,7 @@
-/* ─── 픽스카 Service Worker v1.1 ─── */
-/* CSP 이슈 수정: Cloudinary 이미지 fetch 시 SW가 가로채지 않고 브라우저에 위임 */
-const CACHE_NAME = 'fixcar-v1.1';
+/* ─── 픽스카 Service Worker v1.2 ─── */
+/* v1.2: /_next/static/ 캐시 전략을 Stale-While-Revalidate 로 변경
+   (배포 후에도 옛 청크가 계속 보이던 문제 수정) */
+const CACHE_NAME = 'fixcar-v1.2';
 
 const PRECACHE_URLS = [
   '/',
@@ -56,16 +57,19 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  /* 2. Next.js 정적 파일 → Cache First */
+  /* 2. Next.js 정적 파일 → Stale-While-Revalidate
+     (Cache First 였을 때 배포 후 옛 청크가 영구 캐시되는 문제 수정) */
   if (url.pathname.startsWith('/_next/static/')) {
     event.respondWith(
       caches.match(request).then((cached) => {
-        if (cached) return cached;
-        return fetch(request).then((res) => {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then((c) => c.put(request, clone));
+        const fetchPromise = fetch(request).then((res) => {
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((c) => c.put(request, clone));
+          }
           return res;
-        });
+        }).catch(() => cached);
+        return cached || fetchPromise;
       })
     );
     return;
