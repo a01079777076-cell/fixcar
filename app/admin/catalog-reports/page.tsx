@@ -32,12 +32,22 @@ export default function AdminCatalogReportsPage() {
       });
   }, []);
 
+  const patchStatus = async (id: number, status: string) => {
+    try {
+      await fetch("/api/catalog/report", {
+        method: "PATCH", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+    } catch {}
+  };
+
   const handleAction = async (id: number, action: "APPROVED" | "SPAM") => {
     setReports(p => p.map(r => r.id === id ? { ...r, status: action } : r));
     if (action === "SPAM") {
       setReports(p => p.map(r => r.id === id ? { ...r, user: { ...r.user, spamCount: (r.user.spamCount || 0) + 1 } } : r));
     }
     setSelected(null);
+    await patchStatus(id, action);
   };
 
   const handleReply = async (id: number) => {
@@ -46,6 +56,7 @@ export default function AdminCatalogReportsPage() {
     setReports(p => p.map(r => r.id === id ? { ...r, status: "ANSWERED" } : r));
     setReply("");
     setSelected(null);
+    await patchStatus(id, "ANSWERED");
   };
 
   const pending = reports.filter(r => r.status === "PENDING").length;

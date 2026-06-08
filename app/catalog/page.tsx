@@ -6,6 +6,10 @@ import { BRAND_MODELS, CAR_SPECS, CAR_GRADES, CAR_TAX, CAR_ISSUES, CAR_HISTORY, 
 type BrandKey = keyof typeof BRAND_MODELS;
 type SpecKey = keyof typeof CAR_SPECS;
 
+/* 헤더 통계 — 실제 데이터 기반 자동 계산 */
+const BRAND_COUNT = DOMESTIC_BRANDS.length + IMPORT_BRANDS.length;
+const MODEL_COUNT = Object.values(BRAND_MODELS).reduce((sum, b) => sum + (b?.models?.length || 0), 0);
+
 export default function CatalogPage() {
   const [tab, setTab] = useState<"domestic"|"import">("domestic");
   const [brand, setBrand] = useState<string>("");
@@ -51,7 +55,7 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
           <div style={{maxWidth:1280,margin:"0 auto"}}>
             <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:12,letterSpacing:4,color:"#1847FF",marginBottom:6}}>CATALOG</div>
             <h1 style={{fontSize:28,fontWeight:800,color:"white",marginBottom:4}}>차량 카탈로그</h1>
-            <p style={{fontSize:13,color:"rgba(255,255,255,0.4)"}}>43개 브랜드 · 510개 모델 · 스펙·가격·고질병 전부</p>
+            <p style={{fontSize:13,color:"rgba(255,255,255,0.4)"}}>{BRAND_COUNT}개 브랜드 · {MODEL_COUNT}개 모델 · 스펙·가격·고질병 전부</p>
           </div>
         </div>
 
