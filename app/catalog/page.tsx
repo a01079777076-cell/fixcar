@@ -10,6 +10,28 @@ type SpecKey = keyof typeof CAR_SPECS;
 const BRAND_COUNT = DOMESTIC_BRANDS.length + IMPORT_BRANDS.length;
 const MODEL_COUNT = Object.values(BRAND_MODELS).reduce((sum, b) => sum + (b?.models?.length || 0), 0);
 
+/* 기본 모델 단위 정보(TAX/ISSUES/HISTORY) 폴백 조회.
+   - 정식 트림명으로 정확 매칭 실패 시: 공백 무시 + '최장 접두' 매칭으로 기본 모델 데이터를 찾음
+   - 예: "아이오닉 5 NE" → "아이오닉5", "아이오닉 5 N NE" → "아이오닉5 N"(더 긴 키 우선), "팰리세이드 LX2" → "팰리세이드"
+   - SPEC/GRADES(트림별 수치)에는 적용하지 않음 — 잘못된 스펙 노출 방지
+   - 매칭 없으면 null(기존 '준비중' 동작 유지) */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function lookupBase(table: Record<string, any>, model: string): any {
+  if (!model) return null;
+  if (table[model] !== undefined) return table[model];
+  const norm = (s: string) => s.replace(/\s+/g, "").toLowerCase();
+  /* 키를 공백 무시 형태로 색인 */
+  const byNorm: Record<string, string> = {};
+  for (const k of Object.keys(table)) byNorm[norm(k)] = k;
+  /* 모델명을 단어(토큰) 단위로 뒤에서부터 하나씩 떼며 '정확' 매칭 (트림 경계 보존) */
+  const tokens = model.split(/\s+/);
+  for (let n = tokens.length; n >= 1; n--) {
+    const cand = norm(tokens.slice(0, n).join(" "));
+    if (cand.length >= 2 && byNorm[cand] !== undefined) return table[byNorm[cand]];
+  }
+  return null;
+}
+
 export default function CatalogPage() {
   const [tab, setTab] = useState<"domestic"|"import">("domestic");
   const [brand, setBrand] = useState<string>("");
@@ -22,12 +44,9 @@ const models = brand ? (BRAND_MODELS[brand as BrandKey]?.models || []) : [];
   const spec = selectedModel ? (CAR_SPECS as any)[selectedModel] : null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const grades = selectedModel ? ((CAR_GRADES as any)[selectedModel] || []) as {grade:string;price:number;engine:string;power:string;torque:string;efficiency:string}[] : [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const taxInfo = selectedModel ? (CAR_TAX as any)[selectedModel] : null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const issueInfo = selectedModel ? (CAR_ISSUES as any)[selectedModel] : null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const historyInfo = selectedModel ? ((CAR_HISTORY as any)[selectedModel] || null) as {generation:string;period:string;code:string;note:string}[] | null : null;
+  const taxInfo = lookupBase(CAR_TAX, selectedModel);
+  const issueInfo = lookupBase(CAR_ISSUES, selectedModel);
+  const historyInfo = (lookupBase(CAR_HISTORY, selectedModel) || null) as {generation:string;period:string;code:string;note:string}[] | null;
   return (
     <>
       <style>{`
