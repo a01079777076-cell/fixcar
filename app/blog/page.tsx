@@ -24,12 +24,14 @@ function extractThumbnail(post: Post): string {
 }
 
 const CATEGORIES = ["전체", "구매 가이드", "차량 관리", "소모품/꿀템", "보험/금융", "초보 운전", "뉴스/이벤트"];
+const PER_PAGE = 8;
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("전체");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     fetch("/api/blog?limit=100").then(r => r.json()).then(d => {
@@ -55,6 +57,11 @@ export default function BlogPage() {
     if (!a.isPinned && b.isPinned) return 1;
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
+
+  /* 8개 단위 페이지네이션 */
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PER_PAGE));
+  const safePage = Math.min(page, totalPages);
+  const paged = sorted.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
 
   const togglePin = async (postId: number, currentlyPinned: boolean) => {
     if (!confirm(currentlyPinned ? "대표글 해제할까요?" : "이 글을 대표글로 설정할까요?\n메인 유용한 정보 섹션에서는 빠지고 목록 최상단에 고정됩니다.")) return;
@@ -106,7 +113,7 @@ export default function BlogPage() {
           {/* 카테고리 필터 */}
           <div style={{ display: "flex", gap: 6, marginBottom: 20, overflowX: "auto", paddingBottom: 4 }}>
             {CATEGORIES.map(c => (
-              <button key={c} onClick={() => setCategory(c)} style={{
+              <button key={c} onClick={() => { setCategory(c); setPage(1); }} style={{
                 padding: "10px 18px", borderRadius: 100, fontSize: 13, fontWeight: category === c ? 800 : 500, whiteSpace: "nowrap",
                 border: category === c ? "2px solid #FF3B1E" : "1.5px solid #E0DDD7",
                 background: category === c ? "#FFF0ED" : "white", color: category === c ? "#FF3B1E" : "#888",
@@ -120,8 +127,9 @@ export default function BlogPage() {
               아직 등록된 글이 없어요
             </div>
           ) : (
+            <>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 16 }}>
-              {sorted.map(post => {
+              {paged.map(post => {
                 const thumb = extractThumbnail(post);
                 return (
                   <div key={post.id} style={{ background: "white", borderRadius: 18, overflow: "hidden", position: "relative", border: post.isPinned ? "2px solid #FF3B1E" : "none" }}>
@@ -171,6 +179,45 @@ export default function BlogPage() {
                 );
               })}
             </div>
+
+            {/* 페이지네이션 (8개 단위) */}
+            {totalPages > 1 && (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 6, marginTop: 32 }}>
+                <button
+                  onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                  disabled={safePage === 1}
+                  style={{
+                    minWidth: 38, height: 38, borderRadius: 10, border: "1.5px solid #E0DDD7",
+                    background: "white", color: safePage === 1 ? "#DDD" : "#555", fontWeight: 700, fontSize: 14,
+                    cursor: safePage === 1 ? "default" : "pointer", fontFamily: "'NanumSquareRound',sans-serif",
+                  }}
+                >‹</button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+                  <button
+                    key={n}
+                    onClick={() => { setPage(n); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                    style={{
+                      minWidth: 38, height: 38, borderRadius: 10, fontSize: 14,
+                      fontWeight: n === safePage ? 800 : 600,
+                      border: n === safePage ? "2px solid #FF3B1E" : "1.5px solid #E0DDD7",
+                      background: n === safePage ? "#FFF0ED" : "white",
+                      color: n === safePage ? "#FF3B1E" : "#888",
+                      cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif",
+                    }}
+                  >{n}</button>
+                ))}
+                <button
+                  onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                  disabled={safePage === totalPages}
+                  style={{
+                    minWidth: 38, height: 38, borderRadius: 10, border: "1.5px solid #E0DDD7",
+                    background: "white", color: safePage === totalPages ? "#DDD" : "#555", fontWeight: 700, fontSize: 14,
+                    cursor: safePage === totalPages ? "default" : "pointer", fontFamily: "'NanumSquareRound',sans-serif",
+                  }}
+                >›</button>
+              </div>
+            )}
+            </>
           )}
         </div>
       </div>
