@@ -5,7 +5,7 @@ import Link from "next/link";
 interface BlogPost { id:number; title:string; summary?:string; category?:string; content?:string; tags?:string[]; createdAt:string; author?:{name?:string}; }
 
 function extractThumbnail(post: BlogPost): string {
-  if (post.summary && (post.summary.startsWith("http://") || post.summary.startsWith("https://"))) return post.summary;
+  if (post.summary && (post.summary.startsWith("http") || post.summary.startsWith("/"))) return post.summary;
   if (post.content) {
     const imgMatch = post.content.match(/<img[^>]+src=["']([^"']+)["']/);
     if (imgMatch) return imgMatch[1];

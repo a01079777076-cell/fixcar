@@ -11,7 +11,7 @@ interface Post {
 }
 
 function extractThumbnail(post: Post): string {
-  if (post.summary && (post.summary.startsWith("http://") || post.summary.startsWith("https://"))) return post.summary;
+  if (post.summary && (post.summary.startsWith("http") || post.summary.startsWith("/"))) return post.summary;
   if (post.content) {
     const imgMatch = post.content.match(/<img[^>]+src=["']([^"']+)["']/);
     if (imgMatch) return imgMatch[1];
@@ -57,7 +57,7 @@ export default function BlogPage() {
   });
 
   const togglePin = async (postId: number, currentlyPinned: boolean) => {
-    if (!confirm(currentlyPinned ? "대표글 해제할까요?" : "이 글을 대표글로 설정할까요?\n메인 블로그 섹션에서는 빠지고 목록 최상단에 고정됩니다.")) return;
+    if (!confirm(currentlyPinned ? "대표글 해제할까요?" : "이 글을 대표글로 설정할까요?\n메인 유용한 정보 섹션에서는 빠지고 목록 최상단에 고정됩니다.")) return;
     try {
       const post = posts.find(p => p.id === postId);
       if (!post) return;
@@ -89,8 +89,8 @@ export default function BlogPage() {
         <div style={{ background: "#1A1A1A", padding: "44px 24px 36px" }}>
           <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
-              <div style={{ fontFamily: "'Bebas Neue',serif", fontSize: 13, letterSpacing: 4, color: "#FF3B1E", marginBottom: 6 }}>FIXCAR BLOG</div>
-              <h1 style={{ fontSize: 28, fontWeight: 800, color: "white" }}>픽스카 블로그</h1>
+              <div style={{ fontFamily: "'Bebas Neue',serif", fontSize: 13, letterSpacing: 4, color: "#FF3B1E", marginBottom: 6 }}>FIXCAR USEFUL INFO</div>
+              <h1 style={{ fontSize: 28, fontWeight: 800, color: "white" }}>유용한 정보</h1>
             </div>
             {isAdmin && (
               <Link href="/blog/write">
@@ -117,7 +117,7 @@ export default function BlogPage() {
 
           {loading ? <div style={{ textAlign: "center", padding: 60, color: "#CCC" }}>로딩 중...</div> : sorted.length === 0 ? (
             <div style={{ background: "white", borderRadius: 18, padding: "60px 20px", textAlign: "center", color: "#CCC" }}>
-              아직 블로그 글이 없어요
+              아직 등록된 글이 없어요
             </div>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 16 }}>

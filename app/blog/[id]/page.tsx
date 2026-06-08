@@ -11,9 +11,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   try {
     const post = await prisma.blogPost.findUnique({ where:{ id:parseInt(id) } });
-    if (!post) return { title:"블로그" };
+    if (!post) return { title:"유용한 정보" };
     return { title:post.title, description:post.summary };
-  } catch { return { title:"블로그" }; }
+  } catch { return { title:"유용한 정보" }; }
 }
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -36,13 +36,13 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <>
-      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;}`}</style>
+      <style>{`@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css'); @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); *{margin:0;padding:0;box-sizing:border-box;} body{font-family:'NanumSquareRound',sans-serif;background:#F0EEE9;} a{text-decoration:none;color:inherit;}`}</style>
       <div style={{minHeight:"100vh",background:"#F0EEE9"}}>
         <Navbar/>
         <div style={{maxWidth:"760px",margin:"0 auto",padding:"28px 32px 80px"}}>
-          <Link href="/blog" style={{display:"inline-flex",alignItems:"center",gap:"6px",fontSize:"14px",fontWeight:700,color:"#888",marginBottom:"20px"}}><ChevronLeft size={16}/>블로그 목록</Link>
+          <Link href="/blog" style={{display:"inline-flex",alignItems:"center",gap:"6px",fontSize:"14px",fontWeight:700,color:"#888",marginBottom:"20px"}}><ChevronLeft size={16}/>유용한 정보</Link>
           <div style={{background:"white",borderRadius:"20px",overflow:"hidden"}}>
-            {thumbnail && thumbnail.startsWith("http") && (
+            {thumbnail && (thumbnail.startsWith("http") || thumbnail.startsWith("/")) && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={thumbnail} alt={title} style={{width:"100%",maxHeight:400,objectFit:"cover",display:"block"}} />
             )}

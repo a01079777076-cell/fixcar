@@ -2,6 +2,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send, ChevronRight, ChevronDown } from "lucide-react";
+import { CAR_TMI } from "@/data/tmi";
 
 const FAQ_DATA = [
   { q: "중고차 구매 절차가 어떻게 되나요?", a: "1) 매물 검색 → 2) 딜러 문의 → 3) 차량 확인/시승 → 4) 계약 → 5) 결제(할부/일시불) → 6) 명의이전 → 7) 보험가입 → 인수 완료!\n\n픽스카에서는 모든 과정을 딜러가 안내해드립니다." },
@@ -12,34 +13,6 @@ const FAQ_DATA = [
   { q: "FIX 정찰가란 뭔가요?", a: "픽스카의 핵심 제도입니다!\n\n등록된 가격이 최종 가격 = 흥정 NO\n\n딜러가 처음 제시한 가격에서 추가 비용이 발생하지 않습니다.\n(이전등록비, 보험료는 별도)" },
   { q: "검수 서비스는 어떻게 이용하나요?", a: "고객센터 또는 검수 페이지에서 신청하시면 됩니다.\n\n기본 검수 15만원 (계약금 1만원 + 현장 14만원)\n\nFIXCAR 공식 인증 검수업체가 차량 상태를 꼼꼼하게 확인해드립니다." },
   { q: "거래대행 서비스가 뭔가요?", a: "당근마켓, 번개장터 등 개인간 거래를 전문 딜러가 대행하는 서비스입니다.\n\n대행료: 15~20만원\n\n차량 검수, 시세 분석, 서류 대행, 명의이전까지 모두 포함!" },
-];
-
-const CAR_TMI = [
-  "자동차 에어컨을 처음 켤 때는 창문을 열고 1~2분 환기 후 사용하면 유해물질을 줄일 수 있어요.",
-  "타이어 공기압은 1개월에 약 1psi씩 자연 감소해요. 매달 한 번 체크하세요!",
-  "엔진오일은 보통 10,000km마다 교체하지만, 시내 주행이 많으면 7,000km에 한 번이 좋아요.",
-  "한국에서 가장 많이 팔린 차는 현대 그랜저예요. 누적 판매 300만 대 이상!",
-  "중고차 시세는 보통 신차 출고 후 1년에 20~25% 하락하고, 이후 매년 10% 정도 떨어져요.",
-  "자동차 와이퍼는 6개월~1년마다 교체하는 게 좋아요. 빗물 자국이 생기면 교체 시기!",
-  "경유차는 DPF(매연저감장치)가 있어서 장거리 주행을 가끔 해줘야 막힘을 예방해요.",
-  "자동차 배터리 수명은 보통 3~5년이에요. 시동이 느려지면 교체 시기가 다가온 거예요.",
-  "하이브리드차는 브레이크를 밟으면 전기를 충전해요. 이걸 '회생 제동'이라고 해요!",
-  "전기차 배터리는 20~80% 사이에서 충전하면 수명이 더 오래가요.",
-  "자동차 에어백은 시속 약 30km 이상에서 충돌해야 작동해요.",
-  "한국에서 중고차 거래량은 연간 약 400만 대로, 신차 판매량(약 170만 대)의 2배 이상이에요.",
-  "겨울에 디젤차 시동이 안 걸리면 연료 필터에 수분이 얼었을 가능성이 높아요.",
-  "차량 번호판 색상: 흰색=자가용, 노란색=영업용, 초록색=전기차예요.",
-  "세계 최초의 자동차는 1886년 칼 벤츠가 만든 '벤츠 페이턴트 모터바겐'이에요.",
-  "자동차 타이어에 적힌 225/45R17에서 225는 폭(mm), 45는 편평비(%), R은 래디얼, 17은 휠 크기(인치)예요.",
-  "주유할 때 주유구 방향을 모르겠으면 계기판 연료 게이지 옆 화살표를 확인하세요!",
-  "자동차 에어컨 필터는 15,000km마다 교체가 권장돼요. 안 바꾸면 세균 번식!",
-  "급발진 의심 상황에서는 기어를 N으로 놓고 브레이크를 힘껏 밟으세요.",
-  "대한민국 자동차 등록 대수는 약 2,600만 대로 국민 2명당 1대꼴이에요.",
-  "SUV는 Sport Utility Vehicle의 약자예요. 원래는 오프로드용이었지만 지금은 도심형이 대세!",
-  "자동차 앞유리에 성에가 끼면 미지근한 물을 뿌리면 안 돼요. 유리가 깨질 수 있어요!",
-  "중고차 매매 시 '매도비'는 법정 비용이 아니에요. 부당하게 청구하면 거부할 수 있어요.",
-  "자동차 보험은 운전자 범위를 좁히면 보험료가 저렴해져요. (본인 한정 < 부부 < 가족)",
-  "세차 후 물기를 안 닦으면 물때가 생겨요. 세차 후에는 꼭 마른 타월로 닦아주세요!",
 ];
 
 export default function FaqChatbot() {
@@ -53,36 +26,67 @@ export default function FaqChatbot() {
   const [showTmi, setShowTmi] = useState(false);
   const msgEndRef = useRef<HTMLDivElement>(null);
   const disabledRef = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const idxRef = useRef(-1);
 
-  /* TMI 말풍선 순환 — 20초 노출 / 5초 쉼 / 랜덤 새 문구 */
+  const clearTimer = () => { if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; } };
+
+  /* 직전과 다른 랜덤 팁 선택 */
+  const pickTip = () => {
+    if (CAR_TMI.length === 0) return "";
+    let n = Math.floor(Math.random() * CAR_TMI.length);
+    if (CAR_TMI.length > 1) {
+      while (n === idxRef.current) n = Math.floor(Math.random() * CAR_TMI.length);
+    }
+    idxRef.current = n;
+    return CAR_TMI[n];
+  };
+
+  /* TMI 말풍선 순환 — 20초 노출 / 5초 쉼 / 새 문구 (재시작 가능) */
+  const showCycle = () => {
+    if (disabledRef.current) return;
+    setTmi(pickTip());
+    setShowTmi(true);
+    clearTimer();
+    timerRef.current = setTimeout(() => {
+      setShowTmi(false);
+      clearTimer();
+      timerRef.current = setTimeout(showCycle, 5000);
+    }, 20000);
+  };
+
+  /* 마운트 시 1회 시작 (오늘 하루 끄기 상태면 보류) */
   useEffect(() => {
     const disabledUntil = localStorage.getItem("fixcar_tmi_disabled_until");
     if (disabledUntil && Date.now() < Number(disabledUntil)) {
       disabledRef.current = true;
       return;
     }
-
-    let timer: ReturnType<typeof setTimeout>;
-
-    const showNext = () => {
-      if (disabledRef.current) return;
-      setTmi(CAR_TMI[Math.floor(Math.random() * CAR_TMI.length)]);
-      setShowTmi(true);
-      timer = setTimeout(() => {
-        if (disabledRef.current) return;
-        setShowTmi(false);
-        timer = setTimeout(showNext, 5000);
-      }, 20000);
-    };
-
-    timer = setTimeout(showNext, 2000);
-    return () => clearTimeout(timer);
+    timerRef.current = setTimeout(showCycle, 2000);
+    return () => clearTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* "다음 꿀팁" — 새 팁 즉시 표시하고 순환 재개 */
+  const showNextTip = () => {
+    disabledRef.current = false;
+    showCycle();
+  };
+
+  /* "오늘 하루 끄기" — 24시간 동안 비활성화 */
   const disableForDay = () => {
     localStorage.setItem("fixcar_tmi_disabled_until", String(Date.now() + 24 * 60 * 60 * 1000));
     disabledRef.current = true;
+    clearTimer();
     setShowTmi(false);
+  };
+
+  /* 챗봇 명령으로 다시 켜기 — '오늘 하루 끄기'를 누른 사용자도 즉시 복구 */
+  const enableTmi = () => {
+    localStorage.removeItem("fixcar_tmi_disabled_until");
+    disabledRef.current = false;
+    clearTimer();
+    timerRef.current = setTimeout(showCycle, 600);
   };
 
   /* 자동 스크롤 */
@@ -98,8 +102,21 @@ export default function FaqChatbot() {
 
   const handleSend = () => {
     if (!input.trim()) return;
-    const q = input.trim().toLowerCase();
-    setMessages(prev => [...prev, { role: "user", text: input.trim() }]);
+    const raw = input.trim();
+    const q = raw.toLowerCase();
+
+    /* TMI/꿀팁 다시 켜기 명령 인식 */
+    const norm = q.replace(/\s/g, "");
+    const isTmiWord = norm.includes("tmi") || norm.includes("꿀팁") || norm.includes("팁");
+    const isOnWord = norm.includes("켜") || norm.includes("on") || norm.includes("다시") || norm.includes("보여") || norm.includes("알려");
+    if (isTmiWord && isOnWord) {
+      enableTmi();
+      setMessages(prev => [...prev, { role: "user", text: raw }, { role: "bot", text: "자동차 TMI/꿀팁 알림을 다시 켰어요! 🚗\n채팅창을 닫으면 화면에 꿀팁이 다시 떠요. (말풍선의 '오늘 하루 끄기'를 눌렀어도 복구됩니다)" }]);
+      setInput("");
+      return;
+    }
+
+    setMessages(prev => [...prev, { role: "user", text: raw }]);
     setInput("");
     const match = FAQ_DATA.find(f =>
       f.q.toLowerCase().includes(q) || q.split(" ").some(w => w.length >= 2 && f.q.includes(w))
@@ -126,11 +143,18 @@ export default function FaqChatbot() {
         }}>
           <div style={{ fontSize: 10, fontWeight: 800, color: "#FF3B1E", marginBottom: 6, letterSpacing: 1 }}>🚗 자동차 TMI</div>
           <div style={{ fontSize: 13, color: "#444", lineHeight: 1.7, fontWeight: 500 }}>{tmi}</div>
-          <button onClick={(e) => { e.stopPropagation(); disableForDay(); }} style={{
-            marginTop: 10, padding: "5px 10px", background: "transparent", border: "1px solid #E0DDD7",
-            borderRadius: 8, fontSize: 11, color: "#999", cursor: "pointer", fontWeight: 600,
-            fontFamily: "'NanumSquareRound',sans-serif",
-          }}>오늘 하루 끄기</button>
+          <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
+            <button onClick={(e) => { e.stopPropagation(); disableForDay(); }} style={{
+              padding: "5px 10px", background: "transparent", border: "1px solid #E0DDD7",
+              borderRadius: 8, fontSize: 11, color: "#999", cursor: "pointer", fontWeight: 600,
+              fontFamily: "'NanumSquareRound',sans-serif",
+            }}>오늘 하루 끄기</button>
+            <button onClick={(e) => { e.stopPropagation(); showNextTip(); }} style={{
+              padding: "5px 12px", background: "#FFF0ED", border: "1px solid #FFD3C9",
+              borderRadius: 8, fontSize: 11, color: "#FF3B1E", cursor: "pointer", fontWeight: 800,
+              fontFamily: "'NanumSquareRound',sans-serif", display: "flex", alignItems: "center", gap: 4,
+            }}>다음 꿀팁 <ChevronRight size={12} /></button>
+          </div>
           <button onClick={(e) => { e.stopPropagation(); setShowTmi(false); }} style={{
             position: "absolute", top: -8, right: -8, width: 22, height: 22, borderRadius: "50%",
             background: "#F0EEE9", border: "1px solid #E0DDD7", cursor: "pointer",

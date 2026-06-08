@@ -11,7 +11,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     if (!post) return { title: "글을 찾을 수 없습니다" };
 
     const description = (post.content || "").replace(/<[^>]*>/g, "").slice(0, 160);
-    const thumbnail = post.summary?.startsWith("http") ? post.summary : undefined;
+    const thumbnail = post.summary
+      ? (post.summary.startsWith("http") ? post.summary : `https://www.fixcar.kr${post.summary}`)
+      : undefined;
 
     return {
       title: post.title,
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       },
     };
   } catch {
-    return { title: "블로그 | 픽스카" };
+    return { title: "유용한 정보 | 픽스카" };
   }
 }
 

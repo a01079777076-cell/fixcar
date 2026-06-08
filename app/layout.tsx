@@ -140,7 +140,7 @@ const jsonLdBreadcrumb = {
     { "@type": "ListItem", "position": 1, "name": "홈",        "item": "https://www.fixcar.kr" },
     { "@type": "ListItem", "position": 2, "name": "전체 매물",  "item": "https://www.fixcar.kr/cars" },
     { "@type": "ListItem", "position": 3, "name": "카탈로그",   "item": "https://www.fixcar.kr/catalog" },
-    { "@type": "ListItem", "position": 4, "name": "블로그",     "item": "https://www.fixcar.kr/blog" },
+    { "@type": "ListItem", "position": 4, "name": "유용한 정보", "item": "https://www.fixcar.kr/blog" },
     { "@type": "ListItem", "position": 5, "name": "커뮤니티",   "item": "https://www.fixcar.kr/community" },
   ],
 };

@@ -72,7 +72,7 @@ export default function BlogEditPage() {
 
           <div style={{ background: "white", borderRadius: 20, padding: "32px 30px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-              <h1 style={{ fontSize: 24, fontWeight: 800 }}>블로그 수정</h1>
+              <h1 style={{ fontSize: 24, fontWeight: 800 }}>유용한 정보 수정</h1>
               <button onClick={handleDelete} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", background: "#FFF0ED", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "#E24B4A", cursor: "pointer", fontFamily: "'NanumSquareRound',sans-serif" }}>
                 <Trash2 size={14} /> 삭제
               </button>

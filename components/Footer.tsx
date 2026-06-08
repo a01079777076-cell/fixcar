@@ -27,7 +27,7 @@ export default function Footer() {
           </div>
           <div>
             <div style={{fontSize:13,fontWeight:800,color:"rgba(255,255,255,0.6)",marginBottom:12}}>커뮤니티</div>
-            {[{l:"블로그",h:"/blog"},{l:"커뮤니티",h:"/community"},{l:"공지사항",h:"/notice"},{l:"이벤트",h:"/events"},{l:"고객센터",h:"/contact"}].map(i=>(
+            {[{l:"유용한 정보",h:"/blog"},{l:"커뮤니티",h:"/community"},{l:"공지사항",h:"/notice"},{l:"이벤트",h:"/events"},{l:"고객센터",h:"/contact"}].map(i=>(
               <Link key={i.l} href={i.h} style={{display:"block",fontSize:12,color:"rgba(255,255,255,0.3)",marginBottom:8,textDecoration:"none"}}>{i.l}</Link>
             ))}
           </div>
