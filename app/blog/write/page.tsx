@@ -8,6 +8,7 @@ import BlogEditor from "@/components/BlogEditor";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, Send, X, Image as ImageIcon } from "lucide-react";
+import { uploadImages, failedMessage } from "@/lib/uploadImage";
 
 export default function BlogWritePage() {
   const router = useRouter();
@@ -35,19 +36,12 @@ export default function BlogWritePage() {
       if (!files) return;
       setUploading(true);
       const remaining = 5 - photos.length;
-      for (const file of Array.from(files).slice(0, remaining)) {
-        const fd = new FormData(); fd.append("file", file);
-        try {
-          const res = await fetch("/api/upload", { method: "POST", body: fd });
-          if (!res.ok) continue;
-          const d = await res.json();
-          if (d.success && d.url) {
-            setPhotos(prev => [...prev, d.url]);
-            if (!thumbnail) setThumbnail(d.url);
-          }
-        } catch {}
-      }
+      const list = Array.from(files).slice(0, remaining);
+      const { urls, failed } = await uploadImages(list, url => setPhotos(prev => [...prev, url]));
+      if (!thumbnail && urls[0]) setThumbnail(urls[0]);
       setUploading(false);
+      const msg = failedMessage(failed, list.length);
+      if (msg) alert(msg);
     };
     inp.click();
   };

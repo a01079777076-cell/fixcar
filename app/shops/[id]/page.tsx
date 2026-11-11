@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Star, Car, Phone, MapPin, Shield, ChevronRight } from "lucide-react";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 export default function ShopDetailPage() {
   const { id } = useParams();
@@ -76,7 +77,7 @@ export default function ShopDetailPage() {
               <Link key={car.id} href={`/cars/${car.id}`}>
                 <div style={{ background: "white", borderRadius: 16, padding: "16px 20px", marginBottom: 10, display: "flex", gap: 14, alignItems: "center" }}>
                   <div style={{ width: 80, height: 60, borderRadius: 10, background: "#F0EEE9", overflow: "hidden", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {car.images?.[0] ? <img src={car.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 22 }}>🚗</span>}
+                    {car.images?.[0] ? <img src={cldUrl(car.images[0], IMG.card)} loading="lazy" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 22 }}>🚗</span>}
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 15, fontWeight: 800 }}>{car.brand} {car.name}</div>

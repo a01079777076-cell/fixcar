@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Car, MessageSquare, Plus, Eye, TrendingUp, ChevronRight, Settings, Pencil, Award, Star, Zap, Flame, Shield, Heart, DollarSign } from "lucide-react";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 interface DealerProfile { verified?:boolean; soldCount?:number; favCount?:number; replyRate?:number; totalInq?:number; createdAt?:string; }
 interface Badge { icon:React.ReactNode; label:string; color:string; bg:string; desc:string; }
@@ -137,10 +138,10 @@ export default function DealerDashboard() {
                       <div style={{padding:"16px 22px",display:"flex",alignItems:"center",gap:16,cursor:"pointer",transition:"box-shadow 0.15s"}} onMouseOver={e=>(e.currentTarget.style.background="#FAFBFF")} onMouseOut={e=>(e.currentTarget.style.background="white")}>
                         <div style={{display:"flex",gap:3,flexShrink:0}}>
                           <div style={{width:100,height:75,borderRadius:10,overflow:"hidden",background:"#F0F4FF"}}>
-                            {img1?<img src={img1} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:22}}>🚗</span>}
+                            {img1?<img src={cldUrl(img1, IMG.card)} loading="lazy" alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:22}}>🚗</span>}
                           </div>
                           <div style={{width:100,height:75,borderRadius:10,overflow:"hidden",background:"#F0F4FF"}}>
-                            {img2?<img src={img2} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:16,color:"#DDD"}}>📷</span>}
+                            {img2?<img src={cldUrl(img2, IMG.card)} loading="lazy" alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:<span style={{display:"flex",width:"100%",height:"100%",alignItems:"center",justifyContent:"center",fontSize:16,color:"#DDD"}}>📷</span>}
                           </div>
                         </div>
                         <div style={{flex:1,minWidth:0}}>

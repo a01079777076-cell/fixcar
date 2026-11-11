@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 interface SimilarCar {
   id: number;
@@ -95,7 +96,7 @@ export default function SimilarCars({ carId, brand, price, fuel }: Props) {
                 >
                   {img ? (
                     <img
-                      src={img}
+                      src={cldUrl(img, IMG.card)} loading="lazy"
                       alt={car.name}
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />

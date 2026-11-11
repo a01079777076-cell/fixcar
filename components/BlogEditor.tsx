@@ -1,5 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
+import { uploadImage } from "@/lib/uploadImage";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 import {
   Bold, Italic, Underline,
   AlignLeft, AlignCenter, AlignRight, AlignJustify,
@@ -165,19 +167,14 @@ export default function BlogEditor({ value, onChange, onImageUpload }: Props) {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;
       setUploading(true);
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        const res = await fetch("/api/upload", { method: "POST", body: formData });
-        const data = await res.json();
-        if (data.url || data.secure_url) {
-          const url = data.url || data.secure_url;
-          exec("insertHTML", `<img src="${url}" style="max-width:100%;border-radius:8px;margin:12px 0;" />`);
-          onImageUpload?.(url);
-        } else {
-          alert("업로드 실패: " + (data.error || "다시 시도해주세요"));
-        }
-      } catch { alert("업로드 중 오류"); }
+      const r = await uploadImage(file);
+      if (r.ok) {
+        /* 본문에는 화면 폭에 맞춘 크기로 삽입 (원본 대신) */
+        exec("insertHTML", `<img src="${cldUrl(r.url, IMG.detail)}" loading="lazy" style="max-width:100%;border-radius:8px;margin:12px 0;" />`);
+        onImageUpload?.(r.url);
+      } else {
+        alert(`업로드 실패: ${r.error}`);
+      }
       setUploading(false);
     };
     input.click();

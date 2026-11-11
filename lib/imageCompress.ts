@@ -1,71 +1,60 @@
 // 📁 저장 경로: lib/imageCompress.ts
 // 클라이언트 사이드 이미지 압축 유틸리티
-// 4.5MB 이상 사진을 자동 리사이즈+압축하여 업로드 속도 개선
+// - 모든 사진을 긴 변 1920px 이하 JPEG로 변환 → 저장 용량·전송량 절감
+// - Vercel 함수 요청 한도(4.5MB) 초과로 업로드가 실패하는 문제 방지
 
 interface CompressOptions {
-  maxWidth?: number;
-  maxHeight?: number;
-  maxSizeMB?: number;
+  /** 긴 변 최대 픽셀 (기본 1920) */
+  maxSide?: number;
+  /** JPEG 품질 0~1 (기본 0.82) */
   quality?: number;
+  /** 이 크기 이하이고 해상도도 작으면 그대로 사용 (기본 400KB) */
+  skipUnderBytes?: number;
 }
 
-export async function compressImage(
-  file: File,
-  options: CompressOptions = {}
-): Promise<File> {
-  const { maxWidth = 1920, maxHeight = 1440, maxSizeMB = 4.5, quality = 0.85 } = options;
+/** 압축하지 않는 형식 (애니메이션·벡터) */
+const PASS_THROUGH = ["image/gif", "image/svg+xml"];
 
-  // 이미 작으면 그대로 반환
-  if (file.size <= maxSizeMB * 1024 * 1024) return file;
+export async function compressImage(file: File, options: CompressOptions = {}): Promise<File> {
+  const { maxSide = 1920, quality = 0.82, skipUnderBytes = 400 * 1024 } = options;
+  if (!file.type.startsWith("image/") || PASS_THROUGH.includes(file.type)) return file;
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const img = new Image();
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    const url = URL.createObjectURL(file);
 
     img.onload = () => {
-      let { width, height } = img;
+      URL.revokeObjectURL(url);
+      const { width, height } = img;
+      const scale = Math.min(1, maxSide / Math.max(width, height));
 
-      // 비율 유지하면서 리사이즈
-      if (width > maxWidth) {
-        height = (height * maxWidth) / width;
-        width = maxWidth;
-      }
-      if (height > maxHeight) {
-        width = (width * maxHeight) / height;
-        height = maxHeight;
-      }
+      /* 이미 작은 사진은 그대로 */
+      if (scale === 1 && file.size <= skipUnderBytes) { resolve(file); return; }
 
-      canvas.width = width;
-      canvas.height = height;
-      ctx?.drawImage(img, 0, 0, width, height);
+      const w = Math.round(width * scale);
+      const h = Math.round(height * scale);
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) { resolve(file); return; }
+      ctx.drawImage(img, 0, 0, w, h);
 
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) { reject(new Error("압축 실패")); return; }
-          const compressed = new File([blob], file.name, {
-            type: "image/jpeg",
-            lastModified: Date.now(),
-          });
-          console.log(`[ImageCompress] ${(file.size/1024/1024).toFixed(1)}MB → ${(compressed.size/1024/1024).toFixed(1)}MB`);
-          resolve(compressed);
-        },
-        "image/jpeg",
-        quality
-      );
+      canvas.toBlob((blob) => {
+        /* 압축 결과가 더 크면 원본 사용 */
+        if (!blob || blob.size >= file.size) { resolve(file); return; }
+        resolve(new File([blob], file.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg", lastModified: Date.now() }));
+      }, "image/jpeg", quality);
     };
 
-    img.onerror = () => reject(new Error("이미지 로드 실패"));
-    img.src = URL.createObjectURL(file);
+    /* 브라우저가 못 읽는 형식(일부 HEIC 등)은 원본 그대로 — 업로드 단계에서 용량 검사 */
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
   });
 }
 
-/**
- * 여러 이미지를 병렬 압축
- */
-export async function compressImages(
-  files: File[],
-  options?: CompressOptions
-): Promise<File[]> {
-  return Promise.all(files.map(f => compressImage(f, options)));
+/** 여러 이미지 압축 (순차 — 휴대폰 메모리 부담 줄이기) */
+export async function compressImages(files: File[], options?: CompressOptions): Promise<File[]> {
+  const out: File[] = [];
+  for (const f of files) out.push(await compressImage(f, options));
+  return out;
 }

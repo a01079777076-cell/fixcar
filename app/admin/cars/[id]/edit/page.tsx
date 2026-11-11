@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, Save, Upload, X, Check, Image as ImageIcon } from "lucide-react";
+import { uploadImages, failedMessage } from "@/lib/uploadImage";
 
 export default function AdminCarPhotoPage() {
   const router = useRouter();
@@ -57,11 +58,11 @@ export default function AdminCarPhotoPage() {
     inp.onchange = async (e) => {
       const files = (e.target as HTMLInputElement).files; if (!files) return;
       setUploading(true);
-      for (const file of Array.from(files)) {
-        const fd = new FormData(); fd.append("file", file);
-        try { const res = await fetch("/api/upload", { method: "POST", body: fd }); if (!res.ok) continue; const d = await res.json(); if (d.success && d.url) setImages(prev => [...prev, d.url]); } catch {}
-      }
+      const list = Array.from(files);
+      const { failed } = await uploadImages(list, url => setImages(prev => [...prev, url]));
       setUploading(false);
+      const msg = failedMessage(failed, list.length);
+      if (msg) alert(msg);
     };
     inp.click();
   };

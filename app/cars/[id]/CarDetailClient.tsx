@@ -10,6 +10,7 @@ import { Heart, MessageSquare, Shield, ChevronLeft, ChevronRight, Award, Star, C
 import ShareButtons from "@/components/ShareButtons";
 import { saveRecentCar } from "@/components/RecentCars";
 import SimilarCars from "@/components/SimilarCars";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 export default function CarDetailClient() {
   const { id } = useParams();
@@ -90,7 +91,7 @@ export default function CarDetailClient() {
           {/* ═══ 사진 갤러리 (엔카 비율) ═══ */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 4, marginBottom: 12, borderRadius: 16, overflow: "hidden", height: 560 }}>
             <div style={{ position: "relative", background: "#E8E6E1", cursor: "pointer", overflow: "hidden" }} onClick={() => setShowAllPhotos(true)}>
-              {images[mainImg] ? (() => { const p = parseImg(images[mainImg]); return <img src={p.url} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos, display: "block" }} />; })() : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
+              {images[mainImg] ? (() => { const p = parseImg(images[mainImg]); return <img src={cldUrl(p.url, IMG.detail)} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos, display: "block" }} />; })() : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, opacity: 0.2 }}>🚗</div>}
               {images.length > 1 && <>
                 <button onClick={e => { e.stopPropagation(); goImg(-1); }} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
                 <button onClick={e => { e.stopPropagation(); goImg(1); }} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(0,0,0,0.45)", color: "white", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
@@ -106,7 +107,7 @@ export default function CarDetailClient() {
                 const isLast = i === 2 && images.length > 4;
                 return (
                   <div key={i} onClick={() => img ? setMainImg(i + 1) : undefined} style={{ width: 240, height: 184, overflow: "hidden", cursor: img ? "pointer" : "default", position: "relative", background: img ? "#E8E6E1" : "transparent", borderRadius: i === 0 ? "0 16px 0 0" : i === 2 ? "0 0 16px 0" : 0 }}>
-                    {img ? (() => { const p = parseImg(img); return <img src={p.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos, display: "block" }} />; })() : null}
+                    {img ? (() => { const p = parseImg(img); return <img src={cldUrl(p.url, IMG.card)} loading="lazy" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos, display: "block" }} />; })() : null}
                     {isLast && <div onClick={e => { e.stopPropagation(); setShowAllPhotos(true); }} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "white", cursor: "pointer" }}><span style={{ fontSize: 13, fontWeight: 700 }}>+ 사진 모두보기</span></div>}
                   </div>
                 );
@@ -114,16 +115,16 @@ export default function CarDetailClient() {
             </div>
           </div>
           {images.length > 1 && <div style={{ display: "flex", gap: 6, overflowX: "auto", marginBottom: 8, paddingBottom: 4 }}>
-            {images.map((img: string, i: number) => <button key={i} onClick={() => setMainImg(i)} style={{ width: 64, height: 48, borderRadius: 8, overflow: "hidden", border: i === mainImg ? "3px solid #FF3B1E" : "2px solid transparent", cursor: "pointer", flexShrink: 0, padding: 0, background: "none" }}><img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></button>)}
+            {images.map((img: string, i: number) => <button key={i} onClick={() => setMainImg(i)} style={{ width: 64, height: 48, borderRadius: 8, overflow: "hidden", border: i === mainImg ? "3px solid #FF3B1E" : "2px solid transparent", cursor: "pointer", flexShrink: 0, padding: 0, background: "none" }}><img src={cldUrl(img.split("#")[0], IMG.thumb)} loading="lazy" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></button>)}
           </div>}
           <div style={{ fontSize: 10, color: "#BBB", textAlign: "right", marginBottom: 16 }}>* 본 매물의 사진은 실제 차량을 촬영한 것이며, AI 보정이 적용되었을 수 있습니다.</div>
 
           {/* 풀스크린 모달 */}
           {showAllPhotos && <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }} onClick={() => setShowAllPhotos(false)}>
             <button onClick={() => setShowAllPhotos(false)} style={{ position: "absolute", top: 20, right: 20, width: 44, height: 44, borderRadius: "50%", border: "none", background: "rgba(255,255,255,0.15)", color: "white", fontSize: 24, cursor: "pointer" }}>✕</button>
-            <img src={images[mainImg]} alt="" style={{ maxWidth: "90vw", maxHeight: "80vh", objectFit: "contain", borderRadius: 12 }} onClick={e => e.stopPropagation()} />
+            <img src={cldUrl(images[mainImg].split("#")[0], IMG.full)} alt="" style={{ maxWidth: "90vw", maxHeight: "80vh", objectFit: "contain", borderRadius: 12 }} onClick={e => e.stopPropagation()} />
             <div style={{ display: "flex", gap: 6, marginTop: 16, overflowX: "auto", maxWidth: "90vw" }} onClick={e => e.stopPropagation()}>
-              {images.map((img: string, i: number) => <button key={i} onClick={() => setMainImg(i)} style={{ width: 56, height: 42, borderRadius: 6, overflow: "hidden", border: i === mainImg ? "2px solid white" : "2px solid transparent", cursor: "pointer", flexShrink: 0, padding: 0, background: "none", opacity: i === mainImg ? 1 : 0.5 }}><img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></button>)}
+              {images.map((img: string, i: number) => <button key={i} onClick={() => setMainImg(i)} style={{ width: 56, height: 42, borderRadius: 6, overflow: "hidden", border: i === mainImg ? "2px solid white" : "2px solid transparent", cursor: "pointer", flexShrink: 0, padding: 0, background: "none", opacity: i === mainImg ? 1 : 0.5 }}><img src={cldUrl(img.split("#")[0], IMG.thumb)} loading="lazy" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></button>)}
             </div>
             {images.length > 1 && <>
               <button onClick={e => { e.stopPropagation(); goImg(-1); }} style={{ position: "absolute", left: 20, top: "50%", transform: "translateY(-50%)", width: 50, height: 50, borderRadius: "50%", border: "none", background: "rgba(255,255,255,0.15)", color: "white", fontSize: 24, cursor: "pointer" }}>‹</button>

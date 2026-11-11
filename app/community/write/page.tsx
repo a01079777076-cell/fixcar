@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, Send, X, Bold, Italic, Underline, List, Image as ImageIcon, Type, Palette } from "lucide-react";
+import { uploadImages, failedMessage } from "@/lib/uploadImage";
 
 const CATEGORIES = ["자유게시판", "차량 후기", "질문/답변", "정보 공유", "모임/동호회"];
 const FONT_SIZES = ["13px", "15px", "17px", "20px", "24px"];
@@ -68,16 +69,11 @@ export default function CommunityWritePage() {
       if (!files) return;
       setUploading(true);
       const remaining = 5 - photos.length;
-      for (const file of Array.from(files).slice(0, remaining)) {
-        const fd = new FormData(); fd.append("file", file);
-        try {
-          const res = await fetch("/api/upload", { method: "POST", body: fd });
-          if (!res.ok) continue;
-          const d = await res.json();
-          if (d.success && d.url) setPhotos(prev => [...prev, d.url]);
-        } catch {}
-      }
+      const list = Array.from(files).slice(0, remaining);
+      const { failed } = await uploadImages(list, url => setPhotos(prev => [...prev, url]));
       setUploading(false);
+      const msg = failedMessage(failed, list.length);
+      if (msg) alert(msg);
     };
     inp.click();
   };

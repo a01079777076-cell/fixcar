@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 import { Shield, Car, Users, MessageSquare, BarChart3, Eye, X, Search, UserX, Key, ChevronDown, AlertTriangle } from "lucide-react";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -542,7 +543,7 @@ export default function AdminPage() {
                 <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6}}>
                   {detailCar.images.map((img:string,i:number)=>(
                     <div key={i} style={{borderRadius:8,overflow:"hidden",aspectRatio:"4/3"}}>
-                      <img src={img} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+                      <img src={cldUrl(img, IMG.card)} loading="lazy" alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                     </div>
                   ))}
                 </div>

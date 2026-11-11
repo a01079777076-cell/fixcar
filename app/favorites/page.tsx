@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { Heart, Trash2, Car } from "lucide-react";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -50,7 +51,7 @@ export default function FavoritesPage() {
                   <div key={f.id || car.id} style={{background:"white",borderRadius:16,padding:"16px 18px",display:"flex",gap:14,alignItems:"center"}}>
                     <Link href={`/cars/${car.id}`} style={{flexShrink:0}}>
                       <div style={{width:100,height:72,borderRadius:10,overflow:"hidden",background:"#F0EEE9"}}>
-                        {car.images?.[0] ? <img src={car.images[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/> : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}><Car size={24} color="#CCC"/></div>}
+                        {car.images?.[0] ? <img src={cldUrl(car.images[0], IMG.card)} loading="lazy" alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/> : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}><Car size={24} color="#CCC"/></div>}
                       </div>
                     </Link>
                     <Link href={`/cars/${car.id}`} style={{flex:1,minWidth:0,textDecoration:"none",color:"inherit"}}>

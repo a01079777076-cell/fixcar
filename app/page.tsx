@@ -9,6 +9,7 @@ import HomeBlogSection from "@/components/HomeBlogSection";
 import HomeDealerRanking from "@/components/HomeDealerRanking";
 import AdminRolePanel from "@/components/AdminRolePanel";
 import { prisma } from "@/lib/prisma";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 import { Shield, ChevronRight, ArrowRight, Lock, CheckCircle, Zap } from "lucide-react";
 
 export const revalidate = 60;
@@ -241,7 +242,8 @@ export default async function Home() {
               <a key={car.id} href={`/cars/${car.id}`} className="car-card">
                 <div style={{ height:"clamp(200px,26vw,280px)", overflow:"hidden", position:"relative", background:"#F0EEE9" }}>
                   {(car.images && car.images[0]) ? (
-                    <Image src={car.images[0]} alt={car.name} fill sizes="(max-width:600px)100vw,(max-width:1024px)50vw,33vw" style={{ objectFit:"cover" }}/>
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={cldUrl(car.images[0], IMG.card)} alt={car.name} loading="lazy" style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                   ) : (
                     <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:48, color:"#CCC" }}>🚗</div>
                   )}

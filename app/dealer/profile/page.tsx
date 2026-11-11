@@ -7,6 +7,7 @@ import { CheckCircle, User, Camera, X } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
+import { uploadImage } from "@/lib/uploadImage";
 
 export default function DealerProfilePage() {
   const router = useRouter();
@@ -43,15 +44,10 @@ export default function DealerProfilePage() {
     inp.onchange = async(e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if(!file) return;
-      if(file.size > 5*1024*1024){ alert("5MB 이하 파일만 업로드 가능합니다."); return; }
       setUploading(true);
-      const fd = new FormData(); fd.append("file", file);
-      try {
-        const res = await fetch("/api/upload",{method:"POST",body:fd});
-        const d = await res.json();
-        if(d.success && d.url) setForm(p=>({...p, profilePhoto: d.url}));
-        else alert("업로드 실패");
-      } catch { alert("네트워크 오류"); }
+      const r = await uploadImage(file);
+      if (r.ok) setForm(p=>({...p, profilePhoto: r.url}));
+      else alert(`업로드 실패: ${r.error}`);
       setUploading(false);
     };
     inp.click();

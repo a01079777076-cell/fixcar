@@ -5,6 +5,7 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 interface Car {
   id:string; title?:string; name?:string; price:number; year:number; mileage:number;
@@ -314,7 +315,7 @@ export default function CarsPage(){
                         <div style={{position:"relative",flexShrink:0}}>
                           <div style={{display:"flex",gap:3}}>
                             <div style={{width:180,height:130,borderRadius:10,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
-                              {img?<img src={img} alt={cn} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%",display:"block"}}/>:
+                              {img?<img src={cldUrl(img.split("#")[0], IMG.card)} loading="lazy" alt={cn} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%",display:"block"}}/>:
                               <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#CCC",fontSize:11}}>📷 사진 준비중</div>}
                               {imgs.length>2&&(
                                 <div style={{position:"absolute",bottom:6,left:6,background:"rgba(0,0,0,0.55)",color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100,display:"flex",alignItems:"center",gap:3,backdropFilter:"blur(4px)"}}>📷 {imgs.length}</div>
@@ -322,7 +323,7 @@ export default function CarsPage(){
                             </div>
                             {imgs.length>1&&(
                               <div style={{width:180,height:130,borderRadius:10,overflow:"hidden",background:"#F0EEE9",position:"relative"}}>
-                                <img src={imgs[4]||imgs[1]} alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%",display:"block"}}/>
+                                <img src={cldUrl((imgs[4]||imgs[1]).split("#")[0], IMG.card)} loading="lazy" alt="" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%",display:"block"}}/>
                                 {imgs.length>2&&(
                                   <div style={{position:"absolute",bottom:6,right:6,background:"rgba(0,0,0,0.55)",color:"white",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>+{imgs.length-2}</div>
                                 )}
@@ -373,7 +374,7 @@ export default function CarsPage(){
                     <Link key={car.id} href={`/cars/${car.id}`} style={{textDecoration:"none"}}>
                       <div className="grid-card" style={{background:"white",borderRadius:16,overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}>
                         <div style={{position:"relative",height:200,background:"#F0EEE9",overflow:"hidden"}}>
-                          {img?<img src={img} alt={cn} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:
+                          {img?<img src={cldUrl(img.split("#")[0], IMG.card)} loading="lazy" alt={cn} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 60%"}}/>:
                           <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",color:"#CCC"}}>📷</div>}
                           {autoLabels.length>0&&<div style={{position:"absolute",top:10,left:10,display:"flex",gap:4}}>{autoLabels.slice(0,2).map(lb=>(<span key={lb.text} style={{background:lb.bg,color:lb.color,padding:"3px 10px",borderRadius:100,fontSize:10,fontWeight:800}}>{lb.text}</span>))}</div>}
                           {car.isPick&&<span style={{position:"absolute",top:10,left:10,background:"#FF3B1E",color:"white",padding:"4px 12px",borderRadius:100,fontSize:11,fontWeight:800}}>PICK</span>}

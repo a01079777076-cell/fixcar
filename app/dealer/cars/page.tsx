@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { Plus, Eye, Heart, Edit, Trash2, AlertCircle, CheckCircle } from "lucide-react";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 interface CarItem {
   id: number; name: string; brand: string; year: number; mileage: number;
@@ -81,7 +82,7 @@ export default function DealerCarsPage() {
               <div key={car.id} style={{background:"white",borderRadius:16,padding:"16px 18px",marginBottom:10,border:"1px solid #DDEEFF",display:"flex",gap:14,alignItems:"center"}}>
                 {/* 사진 */}
                 <div style={{width:90,height:68,borderRadius:10,overflow:"hidden",background:"#F0EEE9",flexShrink:0}}>
-                  {car.images?.[0] ? <img src={car.images[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/> : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>📷</div>}
+                  {car.images?.[0] ? <img src={cldUrl(car.images[0], IMG.card)} loading="lazy" alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/> : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>📷</div>}
                 </div>
                 {/* 정보 */}
                 <div style={{flex:1,minWidth:0}}>

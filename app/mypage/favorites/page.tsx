@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 interface FavCar { id:number; car:{ id:number; name:string; brand:string; price:number; year:number; mileage:number; fuel:string; images:string[] } }
 
@@ -40,7 +41,7 @@ export default function FavoritesPage() {
                     <div style={{ width:80, height:60, borderRadius:10, background:"#F0EEE9", overflow:"hidden", flexShrink:0 }}>
                       {fav.car.images?.[0] ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={fav.car.images[0]} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                        <img src={cldUrl(fav.car.images[0], IMG.card)} loading="lazy" alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
                       ) : <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20 }}>🚗</div>}
                     </div>
                     <div style={{ flex:1 }}>

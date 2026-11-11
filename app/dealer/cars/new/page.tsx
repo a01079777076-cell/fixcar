@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, Upload, X, Check, Shield } from "lucide-react";
 import { BRAND_MODELS, CAR_GRADES } from "@/data/catalog_data";
+import { uploadImage, uploadImages, failedMessage } from "@/lib/uploadImage";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const brands = BRAND_MODELS as any;
@@ -727,52 +728,15 @@ function DealerCarsNewInner() {
   const handleBaseChange=(base:string)=>{setSelectedBase(base);setSelectedModel("");setGrade(""); const g=baseModels.find(g=>g.base===base); if(g&&g.variants.length===1){handleModelSelect(g.variants[0].name);setActiveField("submodel");}else{setActiveField("submodel");}};
   const toggleOption=(opt:string)=>setOptions(prev=>prev.includes(opt)?prev.filter(o=>o!==opt):[...prev,opt]);
 
-  /* ── 이미지 리사이징 (4.5MB 제한 대응) ── */
-  const resizeImage = (file: File, maxWidth = 1920, maxHeight = 1440, quality = 0.85): Promise<File> => {
-    return new Promise((resolve) => {
-      if (file.size <= 4 * 1024 * 1024) { resolve(file); return; } /* 4MB 이하면 그대로 */
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        URL.revokeObjectURL(url);
-        let w = img.width, h = img.height;
-        if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
-        if (h > maxHeight) { w = Math.round(w * maxHeight / h); h = maxHeight; }
-        const canvas = document.createElement("canvas");
-        canvas.width = w; canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) { resolve(file); return; }
-        ctx.drawImage(img, 0, 0, w, h);
-        canvas.toBlob((blob) => {
-          if (!blob) { resolve(file); return; }
-          resolve(new File([blob], file.name.replace(/\.\w+$/, ".jpg"), { type: "image/jpeg" }));
-        }, "image/jpeg", quality);
-      };
-      img.onerror = () => resolve(file);
-      img.src = url;
-    });
-  };
-
-  /* ── 사진 업로드 ── */
+  /* ── 사진 업로드 (공용 uploadImage: 자동 압축 + 실패 사유 안내) ── */
   const handleMainUpload=async(slotKey:string)=>{
     const inp=document.createElement("input");inp.type="file";inp.accept="image/*";
     inp.onchange=async(e)=>{
-      let file=(e.target as HTMLInputElement).files?.[0]; if(!file)return;
+      const file=(e.target as HTMLInputElement).files?.[0]; if(!file)return;
       setUploadingSlot(slotKey);
-      try{
-        file = await resizeImage(file);
-        const fd=new FormData();fd.append("file",file);
-        const res=await fetch("/api/upload",{method:"POST",body:fd});
-        if(!res.ok){alert("업로드 서버 오류 ("+res.status+")\n사진 용량이 너무 큽니다. 다른 사진을 시도해주세요.");setUploadingSlot(null);return;}
-        const d=await res.json();
-        if(d.success&&d.url){
-          setMainPhotos(prev=>({...prev,[slotKey]:d.url}));
-        } else {
-          alert("업로드 실패: "+(d.error||"Cloudinary 환경변수를 확인해주세요."));
-        }
-      }catch(err){
-        alert("업로드 중 네트워크 오류가 발생했습니다.");
-      }
+      const r = await uploadImage(file);
+      if (r.ok) setMainPhotos(prev=>({...prev,[slotKey]:r.url}));
+      else alert(`업로드 실패: ${r.error}`);
       setUploadingSlot(null);
     };inp.click();
   };
@@ -789,22 +753,23 @@ function DealerCarsNewInner() {
       const slots = MAIN_SLOTS_DATA.map(s => s.key);
       /* 파일명에서 숫자 추출하여 슬롯 매칭: "1.jpg"→main1, "2_front.jpg"→main2 */
       const fileArr = Array.from(files);
+      const failed: { fileName: string; error: string }[] = [];
+      const unmatched: string[] = [];
       for (const file of fileArr) {
         const numMatch = file.name.match(/^(\d)/);
         const slotIdx = numMatch ? Number(numMatch[1]) - 1 : -1;
-        if (slotIdx < 0 || slotIdx >= slots.length) continue;
+        if (slotIdx < 0 || slotIdx >= slots.length) { unmatched.push(file.name); continue; }
         setUploadingSlot(slots[slotIdx]);
-        try {
-          const resized = await resizeImage(file);
-          const fd = new FormData(); fd.append("file", resized);
-          const res = await fetch("/api/upload", { method: "POST", body: fd });
-          if (!res.ok) continue;
-          const d = await res.json();
-          if (d.success && d.url) setMainPhotos(prev => ({ ...prev, [slots[slotIdx]]: d.url }));
-        } catch {}
+        const r = await uploadImage(file);
+        if (r.ok) setMainPhotos(prev => ({ ...prev, [slots[slotIdx]]: r.url }));
+        else failed.push({ fileName: r.fileName, error: r.error });
       }
       setUploadingSlot(null);
       setBulkUploading(false);
+      const msgs = [failedMessage(failed, fileArr.length)];
+      if (unmatched.length) msgs.push(`파일명이 1~${slots.length} 숫자로 시작하지 않아 건너뜀: ${unmatched.slice(0,5).join(", ")}${unmatched.length>5?" 외":""}`);
+      const msg = msgs.filter(Boolean).join("\n\n");
+      if (msg) alert(msg);
     };
     inp.click();
   };
@@ -814,14 +779,14 @@ function DealerCarsNewInner() {
     inp.onchange=async(e)=>{
       const files=(e.target as HTMLInputElement).files; if(!files)return;
       setUploadingDetail(true);
-      let uploadCount=0;
-      for(let file of Array.from(files).slice(0,20-detailPhotos.length)){
-        file = await resizeImage(file);
-        const fd=new FormData();fd.append("file",file);
-        try{const res=await fetch("/api/upload",{method:"POST",body:fd});if(!res.ok)continue;const d=await res.json();if(d.success&&d.url){setDetailPhotos(prev=>[...prev,d.url]);uploadCount++;}}catch{}
-      }
-      if(uploadCount===0&&files.length>0)alert("사진 업로드에 실패했습니다.");
+      const all=Array.from(files);
+      const picked=all.slice(0,20-detailPhotos.length);
+      const { failed } = await uploadImages(picked, url=>setDetailPhotos(prev=>[...prev,url]));
       setUploadingDetail(false);
+      const msgs=[failedMessage(failed, picked.length)];
+      if(all.length>picked.length)msgs.push(`최대 20장까지라 ${all.length-picked.length}장은 제외됐어요`);
+      const msg=msgs.filter(Boolean).join("\n\n");
+      if(msg)alert(msg);
     };inp.click();
   };
   const handleInspPhoto=async(side:"front"|"rear")=>{
@@ -829,10 +794,9 @@ function DealerCarsNewInner() {
     inp.onchange=async(e)=>{
       const file=(e.target as HTMLInputElement).files?.[0]; if(!file)return;
       setUploadingInsp(side);
-      const fd=new FormData();fd.append("file",file);
-      try{const res=await fetch("/api/upload",{method:"POST",body:fd});const d=await res.json();
-        if(d.success&&d.url){if(side==="front")setInspFrontPhoto(d.url);else setInspRearPhoto(d.url);}
-      }catch{}
+      const r=await uploadImage(file);
+      if(r.ok){if(side==="front")setInspFrontPhoto(r.url);else setInspRearPhoto(r.url);}
+      else alert(`업로드 실패: ${r.error}`);
       setUploadingInsp(null);
     };inp.click();
   };

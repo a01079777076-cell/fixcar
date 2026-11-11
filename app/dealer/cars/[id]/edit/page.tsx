@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { ChevronLeft, Save, Upload, X } from "lucide-react";
+import { uploadImages, failedMessage } from "@/lib/uploadImage";
 
 export default function DealerCarEditPage() {
   const router = useRouter();
@@ -37,15 +38,11 @@ export default function DealerCarEditPage() {
     input.onchange = async (e) => {
       const files = (e.target as HTMLInputElement).files; if(!files) return;
       setUploading(true);
-      for(const file of Array.from(files)) {
-        const fd = new FormData(); fd.append("file", file);
-        try {
-          const res = await fetch("/api/upload", { method:"POST", body:fd });
-          const data = await res.json();
-          if(data.success && data.url) setImages(prev=>[...prev, data.url]);
-        } catch {}
-      }
+      const list = Array.from(files);
+      const { failed } = await uploadImages(list, url => setImages(prev => [...prev, url]));
       setUploading(false);
+      const msg = failedMessage(failed, list.length);
+      if (msg) alert(msg);
     }; input.click();
   };
 

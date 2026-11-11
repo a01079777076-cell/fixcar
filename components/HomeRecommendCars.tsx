@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 interface Car {
   id: number; name: string; brand: string; price: number; year: number;
@@ -39,7 +40,7 @@ export default function HomeRecommendCars() {
               <div style={{ height: 180, background: "#F0EEE9", overflow: "hidden", position: "relative" }}>
                 {car.images?.[0] ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={car.images[0]} alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={cldUrl(car.images[0], IMG.card)} loading="lazy" alt={car.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
                   <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36, opacity: 0.15 }}>🚗</div>
                 )}

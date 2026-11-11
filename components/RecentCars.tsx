@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { cldUrl, IMG } from "@/lib/cloudinary";
 
 interface RecentCar { id:number; name:string; brand:string; price:number; image?:string; viewedAt:number; }
 
@@ -38,7 +39,7 @@ export default function RecentCars() {
           <Link key={car.id} href={`/cars/${car.id}`} style={{ textDecoration: "none", flexShrink: 0 }}>
             <div style={{ width: 160, background: "white", borderRadius: 14, overflow: "hidden" }}>
               <div style={{ height: 100, background: "#F0EEE9", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {car.image ? <img src={car.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 28, opacity: 0.2 }}>🚗</span>}
+                {car.image ? <img src={cldUrl(car.image, IMG.card)} loading="lazy" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 28, opacity: 0.2 }}>🚗</span>}
               </div>
               <div style={{ padding: "10px 12px" }}>
                 <div style={{ fontSize: 12, fontWeight: 800, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{car.name}</div>
