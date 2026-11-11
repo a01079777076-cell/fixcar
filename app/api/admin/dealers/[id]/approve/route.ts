@@ -44,6 +44,6 @@ export async function POST(
     return NextResponse.json({ success: true, action: "approved", dealer: updated });
   } catch (e) {
     console.error("Dealer approve error:", e);
-    return NextResponse.json({ error: "승인 처리 실패", detail: String(e) }, { status: 500 });
+    return NextResponse.json({ error: "승인 처리 실패" }, { status: 500 });
   }
 }

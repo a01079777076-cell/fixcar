@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
     });
     return res;
   } catch (e) {
-    return NextResponse.json({ error: "로그인 실패", detail: String(e) }, { status: 500 });
+    console.error("[api] " + "로그인 실패" + ":", e);
+    return NextResponse.json({ error: "로그인 실패" }, { status: 500 });
   }
 }

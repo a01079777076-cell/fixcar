@@ -49,6 +49,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, id: report.id });
   } catch (e) {
     console.error("Error report save failed:", e);
-    return NextResponse.json({ error: "신고 접수 실패", detail: String(e) }, { status: 500 });
+    return NextResponse.json({ error: "신고 접수 실패" }, { status: 500 });
   }
 }

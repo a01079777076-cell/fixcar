@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
     });
     return NextResponse.json({ success: true, post });
   } catch (e) {
-    return NextResponse.json({ error: "작성 실패", detail: String(e) }, { status: 500 });
+    console.error("[api] " + "작성 실패" + ":", e);
+    return NextResponse.json({ error: "작성 실패" }, { status: 500 });
   }
 }

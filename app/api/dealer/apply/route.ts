@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (e) {
     console.error("dealer/apply error:", e);
-    return NextResponse.json({ error: "신청 실패", detail: String(e) }, { status: 500 });
+    return NextResponse.json({ error: "신청 실패" }, { status: 500 });
   }
 }
 

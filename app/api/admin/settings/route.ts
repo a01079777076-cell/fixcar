@@ -45,6 +45,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, settings: merged });
   } catch (e) {
     console.error("Settings save error:", e);
-    return NextResponse.json({ error: "설정 저장 실패", detail: String(e) }, { status: 500 });
+    return NextResponse.json({ error: "설정 저장 실패" }, { status: 500 });
   }
 }

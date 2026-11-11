@@ -50,6 +50,7 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (e) {
-    return NextResponse.json({ error: "처리 실패", detail: String(e) }, { status: 500 });
+    console.error("[api] " + "처리 실패" + ":", e);
+    return NextResponse.json({ error: "처리 실패" }, { status: 500 });
   }
 }

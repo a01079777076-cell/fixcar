@@ -55,7 +55,7 @@ export default function DailyCounter() {
       </div>
 
       {/* 레이블 */}
-      <div style={{ fontSize: 12, color: "#AAA", marginTop: 4, fontWeight: 500 }}>누적 이용자</div>
+      <div style={{ fontSize: 12, color: "#AAA", marginTop: 4, fontWeight: 500 }}>누적 방문자</div>
 
       {/* 급성장 그래프 (크게) */}
       {monthly.length > 0 && (

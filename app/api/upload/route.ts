@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ error: "업로드 실패", detail: data.error?.message }, { status: 500 });
   } catch (e) {
-    return NextResponse.json({ error: "업로드 중 오류", detail: String(e) }, { status: 500 });
+    console.error("[api] " + "업로드 중 오류" + ":", e);
+    return NextResponse.json({ error: "업로드 중 오류" }, { status: 500 });
   }
 }
