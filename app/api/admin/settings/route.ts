@@ -8,8 +8,8 @@ const SETTINGS_PATH = path.join(process.cwd(), "data", "settings.json");
 const DEFAULT_SETTINGS = {
   siteName: "픽스카 FIXCAR",
   siteDesc: "광주 중고차 정찰제 플랫폼",
-  phone: "062-000-0000",
-  email: "info@fixcar.kr",
+  phone: "",
+  email: "no.1fixcar@gmail.com",
   address: "광주광역시",
   notice: "",
   bannerText: "",

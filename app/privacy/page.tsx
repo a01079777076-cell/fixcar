@@ -19,7 +19,7 @@ export default function PrivacyPage() {
             {t:"5. 개인정보의 위탁",c:"서비스 제공을 위해 아래와 같이 개인정보 처리를 위탁합니다.\n- 클라우드 서비스: Vercel, Railway (서버 운영)\n- 이미지 저장: Cloudinary\n- 결제 대행: PortOne (준비중)"},
             {t:"6. 이용자의 권리",c:"이용자는 언제든지 자신의 개인정보를 조회, 수정, 삭제할 수 있습니다.\n마이페이지 > 설정에서 직접 처리하거나, 고객센터로 요청할 수 있습니다."},
             {t:"7. 쿠키의 사용",c:"픽스카는 로그인 유지 및 서비스 개선을 위해 쿠키를 사용합니다.\n브라우저 설정에서 쿠키 수집을 거부할 수 있으나, 일부 서비스 이용에 제한이 있을 수 있습니다."},
-            {t:"8. 개인정보 보호책임자",c:"성명: 상훈\n이메일: info@fixcar.kr\n개인정보 관련 문의사항은 위 이메일로 연락해주세요."},
+            {t:"8. 개인정보 보호책임자",c:"성명: 문상훈\n이메일: no.1fixcar@gmail.com\n개인정보 관련 문의사항은 위 이메일로 연락해주세요."},
           ].map((s,i)=>(
             <div key={i} style={{background:"white",borderRadius:14,padding:"22px 24px",marginBottom:10}}>
               <h3 style={{fontSize:16,fontWeight:800,marginBottom:10}}>{s.t}</h3>

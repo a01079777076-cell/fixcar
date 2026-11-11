@@ -106,7 +106,7 @@ const jsonLdAutoDealer = {
   ],
   "priceRange": "$$",
   "openingHours": "Mo-Su 00:00-24:00",
-  "email": "help@fixcar.kr",
+  "email": "no.1fixcar@gmail.com",
   "sameAs": ["https://www.fixcar.kr"],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",

@@ -10,7 +10,7 @@ export default function Footer() {
             <div style={{fontFamily:"'Bebas Neue',serif",fontSize:24,letterSpacing:2,marginBottom:16}}><span style={{color:"#FF3B1E"}}>FIX</span><span style={{color:"white"}}>CAR</span></div>
             <p style={{fontSize:12,color:"rgba(255,255,255,0.3)",lineHeight:1.8}}>광주 중고차 정찰제 플랫폼<br/>흥정 없이, 투명하게</p>
             <div style={{marginTop:12,fontSize:11,color:"rgba(255,255,255,0.2)",lineHeight:1.8}}>
-              📧 help@fixcar.kr
+              📧 no.1fixcar@gmail.com
             </div>
           </div>
           <div>
@@ -39,14 +39,14 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ═══ 사업자 정보 (사업자등록 후 실제 정보 입력) ═══ */}
+        {/* ═══ 사업자 정보 ═══ */}
         <div style={{borderTop:"1px solid rgba(255,255,255,0.08)",paddingTop:20,marginBottom:16}}>
           <div style={{fontSize:11,color:"rgba(255,255,255,0.2)",lineHeight:2}}>
-            상호: 픽스카 | 대표: OOO | 사업자등록번호: 000-00-00000 | 통신판매업신고번호: 제0000-광주OO-0000호
+            상호: 픽스카 | 대표: 문상훈 | 사업자등록번호: 732-08-03454
             <br/>
-            사업장주소: 광주광역시 OO구 OO로 000 | 전화: 000-0000-0000 | 이메일: help@fixcar.kr
+            이메일: no.1fixcar@gmail.com | 문의: <Link href="/contact" style={{color:"rgba(255,255,255,0.35)",textDecoration:"underline"}}>1:1 문의</Link>
             <br/>
-            개인정보관리책임자: OOO | 호스팅: Vercel Inc.
+            개인정보관리책임자: 문상훈 | 호스팅: Vercel Inc.
           </div>
           <div style={{fontSize:11,color:"rgba(255,255,255,0.15)",marginTop:8,lineHeight:1.8}}>
             픽스카는 통신판매중개자로서 통신판매의 당사자가 아니며, 상품·거래정보 및 거래에 대하여 책임을 지지 않습니다.

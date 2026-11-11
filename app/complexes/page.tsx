@@ -19,7 +19,7 @@ const COMPLEXES = [
     name: "광주 첨단 자동차매매단지",
     alias: "첨단 매매단지",
     addr: "광주 광산구 첨단중앙로",
-    phone: "062-970-0000",
+    phone: "",
     shops: "약 80개 상사",
     cars: "약 1,000~2,000대",
     desc: "첨단 지구 인근에 위치한 매매단지. 접근성 좋고 최신 시설.",
@@ -29,7 +29,7 @@ const COMPLEXES = [
     name: "광주 북구 자동차매매단지",
     alias: "북구 매매단지",
     addr: "광주 북구 본촌동 일대",
-    phone: "062-000-0000",
+    phone: "",
     shops: "약 50개 상사",
     cars: "약 500~800대",
     desc: "북구 지역 중소규모 매매단지. 가성비 좋은 매물이 많음.",
@@ -71,7 +71,7 @@ export default function ComplexesPage() {
                 </div>
                 <div style={{display:"flex",alignItems:"center",gap:8}}>
                   <Phone size={16} color="#0066FF"/>
-                  <div><div style={{fontSize:11,color:"#AAA"}}>연락처</div><div style={{fontSize:13,fontWeight:700}}>{c.phone}</div></div>
+                  <div><div style={{fontSize:11,color:"#AAA"}}>연락처</div><div style={{fontSize:13,fontWeight:700}}>{c.phone || "-"}</div></div>
                 </div>
                 <div style={{display:"flex",alignItems:"center",gap:8}}>
                   <Users size={16} color="#2D8A52"/>

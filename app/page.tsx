@@ -338,10 +338,8 @@ export default async function Home() {
               ))}
             </div>
             <div style={{ fontSize:13, color:"#999", lineHeight:2.0, fontWeight:400, marginBottom:28 }}>
-              <p>상호 : 픽스카 FIXCAR | 대표 : 상훈 | 사업자등록번호 : 000-00-00000</p>
-              <p>주소 : 광주광역시 (상세주소 추후 기입)</p>
-              <p>통신판매업 신고번호 : 제0000-광주-00000호</p>
-              <p>이메일 : info@fixcar.kr | 고객센터 : 062-000-0000 (평일 09:00~18:00)</p>
+              <p>상호 : 픽스카 | 대표 : 문상훈 | 사업자등록번호 : 732-08-03454</p>
+              <p>이메일 : <a href="mailto:no.1fixcar@gmail.com" style={{ color:"#999" }}>no.1fixcar@gmail.com</a> | 문의 : <a href="/contact" style={{ color:"#999", textDecoration:"underline" }}>1:1 문의</a></p>
             </div>
             <div style={{ fontSize:12, color:"#CCC", fontWeight:400 }}>Copyright © FIXCAR. All Rights Reserved.</div>
           </div>

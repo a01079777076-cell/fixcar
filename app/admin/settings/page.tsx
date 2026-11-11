@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 
 export default function AdminSettingsPage() {
-  const [settings, setSettings] = useState({ siteName:"픽스카 FIXCAR", siteDesc:"광주 중고차 정찰제 플랫폼", phone:"062-000-0000", email:"info@fixcar.kr", address:"광주광역시", notice:"", bannerText:"", maintenanceMode:false });
+  const [settings, setSettings] = useState({ siteName:"픽스카 FIXCAR", siteDesc:"광주 중고차 정찰제 플랫폼", phone:"", email:"no.1fixcar@gmail.com", address:"광주광역시", notice:"", bannerText:"", maintenanceMode:false });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);

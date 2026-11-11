@@ -21,7 +21,7 @@ const SLIDES = [
     badge: "NEW AI",
     title: "광주 첫 상륙! 딜러님, 오픈기념 무료로 촬영, 매물 올려드릴게요",
     subtitle: "오픈 프로모션 무료등록 · 광주 AI 중고차 플랫폼",
-    desc: <>찾아가서 매물등록까지 한번에 다 해드립니다.<br/><span style={{color:"rgba(255,255,255,0.5)"}}>전화주세요! 010-0000-4989</span></>,
+    desc: <>찾아가서 매물등록까지 한번에 다 해드립니다.<br/><span style={{color:"rgba(255,255,255,0.5)"}}>딜러 입점 신청을 남겨주시면 연락드릴게요!</span></>,
     cta: "딜러 등록하기", href: "/dealer/apply",
   },
   {

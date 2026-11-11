@@ -2,15 +2,20 @@
 "use client";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Mail, Clock, MessageCircle } from "lucide-react";
+
+const SUPPORT_EMAIL = "no.1fixcar@gmail.com";
 
 export default function ContactPage() {
   const [form, setForm] = useState({name:"",email:"",type:"일반문의",message:""});
   const [sent, setSent] = useState(false);
 
+  /* 문의 내용을 채운 메일 작성 창 열기 (메일 문의) */
   const handleSubmit = async () => {
     if(!form.name||!form.email||!form.message){alert("모든 항목을 입력해주세요.");return;}
-    // TODO: 실제 이메일/API 연동
+    const subject = `[픽스카 ${form.type}] ${form.name}`;
+    const body = `이름: ${form.name}\n회신 이메일: ${form.email}\n문의 유형: ${form.type}\n\n${form.message}`;
+    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   };
 
@@ -25,10 +30,8 @@ export default function ContactPage() {
 
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
             {[
-              {icon:<Phone size={20}/>,label:"전화",value:"062-000-0000",sub:"평일 09:00~18:00"},
-              {icon:<Mail size={20}/>,label:"이메일",value:"info@fixcar.kr",sub:"24시간 접수"},
-              {icon:<MapPin size={20}/>,label:"주소",value:"광주광역시",sub:"방문 상담 가능"},
-              {icon:<Clock size={20}/>,label:"운영시간",value:"평일 09:00~18:00",sub:"주말·공휴일 휴무"},
+              {icon:<Mail size={20}/>,label:"이메일 문의",value:SUPPORT_EMAIL,sub:"24시간 접수"},
+              {icon:<Clock size={20}/>,label:"답변 시간",value:"평일 09:00~18:00",sub:"주말·공휴일은 다음 영업일 답변"},
             ].map(v=>(
               <div key={v.label} style={{background:"white",borderRadius:14,padding:"20px 18px",display:"flex",gap:14,alignItems:"flex-start"}}>
                 <div style={{width:40,height:40,borderRadius:12,background:"#FFF0ED",display:"flex",alignItems:"center",justifyContent:"center",color:"#FF3B1E",flexShrink:0}}>{v.icon}</div>
@@ -49,8 +52,8 @@ export default function ContactPage() {
             {sent ? (
               <div style={{textAlign:"center",padding:"40px 0"}}>
                 <div style={{fontSize:48,marginBottom:12}}>✅</div>
-                <div style={{fontSize:20,fontWeight:800,marginBottom:8}}>문의가 접수되었습니다</div>
-                <div style={{fontSize:14,color:"#AAA"}}>빠른 시일 내에 답변 드리겠습니다.</div>
+                <div style={{fontSize:20,fontWeight:800,marginBottom:8}}>메일 작성 창을 열었어요</div>
+                <div style={{fontSize:14,color:"#AAA",lineHeight:1.8}}>메일 앱에서 <b>보내기</b>를 눌러야 접수돼요.<br/>창이 안 열렸다면 {SUPPORT_EMAIL} 으로 직접 보내주세요.</div>
               </div>
             ) : (
               <>
@@ -74,7 +77,7 @@ export default function ContactPage() {
                   <label style={{fontSize:12,fontWeight:800,display:"block",marginBottom:5,color:"#666"}}>문의 내용</label>
                   <textarea rows={6} value={form.message} onChange={e=>setForm(p=>({...p,message:e.target.value}))} placeholder="문의 내용을 입력해주세요." style={{width:"100%",padding:"12px 14px",border:"1.5px solid #E0DDD7",borderRadius:10,fontSize:14,resize:"none",lineHeight:1.8,fontFamily:"'NanumSquareRound',sans-serif"}}/>
                 </div>
-                <button onClick={handleSubmit} style={{width:"100%",padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:12,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>문의 보내기</button>
+                <button onClick={handleSubmit} style={{width:"100%",padding:"16px",background:"#FF3B1E",color:"white",border:"none",borderRadius:12,fontSize:16,fontWeight:800,cursor:"pointer",fontFamily:"'NanumSquareRound',sans-serif"}}>메일로 문의 보내기</button>
               </>
             )}
           </div>
