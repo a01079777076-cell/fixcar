@@ -8,7 +8,7 @@ export default function Footer() {
         <div style={{display:"grid",gridTemplateColumns:"1.2fr 1fr 1fr 1fr 1fr",gap:32,marginBottom:32}}>
           <div>
             <div style={{fontFamily:"'Bebas Neue',serif",fontSize:24,letterSpacing:2,marginBottom:16}}><span style={{color:"#FF3B1E"}}>FIX</span><span style={{color:"white"}}>CAR</span></div>
-            <p style={{fontSize:12,color:"rgba(255,255,255,0.3)",lineHeight:1.8}}>광주 No.1 중고차 정찰제 플랫폼<br/>흥정 없이, 투명하게</p>
+            <p style={{fontSize:12,color:"rgba(255,255,255,0.3)",lineHeight:1.8}}>광주 중고차 정찰제 플랫폼<br/>흥정 없이, 투명하게</p>
             <div style={{marginTop:12,fontSize:11,color:"rgba(255,255,255,0.2)",lineHeight:1.8}}>
               📧 help@fixcar.kr
             </div>

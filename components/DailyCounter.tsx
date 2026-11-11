@@ -19,12 +19,11 @@ export default function DailyCounter() {
     fetch("/api/stats/activity", { cache: "no-store" })
       .then(r => r.json())
       .then(d => {
-        /* API 값이 100 미만이면 최소 100으로 표시 */
-        const users = Math.max(d.activeUsers || 0, 100);
-        setCount(users);
+        /* 실제 값 그대로 표시 */
+        setCount(Number(d.activeUsers) || 0);
         if (d.monthly) setMonthly(d.monthly);
       })
-      .catch(() => setCount(100));
+      .catch(() => setCount(0));
   }, []);
 
   useEffect(() => {

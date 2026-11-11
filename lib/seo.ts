@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 const BASE_URL = "https://www.fixcar.kr";
 const SITE_NAME = "픽스카 FIXCAR";
-const DEFAULT_DESC = "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 안전하게.";
+const DEFAULT_DESC = "광주 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 안전하게.";
 const DEFAULT_OG = "/og-image.png";
 
 interface SeoParams {

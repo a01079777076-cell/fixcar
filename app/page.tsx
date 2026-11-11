@@ -9,7 +9,7 @@ import HomeBlogSection from "@/components/HomeBlogSection";
 import HomeDealerRanking from "@/components/HomeDealerRanking";
 import AdminRolePanel from "@/components/AdminRolePanel";
 import { prisma } from "@/lib/prisma";
-import { Shield, ChevronRight, Star, ArrowRight, Lock, CheckCircle, Zap } from "lucide-react";
+import { Shield, ChevronRight, ArrowRight, Lock, CheckCircle, Zap } from "lucide-react";
 
 export const revalidate = 60;
 
@@ -24,33 +24,35 @@ async function getTrendingCars() {
   } catch { return []; }
 }
 
-export default async function Home() {
-  const dbCars = await getTrendingCars();
+/* 실제 DB 기준 통계 (가짜 숫자 없음) */
+async function getStats() {
+  try {
+    const [available, sold, dealers] = await Promise.all([
+      prisma.car.count({ where: { status: "AVAILABLE" } }),
+      prisma.car.count({ where: { status: "SOLD" } }),
+      prisma.dealer.count({ where: { verified: true } }),
+    ]);
+    return { available, sold, dealers };
+  } catch { return { available: 0, sold: 0, dealers: 0 }; }
+}
 
-  const cars = dbCars.length > 0 ? dbCars.map(car => ({
+export default async function Home() {
+  const [dbCars, stats] = await Promise.all([getTrendingCars(), getStats()]);
+
+  /* 실제 매물만 — 없으면 빈 상태 안내 */
+  const cars = dbCars.map(car => ({
     id: car.id, name: car.name, year: `${car.year}년식`,
-    mileage: `${(car.mileage/1000).toFixed(0)}만km`, fuel: car.fuel,
+    mileage: `${car.mileage.toLocaleString()}km`, fuel: car.fuel,
     price: car.price, monthly: Math.round(car.price*10000*0.019/60),
     tags: (car.tags as string[]).slice(0,2), badge: (car.tags as string[])[0]||"인기",
     images: car.images as string[], views: car.views, favCount: car._count.favorites,
-    query: car.name.includes("아반떼")?"hyundai+elantra+sedan":car.name.includes("K3")?"kia+k3+sedan":car.name.includes("투싼")?"hyundai+tucson+suv":"car+sedan",
-  })) : [
-    { id:1, name:"현대 아반떼 CN7", year:"2021년식", mileage:"32,000km", fuel:"가솔린", price:1450, monthly:29, tags:["무사고","초보 추천"], badge:"오늘의 인기", query:"hyundai+elantra+white+sedan", images:[], views:142, favCount:18 },
-    { id:2, name:"기아 K3",         year:"2020년식", mileage:"51,000km", fuel:"가솔린", price:1090, monthly:22, tags:["무사고","가성비"],   badge:"급상승",     query:"kia+k3+silver+sedan",          images:[], views:98,  favCount:12 },
-    { id:3, name:"현대 투싼 NX4",   year:"2022년식", mileage:"28,000km", fuel:"가솔린", price:2780, monthly:55, tags:["1인 오너","가족용"], badge:"찜 급증",    query:"hyundai+tucson+suv+black",     images:[], views:87,  favCount:24 },
-  ];
+  }));
 
   const promises = [
     { icon:<Shield size={28} color="white"/>,      num:"ZERO", label:"허위 매물 제로",   desc:"직접 검수된 광주·전남 차량만 등록돼요. 허위 매물은 즉시 삭제됩니다" },
     { icon:<Lock size={28} color="white"/>,         num:"FIX",  label:"흥정 없는 정찰가", desc:"표시 가격 = 최종 가격. 딜러 흥정, 숨은 수수료 없이 투명하게 거래해요" },
     { icon:<CheckCircle size={28} color="white"/>,  num:"AI",   label:"맞춤 차량 추천",   desc:"MBTI 테스트와 AI가 나에게 딱 맞는 차를 골라줘요. 발품 팔 필요 없어요" },
     { icon:<Zap size={28} color="white"/>,          num:"FREE", label:"오픈 프로모션 무료등록", desc:"픽스카, 판매량 증가할때까지 등록비 무료!" },
-  ];
-
-  const reviews = [
-    { initial:"김", name:"김지원 (24세)", desc:"초보 운전 · 아반떼 픽", text:"면허 딴 지 3개월에 처음 중고차 샀는데 FIX 가격이라 흥정 없이 바로 계약했어요!", tag:"PICK", color:"#FF3B1E" },
-    { initial:"박", name:"박민서 (27세)", desc:"직장인 · K3 픽",        text:"엔카에서 전화 폭탄에 지쳤는데 픽스카는 표시된 가격이 최종이라 진짜 편했어요.",  tag:"FIX",  color:"#1847FF" },
-    { initial:"이", name:"이수연 (31세)", desc:"가족 선물 · 투싼 픽",   text:"차 하나도 모르는 제가 봐도 설명이 너무 친절해요. 초보 추천 필터가 진짜 도움됐어요!", tag:"PICK", color:"#FF3B1E" },
   ];
 
   /* 콘텐츠 배너 순서 (7·8·9번 요청 반영)
@@ -154,7 +156,7 @@ export default async function Home() {
         <section style={{ maxWidth:"1360px", margin:"24px auto 0", padding:"0 52px" }}>
           <div className="stats-strip">
             <DailyCounter/>
-            {[["2,418+","등록 매물","#FF3B1E"],["98%","구매 만족도","#1847FF"],["4.9","앱 평점","#2D8A52"]].map(([num,label,color])=>(
+            {[[stats.available.toLocaleString(),"판매중 매물","#FF3B1E"],[stats.dealers.toLocaleString(),"인증 딜러","#1847FF"],[stats.sold.toLocaleString(),"판매 완료","#2D8A52"]].map(([num,label,color])=>(
               <div key={String(label)} style={{ padding:"20px 16px", textAlign:"center", borderRight:"1px solid #F0EEE9" }}>
                 <div style={{ fontFamily:"'Bebas Neue',serif", fontSize:"clamp(22px,3vw,28px)", color:String(color), letterSpacing:-1 }}>{num}</div>
                 <div style={{ fontSize:"clamp(10px,1.2vw,12px)", color:"#AAA", marginTop:3, fontWeight:400 }}>{label}</div>
@@ -226,6 +228,14 @@ export default async function Home() {
             </div>
             <a href="/cars" style={{ display:"flex", alignItems:"center", gap:6, fontSize:15, fontWeight:700, color:"#888", whiteSpace:"nowrap" }}>전체 보기 <ChevronRight size={16}/></a>
           </div>
+          {cars.length === 0 && (
+            <div style={{ background:"white", borderRadius:20, padding:"56px 24px", textAlign:"center" }}>
+              <div style={{ fontSize:40, marginBottom:12 }}>🚗</div>
+              <div style={{ fontSize:17, fontWeight:800, marginBottom:6 }}>곧 첫 매물이 올라와요</div>
+              <div style={{ fontSize:13, color:"#AAA", marginBottom:18 }}>픽스카 인증 딜러의 FIX 정찰가 매물을 준비하고 있어요</div>
+              <a href="/dealer/apply" style={{ display:"inline-block", background:"#1A1A1A", color:"white", padding:"11px 22px", borderRadius:10, fontSize:13, fontWeight:800 }}>딜러 입점 신청 →</a>
+            </div>
+          )}
           <div className="cars-3">
             {cars.map(car=>(
               <a key={car.id} href={`/cars/${car.id}`} className="car-card">
@@ -233,8 +243,7 @@ export default async function Home() {
                   {(car.images && car.images[0]) ? (
                     <Image src={car.images[0]} alt={car.name} fill sizes="(max-width:600px)100vw,(max-width:1024px)50vw,33vw" style={{ objectFit:"cover" }}/>
                   ) : (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img src={`https://source.unsplash.com/600x400/?${car.query}`} alt={car.name} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                    <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:48, color:"#CCC" }}>🚗</div>
                   )}
                   <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.3))" }}/>
                   <span style={{ position:"absolute", top:14, left:14, background:"#FF3B1E", color:"#fff", padding:"5px 12px", borderRadius:100, fontSize:11, fontWeight:800 }}>{car.badge}</span>
@@ -281,30 +290,6 @@ export default async function Home() {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* ══ 후기 ══ */}
-        <section className="section-pad" style={{ maxWidth:"1360px", margin:"0 auto", paddingTop:"clamp(32px,6vw,80px)", paddingBottom:"clamp(32px,6vw,80px)" }}>
-          <div style={{ marginBottom:48 }}>
-            <div style={{ fontSize:12, fontWeight:800, letterSpacing:3, color:"#FF3B1E", marginBottom:12 }}>PICK STORIES</div>
-            <h2 style={{ fontSize:"clamp(22px,4vw,46px)", fontWeight:800, letterSpacing:-1.5, lineHeight:1.1 }}>픽한 사람들 이야기</h2>
-          </div>
-          <div className="reviews-3">
-            {reviews.map(r=>(
-              <div key={r.name} className="review-card">
-                <div style={{ display:"flex", gap:4, marginBottom:16 }}>{[...Array(5)].map((_,i)=><Star key={i} size={16} fill="#FF3B1E" color="#FF3B1E"/>)}</div>
-                <p style={{ fontSize:"clamp(13px,1.5vw,15px)", lineHeight:1.85, color:"#444", marginBottom:22, fontWeight:400 }}>&ldquo;{r.text}&rdquo;</p>
-                <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-                  <div style={{ width:42, height:42, background:r.color+"1A", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, fontWeight:800, color:r.color, flexShrink:0 }}>{r.initial}</div>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ fontSize:15, fontWeight:800 }}>{r.name}</div>
-                    <div style={{ fontSize:12, color:"#AAA", fontWeight:400 }}>{r.desc}</div>
-                  </div>
-                  <span style={{ background:r.color+"1A", color:r.color, padding:"4px 12px", borderRadius:100, fontSize:12, fontWeight:800, flexShrink:0 }}>{r.tag}</span>
-                </div>
-              </div>
-            ))}
           </div>
         </section>
 

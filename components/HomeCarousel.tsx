@@ -10,7 +10,7 @@ import { ArrowRight } from "lucide-react";
 const SLIDES = [
   {
     id: 1, type: "image" as const, bg: "", image: "/mainbanner.png",
-    badge: "광주 No.1",
+    badge: "광주 FIX 정찰제",
     title: "나, 이 차로 픽했어, 픽스카",
     subtitle: "데이터기반 고객맞춤으로 추천부터,",
     desc: <>대기하면 <span style={{background:"rgba(255,203,30,0.3)",padding:"1px 6px",borderRadius:4,color:"rgb(255,230,60)",fontWeight:800}}>💛 카톡 알람으로</span> 안내까지!</>,
@@ -20,7 +20,7 @@ const SLIDES = [
     id: 2, type: "color" as const, bg: "linear-gradient(135deg,#0f3460 0%,#1A1A2E 100%)", image: "",
     badge: "NEW AI",
     title: "광주 첫 상륙! 딜러님, 오픈기념 무료로 촬영, 매물 올려드릴게요",
-    subtitle: "오픈 프로모션 무료등록 · 광주 AI 1위 플랫폼",
+    subtitle: "오픈 프로모션 무료등록 · 광주 AI 중고차 플랫폼",
     desc: <>찾아가서 매물등록까지 한번에 다 해드립니다.<br/><span style={{color:"rgba(255,255,255,0.5)"}}>전화주세요! 010-0000-4989</span></>,
     cta: "딜러 등록하기", href: "/dealer/apply",
   },
@@ -44,7 +44,7 @@ const SLIDES = [
     id: 5, type: "color" as const, bg: "linear-gradient(135deg,#0055FF 0%,#0099FF 100%)", image: "",
     badge: "DEALER",
     title: "딜러님, 픽스카에서 매물 올려보세요",
-    subtitle: "오픈 프로모션 무료등록 · 광주 1위 플랫폼",
+    subtitle: "오픈 프로모션 무료등록 · 광주 중고차 정찰제 플랫폼",
     desc: <>광주 지역 중고차 딜러라면 지금 바로 신청하세요.<br/><span style={{color:"rgba(255,255,255,0.6)"}}>매물 등록부터 고객 문의까지 한 곳에서!</span></>,
     cta: "딜러 신청하기", href: "/dealer/apply",
   },

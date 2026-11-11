@@ -342,7 +342,7 @@ export default function LoginPage() {
           {/* 로고 */}
           <div style={{textAlign:"center",marginBottom:32}}>
             <Link href="/"><div style={{fontFamily:"'Bebas Neue',serif",fontSize:36,letterSpacing:3,color:"#FF3B1E"}}>FIXCAR</div></Link>
-            <div style={{fontSize:13,color:"#AAA",marginTop:4}}>광주 1위 중고차 정찰제 플랫폼</div>
+            <div style={{fontSize:13,color:"#AAA",marginTop:4}}>광주 중고차 정찰제 플랫폼</div>
           </div>
 
           {/* 탭 */}

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     default:  "픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다",
     template: "%s | 픽스카 FIXCAR",
   },
-  description: "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차. 무사고 인증, 허위매물 ZERO.",
+  description: "광주 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차. 무사고 인증, 허위매물 ZERO.",
   keywords: [
     "광주 중고차","광주 중고차 직거래","픽스카","FIXCAR","중고차 정찰제",
     "광주 자동차","중고차 구매","FIX 가격","무사고 중고차","중고차 검수",
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     url:         "https://www.fixcar.kr",
     siteName:    "픽스카 FIXCAR",
     title:       "픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다",
-    description: "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차.",
+    description: "광주 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 100항목 검수로 믿고 사는 중고차.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "픽스카 FIXCAR - 광주 중고차 정찰제 플랫폼" }],
   },
   twitter: {
     card:        "summary_large_image",
     title:       "픽스카 FIXCAR | 광주 중고차, 이 차로 픽했다",
-    description: "광주 1위 중고차 정찰제 플랫폼.",
+    description: "광주 중고차 정찰제 플랫폼.",
     images:      ["/og-image.png"],
   },
   verification: {
@@ -80,7 +80,7 @@ const jsonLdAutoDealer = {
   "@type": "AutoDealer",
   "@id": "https://www.fixcar.kr/#organization",
   "name": "픽스카 FIXCAR",
-  "description": "광주 1위 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 검수 인증 중고차.",
+  "description": "광주 중고차 정찰제 플랫폼. FIX 정찰가로 흥정 없이, 검수 인증 중고차.",
   "url": "https://www.fixcar.kr",
   "logo": {
     "@type": "ImageObject",

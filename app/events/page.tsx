@@ -14,12 +14,8 @@ export default function EventsPage() {
     }).catch(()=>{}).finally(()=>setLoading(false));
   }, []);
 
-  const fallback = [
-    {id:1,title:"픽스카 오픈 기념 이벤트",content:"픽스카 오픈을 기념하여 첫 매물 등록 딜러분들께 프리미엄 광고 1개월 무료 혜택을 드립니다!\n\n대상: 오픈 후 최초 등록 딜러 20곳\n기간: 2026.04.01 ~ 2026.09.30\n혜택: 프리미엄 광고 1개월 무료",image:null,startDate:"2026-04-01",endDate:"2026-09-30",active:true},
-    {id:2,title:"광주 중고차 시세 리포트 무료 제공",content:"광주 지역 인기 차종 TOP 20의 월간 시세 리포트를 무료로 제공합니다.\n\n매월 1일 블로그에 게시되며, 앱 알림으로도 받아보실 수 있습니다.",image:null,startDate:"2026-04-01",endDate:"2026-12-31",active:true},
-  ];
-
-  const data = events.length>0 ? events : (loading?[]:fallback);
+  /* 관리자가 등록한 실제 이벤트만 표시 */
+  const data = events;
   const now = new Date().toISOString().slice(0,10);
 
   return (

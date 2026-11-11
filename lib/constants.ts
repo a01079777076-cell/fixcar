@@ -3,7 +3,7 @@
 
 export const SITE_NAME = "픽스카 FIXCAR";
 export const SITE_URL = "https://www.fixcar.kr";
-export const SITE_DESC = "광주 1위 중고차 정찰제 플랫폼";
+export const SITE_DESC = "광주 중고차 정찰제 플랫폼";
 
 /* 브랜드 */
 export const DOMESTIC_BRANDS = ["현대","기아","제네시스","쉐보레","르노","KG모빌리티"] as const;

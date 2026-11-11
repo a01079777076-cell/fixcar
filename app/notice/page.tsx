@@ -15,14 +15,8 @@ export default function NoticePage() {
     }).catch(()=>{}).finally(()=>setLoading(false));
   }, []);
 
-  /* 임시 데이터 (API 미연동 시) */
-  const fallback = [
-    {id:1,title:"픽스카 서비스 오픈 안내",content:"안녕하세요! 광주 중고차 정찰가 플랫폼 픽스카가 정식 오픈했습니다.\n\nFIX 정찰가로 흥정 없이, 100항목 검수로 안전하게 중고차를 거래하세요.\n\n많은 관심 부탁드립니다!",pinned:true,createdAt:"2026-04-01"},
-    {id:2,title:"딜러 모집 안내 (광주 지역 한정 20곳)",content:"현재 광주 지역 딜러 20곳을 모집하고 있습니다.\n\n6개월간 무료로 이용하실 수 있으며, 직접 방문하여 매물 촬영·등록을 도와드립니다.\n\n관심 있으신 분은 고객센터로 연락해주세요.",pinned:true,createdAt:"2026-04-01"},
-    {id:3,title:"클린픽스카 규정 안내",content:"허위매물 방지를 위한 클린픽스카 규정이 시행됩니다.\n\n자세한 내용은 클린픽스카 페이지를 확인해주세요.\n\n건전한 중고차 거래 문화를 함께 만들어갑시다!",pinned:false,createdAt:"2026-04-01"},
-  ];
-
-  const data = notices.length>0 ? notices : (loading ? [] : fallback);
+  /* 관리자가 등록한 실제 공지만 표시 */
+  const data = notices;
   const sorted = [...data].sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0));
 
   return (

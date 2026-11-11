@@ -51,7 +51,7 @@ export default function DealerApplyPage() {
           <div style={{background:"white",borderRadius:20,padding:"clamp(24px,4vw,36px)",marginBottom:24}}>
             <h2 style={{fontSize:22,fontWeight:800,marginBottom:16}}>왜 픽스카인가요?</h2>
             {[
-              "광주 최초 FIX 정찰가 플랫폼 — 고객 신뢰도 높음",
+              "광주 FIX 정찰가 플랫폼 — 고객 신뢰도 높음",
               "AI 기반 매물 추천으로 고객 매칭률 극대화",
               "100항목 검수 시스템으로 허위매물 ZERO",
               "클린픽스카 규정으로 건전한 거래 환경",
