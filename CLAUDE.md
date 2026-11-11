@@ -13,7 +13,7 @@
 
 ## 기술 스택 버전
 
-- Next.js 16.1.6 / React 19.2.3 / TypeScript 5
+- Next.js 16.4.6 / React 19.2.3 / TypeScript 5
 - Prisma 5.22.0 / @prisma/client 5.22.0
 - Tailwind CSS 4 (PostCSS)
 - lucide-react (아이콘)
