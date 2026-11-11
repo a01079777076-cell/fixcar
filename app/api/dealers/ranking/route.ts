@@ -22,23 +22,35 @@ export async function GET(req: NextRequest) {
       take: limit,
       select: {
         id: true, shopName: true, shopAddr: true, rating: true, dealCount: true,
-        _count: { select: { cars: true, reviews: true } },
+        _count: { select: { cars: true } },
       },
     });
+
+    /* 리뷰 수는 별도 조회 — DealerReview 테이블이 없는 환경에서도 랭킹은 표시 */
+    const reviewCounts = new Map<number, number>();
+    try {
+      const groups = await prisma.dealerReview.groupBy({
+        by: ["dealerId"], where: { dealerId: { in: dealers.map(d => d.id) } }, _count: { _all: true },
+      });
+      for (const g of groups) reviewCounts.set(g.dealerId, g._count._all);
+    } catch (e) {
+      console.error("[dealers/ranking] 리뷰 수 조회 실패:", e);
+    }
 
     const data = dealers.map((d, i) => ({
       id: d.id,
       shopName: d.shopName,
       region: toRegion(d.shopAddr),
       rating: d.rating,
-      reviewCount: d._count.reviews,
+      reviewCount: reviewCounts.get(d.id) || 0,
       dealCount: d.dealCount,
       carCount: d._count.cars,
       rank: i + 1,
     }));
 
     return NextResponse.json({ success: true, data });
-  } catch {
+  } catch (e) {
+    console.error("[dealers/ranking] 조회 실패:", e);
     return NextResponse.json({ success: false, error: "딜러 랭킹을 불러오지 못했습니다" }, { status: 500 });
   }
 }

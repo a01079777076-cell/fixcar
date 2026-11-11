@@ -174,7 +174,7 @@ export function buildFilters(model: ModelMeta, params: URLSearchParams) {
 /* 모델별 추가 관계 정보 (목록에서 바로 보이게) */
 export const LIST_INCLUDE: Record<string, Record<string, unknown>> = {
   Car: { dealer: { select: { shopName: true, complexName: true } }, _count: { select: { favorites: true, inquiries: true } } },
-  Dealer: { user: { select: { name: true, email: true, phone: true } }, _count: { select: { cars: true, reviews: true } } },
+  Dealer: { user: { select: { name: true, email: true, phone: true } }, _count: { select: { cars: true } } },
   User: { dealer: { select: { id: true, shopName: true } } },
   Inquiry: { car: { select: { name: true } } },
   Purchase: { car: { select: { name: true } }, user: { select: { name: true } } },

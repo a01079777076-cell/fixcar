@@ -30,11 +30,19 @@ export async function GET(req: NextRequest) {
           id: true, shopName: true, complexName: true, shopPhone: true, shopAddr: true,
           verified: true, rating: true, dealCount: true, createdAt: true,
           user: { select: { id: true, name: true, email: true, phone: true, role: true } },
-          _count: { select: { reviews: true } },
         },
       }),
       prisma.car.groupBy({ by: ["dealerId", "status"], _count: { _all: true }, _sum: { price: true } }),
     ]);
+
+    /* 리뷰 수 별도 조회 (DealerReview 테이블 없어도 현황은 표시) */
+    const reviewCounts = new Map<number, number>();
+    try {
+      const groups = await prisma.dealerReview.groupBy({ by: ["dealerId"], _count: { _all: true } });
+      for (const g of groups) reviewCounts.set(g.dealerId, g._count._all);
+    } catch (e) {
+      console.error("[admin/master] 리뷰 수 조회 실패:", e);
+    }
 
     const dealerRows = dealers.map(d => {
       const rows = perDealer.filter(p => p.dealerId === d.id);
@@ -42,6 +50,7 @@ export async function GET(req: NextRequest) {
       const soldAmount = rows.find(r => r.status === "SOLD")?._sum.price || 0;
       return {
         ...d,
+        _count: { reviews: reviewCounts.get(d.id) || 0 },
         cars: {
           total: rows.reduce((s, r) => s + r._count._all, 0),
           available: by("AVAILABLE"), reviewing: by("REVIEWING"),
