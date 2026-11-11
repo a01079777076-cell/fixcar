@@ -1,13 +1,14 @@
 // 📁 저장 경로: app/api/visitor/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { kstDate } from "@/lib/live";
 
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     const userAgent = req.headers.get("user-agent") || "";
     const referer = req.headers.get("referer") || "";
-    const today = new Date().toISOString().slice(0, 10);
+    const today = kstDate();
 
     // 같은 IP + 같은 날짜 중복 체크
     const existing = await prisma.visitorLog.findFirst({
@@ -33,7 +34,7 @@ export async function GET(req: NextRequest) {
     const days = Number(period);
     const since = new Date();
     since.setDate(since.getDate() - days);
-    const sinceStr = since.toISOString().slice(0, 10);
+    const sinceStr = kstDate(since);
 
     const visitors = await prisma.visitorLog.groupBy({
       by: ["date"],
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest) {
     });
 
     const total = await prisma.visitorLog.count({ where: { date: { gte: sinceStr } } });
-    const today = new Date().toISOString().slice(0, 10);
+    const today = kstDate();
     const todayCount = await prisma.visitorLog.count({ where: { date: today } });
 
     return NextResponse.json({

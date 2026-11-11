@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { kstDate } from "@/lib/live";
 import { verifyToken } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
@@ -7,7 +8,7 @@ export async function GET(req: NextRequest) {
   if (!user || user.role !== "ADMIN") return NextResponse.json({ error: "권한 없음" }, { status: 403 });
 
   try {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = kstDate();
 
     /* 오늘 방문자 (고유 IP) */
     const todayVisitors = await prisma.visitorLog.groupBy({
@@ -24,7 +25,7 @@ export async function GET(req: NextRequest) {
     /* 일별 방문자 (최근 30일) */
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const thirtyStr = thirtyDaysAgo.toISOString().slice(0, 10);
+    const thirtyStr = kstDate(thirtyDaysAgo);
 
     const dailyRaw = await prisma.visitorLog.groupBy({
       by: ["date"],

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { NOT_LIVE, kstDate } from "@/lib/live";
 
 export async function POST(req: NextRequest) {
   try {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = kstDate();
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
     const userAgent = req.headers.get("user-agent") || "";
     const referer = req.headers.get("referer") || "";
@@ -15,16 +16,16 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = kstDate();
     const [todayLogs, totalCount] = await Promise.all([
       prisma.visitorLog.findMany({ where: { date: today } }),
-      prisma.visitorLog.count(),
+      prisma.visitorLog.count({ where: NOT_LIVE }),
     ]);
     const todayUnique = new Set(todayLogs.map(l=>l.ip)).size;
     const weeklyData = [];
     for (let i = 6; i >= 0; i--) {
       const d = new Date(); d.setDate(d.getDate()-i);
-      const dateStr = d.toISOString().slice(0,10);
+      const dateStr = kstDate(d);
       const count = await prisma.visitorLog.count({ where:{ date:dateStr } });
       weeklyData.push({ date:dateStr.slice(5), count });
     }
