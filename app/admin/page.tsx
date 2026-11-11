@@ -150,6 +150,7 @@ export default function AdminPage() {
           <div style={{maxWidth:1300,margin:"0 auto",display:"flex",alignItems:"center",gap:10}}>
             <Shield size={18} color="#FF3B1E"/>
             <span style={{fontSize:17,fontWeight:800,color:"white"}}>관리자 패널</span>
+            <a href="/admin/master" style={{marginLeft:"auto",background:"#FF3B1E",color:"white",padding:"8px 16px",borderRadius:10,fontSize:13,fontWeight:800,textDecoration:"none"}}>운영자 통합관리 →</a>
           </div>
         </div>
 
