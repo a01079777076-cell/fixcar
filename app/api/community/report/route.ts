@@ -1,25 +1,11 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "fixcar-secret-key-2024");
-
-async function getUser() {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("fixcar-token")?.value;
-    if (!token) return null;
-    const { payload } = await jwtVerify(token, SECRET);
-    return payload as { id: number; role: string };
-  } catch { return null; }
-}
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { getAuthUser } from "@/lib/auth";
 
 /* POST: 게시글 신고 */
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const user = await getUser();
+    const user = getAuthUser(req);
     if (!user) return NextResponse.json({ success: false, error: "로그인 필요" }, { status: 401 });
 
     const { postId, category, reason } = await req.json();
@@ -35,7 +21,7 @@ export async function POST(req: Request) {
     if (existing) return NextResponse.json({ success: false, error: "이미 신고한 게시글입니다" }, { status: 409 });
 
     const report = await prisma.communityReport.create({
-      data: { postId: Number(postId), userId: user.id, category, reason: reason || null },
+      data: { postId: Number(postId), userId: user.id, category, reason: reason ? String(reason).slice(0, 1000) : null },
     });
 
     return NextResponse.json({ success: true, data: report });

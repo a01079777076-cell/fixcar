@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { SignJWT } from "jose";
+import { signToken } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
   const baseUrl = process.env.NEXTAUTH_URL || "https://www.fixcar.kr";
@@ -77,17 +77,12 @@ export async function GET(request: NextRequest) {
     });
 
     // 5. JWT 토큰 생성
-    const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET!);
-    const token = await new SignJWT({
+    const token = await signToken({
       id: user.id,
       email: user.email,
       name: user.name,
       role: user.role,
-    })
-      .setProtectedHeader({ alg: "HS256" })
-      .setIssuedAt()
-      .setExpirationTime("7d")
-      .sign(secret);
+    });
 
     // 6. 리다이렉트
     const redirectUrl = isNewUser ? `${baseUrl}/auth/additional-info` : `${baseUrl}/`;
